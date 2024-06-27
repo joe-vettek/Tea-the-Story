@@ -1,4 +1,4 @@
-package xueluoanping.teastory.block.crops;
+package cloud.lemonslice.teastory.block.crops;
 
 
 import com.google.common.collect.Lists;
@@ -22,8 +22,6 @@ import xueluoanping.teastory.ModContents;
 
 
 import java.util.List;
-import java.util.Random;
-
 
 
 public class RicePlantBlock extends CropBlock

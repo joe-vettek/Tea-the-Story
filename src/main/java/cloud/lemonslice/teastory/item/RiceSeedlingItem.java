@@ -1,4 +1,4 @@
-package xueluoanping.teastory.item;
+package cloud.lemonslice.teastory.item;
 
 
 import net.minecraft.advancements.CriteriaTriggers;
