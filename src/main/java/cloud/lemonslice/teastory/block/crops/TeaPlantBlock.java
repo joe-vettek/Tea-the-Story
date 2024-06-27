@@ -101,7 +101,7 @@ public class TeaPlantBlock extends BushBlock implements BonemealableBlock {
         super.tick(state, worldIn, pos, rand);
         if (!worldIn.isAreaLoaded(pos, 1) || !worldIn.dimensionType().hasSkyLight())
             return;
-        if (worldIn.getLightEmission(pos) >= 9) {
+        if (worldIn.getRawBrightness(pos,0) >= 9) {
             int i = this.getAge(state);
 
             if (i < this.getMaxAge() && i != 8) {
@@ -187,9 +187,14 @@ public class TeaPlantBlock extends BushBlock implements BonemealableBlock {
 
 
     @Override
-    public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
-        return worldIn.getBlockState(pos.below()).getBlock() instanceof FarmBlock;
+    protected boolean mayPlaceOn(BlockState state, BlockGetter worldIn, BlockPos pos) {
+        return state.getBlock() instanceof FarmBlock;
     }
+
+    // @Override
+    // public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
+    //     return worldIn.getBlockState(pos.below()).getBlock() instanceof FarmBlock;
+    // }
 
     // onEntityCollision
     @Override

@@ -30,6 +30,7 @@ public class RiceSeedlingItem extends Item
         super(properties);
     }
 
+    // onItemRightClick
     @Override
     public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
         ItemStack itemstack = playerIn.getItemInHand(handIn);

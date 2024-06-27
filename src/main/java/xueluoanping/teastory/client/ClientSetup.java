@@ -3,6 +3,8 @@ package xueluoanping.teastory.client;
 
 // import com.jaquadro.minecraft.storagedrawers.client.renderer.TileEntityDrawersRenderer;
 
+import cloud.lemonslice.teastory.client.color.season.BiomeColorsHandler;
+import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.model.BakedModel;
@@ -39,6 +41,8 @@ public class ClientSetup {
             // ItemBlockRenderTypes.setRenderLayer(ModContents.ricePlant.get(),RenderType.cutout());
             // ItemBlockRenderTypes.setRenderLayer(ModContents.RiceSeedlingBlock.get(),RenderType.cutout());
             // fix json file instead
+            BiomeColors.GRASS_COLOR_RESOLVER = BiomeColorsHandler.GRASS_COLOR;
+            BiomeColors.FOLIAGE_COLOR_RESOLVER = BiomeColorsHandler.FOLIAGE_COLOR;
         });
     }
 

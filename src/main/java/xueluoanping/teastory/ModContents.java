@@ -32,9 +32,9 @@ import java.util.List;
 // Event bus for receiving Registry Events)
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModContents {
-    public static final DeferredRegister<Item> ModItems = DeferredRegister.create(ForgeRegistries.ITEMS, TeaStory.MOD_ID);
-    public static final DeferredRegister<Block> ModBlocks = DeferredRegister.create(ForgeRegistries.BLOCKS, TeaStory.MOD_ID);
-    public static final DeferredRegister<BlockEntityType<?>> DRBlockEntities = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, TeaStory.MOD_ID);
+    public static final DeferredRegister<Item> ModItems = DeferredRegister.create(ForgeRegistries.ITEMS, TeaStory.MODID);
+    public static final DeferredRegister<Block> ModBlocks = DeferredRegister.create(ForgeRegistries.BLOCKS, TeaStory.MODID);
+    public static final DeferredRegister<BlockEntityType<?>> DRBlockEntities = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, TeaStory.MODID);
 
 
     private static CreativeModeTab MAIN;
@@ -42,9 +42,9 @@ public class ModContents {
     @SubscribeEvent
     public static void creativeModeTabRegister(RegisterEvent event) {
         event.register(Registries.CREATIVE_MODE_TAB, helper -> {
-            helper.register(new ResourceLocation(TeaStory.MOD_ID, TeaStory.MOD_ID),
+            helper.register(new ResourceLocation(TeaStory.MODID, TeaStory.MODID),
                     CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.getEntries().stream().findFirst().get().get()))
-                            .title(Component.translatable("itemGroup." + TeaStory.MOD_ID))
+                            .title(Component.translatable("itemGroup." + TeaStory.MODID))
                             .displayItems((params, output) -> {
                                 ModItems.getEntries().forEach((reg) -> {
                                     output.accept(new ItemStack(reg.get()));
@@ -79,7 +79,7 @@ public class ModContents {
     public static RegistryObject<Item> wild_tea_plant_item = ModItems.register("wild_tea_plant", () -> new BlockItem(wild_tea_plant.get(), new Item.Properties()));
     public static RegistryObject<Item> TEA_SEEDS = ModItems.register("tea_seeds", () -> new BlockItem(tea_plant.get(), new Item.Properties()));
 
-
+    public static RegistryObject<Block> WATERMELON_VINE = ModBlocks.register("watermelon_vine", () -> new MelonVineBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY), Blocks.MELON));
 
 
     static {

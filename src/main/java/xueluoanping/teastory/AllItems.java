@@ -1,6 +1,7 @@
 package xueluoanping.teastory;
 
 
+import cloud.lemonslice.teastory.item.ShennongChiItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tiers;
 import net.minecraftforge.fml.common.Mod;
@@ -16,7 +17,10 @@ import cloud.lemonslice.teastory.item.AqueductShovelItem;
 // Event bus for receiving Registry Events)
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AllItems {
-    public static final DeferredRegister<Item> ModItems = DeferredRegister.create(ForgeRegistries.ITEMS, TeaStory.MOD_ID);
+    public static final DeferredRegister<Item> ModItems = DeferredRegister.create(ForgeRegistries.ITEMS, TeaStory.MODID);
+
+    public static RegistryObject<Item> shennong_chi = ModItems.register("shennong_chi", () -> new ShennongChiItem( new Item.Properties().fireResistant()));
+
 
     public static RegistryObject<Item> woodenAqueductShovel = ModItems.register("wooden_aqueduct_shovel", () -> new AqueductShovelItem(Tiers.WOOD, 1.5F, -2.5F, new Item.Properties()));
     public static RegistryObject<Item> stoneAqueductShovel = ModItems.register("stone_aqueduct_shovel", () -> new AqueductShovelItem(Tiers.STONE, 1.5F, -2.5F, new Item.Properties()));

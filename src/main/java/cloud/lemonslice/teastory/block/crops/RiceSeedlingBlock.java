@@ -37,7 +37,7 @@ public class RiceSeedlingBlock extends CropBlock
     public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource rand) {
         super.tick(state, worldIn, pos, rand);
         if (!worldIn.isAreaLoaded(pos, 1)) return;
-        if (worldIn.getLightEmission(pos) >= 9)
+        if (worldIn.getRawBrightness(pos,0) >= 9)
         {
             int i = this.getAge(state);
             if (i < this.getMaxAge())
