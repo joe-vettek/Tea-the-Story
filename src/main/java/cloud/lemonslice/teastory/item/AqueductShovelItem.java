@@ -53,7 +53,7 @@ public class AqueductShovelItem extends ShovelItem {
             return InteractionResult.SUCCESS;
         } else if (blockState.getBlock() instanceof FarmBlock) {
             if (!world.isClientSide()) {
-                world.setBlock(blockPos, ((PaddyFieldBlock) ModContents.RiceSeedlingBlock.get()).getStateForPlacement(world, blockPos), 3);
+                world.setBlock(blockPos, ((PaddyFieldBlock) ModContents.paddyField.get()).getStateForPlacement(world, blockPos), 3);
                 if (playerEntity != null) {
                     context.getItemInHand().hurtAndBreak(1, playerEntity, player -> player.broadcastBreakEvent(context.getHand()));
                 }

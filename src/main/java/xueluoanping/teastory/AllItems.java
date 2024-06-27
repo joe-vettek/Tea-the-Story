@@ -32,5 +32,12 @@ public class AllItems {
     public static RegistryObject<Item> crushedStraw = ModItems.register("crushed_straw", () -> new Item(new Item.Properties()));
 
 
+    // INGREDIENTS 原料
+    public static RegistryObject<Item> TEA_LEAVES = ModItems.register("tea_leaves", () -> new Item(new Item.Properties()));
+
+    public static RegistryObject<Item> GREEN_TEA_LEAVES = ModItems.register("green_tea_leaves", () -> new Item(new Item.Properties().craftRemainder(teaResidues.get())));
+    public static RegistryObject<Item> BLACK_TEA_LEAVES = ModItems.register("black_tea_leaves", () -> new Item(new Item.Properties().craftRemainder(teaResidues.get())));
+    public static RegistryObject<Item> WHITE_TEA_LEAVES = ModItems.register("white_tea_leaves", () -> new Item(new Item.Properties().craftRemainder(teaResidues.get())));
+
 }
 

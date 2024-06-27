@@ -1,5 +1,6 @@
 {
     "credit": "Made with Blockbench",
+    "render_type": "cutout",
     "textures": {
         "1": "teastory:block/tea_plant_0",
         "2": "teastory:block/tea_plant_3",
