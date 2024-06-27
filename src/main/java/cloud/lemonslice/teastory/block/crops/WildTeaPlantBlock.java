@@ -35,7 +35,6 @@ public class WildTeaPlantBlock extends BushBlock {
         if (entityIn instanceof LivingEntity) {
             entityIn.makeStuckInBlock(state, new Vec3(0.8F, 0.75D, 0.8F));
         }
-
         super.entityInside(state, worldIn, pos, entityIn);
     }
 

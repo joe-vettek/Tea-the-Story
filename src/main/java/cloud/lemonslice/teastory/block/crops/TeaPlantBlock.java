@@ -188,7 +188,7 @@ public class TeaPlantBlock extends BushBlock implements BonemealableBlock {
 
     @Override
     public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
-        return state.getBlock() instanceof FarmBlock;
+        return worldIn.getBlockState(pos.below()).getBlock() instanceof FarmBlock;
     }
 
     // onEntityCollision
