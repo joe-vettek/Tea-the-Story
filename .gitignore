@@ -8,6 +8,7 @@ bin
 
 # idea
 out
+run
 *.ipr
 *.iws
 *.iml
@@ -23,3 +24,5 @@ run
 
 # Files from Forge MDK
 forge*changelog.txt
+
+.cache

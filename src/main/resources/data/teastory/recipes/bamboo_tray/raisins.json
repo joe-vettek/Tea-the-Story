@@ -1,8 +1,0 @@
-{
-  "type": "teastory:bamboo_tray_outdoors",
-  "ingredient": {
-    "tag": "forge:crops/grape"
-  },
-  "result": "teastory:raisins",
-  "work_time": 200
-}

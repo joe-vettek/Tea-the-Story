@@ -1,5 +1,6 @@
 {
   "credit": "Made with Blockbench",
+  "render_type": "cutout",
   "ambientocclusion": false,
   "textures": {
     "cross": "teastory:block/rice_seedling_10",

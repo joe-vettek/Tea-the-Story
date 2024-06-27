@@ -1,8 +1,0 @@
-{
-  "type": "teastory:bamboo_tray_bake",
-  "ingredient": {
-    "item": "minecraft:mutton"
-  },
-  "result": "teastory:mutton_jerky",
-  "work_time": 200
-}

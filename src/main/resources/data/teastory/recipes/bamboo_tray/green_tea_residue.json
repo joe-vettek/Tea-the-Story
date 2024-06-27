@@ -1,8 +1,0 @@
-{
-  "type": "teastory:bamboo_tray_in_rain",
-  "ingredient": {
-    "tag": "forge:crops/green_tea_leaf"
-  },
-  "result": "teastory:tea_residues",
-  "work_time": 200
-}

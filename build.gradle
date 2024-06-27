@@ -1,41 +1,73 @@
-buildscript {
-    repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
-        jcenter()
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.+', changing: true
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+}
+
+version = "${minecraft_min_version}-forge-${mod_version}"
+group = "${mod_base_package}" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = mod_name_s
+
+// Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
+//just for compatilily
+sourceSets {
+    onlyMain {
     }
 }
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
-
-version = "${mod_version}-${mod_phase}"
-group = 'cloud.lemonslice.teastory'
-archivesBaseName = 'TeaStory'
-
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
-
-println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
-
 minecraft {
-    mappings channel: "${mappings_channel}", version: "${mappings_version}"
+    // The mappings can be changed at any time and must be in the following format.
+    // Channel:   Version:
+    // official   MCVersion             Official field/method names from Mojang mapping files
+    // parchment  YYYY.MM.DD-MCVersion  Open community-sourced parameter names and javadocs layered on top of official
+    //
+    // You must be aware of the Mojang license when using the 'official' or 'parchment' mappings.
+    // See more information here: https://github.com/MinecraftForge/MCPConfig/blob/master/Mojang.md
+    //
+    // Parchment is an unofficial project maintained by ParchmentMC, separate from MinecraftForge
+    // Additional setup is needed to use their mappings: https://parchmentmc.org/docs/getting-started
+    //
+    // Use non-default mappings at your own risk. They may not always work.
+    // Simply re-run your setup task after changing the mappings to update your workspace.
+    mappings channel: 'official', version: "${minecraft_min_version}"
 
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-
+//    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    // This property allows configuring Gradle's ProcessResources task(s) to run on IDE output locations before launching the game.
+    // It is REQUIRED to be set to true for this template to function.
+    // See https://docs.gradle.org/current/dsl/org.gradle.language.jvm.tasks.ProcessResources.html
+    copyIdeResources = true
+    // Default run configurations.
+    // These can be tweaked, removed, or duplicated as needed.
     runs {
         client {
             workingDirectory project.file('run')
 
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            // Recommended logging data for a userdev environment
+            // The markers can be added/remove as needed separated by commas.
+            // "SCAN": For mods scan.
+            // "REGISTRIES": For firing of registry events.
+            // "REGISTRYDUMP": For getting the contents of all registries.
+            property 'forge.logging.markers', 'REGISTRIES'
 
-            property 'forge.logging.console.level', 'info'
+            // Recommended logging level for the console
+            // You can set various levels here.
+            // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
+            property 'forge.logging.console.level', 'debug'
 
+            // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
+            property 'forge.enabledGameTestNamespaces', mod_id
+
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
+
+            jvmArgs "-Xmx2048M"
             mods {
-                teastory {
+                "${mod_id}" {
                     source sourceSets.main
+                    source sourceSets.onlyMain
                 }
             }
         }
@@ -43,12 +75,39 @@ minecraft {
         server {
             workingDirectory project.file('run')
 
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.markers', 'REGISTRIES'
 
-            property 'forge.logging.console.level', 'info'
+            property 'forge.logging.console.level', 'debug'
+
+            property 'forge.enabledGameTestNamespaces', mod_id
+
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
 
             mods {
-                teastory {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        // This run config launches GameTestServer and runs all registered gametests, then exits.
+        // By default, the server will crash when no gametests are provided.
+        // The gametest system is also enabled by default for other run configs under the /test command.
+        gameTestServer {
+            workingDirectory project.file('run')
+
+            property 'forge.logging.markers', 'REGISTRIES'
+
+            property 'forge.logging.console.level', 'debug'
+
+            property 'forge.enabledGameTestNamespaces', mod_id
+
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
+
+            mods {
+                "${mod_id}" {
                     source sourceSets.main
                 }
             }
@@ -57,14 +116,18 @@ minecraft {
         data {
             workingDirectory project.file('run')
 
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.markers', 'REGISTRIES'
 
-            property 'forge.logging.console.level', 'info'
+            property 'forge.logging.console.level', 'debug'
 
-            args '--mod', 'teastory', '--all', '--output', file('src/generated/resources/')
+            // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
+            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
 
             mods {
-                teastory {
+                "${mod_id}" {
                     source sourceSets.main
                 }
             }
@@ -72,102 +135,123 @@ minecraft {
     }
 }
 
-def info = [
-        "Specification-Title": "TeaTheStory",
-        "Specification-Vendor": "Lemon Slice Studio",
-        "Specification-Version": "1",
-        "Implementation-Title": project.name,
-        "Implementation-Version": "${version}",
-        "Implementation-Vendor" :"Lemon Slice Studio",
-        "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-]
+// Include resources generated by data generators.
+sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
+    // Put repositories for dependencies here
+    // ForgeGradle automatically adds the Forge maven and Maven Central for you
+
+    // If you have mod jar dependencies in ./libs, you can declare them as a repository like so:
+    // flatDir {
+    //     dir 'libs'
+    // }
+
     maven {
-        name = "silveroak"
-        url = "https://maven.lemonslice.cloud/releases"
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
     }
     maven {
-        url 'https://www.dogforce-games.com/maven/'
-    }
-    maven {
-        name = "jei"
-        url = "https://dvs1.progwml6.com/files/maven"
+        url "https://harleyoconnor.com/maven"
     }
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    // Specify the version of Minecraft to use. If this is any group other than 'net.minecraft', it is assumed
+    // that the dep is a ForgeGradle 'patcher' dependency, and its patches will be applied.
+    // The userdev artifact is a special name and will get all sorts of transformations applied to it.
+    minecraft "net.minecraftforge:forge:${minecraft_min_version}-${forge_version}"
 
-    compile fg.deobf("cloud.lemonslice.silveroak:SilveroakOutpost-Forge-1.16.5:0.3.5-Beta")
-    compile fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}")
+    implementation fg.deobf("curse.maven:jei-238222:4644453")
+//    implementation fg.deobf("curse.maven:jade-324717:4654448")
+    implementation fg.deobf("curse.maven:jade-324717:5072729-deobf-sources-api")
+
+    implementation fg.deobf("curse.maven:create-328085:4835191-deobf-sources-api")
+    onlyMainRuntimeOnly fg.deobf("curse.maven:embeddium-908741:4949986")
+    onlyMainRuntimeOnly fg.deobf("curse.maven:oculus-581495:4952626")
+
+    onlyMainRuntimeOnly fg.deobf("curse.maven:journeymap-32274:4873863")
+
+    // Real mod deobf dependency examples - these get remapped to your current mappings
+    // implementation fg.deobf("com.tterrag.registrate:Registrate:MC${mc_version}-${registrate_version}") // Adds registrate as a dependency
+
+    // Examples using mod jars from ./libs
+    // implementation fg.deobf("blank:coolmod-${mc_version}:${coolmod_version}")
+
+    // For more info...
+    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
+    // http://www.gradle.org/docs/current/userguide/dependency_management.html
 }
 
+// Example for how to get properties into the manifest for reading at runtime.
 jar {
     manifest {
-        attributes(info)
+        attributes([
+                "Specification-Title"     : mod_id,
+                "Specification-Vendor"    : mod_authors,
+                "Specification-Version"   : "1", // We are version 1 of ourselves
+                "Implementation-Title"    : project.name,
+                "Implementation-Version"  : project.jar.archiveVersion,
+                "Implementation-Vendor"   : mod_authors,
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
     }
 }
 
-def reobfFile = file("$buildDir/reobfJar/output.jar")
-def reobfArtifact = artifacts.add('default', reobfFile) {
-    type 'jar'
-    builtBy 'reobfJar'
+// This block of code expands all declared replace properties in the specified resource targets.
+// A missing property will result in an error. Properties are expanded using ${} Groovy notation.
+// When "copyIdeResources" is enabled, this will also run before the game launches in IDE environments.
+// See https://docs.gradle.org/current/dsl/org.gradle.language.jvm.tasks.ProcessResources.html
+tasks.named('processResources', ProcessResources).configure {
+    var replaceProperties = [
+            minecraft_version           : minecraft_version,
+            minecraft_version_range     : minecraft_version_range,
+            forge_version               : forge_version,
+            forge_version_range         : forge_version_range,
+            loader_version_range        : loader_version_range,
+            mod_id                      : mod_id,
+            mod_name                    : mod_name,
+            mod_license                 : mod_license,
+            mod_version                 : mod_version,
+            mod_authors                 : mod_authors,
+            mod_description             : mod_description,
+            mod_update_json             : mod_update_json,
+            mod_url                     : mod_url,
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties + [project: project]
+    }
 }
+
+tasks.register('deleteCache') {
+    delete 'src/generated/resources/.cache'
+}
+
+jar.dependsOn deleteCache
+
+// Example configuration to allow publishing using the maven-publish plugin
+// This is the preferred method to reobfuscate your jar file
+jar.finalizedBy('reobfJar')
+// However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
+// publish.dependsOn('reobfJar')
 
 publishing {
     publications {
-        release(MavenPublication) {
-            groupId = "cloud.lemonslice.teastory"
-            artifactId = "TeaStory-Forge-${minecraft_version}"
-
-            artifact reobfArtifact
-            pom {
-                name = 'TechCivilization for Minecraft 1.16.5'
-                description = 'Minecraft mod for Tea.'
-                url = 'https://github.com/lemon-slice-studio/Tea-the-Story'
-                licenses {
-                    license {
-                        name = 'BSD-3-Clause'
-                        url = 'https://github.com/lemon-slice-studio/Tea-the-Story/blob/1.16/LICENSE'
-                    }
-                }
-                developers {
-                    developer {
-                        id = 'RoitoLeo'
-                        name = 'RoitoLeo'
-                    }
-                }
-                issueManagement {
-                    system = 'GitHub Issues'
-                    url = 'https://github.com/lemon-slice-studio/Tea-the-Story/issues'
-                }
-                scm {
-                    url = 'https://github.com/lemon-slice-studio/Tea-the-Story'
-                    connection = 'scm:git:git://github.com/lemon-slice-studio/Tea-the-Story.git'
-                    developerConnection = 'scm:git:git@github.com:lemon-slice-studio/Tea-the-Story.git'
-                }
-            }
+        mavenJava(MavenPublication) {
+            artifact jar
         }
     }
     repositories {
         maven {
-            name = "archive"
-            url = "https://maven.lemonslice.cloud/releases"
-            credentials {
-                username = System.env.MAVEN_USERNAME
-                password = System.env.MAVEN_PASSWORD
-            }
+            url "file://${project.projectDir}/mcmodsrepo"
         }
     }
 }
 
-tasks.withType(PublishToMavenRepository) {
-    onlyIf {
-        System.env.MAVEN_USERNAME && System.env.MAVEN_PASSWORD
-    }
-}
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }
