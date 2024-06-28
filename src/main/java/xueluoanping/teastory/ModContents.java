@@ -10,6 +10,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.GrassBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -44,7 +45,7 @@ public class ModContents {
         event.register(Registries.CREATIVE_MODE_TAB, helper -> {
             helper.register(new ResourceLocation(TeaStory.MODID, TeaStory.MODID),
                     CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.getEntries().stream().findFirst().get().get()))
-                            .title(Component.translatable("itemGroup." + TeaStory.MODID))
+                            .title(Component.translatable("itemGroup." + TeaStory.MODID + ".core"))
                             .displayItems((params, output) -> {
                                 ModItems.getEntries().forEach((reg) -> {
                                     output.accept(new ItemStack(reg.get()));
@@ -62,7 +63,6 @@ public class ModContents {
             .noOcclusion()));
     public static RegistryObject<Block> mossyCobblestoneAqueduct = ModBlocks.register("mossy_cobblestone_aqueduct", () -> new AqueductConnectorBlock(BlockBehaviour.Properties.copy(cobblestoneAqueduct.get())));
     public static RegistryObject<Block> paddyField = ModBlocks.register("paddy_field", PaddyFieldBlock::new);
-
 
 
     public static RegistryObject<Block> RiceSeedlingBlock = ModBlocks.register("rice_seedling", () -> new RiceSeedlingBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
@@ -96,6 +96,9 @@ public class ModContents {
     // RegistryObject<Item> itemBlock = DREntityBlockItems.register(path, () -> new ItemFluidDrawer(fluiddrawer.get(), new Item.Properties()));
     // RegistryObject<BlockEntityType<BlockEntityFluidDrawer>> tankTileEntityType = DRBlockEntities.register(path,
     //         () -> BlockEntityType.Builder.of((pos, state) -> new BlockEntityFluidDrawer(count, pos, state), fluiddrawer.get()).build(null));
+    public static RegistryObject<Block> GRASS_BLOCK_WITH_HOLE = ModBlocks.register("grass_block_with_hole", () -> new WildTeaPlantBlock(Block.Properties.copy(Blocks.GRASS).strength(0.6F)));
+
+    public static RegistryObject<Item> GRASS_BLOCK_WITH_HOLE_ITEM = ModItems.register("grass_block_with_hole", () -> new BlockItem(wild_tea_plant.get(), new Item.Properties()));
 
 
     private static boolean predFalse(BlockState p_235436_0_, BlockGetter p_235436_1_, BlockPos p_235436_2_) {

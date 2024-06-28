@@ -3,16 +3,23 @@ package xueluoanping.teastory.client;
 
 // import com.jaquadro.minecraft.storagedrawers.client.renderer.TileEntityDrawersRenderer;
 
+import cloud.lemonslice.teastory.client.color.block.BirchLeavesColor;
+import cloud.lemonslice.teastory.client.color.block.GrassBlockColor;
 import cloud.lemonslice.teastory.client.color.season.BiomeColorsHandler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -46,7 +53,7 @@ public class ClientSetup {
         });
     }
 
-//    注意static是单次，比如启动类，没有比如右击事件
+    //    注意static是单次，比如启动类，没有比如右击事件
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
@@ -74,5 +81,21 @@ public class ClientSetup {
         //         modelRegistry.put(location, model);
         //     }
         // });
+    }
+
+    @SubscribeEvent
+    public static void registerJsonColorMultipliers(RegisterColorHandlersEvent.Block event) {
+        // Register programmable custom block color providers for LeavesPropertiesJson
+
+        BlockState birchLeaves = Blocks.BIRCH_LEAVES.defaultBlockState();
+        BlockColors blockColors = event.getBlockColors();
+
+        // Minecraft.getInstance().getBlockColors().register(HYBRIDIZABLE_FLOWER_COLOR, BlockRegistry.CHRYSANTHEMUM, BlockRegistry.HYACINTH, BlockRegistry.ZINNIA);
+        // FluidRegistry.BLOCKS.getEntries().forEach(e -> Minecraft.getInstance().getBlockColors().register(FLUID_COLOR, e.get()));
+        // Minecraft.getInstance().getBlockColors().register(TEA_CUP_COLOR, BlockRegistry.WOODEN_TRAY);
+        // Minecraft.getInstance().getBlockColors().register(SAUCEPAN_COLOR, BlockRegistry.SAUCEPAN);
+
+        event.register(new GrassBlockColor(), ModContents.GRASS_BLOCK_WITH_HOLE.get(), ModContents.WATERMELON_VINE.get());
+        event.register(new BirchLeavesColor(), Blocks.BIRCH_LEAVES);
     }
 }

@@ -1,7 +1,9 @@
 package cloud.lemonslice.teastory.environment.crop;
 
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -11,6 +13,8 @@ import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.server.command.ForgeCommand;
+import xueluoanping.teastory.ModContents;
 import xueluoanping.teastory.TeaStory;
 
 import javax.annotation.Nullable;
@@ -56,70 +60,89 @@ public final class CropInfoManager
     //     registerVineTypeConnections(VineType.BITTER_GOURD, BlockRegistry.ACACIA_TRELLIS, BlockRegistry.ACACIA_TRELLIS_BITTER_GOURD);
     // }
     //
-    // @SubscribeEvent
-    // public static void init(TagsUpdatedEvent event)
-    // {
-    //     CROP_HUMIDITY_INFO.clear();
-    //     CROP_SEASON_INFO.clear();
-    //
-    //     Arrays.asList(CropHumidityType.values()).forEach(type ->
-    //             ItemTags.getCollection().getTagByID(type.getRes()).getAllElements().forEach(crop -> registerCropHumidityInfo(crop, type)));
-    //     Arrays.asList(CropSeasonType.values()).forEach(type ->
-    //             ItemTags.getCollection().getTagByID(type.getRes()).getAllElements().forEach(crop -> registerCropSeasonInfo(crop, type)));
-    //
-    //     // Register the crops in Pam's that are nonstandard.
-    //     registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:bellpepperseeditem")), CropHumidityType.AVERAGE);
-    //     registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:brusselsproutseeditem")), CropHumidityType.AVERAGE_MOIST);
-    //     registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:cactusfruitseeditem")), CropHumidityType.ARID_DRY);
-    //     registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:candleberryseeditem")), CropHumidityType.DRY_MOIST);
-    //     registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:chilipepperseeditem")), CropHumidityType.AVERAGE);
-    //     registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:coffeebeanseeditem")), CropHumidityType.AVERAGE_HUMID);
-    //     registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:greengrapeseeditem")), CropHumidityType.MOIST_HUMID);
-    //     registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:juniperberryseeditem")), CropHumidityType.DRY_AVERAGE);
-    //     registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:mustardseedsseeditem")), CropHumidityType.DRY_MOIST);
-    //     registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:sesameseedsseeditem")), CropHumidityType.AVERAGE_MOIST);
-    //     registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:oatsseeditem")), CropHumidityType.DRY);
-    //     registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:peasseeditem")), CropHumidityType.AVERAGE);
-    //     registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:sweetpotatoseeditem")), CropHumidityType.DRY_MOIST);
-    //     registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:waterchestnutseeditem")), CropHumidityType.MOIST_HUMID);
-    //     registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:whitemushroomseeditem")), CropHumidityType.MOIST_HUMID);
-    //     registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:wintersquashseeditem")), CropHumidityType.DRY_MOIST);
-    //
-    //     registerCropHumidityInfo(BlockRegistry.OAK_TRELLIS_GRAPE, CropHumidityType.MOIST_HUMID, true);
-    //     registerCropHumidityInfo(BlockRegistry.BIRCH_TRELLIS_GRAPE, CropHumidityType.MOIST_HUMID, true);
-    //     registerCropHumidityInfo(BlockRegistry.JUNGLE_TRELLIS_GRAPE, CropHumidityType.MOIST_HUMID, true);
-    //     registerCropHumidityInfo(BlockRegistry.SPRUCE_TRELLIS_GRAPE, CropHumidityType.MOIST_HUMID, true);
-    //     registerCropHumidityInfo(BlockRegistry.DARK_OAK_TRELLIS_GRAPE, CropHumidityType.MOIST_HUMID, true);
-    //     registerCropHumidityInfo(BlockRegistry.ACACIA_TRELLIS_GRAPE, CropHumidityType.MOIST_HUMID, true);
-    //     registerCropHumidityInfo(BlockRegistry.OAK_TRELLIS_CUCUMBER, CropHumidityType.AVERAGE_MOIST, true);
-    //     registerCropHumidityInfo(BlockRegistry.BIRCH_TRELLIS_CUCUMBER, CropHumidityType.AVERAGE_MOIST, true);
-    //     registerCropHumidityInfo(BlockRegistry.JUNGLE_TRELLIS_CUCUMBER, CropHumidityType.AVERAGE_MOIST, true);
-    //     registerCropHumidityInfo(BlockRegistry.SPRUCE_TRELLIS_CUCUMBER, CropHumidityType.AVERAGE_MOIST, true);
-    //     registerCropHumidityInfo(BlockRegistry.DARK_OAK_TRELLIS_CUCUMBER, CropHumidityType.AVERAGE_MOIST, true);
-    //     registerCropHumidityInfo(BlockRegistry.ACACIA_TRELLIS_CUCUMBER, CropHumidityType.AVERAGE_MOIST, true);
-    //
-    //     registerCropSeasonInfo(BlockRegistry.OAK_TRELLIS_GRAPE, CropSeasonType.SP_SU, true);
-    //     registerCropSeasonInfo(BlockRegistry.BIRCH_TRELLIS_GRAPE, CropSeasonType.SP_SU, true);
-    //     registerCropSeasonInfo(BlockRegistry.JUNGLE_TRELLIS_GRAPE, CropSeasonType.SP_SU, true);
-    //     registerCropSeasonInfo(BlockRegistry.SPRUCE_TRELLIS_GRAPE, CropSeasonType.SP_SU, true);
-    //     registerCropSeasonInfo(BlockRegistry.DARK_OAK_TRELLIS_GRAPE, CropSeasonType.SP_SU, true);
-    //     registerCropSeasonInfo(BlockRegistry.ACACIA_TRELLIS_GRAPE, CropSeasonType.SP_SU, true);
-    //     registerCropSeasonInfo(BlockRegistry.OAK_TRELLIS_CUCUMBER, CropSeasonType.SP_SU, true);
-    //     registerCropSeasonInfo(BlockRegistry.BIRCH_TRELLIS_CUCUMBER, CropSeasonType.SP_SU, true);
-    //     registerCropSeasonInfo(BlockRegistry.JUNGLE_TRELLIS_CUCUMBER, CropSeasonType.SP_SU, true);
-    //     registerCropSeasonInfo(BlockRegistry.SPRUCE_TRELLIS_CUCUMBER, CropSeasonType.SP_SU, true);
-    //     registerCropSeasonInfo(BlockRegistry.DARK_OAK_TRELLIS_CUCUMBER, CropSeasonType.SP_SU, true);
-    //     registerCropSeasonInfo(BlockRegistry.ACACIA_TRELLIS_CUCUMBER, CropSeasonType.SP_SU, true);
-    //
-    //     registerCropHumidityInfo(BlockRegistry.WATERMELON_VINE, CropHumidityType.MOIST_HUMID, true);
-    //     registerCropSeasonInfo(BlockRegistry.WATERMELON_VINE, CropSeasonType.SUMMER, true);
-    //
-    //     ForgeRegistries.BLOCKS.forEach(block ->
-    //     {
-    //         registerCropHumidityInfo(block, CropHumidityType.AVERAGE_MOIST, false);
-    //         registerCropSeasonInfo(block, CropSeasonType.SP_SU_AU, false);
-    //     });
-    // }
+    @SubscribeEvent
+    public static void init(TagsUpdatedEvent event)
+    {
+        CROP_HUMIDITY_INFO.clear();
+        CROP_SEASON_INFO.clear();
+
+        // var items= event.getRegistryAccess().registry(Registries.ITEM);
+        // if (items.isPresent()){
+        //     for (CropHumidityType cropHumidityType : CropHumidityType.values()) {
+        //        var tagItems= items.get().getTag(ItemTags.create(cropHumidityType.getRes()));
+        //         tagItems.ifPresent(holders -> holders.stream().toList().forEach(action -> {
+        //             registerCropHumidityInfo(action.get(), cropHumidityType);
+        //         }));
+        //     }
+        //     for (CropSeasonType cropSeasonType : CropSeasonType.values()) {
+        //         var tagItems= items.get().getTag(ItemTags.create(cropSeasonType.getRes()));
+        //         tagItems.ifPresent(holders -> holders.stream().toList().forEach(action -> {
+        //             registerCropSeasonInfo(action.get(), cropSeasonType);
+        //         }));
+        //     }
+        // }
+
+        // event.getRegistryAccess().registry(Registries.BLOCK).get().getTagNames().toList();
+
+
+        // Arrays.asList(CropHumidityType.values()).forEach(type ->
+        //         ItemTags.getCollection().getTagByID(type.getRes()).getAllElements().forEach(crop -> registerCropHumidityInfo(crop, type)));
+        // Arrays.asList(CropSeasonType.values()).forEach(type ->
+        //         ItemTags.getCollection().getTagByID(type.getRes()).getAllElements().forEach(crop -> registerCropSeasonInfo(crop, type)));
+
+        // Register the crops in Pam's that are nonstandard.
+        registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:bellpepperseeditem")), CropHumidityType.AVERAGE);
+        registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:brusselsproutseeditem")), CropHumidityType.AVERAGE_MOIST);
+        registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:cactusfruitseeditem")), CropHumidityType.ARID_DRY);
+        registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:candleberryseeditem")), CropHumidityType.DRY_MOIST);
+        registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:chilipepperseeditem")), CropHumidityType.AVERAGE);
+        registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:coffeebeanseeditem")), CropHumidityType.AVERAGE_HUMID);
+        registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:greengrapeseeditem")), CropHumidityType.MOIST_HUMID);
+        registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:juniperberryseeditem")), CropHumidityType.DRY_AVERAGE);
+        registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:mustardseedsseeditem")), CropHumidityType.DRY_MOIST);
+        registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:sesameseedsseeditem")), CropHumidityType.AVERAGE_MOIST);
+        registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:oatsseeditem")), CropHumidityType.DRY);
+        registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:peasseeditem")), CropHumidityType.AVERAGE);
+        registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:sweetpotatoseeditem")), CropHumidityType.DRY_MOIST);
+        registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:waterchestnutseeditem")), CropHumidityType.MOIST_HUMID);
+        registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:whitemushroomseeditem")), CropHumidityType.MOIST_HUMID);
+        registerCropHumidityInfo(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops:wintersquashseeditem")), CropHumidityType.DRY_MOIST);
+
+        // registerCropHumidityInfo(BlockRegistry.OAK_TRELLIS_GRAPE, CropHumidityType.MOIST_HUMID, true);
+        // registerCropHumidityInfo(BlockRegistry.BIRCH_TRELLIS_GRAPE, CropHumidityType.MOIST_HUMID, true);
+        // registerCropHumidityInfo(BlockRegistry.JUNGLE_TRELLIS_GRAPE, CropHumidityType.MOIST_HUMID, true);
+        // registerCropHumidityInfo(BlockRegistry.SPRUCE_TRELLIS_GRAPE, CropHumidityType.MOIST_HUMID, true);
+        // registerCropHumidityInfo(BlockRegistry.DARK_OAK_TRELLIS_GRAPE, CropHumidityType.MOIST_HUMID, true);
+        // registerCropHumidityInfo(BlockRegistry.ACACIA_TRELLIS_GRAPE, CropHumidityType.MOIST_HUMID, true);
+        // registerCropHumidityInfo(BlockRegistry.OAK_TRELLIS_CUCUMBER, CropHumidityType.AVERAGE_MOIST, true);
+        // registerCropHumidityInfo(BlockRegistry.BIRCH_TRELLIS_CUCUMBER, CropHumidityType.AVERAGE_MOIST, true);
+        // registerCropHumidityInfo(BlockRegistry.JUNGLE_TRELLIS_CUCUMBER, CropHumidityType.AVERAGE_MOIST, true);
+        // registerCropHumidityInfo(BlockRegistry.SPRUCE_TRELLIS_CUCUMBER, CropHumidityType.AVERAGE_MOIST, true);
+        // registerCropHumidityInfo(BlockRegistry.DARK_OAK_TRELLIS_CUCUMBER, CropHumidityType.AVERAGE_MOIST, true);
+        // registerCropHumidityInfo(BlockRegistry.ACACIA_TRELLIS_CUCUMBER, CropHumidityType.AVERAGE_MOIST, true);
+
+        // registerCropSeasonInfo(BlockRegistry.OAK_TRELLIS_GRAPE, CropSeasonType.SP_SU, true);
+        // registerCropSeasonInfo(BlockRegistry.BIRCH_TRELLIS_GRAPE, CropSeasonType.SP_SU, true);
+        // registerCropSeasonInfo(BlockRegistry.JUNGLE_TRELLIS_GRAPE, CropSeasonType.SP_SU, true);
+        // registerCropSeasonInfo(BlockRegistry.SPRUCE_TRELLIS_GRAPE, CropSeasonType.SP_SU, true);
+        // registerCropSeasonInfo(BlockRegistry.DARK_OAK_TRELLIS_GRAPE, CropSeasonType.SP_SU, true);
+        // registerCropSeasonInfo(BlockRegistry.ACACIA_TRELLIS_GRAPE, CropSeasonType.SP_SU, true);
+        // registerCropSeasonInfo(BlockRegistry.OAK_TRELLIS_CUCUMBER, CropSeasonType.SP_SU, true);
+        // registerCropSeasonInfo(BlockRegistry.BIRCH_TRELLIS_CUCUMBER, CropSeasonType.SP_SU, true);
+        // registerCropSeasonInfo(BlockRegistry.JUNGLE_TRELLIS_CUCUMBER, CropSeasonType.SP_SU, true);
+        // registerCropSeasonInfo(BlockRegistry.SPRUCE_TRELLIS_CUCUMBER, CropSeasonType.SP_SU, true);
+        // registerCropSeasonInfo(BlockRegistry.DARK_OAK_TRELLIS_CUCUMBER, CropSeasonType.SP_SU, true);
+        // registerCropSeasonInfo(BlockRegistry.ACACIA_TRELLIS_CUCUMBER, CropSeasonType.SP_SU, true);
+
+        registerCropHumidityInfo(ModContents.WATERMELON_VINE.get(), CropHumidityType.MOIST_HUMID, true);
+        registerCropSeasonInfo(ModContents.WATERMELON_VINE.get(), CropSeasonType.SUMMER, true);
+
+        ForgeRegistries.BLOCKS.forEach(block ->
+        {
+            registerCropHumidityInfo(block, CropHumidityType.AVERAGE_MOIST, false);
+            registerCropSeasonInfo(block, CropSeasonType.SP_SU_AU, false);
+        });
+    }
 
     public static void registerCropHumidityInfo(Item item, CropHumidityType info)
     {
