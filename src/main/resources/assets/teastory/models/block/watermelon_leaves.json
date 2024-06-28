@@ -1,5 +1,6 @@
 {
 	"credit": "Made with Blockbench",
+	"render_type": "cutout",
 	"textures": {
 		"0": "teastory:block/watermelon_leaves",
 		"particle": "teastory:block/watermelon_leaves"

@@ -96,9 +96,9 @@ public class ModContents {
     // RegistryObject<Item> itemBlock = DREntityBlockItems.register(path, () -> new ItemFluidDrawer(fluiddrawer.get(), new Item.Properties()));
     // RegistryObject<BlockEntityType<BlockEntityFluidDrawer>> tankTileEntityType = DRBlockEntities.register(path,
     //         () -> BlockEntityType.Builder.of((pos, state) -> new BlockEntityFluidDrawer(count, pos, state), fluiddrawer.get()).build(null));
-    public static RegistryObject<Block> GRASS_BLOCK_WITH_HOLE = ModBlocks.register("grass_block_with_hole", () -> new WildTeaPlantBlock(Block.Properties.copy(Blocks.GRASS).strength(0.6F)));
+    public static RegistryObject<Block> GRASS_BLOCK_WITH_HOLE = ModBlocks.register("grass_block_with_hole", () -> new GrassBlock(Block.Properties.copy(Blocks.GRASS).strength(0.6F)));
 
-    public static RegistryObject<Item> GRASS_BLOCK_WITH_HOLE_ITEM = ModItems.register("grass_block_with_hole", () -> new BlockItem(wild_tea_plant.get(), new Item.Properties()));
+    public static RegistryObject<Item> GRASS_BLOCK_WITH_HOLE_ITEM = ModItems.register("grass_block_with_hole", () -> new BlockItem(GRASS_BLOCK_WITH_HOLE.get(), new Item.Properties()));
 
 
     private static boolean predFalse(BlockState p_235436_0_, BlockGetter p_235436_1_, BlockPos p_235436_2_) {

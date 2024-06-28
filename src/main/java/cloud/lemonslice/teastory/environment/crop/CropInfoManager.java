@@ -66,21 +66,21 @@ public final class CropInfoManager
         CROP_HUMIDITY_INFO.clear();
         CROP_SEASON_INFO.clear();
 
-        // var items= event.getRegistryAccess().registry(Registries.ITEM);
-        // if (items.isPresent()){
-        //     for (CropHumidityType cropHumidityType : CropHumidityType.values()) {
-        //        var tagItems= items.get().getTag(ItemTags.create(cropHumidityType.getRes()));
-        //         tagItems.ifPresent(holders -> holders.stream().toList().forEach(action -> {
-        //             registerCropHumidityInfo(action.get(), cropHumidityType);
-        //         }));
-        //     }
-        //     for (CropSeasonType cropSeasonType : CropSeasonType.values()) {
-        //         var tagItems= items.get().getTag(ItemTags.create(cropSeasonType.getRes()));
-        //         tagItems.ifPresent(holders -> holders.stream().toList().forEach(action -> {
-        //             registerCropSeasonInfo(action.get(), cropSeasonType);
-        //         }));
-        //     }
-        // }
+        var items= event.getRegistryAccess().registry(Registries.ITEM);
+        if (items.isPresent()){
+            for (CropHumidityType cropHumidityType : CropHumidityType.values()) {
+               var tagItems= items.get().getTag(ItemTags.create(cropHumidityType.getRes()));
+                tagItems.ifPresent(holders -> holders.stream().toList().forEach(action -> {
+                    registerCropHumidityInfo(action.get(), cropHumidityType);
+                }));
+            }
+            for (CropSeasonType cropSeasonType : CropSeasonType.values()) {
+                var tagItems= items.get().getTag(ItemTags.create(cropSeasonType.getRes()));
+                tagItems.ifPresent(holders -> holders.stream().toList().forEach(action -> {
+                    registerCropSeasonInfo(action.get(), cropSeasonType);
+                }));
+            }
+        }
 
         // event.getRegistryAccess().registry(Registries.BLOCK).get().getTagNames().toList();
 
