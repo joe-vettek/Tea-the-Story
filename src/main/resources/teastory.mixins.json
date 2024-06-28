@@ -5,7 +5,8 @@
   "refmap": "teastory.refmap.json",
   "mixins": [
     "MixinDimensionType",
-    "MixinLevelTimeAccess"
+    "MixinLevelTimeAccess",
+    "MixinServerLevel"
   ],
   "client": [
   ],
