@@ -17,12 +17,19 @@ public final class BiomeTemperatureManager {
         {
             BIOME_DEFAULT_TEMPERATURE_MAP.put(biome, biome.getModifiedClimateSettings().temperature());
 
-            // if (biome.getCategory().equals(Biome.Category.SAVANNA)) {
-            //     var oldClimateSettings = biome.climateSettings;
-            //     biome.climateSettings = new Biome.ClimateSettings(oldClimateSettings.hasPrecipitation(),
-            //             oldClimateSettings.temperature(), oldClimateSettings.temperatureModifier(),
-            //             0.2F);
-            // }
+            ForgeRegistries.BIOMES.getHolder(biome).ifPresent(biomeHolder -> {
+                // if (biome.getCategory().equals(Biome.Category.SAVANNA))
+                if(biomeHolder.is(BiomeTags.IS_SAVANNA))
+                {
+                    var oldClimateSettings = biome.climateSettings;
+                    biome.climateSettings = new Biome.ClimateSettings(
+                            oldClimateSettings.hasPrecipitation(),
+                            oldClimateSettings.temperature(),
+                            oldClimateSettings.temperatureModifier(),
+                            0.2F);
+                }
+            });
+
         });
     }
 

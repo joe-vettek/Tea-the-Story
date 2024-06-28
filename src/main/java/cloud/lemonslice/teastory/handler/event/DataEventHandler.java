@@ -21,36 +21,31 @@ import xueluoanping.teastory.TeaStory;
 
 
 @Mod.EventBusSubscriber(modid = TeaStory.MODID)
-public final class DataEventHandler
-{
+public final class DataEventHandler {
+    public static CapabilitySolarTermTime.Provider cc;
+
     @SubscribeEvent
-    public static void onAttachCapabilitiesEntity(AttachCapabilitiesEvent<Entity> event)
-    {
+    public static void onAttachCapabilitiesEntity(AttachCapabilitiesEvent<Entity> event) {
 
     }
 
     @SubscribeEvent
-    public static void onAttachCapabilitiesWorld(AttachCapabilitiesEvent<Level> event)
-    {
-        if (ServerConfig.Season.enable.get() && event.getObject().dimension() == Level.OVERWORLD)
-        {
-            event.addCapability(new ResourceLocation(TeaStory.MODID, "world_solar_terms"), new CapabilitySolarTermTime.Provider());
+    public static void onAttachCapabilitiesWorld(AttachCapabilitiesEvent<Level> event) {
+        if (ServerConfig.Season.enable.get() && event.getObject().dimension() == Level.OVERWORLD) {
+            cc = new CapabilitySolarTermTime.Provider();
+            event.addCapability(new ResourceLocation(TeaStory.MODID, "world_solar_terms"), cc);
         }
     }
 
     @SubscribeEvent
-    public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event)
-    {
+    public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
 
-        if (event.getEntity() instanceof ServerPlayer && !(event.getEntity() instanceof FakePlayer))
-        {
-            if (ServerConfig.Season.enable.get())
-            {
+        if (event.getEntity() instanceof ServerPlayer && !(event.getEntity() instanceof FakePlayer)) {
+            if (ServerConfig.Season.enable.get()) {
                 event.getEntity().level().getCapability(CapabilitySolarTermTime.WORLD_SOLAR_TIME).ifPresent(t ->
                 {
                     SimpleNetworkHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) event.getEntity()), new SolarTermsMessage(t.getSolarTermsDay()));
-                    if (t.getSolarTermsDay() % ServerConfig.Season.lastingDaysOfEachTerm.get() == 0)
-                    {
+                    if (t.getSolarTermsDay() % ServerConfig.Season.lastingDaysOfEachTerm.get() == 0) {
                         ((ServerPlayer) event.getEntity()).sendSystemMessage(Component.translatable("info.teastory.environment.solar_term.message", SolarTerm.get(t.getSolarTermIndex()).getAlternationText()), false);
                     }
                 });

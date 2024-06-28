@@ -107,7 +107,7 @@ public class CapabilitySolarTermTime {
     }
 
     public static class Provider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
-        private final Data worldSolarTime = new Data();
+        public final Data worldSolarTime = new Data();
         // private final Capability.IStorage<Data> storage = WORLD_SOLAR_TIME.getStorage();
 
 

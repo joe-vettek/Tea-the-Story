@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "xueluoanping.teastory.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "teastory.refmap.json",
+  "mixins": [
+    "MixinDimensionType",
+    "MixinLevelTimeAccess"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}
