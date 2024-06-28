@@ -21,7 +21,7 @@ public final class CustomRandomTickHandler
     private static final CustomRandomTick SNOW_MELT = (state, world, pos) ->
     {
         BlockPos blockpos =new BlockPos(pos.getX(), world.getHeight(Heightmap.Types.MOTION_BLOCKING, pos.getX(), pos.getZ()),pos.getZ());
-        if (world.isAreaLoaded(blockpos, 1) && world.getBiome(blockpos).get().getModifiedClimateSettings().temperature() >= 0.15F)
+        if (world.isAreaLoaded(blockpos, 1) && world.getBiome(blockpos).get().getTemperature(pos) >= 0.15F)
         {
             BlockState topState = world.getBlockState(blockpos);
             if (topState.getBlock().equals(Blocks.SNOW))

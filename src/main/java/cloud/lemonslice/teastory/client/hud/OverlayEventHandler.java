@@ -35,9 +35,9 @@ public final class OverlayEventHandler
                 {
                     int solar = clientPlayer.level().getCapability(CapabilitySolarTermTime.WORLD_SOLAR_TIME).orElse(new CapabilitySolarTermTime.Data()).getSolarTermsDay();
                     long dayTime = clientPlayer.level().getDayTime();
-                    float temp = clientPlayer.level().getBiome(clientPlayer.getOnPos()).get().getModifiedClimateSettings().temperature();
+                    float temp = clientPlayer.level().getBiome(clientPlayer.getOnPos()).get().getTemperature(clientPlayer.getOnPos());
                     Humidity h = Humidity.getHumid(clientPlayer.level().getBiome(clientPlayer.getOnPos()).get().getModifiedClimateSettings().downfall(), temp);
-                    double env = clientPlayer.level().getBiome(clientPlayer.getOnPos()).get().getModifiedClimateSettings().temperature();
+                    double env = clientPlayer.level().getBiome(clientPlayer.getOnPos()).get().getTemperature(clientPlayer.getOnPos());
                     int solarTime = AsmHandler.getSolarAngelTime(clientPlayer.level().getDayTime(), clientPlayer.level());
 
                     BAR_4.renderStatusBar(event.getGuiGraphics(), event.getWindow().getGuiScaledWidth(), event.getWindow().getGuiScaledHeight(), solar, dayTime, env, solarTime);

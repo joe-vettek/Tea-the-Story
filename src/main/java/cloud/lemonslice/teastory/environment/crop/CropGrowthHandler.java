@@ -28,13 +28,13 @@ public final class CropGrowthHandler
         {
             if (seasonInfo.isSuitable(SeasonHelper.getSeason((Level) world)))
             {
-                Humidity env = Humidity.getHumid(world.getBiome(pos).get().getModifiedClimateSettings().downfall(), world.getBiome(pos).get().getModifiedClimateSettings().temperature());
+                Humidity env = Humidity.getHumid(world.getBiome(pos).get().getModifiedClimateSettings().downfall(), world.getBiome(pos).get().getTemperature(pos));
                 CropHumidityInfo humidityInfo = CropInfoManager.getHumidityInfo(block);
                 checkHumidity(event, world, humidityInfo, env);
             }
             else if (world.getRandom().nextInt(100) < 25)
             {
-                Humidity env = Humidity.getHumid(world.getBiome(pos).get().getModifiedClimateSettings().downfall(), world.getBiome(pos).get().getModifiedClimateSettings().temperature());
+                Humidity env = Humidity.getHumid(world.getBiome(pos).get().getModifiedClimateSettings().downfall(), world.getBiome(pos).get().getTemperature(pos));
                 CropHumidityInfo humidityInfo = CropInfoManager.getHumidityInfo(block);
                 checkHumidity(event, world, humidityInfo, env);
             }
@@ -45,7 +45,7 @@ public final class CropGrowthHandler
         }
         else
         {
-            Humidity env = Humidity.getHumid(world.getBiome(pos).get().getModifiedClimateSettings().downfall(), world.getBiome(pos).get().getModifiedClimateSettings().temperature());
+            Humidity env = Humidity.getHumid(world.getBiome(pos).get().getModifiedClimateSettings().downfall(), world.getBiome(pos).get().getTemperature(pos));
             CropHumidityInfo humidityInfo = CropInfoManager.getHumidityInfo(block);
             checkHumidity(event, world, humidityInfo, env);
         }
