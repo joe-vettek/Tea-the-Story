@@ -46,7 +46,8 @@ public class TeaFluidType extends FluidType {
 
             @Override
             public int getTintColor() {
-                return colourTint > 0 ? colourTint : IClientFluidTypeExtensions.super.getTintColor();
+                // return colourTint > 0 ? colourTint : IClientFluidTypeExtensions.super.getTintColor();
+                return colourTint;
             }
         });
     }
