@@ -5,11 +5,11 @@ package xueluoanping.teastory.client;
 
 import cloud.lemonslice.teastory.client.color.block.BirchLeavesColor;
 import cloud.lemonslice.teastory.client.color.block.GrassBlockColor;
+import cloud.lemonslice.teastory.client.color.item.BucketItemColors;
 import cloud.lemonslice.teastory.client.color.season.BiomeColorsHandler;
-import net.minecraft.client.Minecraft;
+import xueluoanping.teastory.FluidRegistry;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.renderer.BiomeColors;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
@@ -97,5 +97,11 @@ public class ClientSetup {
 
         event.register(new GrassBlockColor(), ModContents.GRASS_BLOCK_WITH_HOLE.get(), ModContents.WATERMELON_VINE.get());
         event.register(new BirchLeavesColor(), Blocks.BIRCH_LEAVES);
+    }
+
+    @SubscribeEvent
+    public static void onRegisterColorHandlersEvent_Item(RegisterColorHandlersEvent.Item event) {
+        var buckColors=new BucketItemColors();
+        FluidRegistry.ITEMS.getEntries().forEach(itemRegistryObject -> event.register(buckColors,itemRegistryObject.get()));
     }
 }

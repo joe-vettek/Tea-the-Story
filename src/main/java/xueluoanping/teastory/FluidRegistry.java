@@ -1,6 +1,8 @@
-package cloud.lemonslice.teastory.fluid;
+package xueluoanping.teastory;
 
 
+import cloud.lemonslice.teastory.fluid.HotWaterFlowingFluidBlock;
+import cloud.lemonslice.teastory.fluid.TeaFluidType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
@@ -17,7 +19,6 @@ import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import xueluoanping.teastory.TeaStory;
 
 
 public final class FluidRegistry {
@@ -203,6 +204,6 @@ public final class FluidRegistry {
     public static final RegistryObject<LiquidBlock> CUCUMBER_JUICE = BLOCKS.register("cucumber_juice", () -> new LiquidBlock(FluidRegistry.CUCUMBER_JUICE_STILL, BlockBehaviour.Properties.copy(Blocks.WATER)));
     public static final RegistryObject<FluidType> CUCUMBER_JUICE_TYPE = FLUID_TYPES.register("cucumber_juice", () -> new TeaFluidType(FluidType.Properties.create()).color(0xffcbc547));
     public static final ForgeFlowingFluid.Properties CUCUMBER_JUICE_PROPERTIES = new ForgeFlowingFluid.Properties(
-            () -> new TeaFluidType(FluidType.Properties.create()).color(0xffcbc547),
+            CUCUMBER_JUICE_TYPE,
             CUCUMBER_JUICE_STILL, CUCUMBER_JUICE_FLOW).bucket(CUCUMBER_JUICE_BUCKET).block(FluidRegistry.CUCUMBER_JUICE).explosionResistance(100F);
 }

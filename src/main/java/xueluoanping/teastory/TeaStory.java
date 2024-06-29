@@ -3,7 +3,6 @@ package xueluoanping.teastory;
 
 import cloud.lemonslice.teastory.config.NormalConfigs;
 import cloud.lemonslice.teastory.environment.solar.BiomeTemperatureManager;
-import cloud.lemonslice.teastory.fluid.FluidRegistry;
 import cloud.lemonslice.teastory.network.SimpleNetworkHandler;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
