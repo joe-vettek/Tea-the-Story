@@ -2,7 +2,7 @@ package xueluoanping.teastory;
 
 
 import cloud.lemonslice.teastory.fluid.HotWaterFlowingFluidBlock;
-import cloud.lemonslice.teastory.fluid.TeaFluidType;
+import xueluoanping.teastory.fluid.TeaFluidType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;

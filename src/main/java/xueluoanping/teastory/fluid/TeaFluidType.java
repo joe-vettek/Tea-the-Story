@@ -1,8 +1,7 @@
-package cloud.lemonslice.teastory.fluid;
+package xueluoanping.teastory.fluid;
 
 import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.simibubi.create.AllFluids;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.FogRenderer;

@@ -2,13 +2,21 @@ package xueluoanping.teastory;
 
 
 import cloud.lemonslice.teastory.item.ShennongChiItem;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tiers;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.fluids.capability.ItemFluidContainer;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import cloud.lemonslice.teastory.item.AqueductShovelItem;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 
 // import static xueluoanping.fluiddrawerslegacy.FluidDrawersLegacyMod.CREATIVE_TAB;
@@ -38,10 +46,45 @@ public class AllItems {
 
     // INGREDIENTS 原料
     public static RegistryObject<Item> TEA_LEAVES = ModItems.register("tea_leaves", () -> new Item(new Item.Properties()));
-
     public static RegistryObject<Item> GREEN_TEA_LEAVES = ModItems.register("green_tea_leaves", () -> new Item(new Item.Properties().craftRemainder(teaResidues.get())));
     public static RegistryObject<Item> BLACK_TEA_LEAVES = ModItems.register("black_tea_leaves", () -> new Item(new Item.Properties().craftRemainder(teaResidues.get())));
     public static RegistryObject<Item> WHITE_TEA_LEAVES = ModItems.register("white_tea_leaves", () -> new Item(new Item.Properties().craftRemainder(teaResidues.get())));
+    public static RegistryObject<Item> EMPTY_TEA_BAG = ModItems.register("empty_tea_bag", () -> new Item(new Item.Properties().craftRemainder(teaResidues.get())));
+    public static RegistryObject<Item> GREEN_TEA_BAG = ModItems.register("green_tea_bag", () -> new Item(new Item.Properties().craftRemainder(teaResidues.get())));
+    public static RegistryObject<Item> BLACK_TEA_BAG = ModItems.register("black_tea_bag", () -> new Item(new Item.Properties().craftRemainder(teaResidues.get())));
+
+    public static RegistryObject<Item> RICE = ModItems.register("rice", () -> new Item(new Item.Properties()));
+    public static RegistryObject<Item> WASHED_RICE = ModItems.register("washed_rice", () -> new Item(new Item.Properties()));
+
+    // DRINK 饮品
+    public static RegistryObject<Item> CLAY_CUP = ModItems.register("clay_cup", () -> new Item(new Item.Properties()));
+    public static RegistryObject<Item> CLAY_TEAPOT = ModItems.register("clay_teapot", () -> new Item(new Item.Properties()));
+    // public static RegistryObject<Item> PORCELAIN_CUP = ModItems.register("porcelain_cup", () ->new ItemFluidContainer(new Item.Properties(), 250)
+    // {
+    //
+    //     @Override
+    //     public ICapabilityProvider initCapabilities(@NotNull ItemStack stack, @org.jetbrains.annotations.Nullable CompoundTag nbt) {
+    //         return super.initCapabilities(new ItemStack(PORCELAIN_CUP_DRINK), nbt);
+    //     }
+    // });
+    //
+    //
+    // public static final Item PORCELAIN_CUP = new ItemFluidContainer(getDrinkItemProperties(), 250)
+    // {
+    //     @Override
+    //     public ICapabilityProvider initCapabilities(@Nonnull ItemStack stack, @Nullable CompoundNBT nbt)
+    //     {
+    //         return super.initCapabilities(new ItemStack(ItemRegistry.PORCELAIN_CUP_DRINK), nbt);
+    //     }
+    // }.setRegistryName("porcelain_cup");
+    // public static final Item BOTTLE = new ItemFluidContainer(getDrinkItemProperties(), 500)
+    // {
+    //     @Override
+    //     public ICapabilityProvider initCapabilities(@Nonnull ItemStack stack, @Nullable CompoundNBT nbt)
+    //     {
+    //         return super.initCapabilities(new ItemStack(ItemRegistry.BOTTLE_DRINK), nbt);
+    //     }
+    // }.setRegistryName("bottle");
 
 }
 

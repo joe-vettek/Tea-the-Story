@@ -23,7 +23,7 @@ public class ShennongChiItem extends SwordItem {
 
     // hasEffect
     @Override
-    public boolean isEnchantable(ItemStack stack) {
+    public boolean isFoil(ItemStack stack) {
         return true;
     }
 

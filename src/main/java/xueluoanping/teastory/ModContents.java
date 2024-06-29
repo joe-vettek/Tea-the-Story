@@ -44,7 +44,7 @@ public class ModContents {
     public static void creativeModeTabRegister(RegisterEvent event) {
         event.register(Registries.CREATIVE_MODE_TAB, helper -> {
             helper.register(new ResourceLocation(TeaStory.MODID, TeaStory.MODID),
-                    CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.getEntries().stream().findFirst().get().get()))
+                    CreativeModeTab.builder().icon(() -> new ItemStack(AllItems.TEA_LEAVES.get()))
                             .title(Component.translatable("itemGroup." + TeaStory.MODID + ".core"))
                             .displayItems((params, output) -> {
                                 ModItems.getEntries().forEach((reg) -> {
