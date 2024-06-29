@@ -84,7 +84,7 @@ public class ClientSetup {
     }
 
     @SubscribeEvent
-    public static void registerJsonColorMultipliers(RegisterColorHandlersEvent.Block event) {
+    public static void onRegisterColorHandlersEvent_Block(RegisterColorHandlersEvent.Block event) {
         // Register programmable custom block color providers for LeavesPropertiesJson
 
         BlockState birchLeaves = Blocks.BIRCH_LEAVES.defaultBlockState();

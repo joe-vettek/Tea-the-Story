@@ -3,6 +3,7 @@ package xueluoanping.teastory;
 
 import cloud.lemonslice.teastory.config.NormalConfigs;
 import cloud.lemonslice.teastory.environment.solar.BiomeTemperatureManager;
+import cloud.lemonslice.teastory.fluid.FluidRegistry;
 import cloud.lemonslice.teastory.network.SimpleNetworkHandler;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -75,6 +76,12 @@ public class TeaStory {
 
 
         AllItems.ModItems.register(FMLJavaModLoadingContext.get().getModEventBus());
+
+        FluidRegistry.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        FluidRegistry.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        FluidRegistry.FLUIDS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        FluidRegistry.FLUID_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
+
         // ModContents.DRMenuType.register(FMLJavaModLoadingContext.get().getModEventBus());
 
         // ModContents.init();

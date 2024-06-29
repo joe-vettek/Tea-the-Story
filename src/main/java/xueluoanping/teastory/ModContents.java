@@ -2,6 +2,7 @@ package xueluoanping.teastory;
 
 
 import cloud.lemonslice.teastory.block.crops.*;
+import cloud.lemonslice.teastory.fluid.FluidRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -51,6 +52,9 @@ public class ModContents {
                                     output.accept(new ItemStack(reg.get()));
                                 });
                                 AllItems.ModItems.getEntries().forEach((reg) -> {
+                                    output.accept(new ItemStack(reg.get()));
+                                });
+                                FluidRegistry.ITEMS.getEntries().forEach((reg) -> {
                                     output.accept(new ItemStack(reg.get()));
                                 });
                             })
