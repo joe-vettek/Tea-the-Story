@@ -79,6 +79,7 @@ public class HotWaterFlowingFluidBlock extends LiquidBlock
     public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random) {
         if (state.getBlock() == FluidRegistry.WARM_WATER.get() && worldIn.getBlockState(pos.below(2)).getBlock() instanceof CampfireBlock)
         {
+
         }
         else if (state.getFluidState().getAmount() == 8 && random.nextInt(10) == 0)
         {

@@ -1,0 +1,13 @@
+{
+    "type": "teastory:stone_mill",
+    "item_ingredient": {
+        "tag": "forge:crops/straw"
+    },
+    "output_items": [
+        {
+            "item": "teastory:crushed_straw",
+            "count": 2
+        }
+    ],
+    "work_time": 200
+}

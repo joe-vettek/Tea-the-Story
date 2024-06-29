@@ -81,6 +81,9 @@ public class TeaStory {
         FluidRegistry.FLUIDS.register(FMLJavaModLoadingContext.get().getModEventBus());
         FluidRegistry.FLUID_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
 
+        RecipeRegister.DRRecipeSerializer.register(FMLJavaModLoadingContext.get().getModEventBus());
+        RecipeRegister.DRRecipeType.register(FMLJavaModLoadingContext.get().getModEventBus());
+
         // ModContents.DRMenuType.register(FMLJavaModLoadingContext.get().getModEventBus());
 
         // ModContents.init();
