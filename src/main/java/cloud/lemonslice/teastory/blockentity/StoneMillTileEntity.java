@@ -89,7 +89,7 @@ public class StoneMillTileEntity extends NormalContainerTileEntity {
 
 
 
-    
+
     public FluidTank getFluidTank() {
         return fluidTank;
     }

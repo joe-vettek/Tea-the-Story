@@ -1,33 +1,51 @@
 package cloud.lemonslice.teastory.container;
 
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.Slot;
 
-import javax.annotation.Nullable;
+import cloud.lemonslice.teastory.blockentity.StoneMillTileEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import org.jetbrains.annotations.Nullable;
 
-public abstract class NormalContainer extends Container
-{
-    protected NormalContainer(@Nullable ContainerType<?> type, int windowId)
-    {
-        super(type, windowId);
+public abstract class NormalContainer extends AbstractContainerMenu {
+    private final BlockPos pos;
+    private final Level world;
+
+    public NormalContainer(MenuType<StoneMillContainer> menuType, int windowId, BlockPos pos, Level world) {
+        super(menuType, windowId);
+        this.pos = pos;
+        this.world = world;
     }
 
-    public void addPlayerInventory(PlayerInventory inv)
-    {
-        for (int i = 0; i < 3; ++i)
-        {
 
-            for (int j = 0; j < 9; ++j)
-            {
+    public void addPlayerInventory(Inventory inv) {
+        for (int i = 0; i < 3; ++i) {
+
+            for (int j = 0; j < 9; ++j) {
                 addSlot(new Slot(inv, j + i * 9 + 9, 8 + j * 18, 51 + i * 18 + 33));
             }
         }
 
-        for (int i = 0; i < 9; ++i)
-        {
+        for (int i = 0; i < 9; ++i) {
             addSlot(new Slot(inv, i, 8 + i * 18, 142));
         }
+    }
+
+    // canInteractWith
+    @Override
+    public boolean stillValid(Player playerIn) {
+        return stillValid(ContainerLevelAccess.create(this.world, this.pos),
+                playerIn,
+                this.world.getBlockState(this.pos).getBlock());
+    }
+
+    public BlockEntity getTileEntity() {
+        return this.world.getBlockEntity(this.pos);
     }
 }
