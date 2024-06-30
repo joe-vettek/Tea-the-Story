@@ -3,25 +3,19 @@ package xueluoanping.teastory;
 
 import cloud.lemonslice.teastory.block.crops.*;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.GrassBlock;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
@@ -31,35 +25,11 @@ import java.util.List;
 
 // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
 // Event bus for receiving Registry Events)
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-public class ModContents {
+
+public class ItemBlocks {
     public static final DeferredRegister<Item> ModItems = DeferredRegister.create(ForgeRegistries.ITEMS, TeaStory.MODID);
     public static final DeferredRegister<Block> ModBlocks = DeferredRegister.create(ForgeRegistries.BLOCKS, TeaStory.MODID);
-    public static final DeferredRegister<BlockEntityType<?>> DRBlockEntities = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, TeaStory.MODID);
 
-
-    private static CreativeModeTab MAIN;
-
-    @SubscribeEvent
-    public static void creativeModeTabRegister(RegisterEvent event) {
-        event.register(Registries.CREATIVE_MODE_TAB, helper -> {
-            helper.register(new ResourceLocation(TeaStory.MODID, TeaStory.MODID),
-                    CreativeModeTab.builder().icon(() -> new ItemStack(AllItems.TEA_LEAVES.get()))
-                            .title(Component.translatable("itemGroup." + TeaStory.MODID + ".core"))
-                            .displayItems((params, output) -> {
-                                ModItems.getEntries().forEach((reg) -> {
-                                    output.accept(new ItemStack(reg.get()));
-                                });
-                                AllItems.ModItems.getEntries().forEach((reg) -> {
-                                    output.accept(new ItemStack(reg.get()));
-                                });
-                                FluidRegistry.ITEMS.getEntries().forEach((reg) -> {
-                                    output.accept(new ItemStack(reg.get()));
-                                });
-                            })
-                            .build());
-        });
-    }
 
     public static RegistryObject<Block> cobblestoneAqueduct = ModBlocks.register("cobblestone_aqueduct", () -> new AqueductBlock(BlockBehaviour.Properties.copy(Blocks.COBBLESTONE)
             .sound(SoundType.STONE).strength(1.5F)

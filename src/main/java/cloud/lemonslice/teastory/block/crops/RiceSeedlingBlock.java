@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import xueluoanping.teastory.ModContents;
+import xueluoanping.teastory.ItemBlocks;
 
 public class RiceSeedlingBlock extends CropBlock
 {
@@ -56,7 +56,7 @@ public class RiceSeedlingBlock extends CropBlock
     // getSeedsItem
     @Override
     protected ItemLike getBaseSeedId() {
-        return ModContents.riceGrains.get();
+        return ItemBlocks.riceGrains.get();
     }
 
     // getCloneItemStack
@@ -65,8 +65,8 @@ public class RiceSeedlingBlock extends CropBlock
         int age = state.getValue(AGE);
         if (age > 0)
         {
-            return new ItemStack(ModContents.riceGrains.get());
+            return new ItemStack(ItemBlocks.riceGrains.get());
         }
-        else return new ItemStack(ModContents.riceGrains.get());
+        else return new ItemStack(ItemBlocks.riceGrains.get());
     }
 }

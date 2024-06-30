@@ -7,7 +7,7 @@ import cloud.lemonslice.teastory.client.color.block.BirchLeavesColor;
 import cloud.lemonslice.teastory.client.color.block.GrassBlockColor;
 import cloud.lemonslice.teastory.client.color.item.BucketItemColors;
 import cloud.lemonslice.teastory.client.color.season.BiomeColorsHandler;
-import xueluoanping.teastory.FluidRegistry;
+import xueluoanping.teastory.TeaFluids;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.RenderType;
@@ -23,7 +23,7 @@ import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import xueluoanping.teastory.ModContents;
+import xueluoanping.teastory.ItemBlocks;
 import xueluoanping.teastory.TeaStory;
 
 import java.util.Map;
@@ -95,13 +95,13 @@ public class ClientSetup {
         // Minecraft.getInstance().getBlockColors().register(TEA_CUP_COLOR, BlockRegistry.WOODEN_TRAY);
         // Minecraft.getInstance().getBlockColors().register(SAUCEPAN_COLOR, BlockRegistry.SAUCEPAN);
 
-        event.register(new GrassBlockColor(), ModContents.GRASS_BLOCK_WITH_HOLE.get(), ModContents.WATERMELON_VINE.get());
+        event.register(new GrassBlockColor(), ItemBlocks.GRASS_BLOCK_WITH_HOLE.get(), ItemBlocks.WATERMELON_VINE.get());
         event.register(new BirchLeavesColor(), Blocks.BIRCH_LEAVES);
     }
 
     @SubscribeEvent
     public static void onRegisterColorHandlersEvent_Item(RegisterColorHandlersEvent.Item event) {
         var buckColors=new BucketItemColors();
-        FluidRegistry.ITEMS.getEntries().forEach(itemRegistryObject -> event.register(buckColors,itemRegistryObject.get()));
+        TeaFluids.ITEMS.getEntries().forEach(itemRegistryObject -> event.register(buckColors,itemRegistryObject.get()));
     }
 }

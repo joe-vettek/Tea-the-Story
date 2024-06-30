@@ -69,17 +69,18 @@ public class TeaStory {
         MinecraftForge.EVENT_BUS.register(this);
 
 
-        ModContents.ModBlocks.register(FMLJavaModLoadingContext.get().getModEventBus());
-        ModContents.ModItems.register(FMLJavaModLoadingContext.get().getModEventBus());
-        ModContents.DRBlockEntities.register(FMLJavaModLoadingContext.get().getModEventBus());
-
+        ItemBlocks.ModBlocks.register(FMLJavaModLoadingContext.get().getModEventBus());
+        ItemBlocks.ModItems.register(FMLJavaModLoadingContext.get().getModEventBus());
+        WithEntityBlocks.DRBlockEntities.register(FMLJavaModLoadingContext.get().getModEventBus());
+        WithEntityBlocks.ModBlocks.register(FMLJavaModLoadingContext.get().getModEventBus());
+        WithEntityBlocks.ModItems.register(FMLJavaModLoadingContext.get().getModEventBus());
 
         AllItems.ModItems.register(FMLJavaModLoadingContext.get().getModEventBus());
 
-        FluidRegistry.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        FluidRegistry.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        FluidRegistry.FLUIDS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        FluidRegistry.FLUID_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        TeaFluids.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        TeaFluids.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        TeaFluids.FLUIDS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        TeaFluids.FLUID_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
 
         RecipeRegister.DRRecipeSerializer.register(FMLJavaModLoadingContext.get().getModEventBus());
         RecipeRegister.DRRecipeType.register(FMLJavaModLoadingContext.get().getModEventBus());

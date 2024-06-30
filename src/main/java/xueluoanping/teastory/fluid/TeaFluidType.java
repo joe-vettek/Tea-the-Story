@@ -10,7 +10,7 @@ import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
-import xueluoanping.teastory.FluidRegistry;
+import xueluoanping.teastory.TeaFluids;
 
 import java.util.function.Consumer;
 
@@ -21,7 +21,7 @@ public class TeaFluidType extends FluidType {
     private int colourTint;
 
     public TeaFluidType(Properties properties) {
-        this(properties, FluidRegistry.WATER_STILL_TEXTURE, FluidRegistry.WATER_FLOW_TEXTURE);
+        this(properties, TeaFluids.WATER_STILL_TEXTURE, TeaFluids.WATER_FLOW_TEXTURE);
     }
 
     public TeaFluidType(Properties properties, ResourceLocation stillTexture, ResourceLocation flowingTexture) {

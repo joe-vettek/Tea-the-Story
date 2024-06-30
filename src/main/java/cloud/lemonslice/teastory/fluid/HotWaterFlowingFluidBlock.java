@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FlowingFluid;
-import xueluoanping.teastory.FluidRegistry;
+import xueluoanping.teastory.TeaFluids;
 
 import java.util.function.Supplier;
 
@@ -77,7 +77,7 @@ public class HotWaterFlowingFluidBlock extends LiquidBlock
 
     @Override
     public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random) {
-        if (state.getBlock() == FluidRegistry.WARM_WATER.get() && worldIn.getBlockState(pos.below(2)).getBlock() instanceof CampfireBlock)
+        if (state.getBlock() == TeaFluids.WARM_WATER.get() && worldIn.getBlockState(pos.below(2)).getBlock() instanceof CampfireBlock)
         {
 
         }
@@ -85,15 +85,15 @@ public class HotWaterFlowingFluidBlock extends LiquidBlock
         {
             if (state.getFluidState().getFluidType().getTemperature() >= 373)
             {
-                worldIn.setBlockAndUpdate(pos, FluidRegistry.HOT_WATER_80.get().defaultBlockState());
+                worldIn.setBlockAndUpdate(pos, TeaFluids.HOT_WATER_80.get().defaultBlockState());
             }
             else if (state.getFluidState().getFluidType().getTemperature() >= 353)
             {
-                worldIn.setBlockAndUpdate(pos, FluidRegistry.HOT_WATER_60.get().defaultBlockState());
+                worldIn.setBlockAndUpdate(pos, TeaFluids.HOT_WATER_60.get().defaultBlockState());
             }
             else if (state.getFluidState().getFluidType().getTemperature() >= 318)
             {
-                worldIn.setBlockAndUpdate(pos, FluidRegistry.WARM_WATER.get().defaultBlockState());
+                worldIn.setBlockAndUpdate(pos, TeaFluids.WARM_WATER.get().defaultBlockState());
             }
             else
             {

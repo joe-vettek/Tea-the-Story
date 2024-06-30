@@ -20,7 +20,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import xueluoanping.teastory.ModContents;
+import xueluoanping.teastory.ItemBlocks;
 
 
 public class RiceSeedlingItem extends Item
@@ -54,10 +54,10 @@ public class RiceSeedlingItem extends Item
                 BlockPos blockpos1 = blockpos.above();
                 BlockState blockstate = worldIn.getBlockState(blockpos);
                 FluidState ifluidstate = worldIn.getFluidState(blockpos);
-                if ((ifluidstate.getType() == Fluids.WATER || blockstate.getBlock() == ModContents.RiceSeedlingBlock.get()) && worldIn.isEmptyBlock(blockpos1))
+                if ((ifluidstate.getType() == Fluids.WATER || blockstate.getBlock() == ItemBlocks.RiceSeedlingBlock.get()) && worldIn.isEmptyBlock(blockpos1))
                 {
                     net.minecraftforge.common.util.BlockSnapshot blocksnapshot = net.minecraftforge.common.util.BlockSnapshot.create(worldIn.dimension(), worldIn, blockpos1);
-                    worldIn.setBlock(blockpos1, ModContents.ricePlant.get().defaultBlockState(), Block.UPDATE_ALL_IMMEDIATE);
+                    worldIn.setBlock(blockpos1, ItemBlocks.ricePlant.get().defaultBlockState(), Block.UPDATE_ALL_IMMEDIATE);
                     if (net.minecraftforge.event.ForgeEventFactory.onBlockPlace(playerIn, blocksnapshot, Direction.UP))
                     {
                         blocksnapshot.restore(true, false);
@@ -75,7 +75,7 @@ public class RiceSeedlingItem extends Item
                     }
 
                     playerIn.awardStat(Stats.ITEM_USED.get(this));
-                    worldIn.playSound(playerIn, blockpos, ModContents.ricePlant.get().getSoundType(ModContents.ricePlant.get().defaultBlockState(),worldIn, blockpos, playerIn).getPlaceSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                    worldIn.playSound(playerIn, blockpos, ItemBlocks.ricePlant.get().getSoundType(ItemBlocks.ricePlant.get().defaultBlockState(),worldIn, blockpos, playerIn).getPlaceSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
                     return InteractionResultHolder.success(itemstack);
                 }
             }

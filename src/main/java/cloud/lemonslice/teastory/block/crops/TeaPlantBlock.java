@@ -32,10 +32,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.PlantType;
 import xueluoanping.teastory.AllItems;
-import xueluoanping.teastory.ModContents;
+import xueluoanping.teastory.ItemBlocks;
 
 import java.util.List;
-import java.util.Random;
 
 public class TeaPlantBlock extends BushBlock implements BonemealableBlock {
     public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 11);
@@ -81,7 +80,7 @@ public class TeaPlantBlock extends BushBlock implements BonemealableBlock {
     @Override
     public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
         List<ItemStack> list = super.getDrops(state, builder);
-        list.add(new ItemStack(ModContents.TEA_SEEDS.get()));
+        list.add(new ItemStack(ItemBlocks.TEA_SEEDS.get()));
         int age = state.getValue(AGE);
         if (age >= 2) {
             list.add(new ItemStack(Items.STICK, 2));
@@ -90,7 +89,7 @@ public class TeaPlantBlock extends BushBlock implements BonemealableBlock {
             list.add(new ItemStack(AllItems.TEA_LEAVES.get(), 2));
         } else if (age >= 11) {
             list.add(new ItemStack(AllItems.TEA_LEAVES.get(), 1));
-            list.add(new ItemStack(ModContents.TEA_SEEDS.get(), 4));
+            list.add(new ItemStack(ItemBlocks.TEA_SEEDS.get(), 4));
         }
         return list;
     }
@@ -175,7 +174,7 @@ public class TeaPlantBlock extends BushBlock implements BonemealableBlock {
                     return InteractionResult.SUCCESS;
                 case 11:
                     worldIn.setBlockAndUpdate(pos, this.defaultBlockState().setValue(AGE, worldIn.getRandom().nextInt(3) + 4));
-                    worldIn.addFreshEntity(new ItemEntity(worldIn, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, new ItemStack(ModContents.TEA_SEEDS.get(), worldIn.getRandom().nextInt(5) + 1)));
+                    worldIn.addFreshEntity(new ItemEntity(worldIn, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, new ItemStack(ItemBlocks.TEA_SEEDS.get(), worldIn.getRandom().nextInt(5) + 1)));
                     worldIn.addFreshEntity(new ItemEntity(worldIn, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, new ItemStack(AllItems.TEA_LEAVES.get(), 1)));
                     return InteractionResult.SUCCESS;
             }
@@ -212,7 +211,7 @@ public class TeaPlantBlock extends BushBlock implements BonemealableBlock {
     // getSeedsItem
     // @Override
     protected ItemLike getBaseSeedId() {
-        return ModContents.TEA_SEEDS.get();
+        return ItemBlocks.TEA_SEEDS.get();
     }
 
     // getCloneItemStack

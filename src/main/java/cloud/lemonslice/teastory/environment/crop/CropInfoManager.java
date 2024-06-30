@@ -3,7 +3,6 @@ package cloud.lemonslice.teastory.environment.crop;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -13,12 +12,10 @@ import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.server.command.ForgeCommand;
-import xueluoanping.teastory.ModContents;
+import xueluoanping.teastory.ItemBlocks;
 import xueluoanping.teastory.TeaStory;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -134,8 +131,8 @@ public final class CropInfoManager
         // registerCropSeasonInfo(BlockRegistry.DARK_OAK_TRELLIS_CUCUMBER, CropSeasonType.SP_SU, true);
         // registerCropSeasonInfo(BlockRegistry.ACACIA_TRELLIS_CUCUMBER, CropSeasonType.SP_SU, true);
 
-        registerCropHumidityInfo(ModContents.WATERMELON_VINE.get(), CropHumidityType.MOIST_HUMID, true);
-        registerCropSeasonInfo(ModContents.WATERMELON_VINE.get(), CropSeasonType.SUMMER, true);
+        registerCropHumidityInfo(ItemBlocks.WATERMELON_VINE.get(), CropHumidityType.MOIST_HUMID, true);
+        registerCropSeasonInfo(ItemBlocks.WATERMELON_VINE.get(), CropSeasonType.SUMMER, true);
 
         ForgeRegistries.BLOCKS.forEach(block ->
         {

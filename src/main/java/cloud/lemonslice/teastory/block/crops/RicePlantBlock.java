@@ -18,7 +18,7 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import xueluoanping.teastory.AllItems;
-import xueluoanping.teastory.ModContents;
+import xueluoanping.teastory.ItemBlocks;
 
 
 import java.util.List;
@@ -45,7 +45,7 @@ public class RicePlantBlock extends CropBlock
 
     protected boolean isValidGround(BlockState state, LevelReader worldIn, BlockPos pos)
     {
-        return state.getBlock() == ModContents.paddyField.get();
+        return state.getBlock() == ItemBlocks.paddyField.get();
     }
 
     protected boolean canPlantSeedlings(BlockState state, LevelReader worldIn, BlockPos pos)
@@ -142,7 +142,7 @@ public class RicePlantBlock extends CropBlock
     }
     @Override
     protected ItemLike getBaseSeedId() {
-        return ModContents.riceGrains.get();
+        return ItemBlocks.riceGrains.get();
     }
 
     @Override
@@ -150,9 +150,9 @@ public class RicePlantBlock extends CropBlock
         int age = state.getValue(AGE);
         if (age > 0)
         {
-            return new ItemStack(ModContents.riceGrains.get());
+            return new ItemStack(ItemBlocks.riceGrains.get());
         }
-        else return new ItemStack(ModContents.riceSeedlings.get());
+        else return new ItemStack(ItemBlocks.riceSeedlings.get());
     }
 
 
@@ -161,7 +161,7 @@ public class RicePlantBlock extends CropBlock
         List<ItemStack> list = Lists.newArrayList();
         if (getAge(state) < 3)
         {
-            list.add(new ItemStack(ModContents.riceSeedlings.get()));
+            list.add(new ItemStack(ItemBlocks.riceSeedlings.get()));
         }
         else if (getAge(state) < 7)
         {
@@ -170,7 +170,7 @@ public class RicePlantBlock extends CropBlock
         else
         {
             list.add(new ItemStack(AllItems.dryStraw.get()));
-            list.add(new ItemStack(ModContents.riceGrains.get(), builder.getLevel().getRandom().nextInt(4) + 1));
+            list.add(new ItemStack(ItemBlocks.riceGrains.get(), builder.getLevel().getRandom().nextInt(4) + 1));
         }
         return list;
     }
