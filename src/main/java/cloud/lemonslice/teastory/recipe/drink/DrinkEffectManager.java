@@ -1,12 +1,14 @@
 package cloud.lemonslice.teastory.recipe.drink;
 
-import cloud.lemonslice.teastory.common.fluid.FluidRegistry;
-import cloud.lemonslice.teastory.common.potion.EffectRegistry;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
+
+
+import cloud.lemonslice.teastory.potion.EffectRegistry;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.material.Fluid;
+import xueluoanping.teastory.FluidRegistry;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -24,19 +26,19 @@ public final class DrinkEffectManager
 
     private static void registerDrinkEffects()
     {
-        registerEffects(FluidRegistry.SUGARY_WATER_STILL.get(), createSimpleDrinkEffect(Effects.SPEED, 2, 0));
+        registerEffects(FluidRegistry.SUGARY_WATER_STILL.get(), createSimpleDrinkEffect(MobEffects.MOVEMENT_SPEED, 2, 0));
 
         registerEffects(FluidRegistry.WEAK_GREEN_TEA_STILL.get(), createSimpleDrinkEffect(EffectRegistry.AGILITY, 2, 0));
         registerEffects(FluidRegistry.GREEN_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(EffectRegistry.AGILITY, 2, 1), new DrinkEffectAttribute(EffectRegistry.EXCITEMENT, 2, 0)));
         registerEffects(FluidRegistry.STRONG_GREEN_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(EffectRegistry.AGILITY, 2, 2), new DrinkEffectAttribute(EffectRegistry.EXCITEMENT, 4, 0)));
 
-        registerEffects(FluidRegistry.WEAK_BLACK_TEA_STILL.get(), createSimpleDrinkEffect(Effects.HEALTH_BOOST, 4, 0));
-        registerEffects(FluidRegistry.BLACK_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(Effects.HEALTH_BOOST, 4, 1), new DrinkEffectAttribute(EffectRegistry.EXCITEMENT, 4, 0)));
-        registerEffects(FluidRegistry.STRONG_BLACK_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(Effects.HEALTH_BOOST, 4, 2), new DrinkEffectAttribute(EffectRegistry.EXCITEMENT, 8, 0)));
+        registerEffects(FluidRegistry.WEAK_BLACK_TEA_STILL.get(), createSimpleDrinkEffect(MobEffects.HEALTH_BOOST, 4, 0));
+        registerEffects(FluidRegistry.BLACK_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(MobEffects.HEALTH_BOOST, 4, 1), new DrinkEffectAttribute(EffectRegistry.EXCITEMENT, 4, 0)));
+        registerEffects(FluidRegistry.STRONG_BLACK_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(MobEffects.HEALTH_BOOST, 4, 2), new DrinkEffectAttribute(EffectRegistry.EXCITEMENT, 8, 0)));
 
-        registerEffects(FluidRegistry.WEAK_WHITE_TEA_STILL.get(), createSimpleDrinkEffect(Effects.HASTE, 2, 0));
-        registerEffects(FluidRegistry.WHITE_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(Effects.HASTE, 2, 1), new DrinkEffectAttribute(EffectRegistry.EXCITEMENT, 2, 0)));
-        registerEffects(FluidRegistry.STRONG_WHITE_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(Effects.HASTE, 2, 2), new DrinkEffectAttribute(EffectRegistry.EXCITEMENT, 4, 0)));
+        registerEffects(FluidRegistry.WEAK_WHITE_TEA_STILL.get(), createSimpleDrinkEffect(MobEffects.DIG_SPEED, 2, 0));
+        registerEffects(FluidRegistry.WHITE_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(MobEffects.DIG_SPEED, 2, 1), new DrinkEffectAttribute(EffectRegistry.EXCITEMENT, 2, 0)));
+        registerEffects(FluidRegistry.STRONG_WHITE_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(MobEffects.DIG_SPEED, 2, 2), new DrinkEffectAttribute(EffectRegistry.EXCITEMENT, 4, 0)));
     }
 
     public static void registerEffects(Fluid fluid, BiConsumer<LivingEntity, Integer> doEffects)
@@ -50,9 +52,9 @@ public final class DrinkEffectManager
         return DRINK_EFFECTS.get(key);
     }
 
-    public static BiConsumer<LivingEntity, Integer> createSimpleDrinkEffect(Effect potionIn, int durationIn, int level)
+    public static BiConsumer<LivingEntity, Integer> createSimpleDrinkEffect(MobEffect potionIn, int durationIn, int level)
     {
-        return (livingEntity, amount) -> livingEntity.addPotionEffect(new EffectInstance(potionIn, durationIn * amount, level));
+        return (livingEntity, amount) -> livingEntity.addEffect(new MobEffectInstance(potionIn, durationIn * amount, level));
     }
 
     public static BiConsumer<LivingEntity, Integer> createDrinkEffects(DrinkEffectAttribute... attributes)
@@ -61,7 +63,7 @@ public final class DrinkEffectManager
         {
             for (DrinkEffectAttribute attribute : attributes)
             {
-                livingEntity.addPotionEffect(new EffectInstance(attribute.getPotion(), amount * attribute.getDuration(), attribute.getLevel()));
+                livingEntity.addEffect(new MobEffectInstance(attribute.getPotion(), amount * attribute.getDuration(), attribute.getLevel()));
             }
         };
     }

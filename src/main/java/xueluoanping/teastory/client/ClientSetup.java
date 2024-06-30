@@ -8,7 +8,7 @@ import cloud.lemonslice.teastory.client.color.block.GrassBlockColor;
 import cloud.lemonslice.teastory.client.color.item.BucketItemColors;
 import cloud.lemonslice.teastory.client.color.season.BiomeColorsHandler;
 import xueluoanping.teastory.BlockRegister;
-import xueluoanping.teastory.FluidRegister;
+import xueluoanping.teastory.FluidRegistry;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.RenderType;
@@ -102,6 +102,6 @@ public class ClientSetup {
     @SubscribeEvent
     public static void onRegisterColorHandlersEvent_Item(RegisterColorHandlersEvent.Item event) {
         var buckColors=new BucketItemColors();
-        FluidRegister.ITEMS.getEntries().forEach(itemRegistryObject -> event.register(buckColors,itemRegistryObject.get()));
+        FluidRegistry.ITEMS.getEntries().forEach(itemRegistryObject -> event.register(buckColors,itemRegistryObject.get()));
     }
 }

@@ -1,29 +1,38 @@
 package cloud.lemonslice.teastory.recipe.bamboo_tray;
 
-import cloud.lemonslice.teastory.common.recipe.serializer.RecipeSerializerRegistry;
-import cloud.lemonslice.teastory.common.recipe.type.NormalRecipeTypes;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.ResourceLocation;
+import cloud.lemonslice.teastory.blockentity.StoneMillTileEntity;
+import cloud.lemonslice.teastory.recipe.BlockEntityRecipeWrapper;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
+import com.simibubi.create.foundation.fluid.FluidIngredient;
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.items.wrapper.RecipeWrapper;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.NewRegistryEvent;
+import xueluoanping.teastory.RecipeRegister;
 
-public class BambooTrayIndoorsRecipe extends BambooTraySingleInRecipe
-{
-    public BambooTrayIndoorsRecipe(ResourceLocation idIn, String groupIn, Ingredient ingredientIn, ItemStack resultIn, int workTime)
-    {
+public class BambooTrayIndoorsRecipe extends BambooTraySingleInRecipe {
+    public BambooTrayIndoorsRecipe(ResourceLocation idIn, String groupIn, Ingredient ingredientIn, ItemStack resultIn, int workTime) {
         super(idIn, groupIn, ingredientIn, resultIn, workTime);
     }
 
     @Override
-    public IRecipeSerializer<?> getSerializer()
-    {
-        return RecipeSerializerRegistry.BAMBOO_TRAY_INDOORS.get();
+    public RecipeSerializer<?> getSerializer() {
+        return RecipeRegister.BAMBOO_TRAY_INDOORS_SERIALIZER.get();
     }
 
     @Override
-    public IRecipeType<?> getType()
-    {
-        return NormalRecipeTypes.BT_INDOORS;
+    public RecipeType<?> getType() {
+        return RecipeRegister.BAMBOO_TRAY_INDOORS.get();
     }
 }

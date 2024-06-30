@@ -24,7 +24,7 @@ public class ModContent {
                                 ItemRegister.ModItems.getEntries().forEach((reg) -> {
                                     output.accept(new ItemStack(reg.get()));
                                 });
-                                FluidRegister.ITEMS.getEntries().forEach((reg) -> {
+                                FluidRegistry.ITEMS.getEntries().forEach((reg) -> {
                                     output.accept(new ItemStack(reg.get()));
                                 });
                             })

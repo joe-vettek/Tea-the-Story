@@ -1,21 +1,22 @@
 package cloud.lemonslice.teastory.recipe.drink;
 
-import net.minecraft.potion.Effect;
+
+import net.minecraft.world.effect.MobEffect;
 
 public class DrinkEffectAttribute
 {
-    private final Effect potion;
+    private final MobEffect potion;
     private final int duration;
     private final int level;
 
-    public DrinkEffectAttribute(Effect potionIn, int durationIn, int level)
+    public DrinkEffectAttribute(MobEffect potionIn, int durationIn, int level)
     {
         this.potion = potionIn;
         this.duration = durationIn;
         this.level = level;
     }
 
-    public Effect getPotion()
+    public MobEffect getPotion()
     {
         return potion;
     }
