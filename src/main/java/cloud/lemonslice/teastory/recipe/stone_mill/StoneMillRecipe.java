@@ -2,6 +2,7 @@ package cloud.lemonslice.teastory.recipe.stone_mill;
 
 
 import cloud.lemonslice.teastory.blockentity.StoneMillTileEntity;
+import cloud.lemonslice.teastory.recipe.BlockEntityRecipeWrapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -22,7 +23,7 @@ import net.minecraftforge.registries.NewRegistryEvent;
 import xueluoanping.teastory.RecipeRegister;
 
 
-public class StoneMillRecipe implements Recipe<RecipeWrapper> {
+public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
     protected final ResourceLocation id;
     protected final String group;
     protected final FluidIngredient inputFluid;
@@ -41,12 +42,11 @@ public class StoneMillRecipe implements Recipe<RecipeWrapper> {
         this.workTime = workTime;
     }
 
-
     @Override
-    public boolean matches(RecipeWrapper inv, Level worldIn) {
+    public boolean matches(BlockEntityRecipeWrapper inv, Level worldIn) {
         if (this.inputItem.test(inv.getItem(0))) {
-            if (inv instanceof StoneMillTileEntity) {
-                FluidStack fluidStack = ((StoneMillTileEntity) inv).getFluidTank().getFluidInTank(0).copy();
+            if (inv.getBlockEntity() instanceof StoneMillTileEntity stoneMillTileEntity) {
+                FluidStack fluidStack = stoneMillTileEntity.getFluidTank().getFluidInTank(0).copy();
                 return inputFluid.test(fluidStack);
             }
         }
@@ -54,7 +54,7 @@ public class StoneMillRecipe implements Recipe<RecipeWrapper> {
     }
 
     @Override
-    public ItemStack assemble(RecipeWrapper p_44001_, RegistryAccess p_267165_) {
+    public ItemStack assemble(BlockEntityRecipeWrapper p_44001_, RegistryAccess p_267165_) {
         return this.outputItems.get(0).copy();
     }
 

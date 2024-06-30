@@ -71,9 +71,9 @@ public class TeaStory {
 
         BlockRegister.ModBlocks.register(FMLJavaModLoadingContext.get().getModEventBus());
         BlockRegister.ModItems.register(FMLJavaModLoadingContext.get().getModEventBus());
-        BlockEntityRegister.DRBlockEntities.register(FMLJavaModLoadingContext.get().getModEventBus());
-        BlockEntityRegister.ModBlocks.register(FMLJavaModLoadingContext.get().getModEventBus());
-        BlockEntityRegister.ModItems.register(FMLJavaModLoadingContext.get().getModEventBus());
+        TileEntityTypeRegistry.DRBlockEntities.register(FMLJavaModLoadingContext.get().getModEventBus());
+        TileEntityTypeRegistry.ModBlocks.register(FMLJavaModLoadingContext.get().getModEventBus());
+        TileEntityTypeRegistry.ModItems.register(FMLJavaModLoadingContext.get().getModEventBus());
 
         ItemRegister.ModItems.register(FMLJavaModLoadingContext.get().getModEventBus());
 

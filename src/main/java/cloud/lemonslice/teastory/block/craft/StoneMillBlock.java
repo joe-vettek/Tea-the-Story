@@ -17,7 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.items.IItemHandlerModifiable;
-import xueluoanping.teastory.BlockEntityRegister;
+import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.block.NormalHorizontalBlock;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -29,7 +29,7 @@ import java.util.List;
 public class StoneMillBlock extends NormalHorizontalBlock implements EntityBlock {
     private static final VoxelShape SHAPE = VoxelShapeHelper.createVoxelShape(0, 0, 0, 16, 9, 16);
 
-    protected StoneMillBlock(Properties properties) {
+    public StoneMillBlock(Properties properties) {
         super(properties);
     }
 
@@ -146,13 +146,13 @@ public class StoneMillBlock extends NormalHorizontalBlock implements EntityBlock
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return null;
+        return new StoneMillTileEntity(pos, state);
     }
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level worldIn, BlockState state, BlockEntityType<T> blockEntityType) {
         return !worldIn.isClientSide ?
-               createTickerHelper(blockEntityType, BlockEntityRegister.basin_colored_entity_type.get(), StoneMillTileEntity::tickEntity) : null;
+                createTickerHelper(blockEntityType, TileEntityTypeRegistry.STONE_MILL_TYPE.get(), StoneMillTileEntity::tick) : null;
 
     }
 
