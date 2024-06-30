@@ -57,9 +57,10 @@ public class RecipeRegister {
 
     public static final RegistryObject<RecipeSerializer<StoneMillRecipe>> STONE_MILL_SERIALIZER = DRRecipeSerializer
             .register("stone_mill", StoneMillRecipe.StoneMillRecipeSerializer::new);
-
-    public static final RegistryObject<RecipeType<StoneRollerRecipe>> STONE_MILL =
+    public static final RegistryObject<RecipeType<StoneMillRecipe>> STONE_MILL =
             DRRecipeType.register("stone_mill", () -> RecipeType.simple(TeaStory.rl("stone_mill")));
+
+
     public static final RegistryObject<RecipeSerializer<StoneRollerRecipe>> STONE_ROLLER_SERIALIZER = DRRecipeSerializer
             .register("stone_roller", StoneRollerRecipe.StoneRollerRecipeSerializer::new);
     public static final RegistryObject<RecipeType<StoneRollerRecipe>> STONE_ROLLER =

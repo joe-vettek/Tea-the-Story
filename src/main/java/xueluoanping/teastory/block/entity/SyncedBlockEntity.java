@@ -1,4 +1,4 @@
-package cloud.lemonslice.teastory.blockentity;
+package xueluoanping.teastory.block.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;

@@ -25,7 +25,6 @@ public class TileEntityTypeRegistry {
     public static RegistryObject<Item> STONE_MILL_ITEM = ModItems.register("stone_mill", () -> new BlockItem(STONE_MILL.get(), new Item.Properties()));
     public static RegistryObject<BlockEntityType<StoneMillTileEntity>> STONE_MILL_TYPE = DRBlockEntities.register("stone_mill",
             () -> BlockEntityType.Builder.of(StoneMillTileEntity::new, STONE_MILL.get()).build(null));
-
     public static  RegistryObject<MenuType<StoneMillContainer>> STONE_MILL_CONTAINER = DRMenuType.register("stone_mill", () -> IForgeMenuType.create(StoneMillContainer::new));
 
 }

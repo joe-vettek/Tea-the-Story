@@ -7,7 +7,6 @@ import cloud.lemonslice.teastory.recipe.stone_mill.StoneMillRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -27,9 +26,9 @@ import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.wrapper.RecipeWrapper;
 import xueluoanping.teastory.RecipeRegister;
 import xueluoanping.teastory.TileEntityTypeRegistry;
+import xueluoanping.teastory.block.entity.NormalContainerTileEntity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -180,9 +179,9 @@ public class StoneMillTileEntity extends NormalContainerTileEntity {
     }
 
 
-    @org.jetbrains.annotations.Nullable
+    @Nullable
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory playerInventory, Player p_39956_) {
-        return new StoneMillContainer(id, playerInventory, pos, world);
+        return new StoneMillContainer(id, playerInventory, worldPosition, level);
     }
 }

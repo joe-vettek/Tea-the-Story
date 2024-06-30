@@ -148,7 +148,7 @@ public class DrinkRecipe implements Recipe<RecipeWrapper> {
 
     public static class DrinkRecipeSerializer extends NewRegistryEvent implements RecipeSerializer<DrinkRecipe> {
 
-        
+
         private static NonNullList<Ingredient> readIngredients(JsonArray array) {
             NonNullList<Ingredient> nonnulllist = NonNullList.create();
             for (int i = 0; i < array.size(); ++i) {

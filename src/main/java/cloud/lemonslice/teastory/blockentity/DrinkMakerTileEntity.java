@@ -25,6 +25,7 @@ import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
+import xueluoanping.teastory.block.entity.NormalContainerTileEntity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
