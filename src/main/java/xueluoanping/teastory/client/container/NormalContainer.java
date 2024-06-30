@@ -1,7 +1,8 @@
-package cloud.lemonslice.teastory.container;
+package xueluoanping.teastory.client.container;
 
 
 import cloud.lemonslice.teastory.blockentity.StoneMillTileEntity;
+import cloud.lemonslice.teastory.container.StoneMillContainer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -13,11 +14,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class NormalContainer extends AbstractContainerMenu {
+public abstract class NormalContainer <T extends AbstractContainerMenu > extends AbstractContainerMenu {
     private final BlockPos pos;
     private final Level world;
 
-    public NormalContainer(MenuType<StoneMillContainer> menuType, int windowId, BlockPos pos, Level world) {
+    public NormalContainer(MenuType<T> menuType, int windowId, BlockPos pos, Level world) {
         super(menuType, windowId);
         this.pos = pos;
         this.world = world;
@@ -40,7 +41,7 @@ public abstract class NormalContainer extends AbstractContainerMenu {
     // canInteractWith
     @Override
     public boolean stillValid(Player playerIn) {
-        return stillValid(ContainerLevelAccess.create(this.world, this.pos),
+        return AbstractContainerMenu.stillValid(ContainerLevelAccess.create(this.world, this.pos),
                 playerIn,
                 this.world.getBlockState(this.pos).getBlock());
     }

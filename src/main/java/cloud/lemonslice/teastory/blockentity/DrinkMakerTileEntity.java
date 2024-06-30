@@ -35,7 +35,7 @@ import java.util.List;
 import static cloud.lemonslice.teastory.common.recipe.type.NormalRecipeTypes.DRINK_MAKER;
 import static net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack.FLUID_NBT_KEY;
 
-public class DrinkMakerTileEntity extends NormalContainerTileEntity implements ITickableTileEntity, IInventory
+public class DrinkMakerTileEntity extends NormalContainerTileEntity
 {
     private final LazyOptional<ItemStackHandler> ingredientsInventory = LazyOptional.of(() -> this.createItemHandler(4));
     private final LazyOptional<ItemStackHandler> residuesInventory = LazyOptional.of(() -> this.createItemHandler(4));

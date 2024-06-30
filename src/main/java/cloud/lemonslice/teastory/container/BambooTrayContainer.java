@@ -1,29 +1,33 @@
 package cloud.lemonslice.teastory.container;
 
-import cloud.lemonslice.teastory.common.tileentity.BambooTrayTileEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
-import net.minecraft.util.IWorldPosCallable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.items.CapabilityItemHandler;
+import cloud.lemonslice.teastory.blockentity.BambooTrayTileEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
+import xueluoanping.teastory.TileEntityTypeRegistry;
+import xueluoanping.teastory.client.container.NormalContainer;
 
-import static cloud.lemonslice.teastory.common.container.ContainerTypeRegistry.BAMBOO_TRAY_CONTAINER;
 
-public class BambooTrayContainer extends Container
+public class BambooTrayContainer extends NormalContainer
 {
     private final BambooTrayTileEntity tileEntity;
 
-    public BambooTrayContainer(int windowId, PlayerInventory inv, BlockPos pos, World world)
+    public BambooTrayContainer(int windowId, Inventory playerInv, FriendlyByteBuf data) {
+        this(windowId, playerInv, data.readBlockPos(), playerInv.player.getCommandSenderWorld());
+    }
+    
+    public BambooTrayContainer(int windowId, Inventory inv, BlockPos pos, Level world)
     {
-        super(BAMBOO_TRAY_CONTAINER, windowId);
-        this.tileEntity = (BambooTrayTileEntity) world.getTileEntity(pos);
-        tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP).ifPresent(h ->
+        super(TileEntityTypeRegistry.BAMBOO_TRAY_CONTAINER.get(), windowId, pos, world);
+        this.tileEntity = (BambooTrayTileEntity) getTileEntity();
+        tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP).ifPresent(h ->
                 addSlot(new SlotItemHandler(h, 0, 107, 31)));
         for (int i = 0; i < 3; ++i)
         {
@@ -40,23 +44,17 @@ public class BambooTrayContainer extends Container
         }
     }
 
-    @Override
-    public boolean canInteractWith(PlayerEntity playerIn)
-    {
-        return isWithinUsableDistance(IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos()), playerIn, tileEntity.getBlockState().getBlock());
-    }
 
     @Override
-    public ItemStack transferStackInSlot(PlayerEntity playerIn, int index)
+    public ItemStack quickMoveStack(Player playerIn, int index)
     {
-        Slot slot = this.inventorySlots.get(index);
+        Slot slot = slots.get(index);
 
-        if (slot == null || !slot.getHasStack())
-        {
+        if (slot == null || !slot.hasItem()) {
             return ItemStack.EMPTY;
         }
 
-        ItemStack newStack = slot.getStack(), oldStack = newStack.copy();
+        ItemStack newStack = slot.getItem(), oldStack = newStack.copy();
 
         boolean isMerged;
 
@@ -64,17 +62,17 @@ public class BambooTrayContainer extends Container
 
         if (index == 0)
         {
-            isMerged = mergeItemStack(newStack, 28, 37, true)
-                    || mergeItemStack(newStack, 1, 28, false);
+            isMerged = moveItemStackTo(newStack, 28, 37, true)
+                    || moveItemStackTo(newStack, 1, 28, false);
         }
         else if (index < 28)
         {
-            isMerged = mergeItemStack(newStack, 0, 1, false)
-                    || mergeItemStack(newStack, 28, 37, true);
+            isMerged = moveItemStackTo(newStack, 0, 1, false)
+                    || moveItemStackTo(newStack, 28, 37, true);
         }
         else
         {
-            isMerged = mergeItemStack(newStack, 0, 28, false);
+            isMerged = moveItemStackTo(newStack, 0, 28, false);
         }
 
         if (!isMerged)
@@ -84,11 +82,11 @@ public class BambooTrayContainer extends Container
 
         if (newStack.getCount() == 0)
         {
-            slot.putStack(ItemStack.EMPTY);
+            slot.set(ItemStack.EMPTY);
         }
         else
         {
-            slot.onSlotChanged();
+            slot.setChanged();
         }
 
         slot.onTake(playerIn, newStack);
@@ -96,8 +94,4 @@ public class BambooTrayContainer extends Container
         return oldStack;
     }
 
-    public BambooTrayTileEntity getTileEntity()
-    {
-        return tileEntity;
-    }
 }

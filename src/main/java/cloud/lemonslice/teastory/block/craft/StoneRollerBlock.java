@@ -25,6 +25,7 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -34,7 +35,7 @@ import java.util.List;
 
 import static cloud.lemonslice.teastory.common.tileentity.TileEntityTypeRegistry.STONE_ROLLER;
 
-public class StoneRollerBlock extends NormalBlock
+public class StoneRollerBlock extends Block
 {
     private static final VoxelShape SHAPE = VoxelShapeHelper.createVoxelShape(0, 0, 0, 16, 12, 16);
 

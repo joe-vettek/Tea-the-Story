@@ -1,34 +1,39 @@
 package cloud.lemonslice.teastory.container;
 
-import cloud.lemonslice.teastory.common.block.BlockRegistry;
-import cloud.lemonslice.teastory.common.tileentity.DrinkMakerTileEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
-import net.minecraft.util.IWorldPosCallable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.items.CapabilityItemHandler;
+import cloud.lemonslice.teastory.blockentity.DrinkMakerTileEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
+import xueluoanping.teastory.TileEntityTypeRegistry;
+import xueluoanping.teastory.client.container.NormalContainer;
 
 public class DrinkMakerContainer extends NormalContainer
 {
     private final DrinkMakerTileEntity tileEntity;
 
-    public DrinkMakerContainer(int windowId, PlayerInventory inv, BlockPos pos, World world)
+    public DrinkMakerContainer(int windowId, Inventory playerInv, FriendlyByteBuf data) {
+        this(windowId, playerInv, data.readBlockPos(), playerInv.player.getCommandSenderWorld());
+    }
+    
+    public DrinkMakerContainer(int windowId, Inventory inv, BlockPos pos, Level world)
     {
-        super(ContainerTypeRegistry.DRINK_MAKER_CONTAINER, windowId);
-        this.tileEntity = (DrinkMakerTileEntity) world.getTileEntity(pos);
-        tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP).ifPresent(h ->
+        super(TileEntityTypeRegistry.DRINK_MAKER_CONTAINER.get(), windowId, pos, world);
+        this.tileEntity = (DrinkMakerTileEntity) getTileEntity();
+        tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP).ifPresent(h ->
         {
             addSlot(new SlotItemHandler(h, 0, 21, 24));
             addSlot(new SlotItemHandler(h, 1, 39, 24));
             addSlot(new SlotItemHandler(h, 2, 57, 24));
             addSlot(new SlotItemHandler(h, 3, 75, 24));
         });
-        tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.DOWN).ifPresent(h ->
+        tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.DOWN).ifPresent(h ->
         {
             addSlot(new SlotItemHandler(h, 0, 21, 51));
             addSlot(new SlotItemHandler(h, 1, 39, 51));
@@ -41,23 +46,17 @@ public class DrinkMakerContainer extends NormalContainer
         tileEntity.getOutputInventory().ifPresent(h -> addSlot(new SlotItemHandler(h, 0, 152, 59)));
     }
 
-    @Override
-    public boolean canInteractWith(PlayerEntity playerIn)
-    {
-        return isWithinUsableDistance(IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos()), playerIn, BlockRegistry.DRINK_MAKER);
-    }
 
     @Override
-    public ItemStack transferStackInSlot(PlayerEntity playerIn, int index)
+    public ItemStack quickMoveStack(Player playerIn, int index)
     {
-        Slot slot = inventorySlots.get(index);
+        Slot slot = slots.get(index);
 
-        if (slot == null || !slot.getHasStack())
-        {
+        if (slot == null || !slot.hasItem()) {
             return ItemStack.EMPTY;
         }
 
-        ItemStack newStack = slot.getStack(), oldStack = newStack.copy();
+        ItemStack newStack = slot.getItem(), oldStack = newStack.copy();
 
         boolean isMerged;
 
@@ -65,28 +64,28 @@ public class DrinkMakerContainer extends NormalContainer
 
         if (index < 4)
         {
-            isMerged = mergeItemStack(newStack, 35, 44, true)
-                    || mergeItemStack(newStack, 8, 35, false);
+            isMerged = moveItemStackTo(newStack, 35, 44, true)
+                    || moveItemStackTo(newStack, 8, 35, false);
         }
         else if (index < 8)
         {
-            isMerged = mergeItemStack(newStack, 35, 44, true)
-                    || mergeItemStack(newStack, 8, 35, false);
+            isMerged = moveItemStackTo(newStack, 35, 44, true)
+                    || moveItemStackTo(newStack, 8, 35, false);
         }
         else if (index < 35)
         {
-            isMerged = mergeItemStack(newStack, 0, 4, false)
-                    || mergeItemStack(newStack, 35, 44, true);
+            isMerged = moveItemStackTo(newStack, 0, 4, false)
+                    || moveItemStackTo(newStack, 35, 44, true);
         }
         else if (index < 44)
         {
-            isMerged = mergeItemStack(newStack, 0, 4, false)
-                    || mergeItemStack(newStack, 8, 35, false);
+            isMerged = moveItemStackTo(newStack, 0, 4, false)
+                    || moveItemStackTo(newStack, 8, 35, false);
         }
         else
         {
-            isMerged = mergeItemStack(newStack, 35, 44, true)
-                    || mergeItemStack(newStack, 8, 35, false);
+            isMerged = moveItemStackTo(newStack, 35, 44, true)
+                    || moveItemStackTo(newStack, 8, 35, false);
         }
 
         if (!isMerged)
@@ -96,11 +95,11 @@ public class DrinkMakerContainer extends NormalContainer
 
         if (newStack.getCount() == 0)
         {
-            slot.putStack(ItemStack.EMPTY);
+            slot.set(ItemStack.EMPTY);
         }
         else
         {
-            slot.onSlotChanged();
+            slot.setChanged();
         }
 
         slot.onTake(playerIn, newStack);
@@ -108,8 +107,4 @@ public class DrinkMakerContainer extends NormalContainer
         return oldStack;
     }
 
-    public DrinkMakerTileEntity getTileEntity()
-    {
-        return tileEntity;
-    }
 }

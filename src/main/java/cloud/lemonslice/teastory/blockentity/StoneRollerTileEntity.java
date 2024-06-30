@@ -23,7 +23,7 @@ import javax.annotation.Nullable;
 
 import static cloud.lemonslice.teastory.common.recipe.type.NormalRecipeTypes.STONE_ROLLER;
 
-public class StoneRollerTileEntity extends NormalContainerTileEntity implements ITickableTileEntity, IInventory
+public class StoneRollerTileEntity extends NormalContainerTileEntity
 {
     private int woodenFrameAngel = 0;
     private int stoneAngel = 0;

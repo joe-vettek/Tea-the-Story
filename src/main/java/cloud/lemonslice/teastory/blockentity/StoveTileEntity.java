@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
 import static cloud.lemonslice.teastory.common.tileentity.TileEntityTypeRegistry.STOVE_TILE;
 import static net.minecraft.state.properties.BlockStateProperties.LIT;
 
-public class StoveTileEntity extends NormalContainerTileEntity implements ITickableTileEntity
+public class StoveTileEntity extends NormalContainerTileEntity
 {
     private int remainTicks = 0;
     private int fuelTicks = 0;

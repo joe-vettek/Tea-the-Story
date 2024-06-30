@@ -1,33 +1,39 @@
 package cloud.lemonslice.teastory.container;
 
-import cloud.lemonslice.teastory.common.block.BlockRegistry;
-import cloud.lemonslice.teastory.common.tileentity.StoneRollerTileEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
-import net.minecraft.util.IWorldPosCallable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.SlotItemHandler;
 
-import static cloud.lemonslice.teastory.common.container.ContainerTypeRegistry.STONE_ROLLER_CONTAINER;
+import cloud.lemonslice.teastory.blockentity.StoneRollerTileEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.items.SlotItemHandler;
+import xueluoanping.teastory.TileEntityTypeRegistry;
+import xueluoanping.teastory.client.container.NormalContainer;
+
 
 public class StoneRollerContainer extends NormalContainer
 {
     private final StoneRollerTileEntity tileEntity;
 
-    public StoneRollerContainer(int windowId, PlayerInventory inv, BlockPos pos, World world)
+    public StoneRollerContainer(int windowId, Inventory playerInv, FriendlyByteBuf data) {
+        this(windowId, playerInv, data.readBlockPos(), playerInv.player.getCommandSenderWorld());
+    }
+    
+    public StoneRollerContainer(int windowId, Inventory inv, BlockPos pos, Level world)
     {
-        super(STONE_ROLLER_CONTAINER, windowId);
-        this.tileEntity = (StoneRollerTileEntity) world.getTileEntity(pos);
-        tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP).ifPresent(h ->
+        super(TileEntityTypeRegistry.STONE_ROLLER_CONTAINER.get(), windowId, pos, world);
+        this.tileEntity = (StoneRollerTileEntity) getTileEntity();
+        tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP).ifPresent(h ->
         {
             addSlot(new SlotItemHandler(h, 0, 55, 38));
         });
-        tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.DOWN).ifPresent(h ->
+        tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.DOWN).ifPresent(h ->
         {
             addSlot(new SlotItemHandler(h, 0, 105, 20));
             addSlot(new SlotItemHandler(h, 1, 105, 38));
@@ -35,24 +41,18 @@ public class StoneRollerContainer extends NormalContainer
         });
         addPlayerInventory(inv);
     }
+    
 
     @Override
-    public boolean canInteractWith(PlayerEntity playerIn)
+    public ItemStack quickMoveStack(Player playerIn, int index)
     {
-        return isWithinUsableDistance(IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos()), playerIn, BlockRegistry.STONE_ROLLER);
-    }
+        Slot slot = slots.get(index);
 
-    @Override
-    public ItemStack transferStackInSlot(PlayerEntity playerIn, int index)
-    {
-        Slot slot = inventorySlots.get(index);
-
-        if (slot == null || !slot.getHasStack())
-        {
+        if (slot == null || !slot.hasItem()) {
             return ItemStack.EMPTY;
         }
 
-        ItemStack newStack = slot.getStack(), oldStack = newStack.copy();
+        ItemStack newStack = slot.getItem(), oldStack = newStack.copy();
 
         boolean isMerged;
 
@@ -60,23 +60,23 @@ public class StoneRollerContainer extends NormalContainer
 
         if (index == 0)
         {
-            isMerged = mergeItemStack(newStack, 31, 40, true)
-                    || mergeItemStack(newStack, 4, 31, false);
+            isMerged = moveItemStackTo(newStack, 31, 40, true)
+                    || moveItemStackTo(newStack, 4, 31, false);
         }
         else if (index < 4)
         {
-            isMerged = mergeItemStack(newStack, 31, 40, true)
-                    || mergeItemStack(newStack, 4, 31, false);
+            isMerged = moveItemStackTo(newStack, 31, 40, true)
+                    || moveItemStackTo(newStack, 4, 31, false);
         }
         else if (index < 31)
         {
-            isMerged = mergeItemStack(newStack, 0, 1, false)
-                    || mergeItemStack(newStack, 31, 40, true);
+            isMerged = moveItemStackTo(newStack, 0, 1, false)
+                    || moveItemStackTo(newStack, 31, 40, true);
         }
         else
         {
-            isMerged = mergeItemStack(newStack, 0, 1, false)
-                    || mergeItemStack(newStack, 4, 31, false);
+            isMerged = moveItemStackTo(newStack, 0, 1, false)
+                    || moveItemStackTo(newStack, 4, 31, false);
         }
 
         if (!isMerged)
@@ -86,11 +86,11 @@ public class StoneRollerContainer extends NormalContainer
 
         if (newStack.getCount() == 0)
         {
-            slot.putStack(ItemStack.EMPTY);
+            slot.set(ItemStack.EMPTY);
         }
         else
         {
-            slot.onSlotChanged();
+            slot.setChanged();
         }
 
         slot.onTake(playerIn, newStack);
@@ -98,8 +98,4 @@ public class StoneRollerContainer extends NormalContainer
         return oldStack;
     }
 
-    public StoneRollerTileEntity getTileEntity()
-    {
-        return tileEntity;
-    }
 }

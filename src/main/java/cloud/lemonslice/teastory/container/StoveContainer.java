@@ -1,108 +1,91 @@
 package cloud.lemonslice.teastory.container;
 
-import cloud.lemonslice.teastory.common.tileentity.StoveTileEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
-import net.minecraft.util.IWorldPosCallable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.items.CapabilityItemHandler;
+
+import cloud.lemonslice.teastory.blockentity.StoneMillTileEntity;
+import cloud.lemonslice.teastory.blockentity.StoneRollerTileEntity;
+import cloud.lemonslice.teastory.blockentity.StoveTileEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
+import xueluoanping.teastory.TileEntityTypeRegistry;
+import xueluoanping.teastory.client.container.NormalContainer;
 
-import static cloud.lemonslice.teastory.common.container.ContainerTypeRegistry.STOVE_CONTAINER;
-
-public class StoveContainer extends Container
-{
+public class StoveContainer extends NormalContainer {
     private final StoveTileEntity tileEntity;
 
-    public StoveContainer(int windowId, PlayerInventory inv, BlockPos pos, World world)
-    {
-        super(STOVE_CONTAINER, windowId);
-        this.tileEntity = (StoveTileEntity) world.getTileEntity(pos);
-        tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP).ifPresent(h ->
+    public StoveContainer(int windowId, Inventory playerInv, FriendlyByteBuf data) {
+        this(windowId, playerInv, data.readBlockPos(), playerInv.player.getCommandSenderWorld());
+    }
+
+    public StoveContainer(int windowId, Inventory inv, BlockPos pos, Level world) {
+        super(TileEntityTypeRegistry.STOVE_CONTAINER.get(), windowId, pos, world);
+        this.tileEntity = (StoveTileEntity) getTileEntity();
+        tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP).ifPresent(h ->
         {
             addSlot(new SlotItemHandler(h, 0, 80, 33));
         });
-        tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.DOWN).ifPresent(h ->
+        tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.DOWN).ifPresent(h ->
         {
-            addSlot(new SlotItemHandler(h, 0, 80, 61)
-            {
+            addSlot(new SlotItemHandler(h, 0, 80, 61) {
                 @Override
-                public boolean isItemValid(ItemStack stack)
-                {
+                public boolean mayPlace(ItemStack stack) {
                     return false;
                 }
             });
         });
-        for (int i = 0; i < 3; ++i)
-        {
+        for (int i = 0; i < 3; ++i) {
 
-            for (int j = 0; j < 9; ++j)
-            {
+            for (int j = 0; j < 9; ++j) {
                 addSlot(new Slot(inv, j + i * 9 + 9, 8 + j * 18, 51 + i * 18 + 33));
             }
         }
 
-        for (int i = 0; i < 9; ++i)
-        {
+        for (int i = 0; i < 9; ++i) {
             addSlot(new Slot(inv, i, 8 + i * 18, 142));
         }
     }
 
-    @Override
-    public boolean canInteractWith(PlayerEntity playerIn)
-    {
-        return isWithinUsableDistance(IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos()), playerIn, tileEntity.getBlockState().getBlock());
-    }
 
     @Override
-    public ItemStack transferStackInSlot(PlayerEntity playerIn, int index)
-    {
-        Slot slot = this.inventorySlots.get(index);
+    public ItemStack quickMoveStack(Player playerIn, int index) {
+        Slot slot = slots.get(index);
 
-        if (slot == null || !slot.getHasStack())
-        {
+        if (slot == null || !slot.hasItem()) {
             return ItemStack.EMPTY;
         }
 
-        ItemStack newStack = slot.getStack(), oldStack = newStack.copy();
+        ItemStack newStack = slot.getItem(), oldStack = newStack.copy();
 
         boolean isMerged;
 
         // 0~1: Fuel; 1~2: Ash 2~29: Player Backpack; 29~38: Hot Bar.
 
-        if (index < 2)
-        {
-            isMerged = mergeItemStack(newStack, 29, 38, true)
-                    || mergeItemStack(newStack, 2, 29, false);
-        }
-        else if (index < 29)
-        {
-            isMerged = mergeItemStack(newStack, 0, 1, false)
-                    || mergeItemStack(newStack, 29, 38, true);
-        }
-        else
-        {
-            isMerged = mergeItemStack(newStack, 0, 1, false)
-                    || mergeItemStack(newStack, 2, 29, false);
+        if (index < 2) {
+            isMerged = moveItemStackTo(newStack, 29, 38, true)
+                    || moveItemStackTo(newStack, 2, 29, false);
+        } else if (index < 29) {
+            isMerged = moveItemStackTo(newStack, 0, 1, false)
+                    || moveItemStackTo(newStack, 29, 38, true);
+        } else {
+            isMerged = moveItemStackTo(newStack, 0, 1, false)
+                    || moveItemStackTo(newStack, 2, 29, false);
         }
 
-        if (!isMerged)
-        {
+        if (!isMerged) {
             return ItemStack.EMPTY;
         }
 
-        if (newStack.getCount() == 0)
-        {
-            slot.putStack(ItemStack.EMPTY);
-        }
-        else
-        {
-            slot.onSlotChanged();
+        if (newStack.getCount() == 0) {
+            slot.set(ItemStack.EMPTY);
+        } else {
+            slot.setChanged();
         }
 
         slot.onTake(playerIn, newStack);
@@ -110,8 +93,4 @@ public class StoveContainer extends Container
         return oldStack;
     }
 
-    public StoveTileEntity getTileEntity()
-    {
-        return tileEntity;
-    }
 }

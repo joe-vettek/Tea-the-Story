@@ -1,8 +1,9 @@
 package cloud.lemonslice.teastory.block.craft;
 
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.Level;
+
 
 public enum BambooTrayMode
 {
@@ -12,7 +13,7 @@ public enum BambooTrayMode
     BAKE,
     PROCESS;
 
-    public static BambooTrayMode getMode(World world, BlockPos pos)
+    public static BambooTrayMode getMode(Level world, BlockPos pos)
     {
         if (isInRain(world, pos))
         {
@@ -36,29 +37,29 @@ public enum BambooTrayMode
         }
     }
 
-    public static boolean isInRain(World world, BlockPos pos)
+    public static boolean isInRain(Level world, BlockPos pos)
     {
-        return world.isRainingAt(pos.up());
+        return world.isRainingAt(pos.above());
     }
 
-    public static boolean hasHeat(World world, BlockPos pos)
+    public static boolean hasHeat(Level world, BlockPos pos)
     {
-        return IStoveBlock.isBurning(world, pos.down());
+        return IStoveBlock.isBurning(world, pos.below());
     }
 
-    public static boolean isInSun(World world, BlockPos pos)
+    public static boolean isInSun(Level world, BlockPos pos)
     {
-        return world.canBlockSeeSky(pos);
+        return world.canSeeSky(pos);
     }
 
-    public static boolean isWorldRaining(World world)
+    public static boolean isLevelRaining(Level world)
     {
         return world.isRaining();
     }
 
-    public static boolean isOnFrame(World world, BlockPos pos)
+    public static boolean isOnFrame(Level world, BlockPos pos)
     {
-        return world.getBlockState(pos.down()).getBlock() instanceof WoodenFrameBlock;
+        return world.getBlockState(pos.below()).getBlock() instanceof WoodenFrameBlock;
     }
 
     @Override
@@ -67,8 +68,8 @@ public enum BambooTrayMode
         return super.toString().toLowerCase();
     }
 
-    public TranslationTextComponent getTranslationKey()
+    public Component getTranslationKey()
     {
-        return new TranslationTextComponent("info.teastory.bamboo_tray.mode." + this);
+        return Component.translatable("info.teastory.bamboo_tray.mode." + this);
     }
 }

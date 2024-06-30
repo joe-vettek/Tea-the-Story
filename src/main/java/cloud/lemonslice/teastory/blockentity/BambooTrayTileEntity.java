@@ -1,36 +1,38 @@
 package cloud.lemonslice.teastory.blockentity;
 
-import cloud.lemonslice.silveroak.common.environment.Humidity;
-import cloud.lemonslice.teastory.common.block.craft.BambooTrayMode;
-import cloud.lemonslice.teastory.common.block.craft.CatapultBoardBlockWithTray;
-import cloud.lemonslice.teastory.common.block.craft.IStoveBlock;
-import cloud.lemonslice.teastory.common.container.BambooTrayContainer;
-import cloud.lemonslice.teastory.common.recipe.bamboo_tray.BambooTraySingleInRecipe;
-import cloud.lemonslice.teastory.common.recipe.type.NormalRecipeTypes;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.util.Direction;
+import cloud.lemonslice.teastory.container.StoneMillContainer;
+import cloud.lemonslice.teastory.recipe.BlockEntityRecipeWrapper;
+import cloud.lemonslice.teastory.recipe.stone_mill.StoneMillRecipe;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
+
+import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
+import xueluoanping.teastory.RecipeRegister;
+import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.block.entity.NormalContainerTileEntity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Random;
 
-import static net.minecraft.state.properties.BlockStateProperties.ENABLED;
-
-public class BambooTrayTileEntity extends NormalContainerTileEntity implements ITickableTileEntity, IInventory
+public class BambooTrayTileEntity extends NormalContainerTileEntity
 {
     private int processTicks = 0;
     private int totalTicks = 0;
@@ -324,5 +326,11 @@ public class BambooTrayTileEntity extends NormalContainerTileEntity implements I
     protected boolean isOpeningContainer(Container container)
     {
         return container instanceof BambooTrayContainer;
+    }
+
+    @org.jetbrains.annotations.Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int p_39954_, Inventory p_39955_, Player p_39956_) {
+        return null;
     }
 }
