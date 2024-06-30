@@ -47,7 +47,7 @@ public class TileEntityTypeRegistry {
 
 
 
-    public static RegistryObject<Block> STONE_MILL = ModBlocks.register("stone_mill", () -> new StoneMillBlock(Block.Properties.copy(Blocks.GRASS).strength(0.6F)));
+    public static RegistryObject<Block> STONE_MILL = ModBlocks.register("stone_mill", () -> new StoneMillBlock(Block.Properties.copy(Blocks.STONE).strength(1.5F).noOcclusion()));
     public static RegistryObject<Item> STONE_MILL_ITEM = ModItems.register("stone_mill", () -> new BlockItem(STONE_MILL.get(), new Item.Properties()));
     public static RegistryObject<BlockEntityType<StoneMillTileEntity>> STONE_MILL_TYPE = DRBlockEntities.register("stone_mill",
             () -> BlockEntityType.Builder.of(StoneMillTileEntity::new, STONE_MILL.get()).build(null));
