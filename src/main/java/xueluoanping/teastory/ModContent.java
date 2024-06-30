@@ -15,16 +15,16 @@ public class ModContent {
     public static void creativeModeTabRegister(RegisterEvent event) {
         event.register(Registries.CREATIVE_MODE_TAB, helper -> {
             helper.register(new ResourceLocation(TeaStory.MODID, TeaStory.MODID),
-                    CreativeModeTab.builder().icon(() -> new ItemStack(AllItems.TEA_LEAVES.get()))
+                    CreativeModeTab.builder().icon(() -> new ItemStack(ItemRegister.TEA_LEAVES.get()))
                             .title(Component.translatable("itemGroup." + TeaStory.MODID + ".core"))
                             .displayItems((params, output) -> {
-                                ItemBlocks.ModItems.getEntries().forEach((reg) -> {
+                                BlockRegister.ModItems.getEntries().forEach((reg) -> {
                                     output.accept(new ItemStack(reg.get()));
                                 });
-                                AllItems.ModItems.getEntries().forEach((reg) -> {
+                                ItemRegister.ModItems.getEntries().forEach((reg) -> {
                                     output.accept(new ItemStack(reg.get()));
                                 });
-                                TeaFluids.ITEMS.getEntries().forEach((reg) -> {
+                                FluidRegister.ITEMS.getEntries().forEach((reg) -> {
                                     output.accept(new ItemStack(reg.get()));
                                 });
                             })

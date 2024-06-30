@@ -12,7 +12,7 @@ import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
-import xueluoanping.teastory.ItemBlocks;
+import xueluoanping.teastory.BlockRegister;
 import xueluoanping.teastory.TeaStory;
 
 import javax.annotation.Nullable;
@@ -131,8 +131,8 @@ public final class CropInfoManager
         // registerCropSeasonInfo(BlockRegistry.DARK_OAK_TRELLIS_CUCUMBER, CropSeasonType.SP_SU, true);
         // registerCropSeasonInfo(BlockRegistry.ACACIA_TRELLIS_CUCUMBER, CropSeasonType.SP_SU, true);
 
-        registerCropHumidityInfo(ItemBlocks.WATERMELON_VINE.get(), CropHumidityType.MOIST_HUMID, true);
-        registerCropSeasonInfo(ItemBlocks.WATERMELON_VINE.get(), CropSeasonType.SUMMER, true);
+        registerCropHumidityInfo(BlockRegister.WATERMELON_VINE.get(), CropHumidityType.MOIST_HUMID, true);
+        registerCropSeasonInfo(BlockRegister.WATERMELON_VINE.get(), CropSeasonType.SUMMER, true);
 
         ForgeRegistries.BLOCKS.forEach(block ->
         {

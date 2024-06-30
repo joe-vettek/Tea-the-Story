@@ -1,6 +1,7 @@
 package cloud.lemonslice.teastory.recipe.stone_mill;
 
 
+import cloud.lemonslice.teastory.blockentity.StoneMillTileEntity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -44,10 +45,10 @@ public class StoneMillRecipe implements Recipe<RecipeWrapper> {
     @Override
     public boolean matches(RecipeWrapper inv, Level worldIn) {
         if (this.inputItem.test(inv.getItem(0))) {
-            // if (inv instanceof StoneMillTileEntity) {
-            //     FluidStack fluidStack = ((StoneMillTileEntity) inv).getFluidTank().getFluidInTank(0).copy();
-            //     return inputFluid.test(fluidStack);
-            // }
+            if (inv instanceof StoneMillTileEntity) {
+                FluidStack fluidStack = ((StoneMillTileEntity) inv).getFluidTank().getFluidInTank(0).copy();
+                return inputFluid.test(fluidStack);
+            }
         }
         return false;
     }

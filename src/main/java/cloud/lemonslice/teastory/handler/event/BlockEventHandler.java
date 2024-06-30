@@ -7,7 +7,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FireBlock;
 import net.minecraftforge.event.level.BlockEvent;
-import xueluoanping.teastory.AllItems;
+import xueluoanping.teastory.ItemRegister;
 
 
 public final class BlockEventHandler
@@ -19,7 +19,7 @@ public final class BlockEventHandler
             {
                 if (event.getLevel().getBlockState(event.getPos()).isFlammable(event.getLevel(), event.getPos(), direction) && event.getLevel().getBlockState(event.getPos().relative(direction)).getBlock() instanceof FireBlock)
                 {
-                    Block.popResource((Level) event.getLevel(), event.getPos(), new ItemStack(AllItems.ash.get()));
+                    Block.popResource((Level) event.getLevel(), event.getPos(), new ItemStack(ItemRegister.ash.get()));
                 }
             });
     }

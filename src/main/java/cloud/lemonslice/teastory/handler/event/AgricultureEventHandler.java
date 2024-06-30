@@ -25,7 +25,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 
 import net.minecraftforge.eventbus.api.Event;
-import xueluoanping.teastory.ItemBlocks;
+import xueluoanping.teastory.BlockRegister;
 
 import java.util.List;
 
@@ -72,7 +72,7 @@ public final class AgricultureEventHandler
         {
             if (melon_seeds.getItem() == Items.MELON_SEEDS && toPlace.isAir())
             {
-                event.getLevel().setBlockAndUpdate(posToPlace, ItemBlocks.WATERMELON_VINE.get().defaultBlockState());
+                event.getLevel().setBlockAndUpdate(posToPlace, BlockRegister.WATERMELON_VINE.get().defaultBlockState());
                 event.getLevel().playSound(null, posToPlace, SoundEvents.CROP_PLANTED, SoundSource.BLOCKS, 1.0F, 1.0F);
                 if (!event.getEntity().isCreative())
                 {

@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.FarmBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.Tags;
-import xueluoanping.teastory.ItemBlocks;
+import xueluoanping.teastory.BlockRegister;
 import cloud.lemonslice.teastory.block.crops.PaddyFieldBlock;
 
 public class AqueductShovelItem extends ShovelItem {
@@ -33,8 +33,8 @@ public class AqueductShovelItem extends ShovelItem {
         Player playerEntity = context.getPlayer();
         if (blockState.is(Tags.Blocks.COBBLESTONE)) {
             if (!world.isClientSide()) {
-                world.setBlock(blockPos, ((AqueductBlock) ItemBlocks.cobblestoneAqueduct.get()).getStateForPlacement(world, blockPos), 3);
-                world.scheduleTick(blockPos, ItemBlocks.cobblestoneAqueduct.get(), Fluids.WATER.getTickDelay(world));
+                world.setBlock(blockPos, ((AqueductBlock) BlockRegister.cobblestoneAqueduct.get()).getStateForPlacement(world, blockPos), 3);
+                world.scheduleTick(blockPos, BlockRegister.cobblestoneAqueduct.get(), Fluids.WATER.getTickDelay(world));
                 if (playerEntity != null) {
                     context.getItemInHand().hurtAndBreak(1, playerEntity, player -> player.broadcastBreakEvent(context.getHand()));
                 }
@@ -43,8 +43,8 @@ public class AqueductShovelItem extends ShovelItem {
             return InteractionResult.SUCCESS;
         } else if (blockState.getBlock() == Blocks.MOSSY_COBBLESTONE) {
             if (!world.isClientSide()) {
-                world.setBlock(blockPos, ((AqueductBlock) ItemBlocks.mossyCobblestoneAqueduct.get()).getStateForPlacement(world, blockPos), 3);
-                world.scheduleTick(blockPos, ItemBlocks.mossyCobblestoneAqueduct.get(), Fluids.WATER.getTickDelay(world));
+                world.setBlock(blockPos, ((AqueductBlock) BlockRegister.mossyCobblestoneAqueduct.get()).getStateForPlacement(world, blockPos), 3);
+                world.scheduleTick(blockPos, BlockRegister.mossyCobblestoneAqueduct.get(), Fluids.WATER.getTickDelay(world));
                 if (playerEntity != null) {
                     context.getItemInHand().hurtAndBreak(1, playerEntity, player -> player.broadcastBreakEvent(context.getHand()));
                 }
@@ -53,7 +53,7 @@ public class AqueductShovelItem extends ShovelItem {
             return InteractionResult.SUCCESS;
         } else if (blockState.getBlock() instanceof FarmBlock) {
             if (!world.isClientSide()) {
-                world.setBlock(blockPos, ((PaddyFieldBlock) ItemBlocks.paddyField.get()).getStateForPlacement(world, blockPos), 3);
+                world.setBlock(blockPos, ((PaddyFieldBlock) BlockRegister.paddyField.get()).getStateForPlacement(world, blockPos), 3);
                 if (playerEntity != null) {
                     context.getItemInHand().hurtAndBreak(1, playerEntity, player -> player.broadcastBreakEvent(context.getHand()));
                 }

@@ -17,8 +17,8 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import xueluoanping.teastory.AllItems;
-import xueluoanping.teastory.ItemBlocks;
+import xueluoanping.teastory.BlockRegister;
+import xueluoanping.teastory.ItemRegister;
 
 
 import java.util.List;
@@ -45,7 +45,7 @@ public class RicePlantBlock extends CropBlock
 
     protected boolean isValidGround(BlockState state, LevelReader worldIn, BlockPos pos)
     {
-        return state.getBlock() == ItemBlocks.paddyField.get();
+        return state.getBlock() == BlockRegister.paddyField.get();
     }
 
     protected boolean canPlantSeedlings(BlockState state, LevelReader worldIn, BlockPos pos)
@@ -142,7 +142,7 @@ public class RicePlantBlock extends CropBlock
     }
     @Override
     protected ItemLike getBaseSeedId() {
-        return ItemBlocks.riceGrains.get();
+        return BlockRegister.riceGrains.get();
     }
 
     @Override
@@ -150,9 +150,9 @@ public class RicePlantBlock extends CropBlock
         int age = state.getValue(AGE);
         if (age > 0)
         {
-            return new ItemStack(ItemBlocks.riceGrains.get());
+            return new ItemStack(BlockRegister.riceGrains.get());
         }
-        else return new ItemStack(ItemBlocks.riceSeedlings.get());
+        else return new ItemStack(BlockRegister.riceSeedlings.get());
     }
 
 
@@ -161,16 +161,16 @@ public class RicePlantBlock extends CropBlock
         List<ItemStack> list = Lists.newArrayList();
         if (getAge(state) < 3)
         {
-            list.add(new ItemStack(ItemBlocks.riceSeedlings.get()));
+            list.add(new ItemStack(BlockRegister.riceSeedlings.get()));
         }
         else if (getAge(state) < 7)
         {
-            list.add(new ItemStack(AllItems.dryStraw.get()));
+            list.add(new ItemStack(ItemRegister.dryStraw.get()));
         }
         else
         {
-            list.add(new ItemStack(AllItems.dryStraw.get()));
-            list.add(new ItemStack(ItemBlocks.riceGrains.get(), builder.getLevel().getRandom().nextInt(4) + 1));
+            list.add(new ItemStack(ItemRegister.dryStraw.get()));
+            list.add(new ItemStack(BlockRegister.riceGrains.get(), builder.getLevel().getRandom().nextInt(4) + 1));
         }
         return list;
     }
