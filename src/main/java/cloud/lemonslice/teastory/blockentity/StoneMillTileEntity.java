@@ -1,34 +1,24 @@
 package cloud.lemonslice.teastory.blockentity;
 
-import cloud.lemonslice.teastory.common.container.StoneMillContainer;
-import cloud.lemonslice.teastory.common.recipe.stone_mill.StoneMillRecipe;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.util.Direction;
+
+import cloud.lemonslice.teastory.recipe.stone_mill.StoneMillRecipe;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
-import net.minecraftforge.items.CapabilityItemHandler;
+
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
+import xueluoanping.teastory.RecipeRegister;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static cloud.lemonslice.teastory.common.recipe.type.NormalRecipeTypes.STONE_MILL;
-import static net.minecraft.block.HorizontalBlock.HORIZONTAL_FACING;
 
 public class StoneMillTileEntity extends NormalContainerTileEntity implements ITickableTileEntity, IInventory
 {
@@ -177,6 +167,7 @@ public class StoneMillTileEntity extends NormalContainerTileEntity implements IT
         }
     }
 
+
     @Override
     public boolean isUsableByPlayer(PlayerEntity player)
     {
@@ -210,7 +201,7 @@ public class StoneMillTileEntity extends NormalContainerTileEntity implements IT
 
         if (this.currentRecipe == null || !this.currentRecipe.matches(this, getWorld()))
         {
-            this.currentRecipe = this.world.getRecipeManager().getRecipe(STONE_MILL, this, this.world).orElse(null);
+            this.currentRecipe = this.world.getRecipeManager().getRecipe(RecipeRegister.STONE_MILL, this, this.world).orElse(null);
         }
 
         if (this.currentRecipe != null)
