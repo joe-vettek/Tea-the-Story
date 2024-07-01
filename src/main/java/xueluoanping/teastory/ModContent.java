@@ -27,6 +27,9 @@ public class ModContent {
                                 FluidRegistry.ITEMS.getEntries().forEach((reg) -> {
                                     output.accept(new ItemStack(reg.get()));
                                 });
+                                TileEntityTypeRegistry.ModItems.getEntries().forEach((reg) -> {
+                                    output.accept(new ItemStack(reg.get()));
+                                });
                             })
                             .build());
         });

@@ -6,6 +6,7 @@ import cloud.lemonslice.teastory.blockentity.DrinkMakerTileEntity;
 import cloud.lemonslice.teastory.blockentity.StoneMillTileEntity;
 import cloud.lemonslice.teastory.helper.VoxelShapeHelper;
 import com.google.common.collect.Lists;
+import net.minecraft.client.ClientRecipeBook;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -187,7 +188,8 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
 
     @Override
     public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
-        {
+
+        if (!worldIn.isClientSide()) {
             flag = false;
             if (!state.getValue(LEFT)) {
                 pos = pos.relative(BlockHelper.getPreviousHorizontal(state.getValue(FACING)));

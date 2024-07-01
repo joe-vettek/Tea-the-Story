@@ -4,6 +4,7 @@ package xueluoanping.teastory;
 import cloud.lemonslice.teastory.config.NormalConfigs;
 import cloud.lemonslice.teastory.environment.solar.BiomeTemperatureManager;
 import cloud.lemonslice.teastory.network.SimpleNetworkHandler;
+import cloud.lemonslice.teastory.recipe.drink.DrinkEffectManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.data.event.GatherDataEvent;
@@ -71,6 +72,7 @@ public class TeaStory {
 
         BlockRegister.ModBlocks.register(FMLJavaModLoadingContext.get().getModEventBus());
         BlockRegister.ModItems.register(FMLJavaModLoadingContext.get().getModEventBus());
+
         TileEntityTypeRegistry.DRBlockEntities.register(FMLJavaModLoadingContext.get().getModEventBus());
         TileEntityTypeRegistry.ModBlocks.register(FMLJavaModLoadingContext.get().getModEventBus());
         TileEntityTypeRegistry.ModItems.register(FMLJavaModLoadingContext.get().getModEventBus());
@@ -107,6 +109,7 @@ public class TeaStory {
         // start.dataGen(event);
         SimpleNetworkHandler.init();
         BiomeTemperatureManager.init();
+        DrinkEffectManager.init();
     }
 
     public void gatherData(final GatherDataEvent event) {

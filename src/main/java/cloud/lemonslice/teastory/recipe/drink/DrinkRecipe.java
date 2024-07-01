@@ -146,6 +146,9 @@ public class DrinkRecipe implements Recipe<RecipeWrapper> {
         return RecipeRegister.DRINK_MAKER.get();
     }
 
+
+
+
     public static class DrinkRecipeSerializer extends NewRegistryEvent implements RecipeSerializer<DrinkRecipe> {
 
 
