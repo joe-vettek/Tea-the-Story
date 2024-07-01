@@ -87,7 +87,7 @@ public class StoveTileEntity extends NormalContainerTileEntity {
         if (basinBlockEntity.doubleClickTicks > 0) {
             basinBlockEntity.doubleClickTicks--;
         }
-        if (basinBlockEntity.lit) {
+        if (!basinBlockEntity.lit) {
             basinBlockEntity.addFuel();
         }
         if (basinBlockEntity.remainTicks > 0) {
