@@ -1,49 +1,49 @@
 package cloud.lemonslice.teastory.block.drink;
 
-import cloud.lemonslice.silveroak.common.block.NormalHorizontalBlock;
 import cloud.lemonslice.silveroak.helper.BlockHelper;
-import cloud.lemonslice.silveroak.helper.VoxelShapeHelper;
-import cloud.lemonslice.teastory.common.tileentity.DrinkMakerTileEntity;
-import cloud.lemonslice.teastory.common.tileentity.NormalContainerTileEntity;
-import cloud.lemonslice.teastory.common.tileentity.TileEntityTypeRegistry;
+import cloud.lemonslice.teastory.blockentity.BambooTrayTileEntity;
+import cloud.lemonslice.teastory.blockentity.DrinkMakerTileEntity;
+import cloud.lemonslice.teastory.blockentity.StoneMillTileEntity;
+import cloud.lemonslice.teastory.helper.VoxelShapeHelper;
 import com.google.common.collect.Lists;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.PushReaction;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.LootContext;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.network.NetworkHooks;
+import org.jetbrains.annotations.Nullable;
+import xueluoanping.teastory.TileEntityTypeRegistry;
+import xueluoanping.teastory.block.NormalHorizontalBlock;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.ItemHandlerHelper;
+import xueluoanping.teastory.block.entity.NormalContainerTileEntity;
 
 import java.util.List;
 
-public class DrinkMakerBlock extends NormalHorizontalBlock
-{
+public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBlock {
     public static final BooleanProperty LEFT = BooleanProperty.create("left");
     private boolean flag = false;
     private static final VoxelShape NORTH_LEFT = VoxelShapeHelper.createVoxelShape(1.0D, 0.0D, 1.0D, 15.0D, 4.0D, 14.0D);
@@ -51,47 +51,35 @@ public class DrinkMakerBlock extends NormalHorizontalBlock
     private static final VoxelShape WEST_LEFT = VoxelShapeHelper.createVoxelShape(1.0D, 0.0D, 0.0D, 14.0D, 4.0D, 15.0D);
     private static final VoxelShape EAST_LEFT = VoxelShapeHelper.createVoxelShape(1.0D, 0.0D, 1.0D, 14.0D, 4.0D, 15.0D);
 
-    public DrinkMakerBlock(BlockBehaviour.Properties strength)
-    {
-        super(Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(0.5F).notSolid(), "drink_maker");
-        this.setDefaultState(this.getStateContainer().getBaseState().with(HORIZONTAL_FACING, Direction.NORTH).with(LEFT, true));
+    public DrinkMakerBlock(Properties properties) {
+        super(properties);
+        this.registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH).setValue(LEFT, true));
     }
 
+
     @Override
-    public boolean propagatesSkylightDown(BlockState state, IBlockReader reader, BlockPos pos)
-    {
+    public boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos) {
         return true;
     }
 
-    @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
-    {
-        builder.add(HORIZONTAL_FACING, LEFT);
-    }
 
     @Override
-    @SuppressWarnings("deprecation")
-    @OnlyIn(Dist.CLIENT)
-    public float getAmbientOcclusionLightValue(BlockState state, IBlockReader worldIn, BlockPos pos)
-    {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder.add(LEFT));
+    }
+
+
+    @Override
+    public float getShadeBrightness(BlockState state, BlockGetter worldIn, BlockPos pos) {
         return 0.8F;
     }
 
-    @Override
-    @SuppressWarnings("deprecation")
-    public PushReaction getPushReaction(BlockState state)
-    {
-        return PushReaction.DESTROY;
-    }
 
     @Override
-    @SuppressWarnings("deprecation")
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
-    {
-        if (state.get(LEFT))
-        {
-            switch (state.get(HORIZONTAL_FACING))
-            {
+    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+
+        if (state.getValue(LEFT)) {
+            switch (state.getValue(FACING)) {
                 case NORTH:
                     return NORTH_LEFT;
                 case SOUTH:
@@ -101,11 +89,8 @@ public class DrinkMakerBlock extends NormalHorizontalBlock
                 default:
                     return WEST_LEFT;
             }
-        }
-        else
-        {
-            switch (state.get(HORIZONTAL_FACING))
-            {
+        } else {
+            switch (state.getValue(FACING)) {
                 case NORTH:
                     return SOUTH_LEFT;
                 case SOUTH:
@@ -118,145 +103,119 @@ public class DrinkMakerBlock extends NormalHorizontalBlock
         }
     }
 
+
     @Override
-    public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player)
-    {
-        if (!worldIn.isRemote)
-        {
-            if (player.isCreative())
-            {
+    public void playerWillDestroy(Level worldIn, BlockPos pos, BlockState state, Player player) {
+        if (!worldIn.isClientSide()) {
+            if (player.isCreative()) {
                 removeBottomHalf(worldIn, pos, state, player);
             }
         }
-        super.onBlockHarvested(worldIn, pos, state, player);
+        super.playerWillDestroy(worldIn, pos, state, player);
     }
 
-    protected static void removeBottomHalf(World world, BlockPos pos, BlockState state, PlayerEntity player)
-    {
-        if (!state.get(LEFT))
-        {
-            Direction facing = state.get(HORIZONTAL_FACING);
-            BlockPos blockPos = pos.offset(BlockHelper.getPreviousHorizontal(facing));
+
+    protected static void removeBottomHalf(Level world, BlockPos pos, BlockState state, Player player) {
+        if (!state.getValue(LEFT)) {
+            Direction facing = state.getValue(FACING);
+            BlockPos blockPos = pos.relative(BlockHelper.getPreviousHorizontal(facing));
             BlockState blockstate = world.getBlockState(blockPos);
-            if (blockstate.getBlock() == state.getBlock() && blockstate.get(LEFT))
-            {
-                world.setBlockState(blockPos, Blocks.AIR.getDefaultState(), 35);
-                world.playEvent(player, 2001, blockPos, Block.getStateId(blockstate));
+            if (blockstate.getBlock() == state.getBlock() && blockstate.getValue(LEFT)) {
+                world.setBlock(blockPos, Blocks.AIR.defaultBlockState(), 35);
+                world.levelEvent(player, 2001, blockPos, Block.getId(blockstate));
             }
         }
     }
 
     @Override
-    @SuppressWarnings("deprecation")
-    public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos)
-    {
-        if (state.get(LEFT))
-        {
-            BlockState blockstate = worldIn.getBlockState(pos.down());
-            return blockstate.isSolidSide(worldIn, pos.down(), Direction.UP);
-        }
-        else
-        {
-            Direction facing = state.get(HORIZONTAL_FACING);
-            BlockPos blockPos = pos.offset(BlockHelper.getPreviousHorizontal(facing));
+    public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
+        if (state.getValue(LEFT)) {
+            BlockState blockstate = worldIn.getBlockState(pos.below());
+            return blockstate.isSolidRender(worldIn, pos.below());
+        } else {
+            Direction facing = state.getValue(FACING);
+            BlockPos blockPos = pos.relative(BlockHelper.getPreviousHorizontal(facing));
             BlockState blockstate = worldIn.getBlockState(blockPos);
-            return blockstate.matchesBlock(this);
+            return blockstate.is(this);
         }
     }
 
+
     @Override
-    @SuppressWarnings("deprecation")
-    public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos)
-    {
-        if (stateIn.get(LEFT))
-        {
-            if (facing == BlockHelper.getNextHorizontal(stateIn.get(HORIZONTAL_FACING)))
-            {
-                return facingState.getBlock() == this && !facingState.get(LEFT) ? stateIn : Blocks.AIR.getDefaultState();
+    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos) {
+        if (stateIn.getValue(LEFT)) {
+            if (facing == BlockHelper.getNextHorizontal(stateIn.getValue(FACING))) {
+                return facingState.getBlock() == this && !facingState.getValue(LEFT) ? stateIn : Blocks.AIR.defaultBlockState();
             }
-        }
-        else if (facing == BlockHelper.getPreviousHorizontal(stateIn.get(HORIZONTAL_FACING)))
-        {
-            return facingState.getBlock() == this && facingState.get(LEFT) ? stateIn : Blocks.AIR.getDefaultState();
+        } else if (facing == BlockHelper.getPreviousHorizontal(stateIn.getValue(FACING))) {
+            return facingState.getBlock() == this && facingState.getValue(LEFT) ? stateIn : Blocks.AIR.defaultBlockState();
         }
         return stateIn;
     }
 
+
     @Override
-    @SuppressWarnings("deprecation")
-    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving)
-    {
-        if (newState.getBlock() != this && !(newState.getBlock() == this))
-        {
-            if (state.hasTileEntity())
-            {
-                ((NormalContainerTileEntity) worldIn.getTileEntity(pos)).prepareForRemove();
+    public void onRemove(BlockState blockState, Level worldIn, BlockPos pos, BlockState state, boolean isMoving) {
+        if (state.getBlock() != this && !(state.getBlock() == this)) {
+            if (state.hasBlockEntity()) {
+                ((NormalContainerTileEntity) worldIn.getBlockEntity(pos)).setRemoved();
                 dropItems(worldIn, pos);
-                worldIn.removeTileEntity(pos);
+                worldIn.removeBlockEntity(pos);
             }
         }
     }
 
     @Override
-    @SuppressWarnings("deprecation")
-    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder)
-    {
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
         List<ItemStack> list = Lists.newArrayList();
-        if (state.get(LEFT)) list.add(new ItemStack(this));
+        if (state.getValue(LEFT)) list.add(new ItemStack(this));
         return list;
     }
 
-    private void dropItems(World worldIn, BlockPos pos)
-    {
-        TileEntity te = worldIn.getTileEntity(pos);
-        if (te instanceof DrinkMakerTileEntity)
-        {
-            for (int i = 0; i < 11; i++)
-            {
+
+    private void dropItems(Level worldIn, BlockPos pos) {
+        BlockEntity te = worldIn.getBlockEntity(pos);
+        if (te instanceof DrinkMakerTileEntity) {
+            for (int i = 0; i < 11; i++) {
                 ItemStack stack = ((DrinkMakerTileEntity) te).decrStackSize(i, Integer.MAX_VALUE);
-                if (stack != ItemStack.EMPTY)
-                {
-                    Block.spawnAsEntity(worldIn, pos, stack);
+                if (stack != ItemStack.EMPTY) {
+                    Block.popResource(worldIn, pos, stack);
                 }
             }
         }
     }
 
     @Override
-    @SuppressWarnings("deprecation")
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit)
-    {
-        if (!worldIn.isRemote)
+    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         {
             flag = false;
-            if (!state.get(LEFT))
-            {
-                pos = pos.offset(BlockHelper.getPreviousHorizontal(state.get(HORIZONTAL_FACING)));
+            if (!state.getValue(LEFT)) {
+                pos = pos.relative(BlockHelper.getPreviousHorizontal(state.getValue(FACING)));
             }
-            TileEntity te = worldIn.getTileEntity(pos);
-            FluidUtil.getFluidHandler(ItemHandlerHelper.copyStackWithSize(player.getHeldItem(handIn), 1)).ifPresent(item ->
-                    te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, hit.getFace()).ifPresent(fluid ->
+            BlockEntity te = worldIn.getBlockEntity(pos);
+            FluidUtil.getFluidHandler(ItemHandlerHelper.copyStackWithSize(player.getItemInHand(handIn), 1)).ifPresent(item ->
+                    te.getCapability(ForgeCapabilities.FLUID_HANDLER, hit.getDirection()).ifPresent(fluid ->
                             flag = FluidUtil.interactWithFluidHandler(player, handIn, fluid)));
             if (flag)
-                return ActionResultType.SUCCESS;
-            if (te instanceof DrinkMakerTileEntity)
-            {
-                ((DrinkMakerTileEntity) te).refresh();
-                NetworkHooks.openGui((ServerPlayerEntity) player, (INamedContainerProvider) te, te.getPos());
+                return InteractionResult.SUCCESS;
+            if (te instanceof DrinkMakerTileEntity) {
+                ((DrinkMakerTileEntity) te).requestModelDataUpdate();
+                NetworkHooks.openScreen((ServerPlayer) player, (MenuProvider) te, te.getBlockPos());
             }
         }
-        return ActionResultType.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 
+    @Nullable
     @Override
-    public boolean hasTileEntity(BlockState state)
-    {
-        return state.get(LEFT);
+    public BlockEntity newBlockEntity(BlockPos p_153215_, BlockState p_153216_) {
+        return new DrinkMakerTileEntity(p_153215_, p_153216_);
     }
 
+    @Nullable
     @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world)
-    {
-        return TileEntityTypeRegistry.DRINK_MAKER.create();
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level worldIn, BlockState state, BlockEntityType<T> blockEntityType) {
+        return !worldIn.isClientSide ?
+                NormalHorizontalBlock.createTickerHelper(blockEntityType, TileEntityTypeRegistry.DRINK_MAKER_TYPE.get(), DrinkMakerTileEntity::tick) : null;
     }
 }

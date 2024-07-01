@@ -1,168 +1,164 @@
 package cloud.lemonslice.teastory.block.craft;
 
-import cloud.lemonslice.silveroak.common.block.NormalBlock;
-import cloud.lemonslice.silveroak.helper.VoxelShapeHelper;
-import cloud.lemonslice.teastory.common.tileentity.NormalContainerTileEntity;
-import cloud.lemonslice.teastory.common.tileentity.StoneRollerTileEntity;
+import cloud.lemonslice.teastory.blockentity.BambooTrayTileEntity;
+import cloud.lemonslice.teastory.blockentity.StoneRollerTileEntity;
+import cloud.lemonslice.teastory.helper.VoxelShapeHelper;
 import com.google.common.collect.Lists;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.LootContext;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.fml.network.NetworkHooks;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.network.NetworkHooks;
+import org.jetbrains.annotations.Nullable;
+import xueluoanping.teastory.TileEntityTypeRegistry;
+import xueluoanping.teastory.block.NormalHorizontalBlock;
+import xueluoanping.teastory.block.entity.NormalContainerTileEntity;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
-import static cloud.lemonslice.teastory.common.tileentity.TileEntityTypeRegistry.STONE_ROLLER;
-
-public class StoneRollerBlock extends Block
+public class StoneRollerBlock extends Block implements EntityBlock
 {
     private static final VoxelShape SHAPE = VoxelShapeHelper.createVoxelShape(0, 0, 0, 16, 12, 16);
 
-    public StoneRollerBlock()
+    public StoneRollerBlock(Properties properties)
     {
-        super("stone_roller", AbstractBlock.Properties.create(Material.ROCK).notSolid().hardnessAndResistance(1.5F).sound(SoundType.STONE));
+        super(properties);
     }
 
     @Override
-    @SuppressWarnings("deprecation")
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
-    {
+    public VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {
         return SHAPE;
     }
 
-    @Override
-    public boolean hasTileEntity(BlockState state)
-    {
-        return true;
-    }
 
-    @Nullable
-    @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world)
-    {
-        return STONE_ROLLER.create();
-    }
+
 
     @Override
-    @SuppressWarnings("deprecation")
-    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving)
-    {
-        if (state.hasTileEntity() && !(newState.getBlock() == this))
+    public void onRemove(BlockState blockState, Level worldIn, BlockPos pos, BlockState state, boolean isMoving) {
+        if (state.hasBlockEntity() && !(blockState.getBlock() == this))
         {
-            ((NormalContainerTileEntity) worldIn.getTileEntity(pos)).prepareForRemove();
+            ((NormalContainerTileEntity) worldIn.getBlockEntity(pos)).setRemoved();
             dropItems(worldIn, pos);
-            worldIn.removeTileEntity(pos);
+            worldIn.removeBlockEntity(pos);
         }
+        super.onRemove(blockState, worldIn, pos, blockState, isMoving);
     }
 
-    private void dropItems(World worldIn, BlockPos pos)
+    private void dropItems(Level worldIn, BlockPos pos)
     {
-        TileEntity te = worldIn.getTileEntity(pos);
+        var te = worldIn.getBlockEntity(pos);
         if (te != null)
         {
-            te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP).ifPresent(inv ->
+            te.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP).ifPresent(inv ->
             {
                 for (int i = inv.getSlots() - 1; i >= 0; --i)
                 {
                     if (inv.getStackInSlot(i) != ItemStack.EMPTY)
                     {
-                        Block.spawnAsEntity(worldIn, pos, inv.getStackInSlot(i));
+                        Block.popResource(worldIn, pos, inv.getStackInSlot(i));
                         ((IItemHandlerModifiable) inv).setStackInSlot(i, ItemStack.EMPTY);
                     }
                 }
             });
-            te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.DOWN).ifPresent(inv ->
+            te.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.DOWN).ifPresent(inv ->
             {
                 for (int i = inv.getSlots() - 1; i >= 0; --i)
                 {
                     if (inv.getStackInSlot(i) != ItemStack.EMPTY)
                     {
-                        Block.spawnAsEntity(worldIn, pos, inv.getStackInSlot(i));
+                        Block.popResource(worldIn, pos, inv.getStackInSlot(i));
                         ((IItemHandlerModifiable) inv).setStackInSlot(i, ItemStack.EMPTY);
                     }
                 }
             });
         }
     }
-
+    
     @Override
-    @SuppressWarnings("deprecation")
-    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder)
-    {
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
         return Lists.newArrayList(new ItemStack(this));
     }
 
     @Override
-    @SuppressWarnings("deprecation")
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity playerIn, Hand handIn, BlockRayTraceResult hit)
-    {
-        if (!worldIn.isRemote)
+    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player playerIn, InteractionHand handIn, BlockHitResult hit) {
+        if (!worldIn.isClientSide())
         {
-            TileEntity te = worldIn.getTileEntity(pos);
+            var te = worldIn.getBlockEntity(pos);
             if (te instanceof StoneRollerTileEntity)
             {
-                if (!playerIn.isSneaking())
+                if (!playerIn.isShiftKeyDown())
                 {
-                    if (!playerIn.getHeldItem(handIn).isEmpty())
+                    if (!playerIn.getItemInHand(handIn).isEmpty())
                     {
-                        return te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP).map(container ->
+                        return te.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP).map(container ->
                         {
-                            playerIn.setHeldItem(handIn, container.insertItem(0, playerIn.getHeldItem(handIn), false));
-                            return ActionResultType.SUCCESS;
-                        }).orElse(ActionResultType.FAIL);
+                            playerIn.setItemInHand(handIn, container.insertItem(0, playerIn.getItemInHand(handIn), false));
+                            return InteractionResult.SUCCESS;
+                        }).orElse(InteractionResult.FAIL);
                     }
                     else
                     {
-                        te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.DOWN).ifPresent(container ->
+                        te.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.DOWN).ifPresent(container ->
                         {
                             for (int i = 0; i <= 2; i++)
                             {
                                 ItemStack itemStack = container.extractItem(i, 64, false);
                                 if (!itemStack.isEmpty())
                                 {
-                                    Block.spawnAsEntity(worldIn, pos, itemStack);
+                                    Block.popResource(worldIn, pos, itemStack);
                                 }
                             }
                         });
-                        te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP).ifPresent(container ->
+                        te.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP).ifPresent(container ->
                         {
                             if (((StoneRollerTileEntity) te).isCompleted())
                             {
                                 ItemStack itemStack = container.extractItem(0, container.getStackInSlot(0).getCount(), false);
-                                Block.spawnAsEntity(worldIn, pos, itemStack);
+                                Block.popResource(worldIn, pos, itemStack);
                             }
                         });
-                        return ActionResultType.SUCCESS;
+                        return InteractionResult.SUCCESS;
                     }
                 }
                 else
                 {
-                    NetworkHooks.openGui((ServerPlayerEntity) playerIn, (INamedContainerProvider) te, te.getPos());
-                    return ActionResultType.SUCCESS;
+                    NetworkHooks.openScreen((ServerPlayer) playerIn, (MenuProvider) te, te.getBlockPos());
+                    return InteractionResult.SUCCESS;
                 }
             }
         }
-        return ActionResultType.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
+
+    @Nullable
+    @Override
+    public BlockEntity newBlockEntity(BlockPos p_153215_, BlockState p_153216_) {
+        return new StoneRollerTileEntity(p_153215_, p_153216_);
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level worldIn, BlockState state, BlockEntityType<T> blockEntityType) {
+        return !worldIn.isClientSide ?
+                NormalHorizontalBlock.createTickerHelper(blockEntityType, TileEntityTypeRegistry.STONE_ROLLER_TYPE.get(), StoneRollerTileEntity::tick) : null;
+    }
+
 }

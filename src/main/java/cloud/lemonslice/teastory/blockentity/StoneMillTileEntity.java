@@ -2,7 +2,7 @@ package cloud.lemonslice.teastory.blockentity;
 
 
 import cloud.lemonslice.teastory.container.StoneMillContainer;
-import cloud.lemonslice.teastory.recipe.BlockEntityRecipeWrapper;
+import xueluoanping.teastory.craft.BlockEntityRecipeWrapper;
 import cloud.lemonslice.teastory.recipe.stone_mill.StoneMillRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

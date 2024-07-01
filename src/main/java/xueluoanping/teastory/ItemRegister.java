@@ -1,6 +1,7 @@
 package xueluoanping.teastory;
 
 
+import cloud.lemonslice.teastory.item.FertilizerItem;
 import cloud.lemonslice.teastory.item.ShennongChiItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tiers;
@@ -78,5 +79,8 @@ public class ItemRegister {
     //     }
     // }.setRegistryName("bottle");
 
+
+
+    public static RegistryObject<Item> ASH = ModItems.register("ash", () -> new FertilizerItem(new Item.Properties()));
 }
 

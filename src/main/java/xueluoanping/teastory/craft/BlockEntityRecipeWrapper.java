@@ -1,4 +1,4 @@
-package cloud.lemonslice.teastory.recipe;
+package xueluoanping.teastory.craft;
 
 
 import net.minecraft.world.level.block.entity.BlockEntity;

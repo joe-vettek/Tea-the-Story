@@ -1,33 +1,34 @@
 package cloud.lemonslice.teastory.blockentity;
 
-import cloud.lemonslice.teastory.common.block.craft.StoveBlock;
-import cloud.lemonslice.teastory.common.container.StoveContainer;
-import cloud.lemonslice.teastory.common.item.ItemRegistry;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.NonNullList;
+import cloud.lemonslice.teastory.block.craft.StoveBlock;
+import cloud.lemonslice.teastory.container.StoveContainer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
+
 import net.minecraftforge.items.ItemStackHandler;
+import xueluoanping.teastory.ItemRegister;
+import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.block.entity.NormalContainerTileEntity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static cloud.lemonslice.teastory.common.tileentity.TileEntityTypeRegistry.STOVE_TILE;
-import static net.minecraft.state.properties.BlockStateProperties.LIT;
 
-public class StoveTileEntity extends NormalContainerTileEntity
-{
+public class StoveTileEntity extends NormalContainerTileEntity {
     private int remainTicks = 0;
     private int fuelTicks = 0;
     private int workTicks = 0;
@@ -38,17 +39,16 @@ public class StoveTileEntity extends NormalContainerTileEntity
     private final LazyOptional<ItemStackHandler> fuelInventory = LazyOptional.of(this::createFuelHandler);
     private final LazyOptional<ItemStackHandler> ashInventory = LazyOptional.of(this::createAshHandler);
 
-    public StoveTileEntity()
-    {
-        super(STOVE_TILE);
+    public StoveTileEntity(BlockPos pos, BlockState state) {
+        super(TileEntityTypeRegistry.STOVE_TYPE.get(), pos, state);
     }
 
+    // read
     @Override
-    public void read(BlockState state, CompoundNBT tag)
-    {
-        super.read(state, tag);
-        this.fuelInventory.ifPresent(h -> ((INBTSerializable<CompoundNBT>) h).deserializeNBT(tag.getCompound("Fuel")));
-        this.ashInventory.ifPresent(h -> ((INBTSerializable<CompoundNBT>) h).deserializeNBT(tag.getCompound("Ash")));
+    public void load(CompoundTag tag) {
+        super.load(tag);
+        this.fuelInventory.ifPresent(h -> ((INBTSerializable<CompoundTag>) h).deserializeNBT(tag.getCompound("Fuel")));
+        this.ashInventory.ifPresent(h -> ((INBTSerializable<CompoundTag>) h).deserializeNBT(tag.getCompound("Ash")));
         this.fuelTicks = tag.getInt("FuelTicks");
         this.remainTicks = tag.getInt("RemainTicks");
         this.workTicks = tag.getInt("WorkTicks");
@@ -56,182 +56,134 @@ public class StoveTileEntity extends NormalContainerTileEntity
 
     }
 
+    // write
     @Override
-    public CompoundNBT write(CompoundNBT tag)
-    {
-        fuelInventory.ifPresent(h -> tag.put("Fuel", ((INBTSerializable<CompoundNBT>) h).serializeNBT()));
-        ashInventory.ifPresent(h -> tag.put("Ash", ((INBTSerializable<CompoundNBT>) h).serializeNBT()));
+    protected void saveAdditional(CompoundTag tag) {
+        fuelInventory.ifPresent(h -> tag.put("Fuel", ((INBTSerializable<CompoundTag>) h).serializeNBT()));
+        ashInventory.ifPresent(h -> tag.put("Ash", ((INBTSerializable<CompoundTag>) h).serializeNBT()));
         tag.putInt("FuelTicks", fuelTicks);
         tag.putInt("RemainTicks", remainTicks);
         tag.putInt("WorkTicks", workTicks);
         tag.putBoolean("Lit", lit);
-        return super.write(tag);
+        super.saveAdditional(tag);
     }
+
 
     @Nonnull
     @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side)
-    {
-        if (!this.removed && CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.equals(cap))
-        {
-            if (side == Direction.DOWN)
-            {
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+        if (!this.isRemoved() && ForgeCapabilities.ITEM_HANDLER.equals(cap)) {
+            if (side == Direction.DOWN) {
                 return ashInventory.cast();
-            }
-            else
-            {
+            } else {
                 return fuelInventory.cast();
             }
         }
         return super.getCapability(cap, side);
     }
 
-    @Override
-    public void tick()
-    {
-        if (doubleClickTicks > 0)
-        {
-            doubleClickTicks--;
+
+    public static void tick(Level worldIn, BlockPos pos, BlockState blockState, StoveTileEntity basinBlockEntity) {
+        if (basinBlockEntity.doubleClickTicks > 0) {
+            basinBlockEntity.doubleClickTicks--;
         }
-        if (this.lit)
-        {
-            this.addFuel();
+        if (basinBlockEntity.lit) {
+            basinBlockEntity.addFuel();
         }
-        if (this.remainTicks > 0)
-        {
-            this.remainTicks--;
-            this.markDirty();
-        }
-        else
-        {
-            if (!this.lit && this.getBlockState().get(LIT))
-            {
-                StoveBlock.setState(false, this.world, this.pos);
-                refresh();
+        if (basinBlockEntity.remainTicks > 0) {
+            basinBlockEntity.remainTicks--;
+            basinBlockEntity.setChanged();
+        } else {
+            if (!basinBlockEntity.lit && basinBlockEntity.getBlockState().getValue(StoveBlock.LIT)) {
+                StoveBlock.setState(false, basinBlockEntity.getLevel(), basinBlockEntity.getBlockPos());
+                basinBlockEntity.inventoryChanged();
             }
         }
     }
 
-    private boolean addFuel()
-    {
-        if (this.isBurning())
-        {
+    private boolean addFuel() {
+        if (this.isBurning()) {
             this.lit = true;
             return true;
-        }
-        else
-        {
+        } else {
             ItemStack itemFuel = this.fuelInventory.orElse(new ItemStackHandler()).extractItem(0, 1, true);
-            if (ForgeHooks.getBurnTime(itemFuel) > 0)
-            {
-                this.fuelTicks = ForgeHooks.getBurnTime(itemFuel) * 2;
-                this.remainTicks = ForgeHooks.getBurnTime(itemFuel) * 2;
-                ItemStack cItem = this.fuelInventory.orElse(new ItemStackHandler()).getStackInSlot(0).getContainerItem();
-                if (!cItem.isEmpty())
-                {
+            if (ForgeHooks.getBurnTime(itemFuel, RecipeType.SMELTING) > 0) {
+                this.fuelTicks = ForgeHooks.getBurnTime(itemFuel, RecipeType.SMELTING) * 2;
+                this.remainTicks = ForgeHooks.getBurnTime(itemFuel, RecipeType.SMELTING) * 2;
+                ItemStack cItem = this.fuelInventory.orElse(new ItemStackHandler()).getStackInSlot(0).getCraftingRemainingItem();
+                if (!cItem.isEmpty()) {
                     this.fuelInventory.orElse(new ItemStackHandler()).extractItem(0, 1, false);
                     this.fuelInventory.orElse(new ItemStackHandler()).insertItem(0, cItem, false);
-                }
-                else
-                {
+                } else {
                     this.fuelInventory.orElse(new ItemStackHandler()).extractItem(0, 1, false);
                 }
-                this.ashInventory.orElse(new ItemStackHandler()).insertItem(0, new ItemStack(ItemRegistry.ASH), false);
-                this.markDirty();
-                StoveBlock.setState(true, getWorld(), pos);
+                this.ashInventory.orElse(new ItemStackHandler()).insertItem(0, new ItemStack(ItemRegister.ASH.get()), false);
+                this.setChanged();
+                StoveBlock.setState(true, getLevel(), getBlockPos());
                 this.lit = true;
                 return true;
-            }
-            else
-            {
+            } else {
                 this.lit = false;
                 return false;
             }
         }
     }
 
-    public boolean isBurning()
-    {
+    public boolean isBurning() {
         return this.remainTicks > 0;
     }
 
-    public NonNullList<ItemStack> getContents()
-    {
+    public NonNullList<ItemStack> getContents() {
         NonNullList<ItemStack> list = NonNullList.create();
         this.fuelInventory.ifPresent(inv ->
         {
             ItemStack con = inv.getStackInSlot(0).copy();
             con.setCount(1);
-            for (int i = this.fuelInventory.orElse(new ItemStackHandler()).getStackInSlot(0).getCount(); i > 0; i -= 4)
-            {
+            for (int i = this.fuelInventory.orElse(new ItemStackHandler()).getStackInSlot(0).getCount(); i > 0; i -= 4) {
                 list.add(con);
             }
         });
         return list;
     }
 
-    public int getRemainTicks()
-    {
+    public int getRemainTicks() {
         return this.remainTicks;
     }
 
-    public int getFuelTicks()
-    {
+    public int getFuelTicks() {
         return this.fuelTicks;
     }
 
-    public void setToLit()
-    {
+    public void setToLit() {
         this.lit = true;
     }
 
-    public void singleClickStart()
-    {
+    public void singleClickStart() {
         this.doubleClickTicks = 10;
-        this.markDirty();
+        this.setChanged();
     }
 
-    public boolean isDoubleClick()
-    {
+    public boolean isDoubleClick() {
         return doubleClickTicks > 0;
     }
 
-    private ItemStackHandler createAshHandler()
-    {
-        return new ItemStackHandler()
-        {
+    private ItemStackHandler createAshHandler() {
+        return new ItemStackHandler() {
             @Override
-            public boolean isItemValid(int slot, @Nonnull ItemStack stack)
-            {
-                return stack.getItem().equals(ItemRegistry.ASH);
+            public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+                return stack.getItem().equals(ItemRegister.ASH);
             }
         };
     }
 
-    private ItemStackHandler createFuelHandler()
-    {
-        return new ItemStackHandler()
-        {
-            @Override
-            protected void onContentsChanged(int slot)
-            {
-                super.onContentsChanged(slot);
-                StoveTileEntity.this.markDirty();
-                StoveTileEntity.this.refresh();
-            }
-        };
+    private ItemStackHandler createFuelHandler() {
+        return new SyncedItemStackHandler();
     }
 
-    @Nullable
-    @Override
-    public Container createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity)
-    {
-        return new StoveContainer(i, playerInventory, pos, world);
-    }
 
+    @org.jetbrains.annotations.Nullable
     @Override
-    protected boolean isOpeningContainer(Container container)
-    {
-        return container instanceof StoveContainer;
+    public AbstractContainerMenu createMenu(int id, Inventory playerInventory, Player p_39956_) {
+        return new StoveContainer(id, playerInventory, worldPosition, level);
     }
 }

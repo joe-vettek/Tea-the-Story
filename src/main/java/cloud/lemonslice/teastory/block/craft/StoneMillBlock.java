@@ -49,7 +49,7 @@ public class StoneMillBlock extends NormalHorizontalBlock implements EntityBlock
 
 
     @Override
-    public VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {
+    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
@@ -86,27 +86,27 @@ public class StoneMillBlock extends NormalHorizontalBlock implements EntityBlock
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState p_287732_, LootParams.Builder p_287596_) {
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
         return Lists.newArrayList(new ItemStack(this));
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player playerIn, InteractionHand handIn, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         if (!worldIn.isClientSide()) {
             var te = worldIn.getBlockEntity(pos);
-            if (FluidUtil.getFluidHandler(ItemHandlerHelper.copyStackWithSize(playerIn.getItemInHand(handIn), 1)).isPresent()) {
+            if (FluidUtil.getFluidHandler(ItemHandlerHelper.copyStackWithSize(player.getItemInHand(handIn), 1)).isPresent()) {
                 return te.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM, hit.getDirection()).map(fluidTank ->
                 {
-                    FluidUtil.interactWithFluidHandler(playerIn, handIn, fluidTank);
+                    FluidUtil.interactWithFluidHandler(player, handIn, fluidTank);
                     return InteractionResult.SUCCESS;
                 }).orElse(InteractionResult.FAIL);
             }
             if (te instanceof StoneMillTileEntity) {
-                if (!playerIn.isShiftKeyDown()) {
-                    if (!playerIn.getItemInHand(handIn).isEmpty()) {
+                if (!player.isShiftKeyDown()) {
+                    if (!player.getItemInHand(handIn).isEmpty()) {
                         return te.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP).map(container ->
                         {
-                            playerIn.setItemInHand(handIn, container.insertItem(0, playerIn.getItemInHand(handIn), false));
+                            player.setItemInHand(handIn, container.insertItem(0, player.getItemInHand(handIn), false));
                             return InteractionResult.SUCCESS;
                         }).orElse(InteractionResult.FAIL);
                     } else {
@@ -129,7 +129,7 @@ public class StoneMillBlock extends NormalHorizontalBlock implements EntityBlock
                         return InteractionResult.SUCCESS;
                     }
                 } else {
-                    NetworkHooks.openScreen((ServerPlayer) playerIn, (MenuProvider) te, te.getBlockPos());
+                    NetworkHooks.openScreen((ServerPlayer) player, (MenuProvider) te, te.getBlockPos());
                     return InteractionResult.SUCCESS;
                 }
             }
