@@ -19,7 +19,7 @@ public final class BlockEventHandler
             {
                 if (event.getLevel().getBlockState(event.getPos()).isFlammable(event.getLevel(), event.getPos(), direction) && event.getLevel().getBlockState(event.getPos().relative(direction)).getBlock() instanceof FireBlock)
                 {
-                    Block.popResource((Level) event.getLevel(), event.getPos(), new ItemStack(ItemRegister.ash.get()));
+                    Block.popResource((Level) event.getLevel(), event.getPos(), new ItemStack(ItemRegister.ASH.get()));
                 }
             });
     }

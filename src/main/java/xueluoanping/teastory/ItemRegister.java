@@ -32,7 +32,7 @@ public class ItemRegister {
     public static RegistryObject<Item> wetStraw = ModItems.register("wet_straw", () -> new Item(new Item.Properties()));
     public static RegistryObject<Item> dryStraw = ModItems.register("dry_straw", () -> new Item(new Item.Properties()));
     public static RegistryObject<Item> bambooPlank = ModItems.register("bamboo_plank", () -> new Item(new Item.Properties()));
-    public static RegistryObject<Item> ash = ModItems.register("ash", () -> new Item(new Item.Properties()));
+    public static RegistryObject<Item> ASH = ModItems.register("ash", () -> new Item(new Item.Properties()));
     public static RegistryObject<Item> teaResidues = ModItems.register("tea_residues", () -> new Item(new Item.Properties()));
     public static RegistryObject<Item> crushedStraw = ModItems.register("crushed_straw", () -> new Item(new Item.Properties()));
 
@@ -81,6 +81,5 @@ public class ItemRegister {
 
 
 
-    public static RegistryObject<Item> ASH = ModItems.register("ash", () -> new FertilizerItem(new Item.Properties()));
 }
 
