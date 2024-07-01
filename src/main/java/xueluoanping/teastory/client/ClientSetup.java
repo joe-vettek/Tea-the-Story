@@ -7,6 +7,8 @@ import cloud.lemonslice.teastory.client.color.block.BirchLeavesColor;
 import cloud.lemonslice.teastory.client.color.block.GrassBlockColor;
 import cloud.lemonslice.teastory.client.color.item.BucketItemColors;
 import cloud.lemonslice.teastory.client.color.season.BiomeColorsHandler;
+import cloud.lemonslice.teastory.client.gui.DrinkMakerGui;
+import net.minecraft.client.gui.screens.MenuScreens;
 import xueluoanping.teastory.BlockRegister;
 import xueluoanping.teastory.FluidRegistry;
 import net.minecraft.client.color.block.BlockColors;
@@ -25,6 +27,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import xueluoanping.teastory.TeaStory;
+import xueluoanping.teastory.TileEntityTypeRegistry;
 
 import java.util.Map;
 
@@ -50,6 +53,9 @@ public class ClientSetup {
             // fix json file instead
             BiomeColors.GRASS_COLOR_RESOLVER = BiomeColorsHandler.GRASS_COLOR;
             BiomeColors.FOLIAGE_COLOR_RESOLVER = BiomeColorsHandler.FOLIAGE_COLOR;
+
+            MenuScreens.register(TileEntityTypeRegistry.DRINK_MAKER_CONTAINER.get(), DrinkMakerGui::new);
+
         });
     }
 

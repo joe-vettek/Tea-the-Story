@@ -1,6 +1,7 @@
 package cloud.lemonslice.teastory.blockentity;
 
 import cloud.lemonslice.teastory.container.DrinkMakerContainer;
+import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.craft.BlockEntityRecipeWrapper;
 import cloud.lemonslice.teastory.recipe.drink.DrinkRecipe;
 import net.minecraft.core.BlockPos;
@@ -84,6 +85,7 @@ public class DrinkMakerTileEntity extends NormalContainerTileEntity {
         this.inputInventory.ifPresent(h -> ((INBTSerializable<CompoundTag>) h).deserializeNBT(tag.getCompound("Input")));
         this.outputInventory.ifPresent(h -> ((INBTSerializable<CompoundTag>) h).deserializeNBT(tag.getCompound("Output")));
         this.processTicks = tag.getInt("ProcessTicks");
+TeaStory.logger(this.processTicks);
     }
 
     // write
@@ -121,6 +123,7 @@ public class DrinkMakerTileEntity extends NormalContainerTileEntity {
             }
             if (tileEntity.currentRecipe != null && tileEntity.isEnoughAmount()) {
                 tileEntity.processTicks++;
+               tileEntity.inventoryChanged();
                 if (tileEntity.processTicks >= totalTicks) {
                     tileEntity.ingredientsInventory.ifPresent(inv ->
                             tileEntity.getFluidHandler().ifPresent(fluid ->
@@ -192,7 +195,8 @@ public class DrinkMakerTileEntity extends NormalContainerTileEntity {
 
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                return !(stack.getItem() instanceof BucketItem);
+                // return !(stack.getItem() instanceof BucketItem);
+                return true;
             }
         };
     }
@@ -230,7 +234,7 @@ public class DrinkMakerTileEntity extends NormalContainerTileEntity {
 
     @Nullable
     public Component getFluidTranslation() {
-        return getFluidHandler().map(h -> h.getFluidInTank(0).getDisplayName()).orElse(null);
+        return getFluidHandler().map(h -> h.getFluidInTank(0).getDisplayName()).orElse(Component.empty());
     }
 
     public LazyOptional<IFluidHandlerItem> getFluidHandler() {

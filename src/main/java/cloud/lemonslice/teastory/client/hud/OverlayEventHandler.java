@@ -16,23 +16,20 @@ import net.minecraftforge.fml.common.Mod;
 import xueluoanping.teastory.TeaStory;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = TeaStory.MODID)
-public final class OverlayEventHandler
-{
+public final class OverlayEventHandler {
     public final static ResourceLocation DEFAULT = new ResourceLocation("minecraft", "textures/gui/icons.png");
     private final static DebugInfoRenderer BAR_4 = new DebugInfoRenderer(Minecraft.getInstance());
 
     @SubscribeEvent(receiveCanceled = true)
-    public static void onEvent(RenderGuiOverlayEvent.Pre event)
-    {
+    public static void onEvent(RenderGuiOverlayEvent.Pre event) {
+
 
         LocalPlayer clientPlayer = Minecraft.getInstance().player;
-        if (clientPlayer != null)
-        {
+        if (clientPlayer != null) {
             // if (event.getType() == RenderGameOverlayEvent.ElementType.ALL)
             // if(event.getOverlay().id().getPath().equals("all"))
             {
-                if (ClientConfig.GUI.debugInfo.get())
-                {
+                if (ClientConfig.GUI.debugInfo.get()) {
                     int solar = clientPlayer.level().getCapability(CapabilitySolarTermTime.WORLD_SOLAR_TIME).orElse(new CapabilitySolarTermTime.Data()).getSolarTermsDay();
                     long dayTime = clientPlayer.level().getDayTime();
                     float temp = clientPlayer.level().getBiome(clientPlayer.getOnPos()).get().getTemperature(clientPlayer.getOnPos());

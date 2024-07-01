@@ -111,6 +111,7 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
             if (player.isCreative()) {
                 removeBottomHalf(worldIn, pos, state, player);
             }
+            onRemove(state,worldIn,pos,state,false);
         }
         super.playerWillDestroy(worldIn, pos, state, player);
     }
@@ -159,11 +160,12 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
     public void onRemove(BlockState blockState, Level worldIn, BlockPos pos, BlockState state, boolean isMoving) {
         if (state.getBlock() != this && !(state.getBlock() == this)) {
             if (state.hasBlockEntity()) {
-                ((NormalContainerTileEntity) worldIn.getBlockEntity(pos)).setRemoved();
+                // ((NormalContainerTileEntity) worldIn.getBlockEntity(pos)).setRemoved();
                 dropItems(worldIn, pos);
                 worldIn.removeBlockEntity(pos);
             }
         }
+        super.onRemove(blockState, worldIn, pos, state, isMoving);
     }
 
     @Override
@@ -217,7 +219,8 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level worldIn, BlockState state, BlockEntityType<T> blockEntityType) {
-        return !worldIn.isClientSide ?
-                NormalHorizontalBlock.createTickerHelper(blockEntityType, TileEntityTypeRegistry.DRINK_MAKER_TYPE.get(), DrinkMakerTileEntity::tick) : null;
+        return null;
+        // return !worldIn.isClientSide ?
+        //         NormalHorizontalBlock.createTickerHelper(blockEntityType, TileEntityTypeRegistry.DRINK_MAKER_TYPE.get(), DrinkMakerTileEntity::tick) : null;
     }
 }

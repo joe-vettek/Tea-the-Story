@@ -9,6 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
 import xueluoanping.teastory.TileEntityTypeRegistry;
@@ -25,7 +26,7 @@ public class DrinkMakerContainer extends NormalContainer
     public DrinkMakerContainer(int windowId, Inventory inv, BlockPos pos, Level world)
     {
         super(TileEntityTypeRegistry.DRINK_MAKER_CONTAINER.get(), windowId, pos, world);
-        this.tileEntity = (DrinkMakerTileEntity) getTileEntity();
+        this.tileEntity = (DrinkMakerTileEntity) super.getTileEntity();
         tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP).ifPresent(h ->
         {
             addSlot(new SlotItemHandler(h, 0, 21, 24));
@@ -107,4 +108,7 @@ public class DrinkMakerContainer extends NormalContainer
         return oldStack;
     }
 
+    public DrinkMakerTileEntity getTileEntity() {
+        return this.tileEntity;
+    }
 }
