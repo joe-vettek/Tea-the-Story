@@ -44,8 +44,8 @@ public class AqueductBlock extends HorizontalConnectedBlock implements SimpleWat
     public static final BooleanProperty BLOCKED = BooleanProperty.create("blocked");
     public static final BooleanProperty BOTTOM = BooleanProperty.create("bottom");
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    private static final VoxelShape[] SHAPES;
-    private static final VoxelShape FULL_SHAPE = VoxelShapeHelper.createVoxelShape(0, 0, 0, 16, 15, 16);
+    protected static VoxelShape[] SHAPES;
+    protected static final VoxelShape FULL_SHAPE = VoxelShapeHelper.createVoxelShape(0, 0, 0, 16, 15, 16);
 
     public AqueductBlock(Properties properties) {
         super(properties);

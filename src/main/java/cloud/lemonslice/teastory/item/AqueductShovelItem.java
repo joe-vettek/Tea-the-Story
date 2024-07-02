@@ -5,6 +5,7 @@ import cloud.lemonslice.teastory.block.crops.AqueductBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ShovelItem;
@@ -12,6 +13,7 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DirtPathBlock;
 import net.minecraft.world.level.block.FarmBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
@@ -35,6 +37,16 @@ public class AqueductShovelItem extends ShovelItem {
             if (!world.isClientSide()) {
                 world.setBlock(blockPos, ((AqueductBlock) BlockRegister.cobblestoneAqueduct.get()).getStateForPlacement(world, blockPos), 3);
                 world.scheduleTick(blockPos, BlockRegister.cobblestoneAqueduct.get(), Fluids.WATER.getTickDelay(world));
+                if (playerEntity != null) {
+                    context.getItemInHand().hurtAndBreak(1, playerEntity, player -> player.broadcastBreakEvent(context.getHand()));
+                }
+            }
+            world.playSound(playerEntity, blockPos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 1.0F);
+            return InteractionResult.SUCCESS;
+        } if (blockState.getBlock() instanceof DirtPathBlock) {
+            if (!world.isClientSide()) {
+                world.setBlock(blockPos, ((AqueductBlock) BlockRegister.dirtAqueduct.get()).getStateForPlacement(world, blockPos), 3);
+                world.scheduleTick(blockPos, BlockRegister.dirtAqueduct.get(), Fluids.WATER.getTickDelay(world));
                 if (playerEntity != null) {
                     context.getItemInHand().hurtAndBreak(1, playerEntity, player -> player.broadcastBreakEvent(context.getHand()));
                 }

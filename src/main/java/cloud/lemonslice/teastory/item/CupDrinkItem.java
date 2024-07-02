@@ -27,6 +27,7 @@ import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.NotNull;
 import xueluoanping.teastory.FluidRegistry;
+import xueluoanping.teastory.TeaStory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -113,7 +114,8 @@ public class CupDrinkItem extends ItemFluidContainer {
         var stack = playerIn.getItemInHand(handIn);
 
         if (canDrink(stack)) {
-            // playerIn.setMainArm(handIn);
+
+            playerIn.startUsingItem(handIn);
             return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
         } else {
             return new InteractionResultHolder<>(InteractionResult.PASS, playerIn.getItemInHand(handIn));
@@ -131,8 +133,10 @@ public class CupDrinkItem extends ItemFluidContainer {
                     action.accept(entityLiving, handler.getAmount());
                 } else if (entityLiving instanceof Player && handler.getFluid() != FluidRegistry.BOILING_WATER_STILL.get()) {
                     var foodata = ((Player) entityLiving).getFoodData();
+                   TeaStory.logger(foodata.getSaturationLevel());
                     ((Player) entityLiving).getFoodData().setFoodLevel(foodata.getFoodLevel() + (int) (1.2F * this.capacity / 100));
                     ((Player) entityLiving).getFoodData().setSaturation(foodata.getSaturationLevel() + 0.4F);
+                    TeaStory.logger(foodata.getSaturationLevel());
                 }
             });
             if (entityLiving instanceof Player) {

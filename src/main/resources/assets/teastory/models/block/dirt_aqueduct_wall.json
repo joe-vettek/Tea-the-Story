@@ -1,0 +1,6 @@
+{
+  "parent": "teastory:block/low_aqueduct_wall",
+  "textures": {
+    "3": "block/dirt_path_top"
+  }
+}

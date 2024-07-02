@@ -33,6 +33,10 @@ public class BlockRegister {
     public static RegistryObject<Block> cobblestoneAqueduct = ModBlocks.register("cobblestone_aqueduct", () -> new AqueductBlock(BlockBehaviour.Properties.copy(Blocks.COBBLESTONE)
             .sound(SoundType.STONE).strength(1.5F)
             .noOcclusion()));
+    public static RegistryObject<Block> dirtAqueduct = ModBlocks.register("dirt_aqueduct", () -> new LowAqueductBlock(BlockBehaviour.Properties.copy(Blocks.DIRT_PATH)
+            .sound(SoundType.GRASS).strength(0.8F)
+            .noOcclusion()));
+
     public static RegistryObject<Block> mossyCobblestoneAqueduct = ModBlocks.register("mossy_cobblestone_aqueduct", () -> new AqueductConnectorBlock(BlockBehaviour.Properties.copy(cobblestoneAqueduct.get())));
     public static RegistryObject<Block> paddyField = ModBlocks.register("paddy_field", PaddyFieldBlock::new);
 
@@ -61,7 +65,9 @@ public class BlockRegister {
         //     DREntityBlockItems.register(item.getId().getPath(), () -> new BlockItem(item.get(), new Item.Properties()));
         // }
         ModItems.register("cobblestone_aqueduct", () -> new BlockItem(cobblestoneAqueduct.get(), new Item.Properties()));
+        ModItems.register("dirt_aqueduct", () -> new BlockItem(dirtAqueduct.get(), new Item.Properties()));
         ModItems.register("mossy_cobblestone_aqueduct", () -> new BlockItem(mossyCobblestoneAqueduct.get(), new Item.Properties()));
+
         ModItems.register("paddy_field", () -> new BlockItem(paddyField.get(), new Item.Properties()));
     }
 
