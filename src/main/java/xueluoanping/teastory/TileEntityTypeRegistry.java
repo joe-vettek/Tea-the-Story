@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.GrassBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -37,7 +38,7 @@ public class TileEntityTypeRegistry {
     public static  RegistryObject<MenuType<StoveContainer>> STOVE_CONTAINER = DRMenuType.register("stove", () -> IForgeMenuType.create(StoveContainer::new));
 
     
-    public static RegistryObject<Block> BAMBOO_TRAY = ModBlocks.register("bamboo_tray", () -> new BambooTrayBlock(Block.Properties.copy(Blocks.BAMBOO).strength(0.5F).noOcclusion()));
+    public static RegistryObject<Block> BAMBOO_TRAY = ModBlocks.register("bamboo_tray", () -> new BambooTrayBlock(Block.Properties.copy(Blocks.BAMBOO).strength(0.5F).noOcclusion().offsetType(BlockBehaviour.OffsetType.NONE)));
     public static RegistryObject<Item> BAMBOO_TRAY_ITEM = ModItems.register("bamboo_tray", () -> new BlockItem(BAMBOO_TRAY.get(), new Item.Properties()));
     public static RegistryObject<BlockEntityType<BambooTrayTileEntity>> BAMBOO_TRAY_TYPE = DRBlockEntities.register("bamboo_tray",
             () -> BlockEntityType.Builder.of(BambooTrayTileEntity::new, BAMBOO_TRAY.get()).build(null));

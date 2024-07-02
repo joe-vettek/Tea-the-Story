@@ -1,6 +1,7 @@
 package cloud.lemonslice.teastory.blockentity;
 
 import cloud.lemonslice.teastory.container.DrinkMakerContainer;
+import net.minecraft.world.item.Items;
 import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.craft.BlockEntityRecipeWrapper;
 import cloud.lemonslice.teastory.recipe.drink.DrinkRecipe;
@@ -85,7 +86,6 @@ public class DrinkMakerTileEntity extends NormalContainerTileEntity {
         this.inputInventory.ifPresent(h -> ((INBTSerializable<CompoundTag>) h).deserializeNBT(tag.getCompound("Input")));
         this.outputInventory.ifPresent(h -> ((INBTSerializable<CompoundTag>) h).deserializeNBT(tag.getCompound("Output")));
         this.processTicks = tag.getInt("ProcessTicks");
-TeaStory.logger(this.processTicks);
     }
 
     // write
@@ -116,34 +116,46 @@ TeaStory.logger(this.processTicks);
 
 
     public static void tick(Level worldIn, BlockPos pos, BlockState blockState, DrinkMakerTileEntity tileEntity) {
+        // TeaStory.logger(worldIn.getGameTime());
         if (tileEntity.getFluidAmount() != 0 && !tileEntity.isIngredientsEmpty()) {
             var warp = new MultiRecipeWrapper(tileEntity.ingredientsInventory.resolve().get(), tileEntity.residuesInventory.resolve().get(), tileEntity.containerInventory.resolve().get());
-            if (tileEntity.currentRecipe == null || !tileEntity.currentRecipe.matches(warp, tileEntity.getLevel())) {
-                tileEntity.currentRecipe = tileEntity.getLevel().getRecipeManager().getRecipeFor(RecipeRegister.DRINK_MAKER.get(), warp, tileEntity.getLevel()).orElse(null);
+            if (tileEntity.currentRecipe == null || !tileEntity.currentRecipe.matches(warp, worldIn)) {
+                tileEntity.currentRecipe = worldIn.getRecipeManager().getRecipeFor(RecipeRegister.DRINK_MAKER.get(), warp, worldIn).orElse(null);
             }
             if (tileEntity.currentRecipe != null && tileEntity.isEnoughAmount()) {
                 tileEntity.processTicks++;
-               tileEntity.inventoryChanged();
+                tileEntity.inventoryChanged();
                 if (tileEntity.processTicks >= totalTicks) {
-                    tileEntity.ingredientsInventory.ifPresent(inv ->
-                            tileEntity.getFluidHandler().ifPresent(fluid ->
-                            {
-                                tileEntity.residuesInventory.ifPresent(h ->
-                                {
-                                    int n = (int) Math.ceil(tileEntity.getFluidAmount() * 1.0F / tileEntity.currentRecipe.getFluidIngredient().getMatchingFluidStacks().get(0).getAmount());
-                                    for (int i = 0; i < 4; i++) {
-                                        ItemStack residue = inv.getStackInSlot(i).getCraftingRemainingItem();
-                                        inv.extractItem(i, n, false);
-                                        if (!residue.isEmpty()) {
-                                            residue.setCount(n);
-                                            h.insertItem(i, residue, false);
-                                        }
+                    if (tileEntity.ingredientsInventory.resolve().isPresent()) {
+                        var inv = tileEntity.ingredientsInventory.resolve().get();
+                        if (tileEntity.getFluidHandler().resolve().isPresent()){
+                            var fluid=tileEntity.getFluidHandler().resolve().get();
+                            if (tileEntity.residuesInventory.resolve().isPresent()){
+                                var h=tileEntity.residuesInventory.resolve().get();
+                                int n = (int) Math.ceil(tileEntity.getFluidAmount() * 1.0F / tileEntity.currentRecipe.getFluidIngredient().getMatchingFluidStacks().get(0).getAmount());
+                                for (int i = 0; i < 4; i++) {
+                                    ItemStack residue = inv.getStackInSlot(i).getCraftingRemainingItem();
+                                    inv.extractItem(i, n, false);
+                                    if (!residue.isEmpty()) {
+                                        residue.setCount(n);
+                                        h.insertItem(i, residue, false);
                                     }
-                                });
-                                CompoundTag nbt = new FluidStack(tileEntity.currentRecipe.getFluidResult(), tileEntity.getFluidAmount()).writeToNBT(new CompoundTag());
-                                fluid.getContainer().getOrCreateTag().put(FLUID_NBT_KEY, nbt);
-                                tileEntity.setToZero();
-                            }));
+                                }
+                            }
+                            if (tileEntity.containerInventory.resolve().isPresent()){
+                                var con=tileEntity.containerInventory.resolve().get();
+                                if (con.getStackInSlot(0).getItem().getCraftingRemainingItem() == Items.BUCKET){
+                                    con.setStackInSlot(0, tileEntity.currentRecipe.getFluidResult().getBucket().getDefaultInstance());
+                                }else {
+                                    CompoundTag nbt = new FluidStack(tileEntity.currentRecipe.getFluidResult(), tileEntity.getFluidAmount()).writeToNBT(new CompoundTag());
+                                    fluid.getContainer().getOrCreateTag().put(FLUID_NBT_KEY, nbt);
+                                }
+                            }
+                            tileEntity.setToZero();
+                        }
+
+                    }
+
                 }
             } else {
                 tileEntity.setToZero();

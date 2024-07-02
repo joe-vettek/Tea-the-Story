@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.client.ClientRecipeBook;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -111,7 +112,7 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
             if (player.isCreative()) {
                 removeBottomHalf(worldIn, pos, state, player);
             }
-            onRemove(state,worldIn,pos,state,false);
+            onRemove(state, worldIn, pos, state, false);
         }
         super.playerWillDestroy(worldIn, pos, state, player);
     }
@@ -203,24 +204,41 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
             if (flag)
                 return InteractionResult.SUCCESS;
             if (te instanceof DrinkMakerTileEntity) {
-                ((DrinkMakerTileEntity) te).requestModelDataUpdate();
+                // ((DrinkMakerTileEntity) te).requestModelDataUpdate();
                 NetworkHooks.openScreen((ServerPlayer) player, (MenuProvider) te, te.getBlockPos());
             }
         }
         return InteractionResult.SUCCESS;
     }
 
+    @Override
+    public void destroy(LevelAccessor level, BlockPos pos, BlockState state) {
+        super.destroy(level, pos, state);
+        if (!level.isClientSide() && level instanceof ServerLevel serverLevel) {
+            if (state.getValue(LEFT))
+                serverLevel.removeBlockEntity(pos);
+        }
+    }
+
+    @Override
+    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState state1, boolean b) {
+        super.onPlace(state, level, pos, state1, b);
+        if (!level.isClientSide() && state.getValue(LEFT)) {
+            level.setBlockAndUpdate(pos.relative(state.getValue(FACING).getClockWise()), state.setValue(LEFT, false));
+        }
+    }
+
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(BlockPos p_153215_, BlockState p_153216_) {
-        return new DrinkMakerTileEntity(p_153215_, p_153216_);
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return state.getValue(LEFT) ? new DrinkMakerTileEntity(pos, state) : null;
     }
 
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level worldIn, BlockState state, BlockEntityType<T> blockEntityType) {
-        return null;
-        // return !worldIn.isClientSide ?
-        //         NormalHorizontalBlock.createTickerHelper(blockEntityType, TileEntityTypeRegistry.DRINK_MAKER_TYPE.get(), DrinkMakerTileEntity::tick) : null;
+        // return null;
+        return !worldIn.isClientSide && state.getValue(LEFT) ?
+                NormalHorizontalBlock.createTickerHelper(blockEntityType, TileEntityTypeRegistry.DRINK_MAKER_TYPE.get(), DrinkMakerTileEntity::tick) : null;
     }
 }
