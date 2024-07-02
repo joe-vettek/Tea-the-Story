@@ -7,6 +7,7 @@ import cloud.lemonslice.teastory.block.craft.StoveBlock;
 import cloud.lemonslice.teastory.block.drink.DrinkMakerBlock;
 import cloud.lemonslice.teastory.blockentity.*;
 import cloud.lemonslice.teastory.container.*;
+import cloud.lemonslice.teastory.item.DrinkMakerItem;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -46,7 +47,7 @@ public class TileEntityTypeRegistry {
 
 
     public static RegistryObject<Block> DRINK_MAKER = ModBlocks.register("drink_maker", () -> new DrinkMakerBlock(Block.Properties.copy(Blocks.OAK_WOOD).strength(0.5F).noOcclusion().pushReaction(PushReaction.DESTROY)));
-    public static RegistryObject<Item> DRINK_MAKER_ITEM = ModItems.register("drink_maker", () -> new BlockItem(DRINK_MAKER.get(), new Item.Properties()));
+    public static RegistryObject<Item> DRINK_MAKER_ITEM = ModItems.register("drink_maker", () -> new DrinkMakerItem(DRINK_MAKER.get(), new Item.Properties()));
     public static RegistryObject<BlockEntityType<DrinkMakerTileEntity>> DRINK_MAKER_TYPE = DRBlockEntities.register("drink_maker",
             () -> BlockEntityType.Builder.of(DrinkMakerTileEntity::new, DRINK_MAKER.get()).build(null));
     public static  RegistryObject<MenuType<DrinkMakerContainer>> DRINK_MAKER_CONTAINER = DRMenuType.register("drink_maker", () -> IForgeMenuType.create(DrinkMakerContainer::new));

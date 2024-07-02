@@ -22,6 +22,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -134,7 +135,7 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
     public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
         if (state.getValue(LEFT)) {
             BlockState blockstate = worldIn.getBlockState(pos.below());
-            return blockstate.isSolidRender(worldIn, pos.below());
+            return blockstate.isFaceSturdy(worldIn, pos.below(),Direction.UP);
         } else {
             Direction facing = state.getValue(FACING);
             BlockPos blockPos = pos.relative(BlockHelper.getPreviousHorizontal(facing));
@@ -156,6 +157,14 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
         return stateIn;
     }
 
+    @Override
+    public void destroy(LevelAccessor level, BlockPos pos, BlockState state) {
+        super.destroy(level, pos, state);
+        if (!level.isClientSide() && level instanceof ServerLevel serverLevel) {
+            if (state.getValue(LEFT))
+                serverLevel.removeBlockEntity(pos);
+        }
+    }
 
     @Override
     public void onRemove(BlockState blockState, Level worldIn, BlockPos pos, BlockState state, boolean isMoving) {
@@ -211,21 +220,13 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
         return InteractionResult.SUCCESS;
     }
 
-    @Override
-    public void destroy(LevelAccessor level, BlockPos pos, BlockState state) {
-        super.destroy(level, pos, state);
-        if (!level.isClientSide() && level instanceof ServerLevel serverLevel) {
-            if (state.getValue(LEFT))
-                serverLevel.removeBlockEntity(pos);
-        }
-    }
 
     @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState state1, boolean b) {
-        super.onPlace(state, level, pos, state1, b);
         if (!level.isClientSide() && state.getValue(LEFT)) {
             level.setBlockAndUpdate(pos.relative(state.getValue(FACING).getClockWise()), state.setValue(LEFT, false));
         }
+        super.onPlace(state, level, pos, state1, b);
     }
 
     @Nullable

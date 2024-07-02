@@ -5,12 +5,14 @@ package xueluoanping.teastory.client;
 
 import cloud.lemonslice.teastory.client.color.block.BirchLeavesColor;
 import cloud.lemonslice.teastory.client.color.block.GrassBlockColor;
+import cloud.lemonslice.teastory.client.color.item.BottleItemColors;
 import cloud.lemonslice.teastory.client.color.item.BucketItemColors;
+import cloud.lemonslice.teastory.client.color.item.CupItemColors;
+import cloud.lemonslice.teastory.client.color.item.GrassBlockItemColors;
 import cloud.lemonslice.teastory.client.color.season.BiomeColorsHandler;
 import cloud.lemonslice.teastory.client.gui.DrinkMakerGui;
 import net.minecraft.client.gui.screens.MenuScreens;
-import xueluoanping.teastory.BlockRegister;
-import xueluoanping.teastory.FluidRegistry;
+import xueluoanping.teastory.*;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.RenderType;
@@ -26,8 +28,6 @@ import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import xueluoanping.teastory.TeaStory;
-import xueluoanping.teastory.TileEntityTypeRegistry;
 
 import java.util.Map;
 
@@ -109,5 +109,8 @@ public class ClientSetup {
     public static void onRegisterColorHandlersEvent_Item(RegisterColorHandlersEvent.Item event) {
         var buckColors=new BucketItemColors();
         FluidRegistry.ITEMS.getEntries().forEach(itemRegistryObject -> event.register(buckColors,itemRegistryObject.get()));
+        event.register(new CupItemColors(), ItemRegister.PORCELAIN_CUP_DRINK.get());
+        event.register(new BottleItemColors(), ItemRegister.BOTTLE_DRINK.get());
+        event.register(new GrassBlockItemColors(), BlockRegister.GRASS_BLOCK_WITH_HOLE.get().asItem());
     }
 }

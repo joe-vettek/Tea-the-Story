@@ -1,5 +1,6 @@
 package xueluoanping.teastory;
 
+import cloud.lemonslice.teastory.item.CupDrinkItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -30,6 +31,8 @@ public class ModContent {
                                 TileEntityTypeRegistry.ModItems.getEntries().forEach((reg) -> {
                                     output.accept(new ItemStack(reg.get()));
                                 });
+                                ItemRegister.PORCELAIN_CUP_DRINK.get().fillItemGroup(output);
+                                ItemRegister.BOTTLE_DRINK.get().fillItemGroup(output);
                             })
                             .build());
         });

@@ -1,15 +1,21 @@
 package xueluoanping.teastory;
 
 
+import cloud.lemonslice.teastory.item.CupDrinkItem;
 import cloud.lemonslice.teastory.item.FertilizerItem;
 import cloud.lemonslice.teastory.item.ShennongChiItem;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tiers;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.fluids.capability.ItemFluidContainer;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import cloud.lemonslice.teastory.item.AqueductShovelItem;
+import org.jetbrains.annotations.NotNull;
 
 
 // import static xueluoanping.fluiddrawerslegacy.FluidDrawersLegacyMod.CREATIVE_TAB;
@@ -52,34 +58,24 @@ public class ItemRegister {
     // DRINK 饮品
     public static RegistryObject<Item> CLAY_CUP = ModItems.register("clay_cup", () -> new Item(new Item.Properties()));
     public static RegistryObject<Item> CLAY_TEAPOT = ModItems.register("clay_teapot", () -> new Item(new Item.Properties()));
-    // public static RegistryObject<Item> PORCELAIN_CUP = ModItems.register("porcelain_cup", () ->new ItemFluidContainer(new Item.Properties(), 250)
-    // {
-    //
-    //     @Override
-    //     public ICapabilityProvider initCapabilities(@NotNull ItemStack stack, @org.jetbrains.annotations.Nullable CompoundTag nbt) {
-    //         return super.initCapabilities(new ItemStack(PORCELAIN_CUP_DRINK), nbt);
-    //     }
-    // });
-    //
-    //
-    // public static final Item PORCELAIN_CUP = new ItemFluidContainer(getDrinkItemProperties(), 250)
-    // {
-    //     @Override
-    //     public ICapabilityProvider initCapabilities(@Nonnull ItemStack stack, @Nullable CompoundNBT nbt)
-    //     {
-    //         return super.initCapabilities(new ItemStack(ItemRegistry.PORCELAIN_CUP_DRINK), nbt);
-    //     }
-    // }.setRegistryName("porcelain_cup");
-    // public static final Item BOTTLE = new ItemFluidContainer(getDrinkItemProperties(), 500)
-    // {
-    //     @Override
-    //     public ICapabilityProvider initCapabilities(@Nonnull ItemStack stack, @Nullable CompoundNBT nbt)
-    //     {
-    //         return super.initCapabilities(new ItemStack(ItemRegistry.BOTTLE_DRINK), nbt);
-    //     }
-    // }.setRegistryName("bottle");
+    public static RegistryObject<Item> PORCELAIN_CUP = ModItems.register("porcelain_cup", () ->new ItemFluidContainer(new Item.Properties(), 250)
+    {
 
+        @Override
+        public ICapabilityProvider initCapabilities(@NotNull ItemStack stack, @org.jetbrains.annotations.Nullable CompoundTag nbt) {
+            return super.initCapabilities(new ItemStack(PORCELAIN_CUP_DRINK.get()), nbt);
+        }
+    });
+    public static RegistryObject<Item> BOTTLE = ModItems.register("bottle", () ->new ItemFluidContainer(new Item.Properties(), 500)
+    {
+        @Override
+        public ICapabilityProvider initCapabilities(@NotNull ItemStack stack, @org.jetbrains.annotations.Nullable CompoundTag nbt) {
+            return super.initCapabilities(new ItemStack(BOTTLE_DRINK.get()), nbt);
+        }
+    });
 
+    public static RegistryObject<CupDrinkItem> PORCELAIN_CUP_DRINK = ModItems.register("porcelain_cup_drink", () -> new CupDrinkItem(250,new Item.Properties().craftRemainder(PORCELAIN_CUP.get()).stacksTo(1)));
+    public static RegistryObject<CupDrinkItem> BOTTLE_DRINK = ModItems.register("bottle_drink", () -> new CupDrinkItem(500,new Item.Properties().craftRemainder(BOTTLE.get()).stacksTo(1)));
 
 }
 
