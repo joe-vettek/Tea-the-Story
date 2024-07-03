@@ -101,7 +101,7 @@ public class ClientSetup {
         // Minecraft.getInstance().getBlockColors().register(TEA_CUP_COLOR, BlockRegistry.WOODEN_TRAY);
         // Minecraft.getInstance().getBlockColors().register(SAUCEPAN_COLOR, BlockRegistry.SAUCEPAN);
 
-        event.register(new GrassBlockColor(), BlockRegister.GRASS_BLOCK_WITH_HOLE.get(), BlockRegister.WATERMELON_VINE.get());
+        event.register(new GrassBlockColor(),Blocks.GRASS, BlockRegister.GRASS_BLOCK_WITH_HOLE.get(), BlockRegister.WATERMELON_VINE.get());
         event.register(new BirchLeavesColor(), Blocks.BIRCH_LEAVES);
     }
 

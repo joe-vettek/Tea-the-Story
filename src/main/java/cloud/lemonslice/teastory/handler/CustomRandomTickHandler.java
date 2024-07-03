@@ -48,31 +48,31 @@ public final class CustomRandomTickHandler
             int randomTickSpeed = world.getGameRules().getInt(GameRules.RULE_RANDOMTICKING);
             if (randomTickSpeed > 0)
             {
-                // world.getChunkProvider().chunkManager.getLoadedChunksIterable().forEach(chunkHolder ->
-                // {
-                //     Optional<Chunk> optional = chunkHolder.getEntityTickingFuture().getNow(ChunkHolder.UNLOADED_CHUNK).left();
-                //     if (optional.isPresent())
-                //     {
-                //         Chunk chunk = optional.get();
-                //         for (ChunkSection chunksection : chunk.getSections())
-                //         {
-                //             if (chunksection != Chunk.EMPTY_SECTION && chunksection.needsRandomTickAny())
-                //             {
-                //                 int x = chunk.getPos().getXStart();
-                //                 int y = chunksection.getYLocation();
-                //                 int z = chunk.getPos().getZStart();
-                //
-                //                 for (int l = 0; l < randomTickSpeed; ++l)
-                //                 {
-                //                     if (world.getRandom().nextInt(32) == 0)
-                //                     {
-                //                         doCustomRandomTick(world, x, y, z);
-                //                     }
-                //                 }
-                //             }
-                //         }
-                //     }
-                // });
+                world.getChunkSource().chunkMap.getChunks().forEach(chunkHolder ->
+                {
+                    Optional<Chunk> optional = chunkHolder.getEntityTickingFuture().getNow(ChunkHolder.UNLOADED_CHUNK).left();
+                    if (optional.isPresent())
+                    {
+                        Chunk chunk = optional.get();
+                        for (ChunkSection chunksection : chunk.getSections())
+                        {
+                            if (chunksection != Chunk.EMPTY_SECTION && chunksection.needsRandomTickAny())
+                            {
+                                int x = chunk.getPos().getXStart();
+                                int y = chunksection.getYLocation();
+                                int z = chunk.getPos().getZStart();
+
+                                for (int l = 0; l < randomTickSpeed; ++l)
+                                {
+                                    if (world.getRandom().nextInt(32) == 0)
+                                    {
+                                        doCustomRandomTick(world, x, y, z);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
             }
         }
     }

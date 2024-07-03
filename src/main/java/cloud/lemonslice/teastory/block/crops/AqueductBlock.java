@@ -2,6 +2,7 @@ package cloud.lemonslice.teastory.block.crops;
 
 
 import cloud.lemonslice.teastory.block.HorizontalConnectedBlock;
+import cloud.lemonslice.teastory.block.crops.PaddyFieldBlock;
 import cloud.lemonslice.teastory.helper.VoxelShapeHelper;
 import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
@@ -37,6 +38,7 @@ import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.Nullable;
 
 
+
 import java.util.List;
 
 public class AqueductBlock extends HorizontalConnectedBlock implements SimpleWaterloggedBlock {
@@ -44,7 +46,7 @@ public class AqueductBlock extends HorizontalConnectedBlock implements SimpleWat
     public static final BooleanProperty BLOCKED = BooleanProperty.create("blocked");
     public static final BooleanProperty BOTTOM = BooleanProperty.create("bottom");
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    protected static VoxelShape[] SHAPES;
+    protected static  VoxelShape[] SHAPES;
     protected static final VoxelShape FULL_SHAPE = VoxelShapeHelper.createVoxelShape(0, 0, 0, 16, 15, 16);
 
     public AqueductBlock(Properties properties) {
@@ -63,26 +65,26 @@ public class AqueductBlock extends HorizontalConnectedBlock implements SimpleWat
 
     // onBlockActivated
     @Override
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         if (state.getValue(BLOCKED)) {
-            worldIn.setBlockAndUpdate(pos, state.setValue(BLOCKED, false));
-            worldIn.scheduleTick(pos, this, Fluids.WATER.getTickDelay(worldIn));
-            if (!worldIn.isClientSide()) {
-                popResource(worldIn, pos, new ItemStack(Blocks.GRAVEL));
+            level.setBlockAndUpdate(pos, state.setValue(BLOCKED, false));
+            level.scheduleTick(pos, this, Fluids.WATER.getTickDelay(level));
+            if (!level.isClientSide()) {
+                popResource(level, pos, new ItemStack(Blocks.GRAVEL));
             }
             return InteractionResult.SUCCESS;
         } else if (player.getItemInHand(handIn).getItem() == Blocks.GRAVEL.asItem() && !state.getValue(BLOCKED)) {
-            worldIn.setBlockAndUpdate(pos, state.setValue(BLOCKED, true).setValue(WATERLOGGED, false).setValue(DISTANCE, 32));
-            if (worldIn instanceof ServerLevel) {
-                updateWater((ServerLevel) worldIn, pos.north(), state);
-                updateWater((ServerLevel) worldIn, pos.south(), state);
-                updateWater((ServerLevel) worldIn, pos.east(), state);
-                updateWater((ServerLevel) worldIn, pos.west(), state);
+            level.setBlockAndUpdate(pos, state.setValue(BLOCKED, true).setValue(WATERLOGGED, false).setValue(DISTANCE, 32));
+            if (level instanceof ServerLevel) {
+                updateWater((ServerLevel) level, pos.north(), state);
+                updateWater((ServerLevel) level, pos.south(), state);
+                updateWater((ServerLevel) level, pos.east(), state);
+                updateWater((ServerLevel) level, pos.west(), state);
             }
             player.getItemInHand(handIn).shrink(1);
             return InteractionResult.SUCCESS;
         } else {
-            return fillAqueduct(worldIn, pos, player, handIn);
+            return fillAqueduct(level, pos, player, handIn);
         }
     }
 
@@ -221,13 +223,13 @@ public class AqueductBlock extends HorizontalConnectedBlock implements SimpleWat
         if (state.getValue(BOTTOM)) updateWater(worldIn, pos.below(), state);
     }
 
-    public void updateWater(ServerLevel worldIn, BlockPos pos, BlockState origin) {
-        BlockState state = worldIn.getBlockState(pos);
+    public void updateWater(ServerLevel level, BlockPos pos, BlockState origin) {
+        BlockState state = level.getBlockState(pos);
         if (state.getBlock() instanceof PaddyFieldBlock) {
-            worldIn.setBlockAndUpdate(pos, state.setValue(PaddyFieldBlock.WATER, origin.getValue(WATERLOGGED) ? PaddyFieldBlock.Water.POUR : PaddyFieldBlock.Water.DRAIN));
-            ((PaddyFieldBlock) state.getBlock()).updateWater(worldIn, pos);
+            level.setBlockAndUpdate(pos, state.setValue(PaddyFieldBlock.WATER, origin.getValue(WATERLOGGED) ? PaddyFieldBlock.Water.POUR : PaddyFieldBlock.Water.DRAIN));
+            ((PaddyFieldBlock) state.getBlock()).updateWater(level, pos);
         } else if (state.getBlock() instanceof AqueductBlock) {
-            worldIn.scheduleTick(pos, state.getBlock(), Fluids.WATER.getTickDelay(worldIn));
+            level.scheduleTick(pos, state.getBlock(), Fluids.WATER.getTickDelay(level));
         }
     }
 
@@ -242,12 +244,13 @@ public class AqueductBlock extends HorizontalConnectedBlock implements SimpleWat
 
     // updatePostPlacement
     @Override
-    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos) {
+    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
+        // 排水和给水计划刻时间别设一样
         if (!(facingState.getBlock() instanceof AqueductBlock) && !(facingState.getBlock() instanceof PaddyFieldBlock)) {
-            worldIn.scheduleTick(currentPos, this, Fluids.WATER.getTickDelay(worldIn) / 2);
+            level.scheduleTick(currentPos, this, Fluids.WATER.getTickDelay(level) / 2);
         }
         if (stateIn.getValue(WATERLOGGED)) {
-            worldIn.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(worldIn));
+            level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
         if (facing.getAxis().getPlane() == Direction.Plane.HORIZONTAL) {
             stateIn = stateIn.setValue(FACING_TO_PROPERTY_MAP.get(facing), this.canConnect(facingState));

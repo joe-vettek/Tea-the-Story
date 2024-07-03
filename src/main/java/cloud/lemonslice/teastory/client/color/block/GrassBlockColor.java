@@ -18,8 +18,10 @@ public class GrassBlockColor implements BlockColor
     public int getColor(BlockState state, BlockAndTintGetter reader, BlockPos pos, int index) {
         if (reader != null & pos != null)
         {
+            // BiomeColors.GRASS_COLOR_RESOLVER
             return reader.getBlockTint(pos, BiomeColors.GRASS_COLOR_RESOLVER);
         }
         return -1;
+
     }
 }
