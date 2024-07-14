@@ -1,10 +1,8 @@
 package cloud.lemonslice.teastory.blockentity;
 
-import cloud.lemonslice.silveroak.environment.Humidity;
 import cloud.lemonslice.teastory.block.craft.BambooTrayMode;
 import cloud.lemonslice.teastory.block.craft.IStoveBlock;
 import cloud.lemonslice.teastory.container.BambooTrayContainer;
-import cloud.lemonslice.teastory.recipe.bamboo_tray.BambooTrayInRainRecipe;
 import cloud.lemonslice.teastory.recipe.bamboo_tray.BambooTraySingleInRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -20,7 +18,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
-
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 import org.jetbrains.annotations.NotNull;
@@ -88,20 +85,20 @@ public class BambooTrayTileEntity extends NormalContainerTileEntity {
         float rainfall = tileEntity.getLevel().getBiome(tileEntity.getBlockPos()).get().getModifiedClimateSettings().downfall();
         switch (BambooTrayMode.getMode(tileEntity.getLevel(), tileEntity.getBlockPos())) {
             case IN_RAIN:
-                tileEntity.process(RecipeRegister.BAMBOO_TRAY_IN_RAIN.get(), Humidity.getHumid(rainfall, temp).getCoefficient());
+                tileEntity.process(RecipeRegister.BAMBOO_TRAY_IN_RAIN.get(), 1);
                 tileEntity.mode = BambooTrayMode.IN_RAIN;
                 return;
             case OUTDOORS:
                 if (!tileEntity.isWorldRaining())
-                    tileEntity.process(RecipeRegister.BAMBOO_TRAY_OUTDOORS.get(), Humidity.getHumid(rainfall, temp).getCoefficient());
+                    tileEntity.process(RecipeRegister.BAMBOO_TRAY_OUTDOORS.get(), 1);
                 tileEntity.mode = BambooTrayMode.OUTDOORS;
                 return;
             case INDOORS:
-                tileEntity.process(RecipeRegister.BAMBOO_TRAY_INDOORS.get(), Humidity.getHumid(rainfall, temp).getCoefficient());
+                tileEntity.process(RecipeRegister.BAMBOO_TRAY_INDOORS.get(), 1);
                 tileEntity.mode = BambooTrayMode.INDOORS;
                 return;
             case BAKE:
-                tileEntity.process(RecipeRegister.BAMBOO_TRAY_BAKE.get(), Humidity.getHumid(rainfall, temp).getCoefficient());
+                tileEntity.process(RecipeRegister.BAMBOO_TRAY_BAKE.get(), 1);
                 tileEntity.mode = BambooTrayMode.BAKE;
                 return;
             case PROCESS:

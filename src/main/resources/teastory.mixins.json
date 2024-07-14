@@ -4,9 +4,6 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "teastory.refmap.json",
   "mixins": [
-    "MixinDimensionType",
-    "MixinLevelTimeAccess",
-    "MixinServerLevel"
   ],
   "client": [
   ],

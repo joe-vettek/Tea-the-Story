@@ -1,20 +1,13 @@
 package xueluoanping.teastory.client;
 
-
-// import com.jaquadro.minecraft.storagedrawers.client.renderer.TileEntityDrawersRenderer;
-
-import cloud.lemonslice.teastory.client.color.block.BirchLeavesColor;
 import cloud.lemonslice.teastory.client.color.block.GrassBlockColor;
 import cloud.lemonslice.teastory.client.color.item.BottleItemColors;
 import cloud.lemonslice.teastory.client.color.item.BucketItemColors;
 import cloud.lemonslice.teastory.client.color.item.CupItemColors;
 import cloud.lemonslice.teastory.client.color.item.GrassBlockItemColors;
-import cloud.lemonslice.teastory.client.color.season.BiomeColorsHandler;
 import cloud.lemonslice.teastory.client.gui.DrinkMakerGui;
-import net.minecraft.client.gui.screens.MenuScreens;
-import xueluoanping.teastory.*;
 import net.minecraft.client.color.block.BlockColors;
-import net.minecraft.client.renderer.BiomeColors;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
@@ -28,6 +21,7 @@ import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import xueluoanping.teastory.*;
 
 import java.util.Map;
 
@@ -45,15 +39,6 @@ public class ClientSetup {
     public static void onClientEvent(FMLClientSetupEvent event) {
         TeaStory.logger("Register Client");
         event.enqueueWork(() -> {
-            // ItemBlockRenderTypes.setRenderLayer(ModContents.fluiddrawer.get(), ClientSetup::isGlassLanternValidLayer);
-            // MenuScreens.register(ModContents.containerType.get(), Screen.Slot1::new);
-            //
-            // ItemBlockRenderTypes.setRenderLayer(ModContents.ricePlant.get(),RenderType.cutout());
-            // ItemBlockRenderTypes.setRenderLayer(ModContents.RiceSeedlingBlock.get(),RenderType.cutout());
-            // fix json file instead
-            BiomeColors.GRASS_COLOR_RESOLVER = BiomeColorsHandler.GRASS_COLOR;
-            BiomeColors.FOLIAGE_COLOR_RESOLVER = BiomeColorsHandler.FOLIAGE_COLOR;
-
             MenuScreens.register(TileEntityTypeRegistry.DRINK_MAKER_CONTAINER.get(), DrinkMakerGui::new);
 
         });
@@ -101,8 +86,7 @@ public class ClientSetup {
         // Minecraft.getInstance().getBlockColors().register(TEA_CUP_COLOR, BlockRegistry.WOODEN_TRAY);
         // Minecraft.getInstance().getBlockColors().register(SAUCEPAN_COLOR, BlockRegistry.SAUCEPAN);
 
-        event.register(new GrassBlockColor(),Blocks.GRASS, BlockRegister.GRASS_BLOCK_WITH_HOLE.get(), BlockRegister.WATERMELON_VINE.get());
-        event.register(new BirchLeavesColor(), Blocks.BIRCH_LEAVES);
+        event.register(new GrassBlockColor(), BlockRegister.GRASS_BLOCK_WITH_HOLE.get(), BlockRegister.WATERMELON_VINE.get());
     }
 
     @SubscribeEvent

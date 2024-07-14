@@ -2,8 +2,6 @@ package xueluoanping.teastory;
 
 
 import cloud.lemonslice.teastory.config.NormalConfigs;
-import cloud.lemonslice.teastory.environment.solar.BiomeTemperatureManager;
-import cloud.lemonslice.teastory.network.SimpleNetworkHandler;
 import cloud.lemonslice.teastory.recipe.drink.DrinkEffectManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -107,8 +105,6 @@ public class TeaStory {
 
     public void FMLCommonSetup(final FMLCommonSetupEvent event) {
         // start.dataGen(event);
-        SimpleNetworkHandler.init();
-        BiomeTemperatureManager.init();
         DrinkEffectManager.init();
     }
 
