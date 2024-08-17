@@ -13,7 +13,7 @@ public final class BattleEventHandler
 {
     public static void onShennongChiAttack(LivingHurtEvent event) throws IOException
     {
-        if (event.getSource().getEntity() instanceof Player && ((Player) event.getSource().getEntity()).getMainHandItem().getItem() == ItemRegister.shennong_chi.get())
+        if (event.getSource().getEntity() instanceof Player && ((Player) event.getSource().getEntity()).getMainHandItem().getItem() == ItemRegister.ironSickle.get())
         {
             event.getEntity().addEffect(new MobEffectInstance(MobEffects.POISON, 200, 1));
         }

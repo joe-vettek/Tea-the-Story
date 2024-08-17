@@ -142,7 +142,7 @@ public class RicePlantBlock extends CropBlock
     }
     @Override
     protected ItemLike getBaseSeedId() {
-        return BlockRegister.riceGrains.get();
+        return BlockRegister.riceSeedlings.get();
     }
 
     @Override

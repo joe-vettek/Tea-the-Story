@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "aqueduct_shovel",
+    "pattern": [
+        " * ",
+        " # "
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:wheat_seeds"
+        },
+        "*": {
+            "item": "minecraft:wheat_seeds"
+        }
+    },
+    "result": {
+        "item": "teastory:rice"
+    }
+}

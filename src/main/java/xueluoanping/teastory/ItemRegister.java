@@ -1,9 +1,7 @@
 package xueluoanping.teastory;
 
 
-import cloud.lemonslice.teastory.item.CupDrinkItem;
-import cloud.lemonslice.teastory.item.FertilizerItem;
-import cloud.lemonslice.teastory.item.ShennongChiItem;
+import cloud.lemonslice.teastory.item.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -14,7 +12,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import cloud.lemonslice.teastory.item.AqueductShovelItem;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -27,6 +24,7 @@ public class ItemRegister {
     public static final DeferredRegister<Item> ModItems = DeferredRegister.create(ForgeRegistries.ITEMS, TeaStory.MODID);
 
     public static RegistryObject<Item> shennong_chi = ModItems.register("shennong_chi", () -> new ShennongChiItem( new Item.Properties().fireResistant()));
+    public static RegistryObject<Item> ironSickle = ModItems.register("iron_sickle", () -> new SickleItem( Tiers.IRON,1.5F, -2.5F,new Item.Properties().fireResistant()));
 
 
     public static RegistryObject<Item> woodenAqueductShovel = ModItems.register("wooden_aqueduct_shovel", () -> new AqueductShovelItem(Tiers.WOOD, 1.5F, -2.5F, new Item.Properties()));
@@ -77,5 +75,5 @@ public class ItemRegister {
     public static RegistryObject<CupDrinkItem> PORCELAIN_CUP_DRINK = ModItems.register("porcelain_cup_drink", () -> new CupDrinkItem(250,new Item.Properties().craftRemainder(PORCELAIN_CUP.get()).stacksTo(1)));
     public static RegistryObject<CupDrinkItem> BOTTLE_DRINK = ModItems.register("bottle_drink", () -> new CupDrinkItem(500,new Item.Properties().craftRemainder(BOTTLE.get()).stacksTo(1)));
 
-}
+   }
 
