@@ -143,7 +143,6 @@ public class TrellisBlock extends HorizontalConnectedBlock {
     }
 
 
-
     public BlockState getRelevantState(BlockState old) {
         BlockState newState = this.defaultBlockState();
         return newState.setValue(NORTH, old.getValue(NORTH)).setValue(SOUTH, old.getValue(SOUTH)).setValue(WEST, old.getValue(WEST)).setValue(EAST, old.getValue(EAST)).setValue(POST, old.getValue(POST)).setValue(UP, old.getValue(UP));

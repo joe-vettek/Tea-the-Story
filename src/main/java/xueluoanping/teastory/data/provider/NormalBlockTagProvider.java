@@ -1,6 +1,7 @@
 package xueluoanping.teastory.data.provider;
 
 
+import cloud.lemonslice.teastory.block.crops.TrellisBlock;
 import cloud.lemonslice.teastory.block.crops.TrellisWithVineBlock;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
@@ -29,7 +30,7 @@ public final class NormalBlockTagProvider extends BlockTagsProvider {
     protected void addTags(HolderLookup.Provider pProvider) {
         tag(BlockTags.WOODEN_FENCES).add(BlockRegister.BAMBOO_LATTICE.get());
         BlockRegister.ModBlocks.getEntries().forEach(blockHolder -> {
-            if (blockHolder.get() instanceof TrellisWithVineBlock) {
+            if (blockHolder.get() instanceof TrellisBlock) {
                 tag(BlockTags.WOODEN_FENCES).add(blockHolder.get());
             }
         });

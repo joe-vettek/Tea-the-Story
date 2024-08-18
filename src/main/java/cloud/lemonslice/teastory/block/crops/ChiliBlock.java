@@ -13,7 +13,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -24,8 +27,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChiliBlock extends CropBlock {
+    public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 6);
+
+
     public ChiliBlock(BlockBehaviour.Properties pProperties) {
         super(pProperties);
+    }
+
+    @Override
+    protected IntegerProperty getAgeProperty() {
+        return AGE;
     }
 
     @Override
@@ -48,5 +59,10 @@ public class ChiliBlock extends CropBlock {
         }
         list.add(new ItemStack(getBaseSeedId()));
         return list;
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+        pBuilder.add(AGE);
     }
 }

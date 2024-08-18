@@ -13,7 +13,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -24,8 +26,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChineseCabbageBlock extends CropBlock {
+    public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 6);
+
     public ChineseCabbageBlock(BlockBehaviour.Properties pProperties) {
         super(pProperties);
+    }
+
+    @Override
+    protected IntegerProperty getAgeProperty() {
+        return AGE;
     }
 
     @Override
@@ -37,6 +46,7 @@ public class ChineseCabbageBlock extends CropBlock {
     protected ItemLike getBaseSeedId() {
         return BlockRegister.CHINESE_CABBAGE_SEEDS.get();
     }
+
     @Override
     public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
         List<ItemStack> list = new ArrayList<>();
@@ -46,5 +56,10 @@ public class ChineseCabbageBlock extends CropBlock {
         }
         list.add(new ItemStack(getBaseSeedId()));
         return list;
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+        pBuilder.add(AGE);
     }
 }
