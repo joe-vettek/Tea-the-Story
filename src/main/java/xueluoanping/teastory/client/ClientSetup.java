@@ -25,6 +25,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -95,6 +96,8 @@ public class ClientSetup {
         event.registerBlockEntityRenderer(TileEntityTypeRegistry.STONE_ROLLER_TYPE.get(), StoneRollerTESR::new);
         event.registerBlockEntityRenderer(TileEntityTypeRegistry.STOVE_TYPE.get(), StoveTESR::new);
         event.registerBlockEntityRenderer(TileEntityTypeRegistry.WOODEN_BARREL_TYPE.get(), WoodenBarrelTESR::new);
+
+        ServerGamePacketListenerImpl
 
     }
 

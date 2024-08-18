@@ -89,7 +89,8 @@ public class TileEntityTypeRegistry {
     public static RegistryObject<Block> WOODEN_BARREL = ModBlocks.register("wooden_barrel", () -> new WoodenBarrelBlock(Block.Properties.copy(Blocks.OAK_WOOD).strength(0.6F).noOcclusion()));
     public static RegistryObject<BlockItem> WOODEN_BARREL_ITEM = ModItems.register("wooden_barrel", () -> new BlockItem(WOODEN_BARREL.get(), new Item.Properties().stacksTo(1)));
     public static RegistryObject<BlockEntityType<WoodenBarrelTileEntity>> WOODEN_BARREL_TYPE = DRBlockEntities.register("wooden_barrel",
-            () -> BlockEntityType.Builder.of(WoodenBarrelTileEntity::new, IRON_KETTLE.get()).build(null));
+            () -> BlockEntityType.Builder.of(WoodenBarrelTileEntity::new, WOODEN_BARREL.get()).build(null));
+
 
 
 }
