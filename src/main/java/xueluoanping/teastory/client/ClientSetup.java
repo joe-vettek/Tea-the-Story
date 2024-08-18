@@ -7,7 +7,17 @@ import cloud.lemonslice.teastory.client.color.block.HybridizableFlowerBlockColor
 import cloud.lemonslice.teastory.client.color.block.SaucepanBlockColor;
 import cloud.lemonslice.teastory.client.color.block.TeaCupBlockColor;
 import cloud.lemonslice.teastory.client.color.item.*;
+import cloud.lemonslice.teastory.client.gui.BambooTrayGui;
 import cloud.lemonslice.teastory.client.gui.DrinkMakerGui;
+import cloud.lemonslice.teastory.client.gui.StoneMillGui;
+import cloud.lemonslice.teastory.client.gui.StoneRollerGui;
+import cloud.lemonslice.teastory.client.gui.StoveGui;
+import cloud.lemonslice.teastory.client.render.BambooTrayTESR;
+import cloud.lemonslice.teastory.client.render.DrinkMakerTESR;
+import cloud.lemonslice.teastory.client.render.StoneMillTESR;
+import cloud.lemonslice.teastory.client.render.StoneRollerTESR;
+import cloud.lemonslice.teastory.client.render.StoveTESR;
+import cloud.lemonslice.teastory.client.render.WoodenBarrelTESR;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -19,7 +29,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
@@ -44,7 +53,11 @@ public class ClientSetup {
     public static void onClientEvent(FMLClientSetupEvent event) {
         TeaStory.logger("Register Client");
         event.enqueueWork(() -> {
+            MenuScreens.register(TileEntityTypeRegistry.BAMBOO_TRAY_CONTAINER.get(), BambooTrayGui::new);
             MenuScreens.register(TileEntityTypeRegistry.DRINK_MAKER_CONTAINER.get(), DrinkMakerGui::new);
+            MenuScreens.register(TileEntityTypeRegistry.STONE_MILL_CONTAINER.get(), StoneMillGui::new);
+            MenuScreens.register(TileEntityTypeRegistry.STONE_ROLLER_CONTAINER.get(), StoneRollerGui::new);
+            MenuScreens.register(TileEntityTypeRegistry.STOVE_CONTAINER.get(), StoveGui::new);
 
             ItemBlockRenderTypes.setRenderLayer(BlockRegister.DRY_HAYSTACK.get(), RenderType.cutoutMipped());
             ItemBlockRenderTypes.setRenderLayer(BlockRegister.WET_HAYSTACK.get(), RenderType.cutoutMipped());
@@ -69,7 +82,6 @@ public class ClientSetup {
 
     //    注意static是单次，比如启动类，没有比如右击事件
     @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
     public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(EntityTypeRegistry.SEAT_TYPE.get(), pContext -> new EntityRenderer<Entity>(pContext) {
             @Override
@@ -77,11 +89,13 @@ public class ClientSetup {
                 return null;
             }
         });
-        // FluidDrawersLegacyMod.logger("Register Renderer");
-        // ModContents.DRBlockEntities.getEntries().forEach((reg) -> {
-        //     event.registerBlockEntityRenderer((BlockEntityType<BlockEntityFluidDrawer>)reg.get(),
-        //             TESRFluidDrawer::new);
-        // });
+        event.registerBlockEntityRenderer(TileEntityTypeRegistry.BAMBOO_TRAY_TYPE.get(), BambooTrayTESR::new);
+        event.registerBlockEntityRenderer(TileEntityTypeRegistry.DRINK_MAKER_TYPE.get(), DrinkMakerTESR::new);
+        event.registerBlockEntityRenderer(TileEntityTypeRegistry.STONE_MILL_TYPE.get(), StoneMillTESR::new);
+        event.registerBlockEntityRenderer(TileEntityTypeRegistry.STONE_ROLLER_TYPE.get(), StoneRollerTESR::new);
+        event.registerBlockEntityRenderer(TileEntityTypeRegistry.STOVE_TYPE.get(), StoveTESR::new);
+        event.registerBlockEntityRenderer(TileEntityTypeRegistry.WOODEN_BARREL_TYPE.get(), WoodenBarrelTESR::new);
+
     }
 
 

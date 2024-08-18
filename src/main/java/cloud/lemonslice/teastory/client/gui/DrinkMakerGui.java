@@ -6,6 +6,7 @@ import cloud.lemonslice.teastory.container.DrinkMakerContainer;
 import cloud.lemonslice.teastory.recipe.drink.DrinkRecipe;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -46,7 +47,7 @@ public class DrinkMakerGui extends AbstractContainerScreen<DrinkMakerContainer> 
         RenderSystem.enableBlend();
         // // RenderSystem.enableAlphaTest();
         // minecraft.getTextureManager().bindForSetup(TEXTURE);
-        RenderSystem.setShaderTexture(0, TEXTURE);
+        Minecraft.getInstance().getTextureManager().bindForSetup(TEXTURE);
         guiGraphics.blit(TEXTURE, offsetX, offsetY, 0, 0, imageWidth, imageHeight);
 
         // GuiHelper.drawLayer(guiGraphics, offsetX + QUESTION_X, offsetY + QUESTION_Y, TEXTURE, new TexturePos(176, 94, 11, 11));
@@ -77,12 +78,12 @@ public class DrinkMakerGui extends AbstractContainerScreen<DrinkMakerContainer> 
             } else {
                 height = 0;
             }
-            var fs=f.getFluidInTank(0);
+            var fs = f.getFluidInTank(0);
 
             PoseStack poseStack = guiGraphics.pose();
             poseStack.pushPose();
             if (!fs.isEmpty())
-                RenderUtil.renderFluidStackInGUI(guiGraphics.pose().last().pose(),fs,16, 64 ,offsetX + 128, offsetY + 12+height );
+                RenderUtil.renderFluidStackInGUI(guiGraphics.pose().last().pose(), fs, 16, 64, offsetX + 128, offsetY + 12 + height);
             poseStack.popPose();
             // GuiHelper.drawTank(this, new TexturePos(), , height);
 
@@ -105,15 +106,12 @@ public class DrinkMakerGui extends AbstractContainerScreen<DrinkMakerContainer> 
     protected void renderLabels(GuiGraphics matrixStack, int mouseX, int mouseY) {
         DrinkRecipe recipe = container.getTileEntity().getCurrentRecipe();
         if (!isEnough) isEnough = true;
-        if (recipe != null)
-        {
+        if (recipe != null) {
             int n = container.getTileEntity().getNeededAmount();
-            for (int i = 0; i < 4; i++)
-            {
+            for (int i = 0; i < 4; i++) {
                 Slot slot = this.container.slots.get(i);
                 ItemStack itemStack = slot.getItem();
-                if (!itemStack.isEmpty() && itemStack.getCount() < n)
-                {
+                if (!itemStack.isEmpty() && itemStack.getCount() < n) {
                     renderSlotWarning(matrixStack, slot.x, slot.y);
                     isEnough = false;
                 }
@@ -121,10 +119,9 @@ public class DrinkMakerGui extends AbstractContainerScreen<DrinkMakerContainer> 
         }
 
         int offsetX = (width - imageWidth) / 2, offsetY = (height - imageHeight) / 2;
-        matrixStack.drawString(this.font, this.title.getString(), this.imageWidth / 3.0F - this.font.width(this.title.getString()) / 2.0F - 1, 8.0F, 0xdec674,false);
-        matrixStack.drawString(this.font, this.playerInventoryTitle.getString(), 8.0F, (float) (this.imageHeight - 95), 0xdec674,false);
-        if (offsetX + QUESTION_X <= mouseX && mouseX <= offsetX + QUESTION_X + 11 && offsetY + QUESTION_Y <= mouseY && mouseY <= offsetY + QUESTION_Y + 11)
-        {
+        matrixStack.drawString(this.font, this.title.getString(), this.imageWidth / 3.0F - this.font.width(this.title.getString()) / 2.0F - 1, 8.0F, 0xdec674, false);
+        matrixStack.drawString(this.font, this.playerInventoryTitle.getString(), 8.0F, (float) (this.imageHeight - 95), 0xdec674, false);
+        if (offsetX + QUESTION_X <= mouseX && mouseX <= offsetX + QUESTION_X + 11 && offsetY + QUESTION_Y <= mouseY && mouseY <= offsetY + QUESTION_Y + 11) {
             Component ingredient = Component.translatable("info.teastory.tooltip.drink_maker.help.1");
             Component residue = Component.translatable("info.teastory.tooltip.drink_maker.help.2");
 
@@ -133,22 +130,19 @@ public class DrinkMakerGui extends AbstractContainerScreen<DrinkMakerContainer> 
         }
     }
 
-    protected void drawGuiContainerForegroundLayer(GuiGraphics matrixStack, int mouseX, int mouseY) {
-      
-    }
-
     private void renderSlotWarning(GuiGraphics matrixStack, int x, int y) {
         matrixStack.fillGradient(x, y, x + 16, y + 16, 0x9fd64f44, 0x9fd64f44);
     }
 
 
+    @Override
     protected void renderTooltip(GuiGraphics matrixStack, int mouseX, int mouseY) {
         super.renderTooltip(matrixStack, mouseX, mouseY);
         int offsetX = (width - imageWidth) / 2, offsetY = (height - imageHeight) / 2;
 
-        if(offsetX + 128<mouseX&&mouseX<offsetX + 128+16
-        && offsetY+12<mouseY&&mouseY<offsetY+12+64)
-        matrixStack.renderComponentTooltip(this.font, List.of( this.container.getTileEntity().getFluidTranslation()), mouseX, mouseY);
+        if (offsetX + 128 < mouseX && mouseX < offsetX + 128 + 16
+                && offsetY + 12 < mouseY && mouseY < offsetY + 12 + 64)
+            matrixStack.renderComponentTooltip(this.font, List.of(this.container.getTileEntity().getFluidTranslation()), mouseX, mouseY);
 
 
         // GuiHelper.drawFluidTooltip(matrixStack, mouseX, mouseY, offsetX + 128, offsetY + 12, 16, 64, this.container.getTileEntity().getFluidTranslation(), this.container.getTileEntity().getFluidAmount());
