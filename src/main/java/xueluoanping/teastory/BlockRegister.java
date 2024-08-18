@@ -5,6 +5,7 @@ import cloud.lemonslice.teastory.block.BowlBlock;
 import cloud.lemonslice.teastory.block.craft.*;
 import cloud.lemonslice.teastory.block.crops.*;
 import cloud.lemonslice.teastory.block.decorations.*;
+import cloud.lemonslice.teastory.item.HybridizableFlowerBlockItem;
 import cloud.lemonslice.teastory.item.VineSeedsItem;
 import cloud.lemonslice.teastory.item.food.NormalFoods;
 import net.minecraft.core.BlockPos;
@@ -49,7 +50,7 @@ public class BlockRegister {
     public static RegistryObject<Block> RiceSeedlingBlock = ModBlocks.register("rice_seedling", () -> new RiceSeedlingBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
     public static RegistryObject<Block> ricePlant = ModBlocks.register("rice_plant", () -> new RicePlantBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
 
-    public static RegistryObject<Item> riceGrains = ModItems.register("rice_grains", () -> new BlockItem(RiceSeedlingBlock.get(), new Item.Properties()));
+    public static RegistryObject<Item> RICE_GRAINS = ModItems.register("rice_grains", () -> new BlockItem(RiceSeedlingBlock.get(), new Item.Properties()));
     public static RegistryObject<Item> riceSeedlings = ModItems.register("rice_seedlings", () -> new BlockItem(ricePlant.get(), new Item.Properties()));
 
     public static RegistryObject<Block> tea_plant = ModBlocks.register("tea_plant", () -> new TeaPlantBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
@@ -202,11 +203,11 @@ public class BlockRegister {
 
     // FLOWERS 花朵
     public static RegistryObject<HybridizableFlowerBlock> CHRYSANTHEMUM = ModBlocks.register("chrysanthemum", () -> new HybridizableFlowerBlock(Block.Properties.copy(Blocks.DANDELION).noOcclusion()));
-    public static RegistryObject<Item> CHRYSANTHEMUM_ITEM = ModItems.register("chrysanthemum", () -> new BlockItem(CHRYSANTHEMUM.get(), new Item.Properties()));
+    public static RegistryObject<HybridizableFlowerBlockItem> CHRYSANTHEMUM_ITEM = ModItems.register("chrysanthemum", () -> new HybridizableFlowerBlockItem(CHRYSANTHEMUM.get(), new Item.Properties()));
     public static RegistryObject<HybridizableFlowerBlock> HYACINTH = ModBlocks.register("hyacinth", () -> new HybridizableFlowerBlock(Block.Properties.copy(Blocks.DANDELION).noOcclusion()));
-    public static RegistryObject<Item> HYACINTH_ITEM = ModItems.register("hyacinth", () -> new BlockItem(HYACINTH.get(), new Item.Properties()));
+    public static RegistryObject<HybridizableFlowerBlockItem> HYACINTH_ITEM = ModItems.register("hyacinth", () -> new HybridizableFlowerBlockItem(HYACINTH.get(), new Item.Properties()));
     public static RegistryObject<HybridizableFlowerBlock> ZINNIA = ModBlocks.register("zinnia", () -> new HybridizableFlowerBlock(Block.Properties.copy(Blocks.DANDELION).noOcclusion()));
-    public static RegistryObject<Item> ZINNIA_ITEM = ModItems.register("zinnia", () -> new BlockItem(ZINNIA.get(), new Item.Properties()));
+    public static RegistryObject<HybridizableFlowerBlockItem> ZINNIA_ITEM = ModItems.register("zinnia", () -> new HybridizableFlowerBlockItem(ZINNIA.get(), new Item.Properties()));
 
 }
 

@@ -203,7 +203,7 @@ dependencies {
 //    implementation fg.deobf("curse.maven:jade-324717:4654448")
     implementation fg.deobf("curse.maven:jade-324717:5072729-deobf-sources-api")
 
-    implementation fg.deobf("curse.maven:create-328085:4835191-deobf-sources-api")
+    onlyMainRuntimeOnly fg.deobf("curse.maven:create-328085:4835191-deobf-sources-api")
     onlyMainRuntimeOnly fg.deobf("curse.maven:embeddium-908741:4949986")
     onlyMainRuntimeOnly fg.deobf("curse.maven:oculus-581495:4952626")
 

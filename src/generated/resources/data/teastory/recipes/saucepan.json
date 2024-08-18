@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "saucepan",
+  "key": {
+    "#": {
+      "tag": "forge:ingots/iron"
+    },
+    "*": {
+      "item": "minecraft:bucket"
+    }
+  },
+  "pattern": [
+    " # ",
+    "#*#",
+    "###"
+  ],
+  "result": {
+    "item": "teastory:saucepan"
+  },
+  "show_notification": true
+}

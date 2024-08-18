@@ -29,14 +29,14 @@ public class ItemRegister {
     public static final DeferredRegister<Item> ModItems = DeferredRegister.create(ForgeRegistries.ITEMS, TeaStory.MODID);
 
     public static RegistryObject<Item> shennong_chi = ModItems.register("shennong_chi", () -> new ShennongChiItem(new Item.Properties().fireResistant()));
-    public static RegistryObject<Item> ironSickle = ModItems.register("iron_sickle", () -> new SickleItem(Tiers.IRON, 1.5F, -2.5F, new Item.Properties().fireResistant()));
+    public static RegistryObject<Item> IRON_SICKLE = ModItems.register("iron_sickle", () -> new SickleItem(Tiers.IRON, 1.5F, -2.5F, new Item.Properties().fireResistant()));
 
 
-    public static RegistryObject<Item> woodenAqueductShovel = ModItems.register("wooden_aqueduct_shovel", () -> new AqueductShovelItem(Tiers.WOOD, 1.5F, -2.5F, new Item.Properties()));
-    public static RegistryObject<Item> stoneAqueductShovel = ModItems.register("stone_aqueduct_shovel", () -> new AqueductShovelItem(Tiers.STONE, 1.5F, -2.5F, new Item.Properties()));
-    public static RegistryObject<Item> goldAqueductShovel = ModItems.register("gold_aqueduct_shovel", () -> new AqueductShovelItem(Tiers.GOLD, 1.5F, -2.5F, new Item.Properties()));
-    public static RegistryObject<Item> ironAqueductShovel = ModItems.register("iron_aqueduct_shovel", () -> new AqueductShovelItem(Tiers.IRON, 1.5F, -2.5F, new Item.Properties()));
-    public static RegistryObject<Item> diamondAqueductShovel = ModItems.register("diamond_aqueduct_shovel", () -> new AqueductShovelItem(Tiers.DIAMOND, 1.5F, -2.5F, new Item.Properties()));
+    public static RegistryObject<Item> WOODEN_AQUEDUCT_SHOVEL = ModItems.register("wooden_aqueduct_shovel", () -> new AqueductShovelItem(Tiers.WOOD, 1.5F, -2.5F, new Item.Properties()));
+    public static RegistryObject<Item> STONE_AQUEDUCT_SHOVEL = ModItems.register("stone_aqueduct_shovel", () -> new AqueductShovelItem(Tiers.STONE, 1.5F, -2.5F, new Item.Properties()));
+    public static RegistryObject<Item> GOLD_AQUEDUCT_SHOVEL = ModItems.register("gold_aqueduct_shovel", () -> new AqueductShovelItem(Tiers.GOLD, 1.5F, -2.5F, new Item.Properties()));
+    public static RegistryObject<Item> IRON_AQUEDUCT_SHOVEL = ModItems.register("iron_aqueduct_shovel", () -> new AqueductShovelItem(Tiers.IRON, 1.5F, -2.5F, new Item.Properties()));
+    public static RegistryObject<Item> DIAMOND_AQUEDUCT_SHOVEL = ModItems.register("diamond_aqueduct_shovel", () -> new AqueductShovelItem(Tiers.DIAMOND, 1.5F, -2.5F, new Item.Properties()));
 
     public static RegistryObject<Item> WET_STRAW = ModItems.register("wet_straw", () -> new Item(new Item.Properties()));
     public static RegistryObject<Item> DRY_STRAW = ModItems.register("dry_straw", () -> new Item(new Item.Properties()));

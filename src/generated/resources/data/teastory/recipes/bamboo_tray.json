@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "bamboo_tray",
+  "key": {
+    "#": {
+      "item": "minecraft:bamboo"
+    },
+    "x": {
+      "item": "teastory:bamboo_plank"
+    }
+  },
+  "pattern": [
+    "# #",
+    "#x#"
+  ],
+  "result": {
+    "item": "teastory:bamboo_tray"
+  },
+  "show_notification": true
+}

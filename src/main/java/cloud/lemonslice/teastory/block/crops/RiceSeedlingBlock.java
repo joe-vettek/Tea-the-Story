@@ -56,7 +56,7 @@ public class RiceSeedlingBlock extends CropBlock
     // getSeedsItem
     @Override
     protected ItemLike getBaseSeedId() {
-        return BlockRegister.riceGrains.get();
+        return BlockRegister.RICE_GRAINS.get();
     }
 
     // getCloneItemStack
@@ -65,8 +65,8 @@ public class RiceSeedlingBlock extends CropBlock
         int age = state.getValue(AGE);
         if (age > 0)
         {
-            return new ItemStack(BlockRegister.riceGrains.get());
+            return new ItemStack(BlockRegister.RICE_GRAINS.get());
         }
-        else return new ItemStack(BlockRegister.riceGrains.get());
+        else return new ItemStack(BlockRegister.RICE_GRAINS.get());
     }
 }

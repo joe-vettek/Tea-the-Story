@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "clay_teapot",
+  "key": {
+    "x": {
+      "item": "minecraft:clay"
+    }
+  },
+  "pattern": [
+    "x x",
+    " x "
+  ],
+  "result": {
+    "item": "teastory:clay_teapot"
+  },
+  "show_notification": true
+}

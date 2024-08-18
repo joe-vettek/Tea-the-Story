@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "drink_maker",
+  "key": {
+    "#": {
+      "tag": "forge:rods/wooden"
+    },
+    "x": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "pattern": [
+    "# #",
+    "xxx"
+  ],
+  "result": {
+    "item": "teastory:drink_maker"
+  },
+  "show_notification": true
+}

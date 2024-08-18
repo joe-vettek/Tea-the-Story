@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "trellis",
+  "key": {
+    "#": {
+      "tag": "forge:rods/wooden"
+    },
+    "*": {
+      "item": "minecraft:dark_oak_fence"
+    }
+  },
+  "pattern": [
+    "#*#",
+    " # "
+  ],
+  "result": {
+    "count": 2,
+    "item": "teastory:dark_oak_trellis"
+  },
+  "show_notification": true
+}

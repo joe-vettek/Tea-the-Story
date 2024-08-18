@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "wooden_barrel",
+  "key": {
+    "#": {
+      "tag": "minecraft:planks"
+    },
+    "*": {
+      "tag": "minecraft:wooden_slabs"
+    }
+  },
+  "pattern": [
+    "* *",
+    "# #",
+    "###"
+  ],
+  "result": {
+    "item": "teastory:wooden_barrel"
+  },
+  "show_notification": true
+}

@@ -35,9 +35,9 @@ public class ModContent {
                                 TileEntityTypeRegistry.IRON_KETTLE_ITEM.get().fillItemGroup(output);
                                 TileEntityTypeRegistry.PORCELAIN_TEAPOT.get().fillItemGroup(output);
 
-                                BlockRegister.CHRYSANTHEMUM.get().fillItemGroup(output);
-                                BlockRegister.HYACINTH.get().fillItemGroup(output);
-                                BlockRegister.ZINNIA.get().fillItemGroup(output);
+                                BlockRegister.CHRYSANTHEMUM_ITEM.get().fillItemGroup(output);
+                                BlockRegister.HYACINTH_ITEM.get().fillItemGroup(output);
+                                BlockRegister.ZINNIA_ITEM.get().fillItemGroup(output);
                             })
                             .build());
         });

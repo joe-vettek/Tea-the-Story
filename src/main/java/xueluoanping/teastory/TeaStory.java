@@ -14,6 +14,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import xueluoanping.teastory.data.start;
 
 import java.util.List;
 // import xueluoanping.fluiddrawerslegacy.handler.ControllerFluidCapabilityHandler;
@@ -114,5 +115,6 @@ public class TeaStory {
 
     public void gatherData(final GatherDataEvent event) {
         // start.dataGen(event);
+        start.onDataGather(event);
     }
 }

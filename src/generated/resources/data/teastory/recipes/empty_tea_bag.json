@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "empty_tea_bag",
+  "key": {
+    "/": {
+      "item": "minecraft:string"
+    },
+    "x": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    " / ",
+    "xxx",
+    "xxx"
+  ],
+  "result": {
+    "count": 3,
+    "item": "teastory:empty_tea_bag"
+  },
+  "show_notification": true
+}

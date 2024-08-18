@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "bamboo_plank",
+  "key": {
+    "x": {
+      "item": "minecraft:bamboo"
+    }
+  },
+  "pattern": [
+    "xx",
+    "xx"
+  ],
+  "result": {
+    "item": "teastory:bamboo_plank"
+  },
+  "show_notification": true
+}

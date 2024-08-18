@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "bamboo_door",
+  "key": {
+    "x": {
+      "item": "teastory:bamboo_plank"
+    }
+  },
+  "pattern": [
+    "xx",
+    "xx",
+    "xx"
+  ],
+  "result": {
+    "count": 3,
+    "item": "teastory:bamboo_door"
+  },
+  "show_notification": true
+}

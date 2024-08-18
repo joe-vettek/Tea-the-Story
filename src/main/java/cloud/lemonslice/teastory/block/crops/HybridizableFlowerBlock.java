@@ -161,11 +161,5 @@ public class HybridizableFlowerBlock extends BushBlock implements BonemealableBl
 
     }
 
-    public void fillItemGroup(CreativeModeTab.Output group) {
-        for (var f : FlowerColor.values()) {
-            ItemStack itemStack = new ItemStack(this);
-            itemStack.getOrCreateTag().putString("color", f.getString());
-            group.accept(itemStack);
-        }
-    }
+
 }

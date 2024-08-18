@@ -3,11 +3,13 @@ package xueluoanping.teastory;
 
 import cloud.lemonslice.teastory.recipe.bamboo_tray.*;
 import cloud.lemonslice.teastory.recipe.drink.DrinkRecipe;
+import cloud.lemonslice.teastory.recipe.special.FlowerDyeRecipe;
 import cloud.lemonslice.teastory.recipe.stone_mill.StoneMillRecipe;
 import cloud.lemonslice.teastory.recipe.stone_mill.StoneRollerRecipe;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -66,5 +68,6 @@ public class RecipeRegister {
     public static final RegistryObject<RecipeType<StoneRollerRecipe>> STONE_ROLLER =
             DRRecipeType.register("stone_roller", () -> RecipeType.simple(TeaStory.rl("stone_roller")));
 
-
+    public static final RegistryObject<RecipeSerializer<FlowerDyeRecipe>> CRAFTING_SPECIAL_FLOWERDYE = DRRecipeSerializer
+            .register("crafting_special_flowerdye", () -> new SimpleCraftingRecipeSerializer<>(FlowerDyeRecipe::new));
 }

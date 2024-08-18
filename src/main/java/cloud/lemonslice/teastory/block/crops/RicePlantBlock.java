@@ -150,7 +150,7 @@ public class RicePlantBlock extends CropBlock
         int age = state.getValue(AGE);
         if (age > 0)
         {
-            return new ItemStack(BlockRegister.riceGrains.get());
+            return new ItemStack(BlockRegister.RICE_GRAINS.get());
         }
         else return new ItemStack(BlockRegister.riceSeedlings.get());
     }
@@ -170,7 +170,7 @@ public class RicePlantBlock extends CropBlock
         else
         {
             list.add(new ItemStack(ItemRegister.DRY_STRAW.get()));
-            list.add(new ItemStack(BlockRegister.riceGrains.get(), builder.getLevel().getRandom().nextInt(4) + 1));
+            list.add(new ItemStack(BlockRegister.RICE_GRAINS.get(), builder.getLevel().getRandom().nextInt(4) + 1));
         }
         return list;
     }

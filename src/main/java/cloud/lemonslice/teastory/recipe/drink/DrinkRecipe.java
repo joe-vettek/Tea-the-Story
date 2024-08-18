@@ -1,9 +1,8 @@
 package cloud.lemonslice.teastory.recipe.drink;
 
-import cloud.lemonslice.teastory.recipe.stone_mill.StoneRollerRecipe;
+import cloud.lemonslice.silveroak.common.recipe.FluidIngredient;
 import com.google.common.collect.Lists;
 import com.google.gson.*;
-import com.simibubi.create.foundation.fluid.FluidIngredient;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
@@ -22,7 +21,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.NewRegistryEvent;
 import xueluoanping.teastory.RecipeRegister;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 import static net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack.FLUID_NBT_KEY;

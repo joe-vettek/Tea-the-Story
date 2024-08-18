@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "aqueduct_shovel",
+  "key": {
+    "#": {
+      "item": "minecraft:stone_shovel"
+    },
+    "*": {
+      "tag": "forge:cobblestone"
+    }
+  },
+  "pattern": [
+    " * ",
+    " # "
+  ],
+  "result": {
+    "item": "teastory:stone_aqueduct_shovel"
+  },
+  "show_notification": true
+}

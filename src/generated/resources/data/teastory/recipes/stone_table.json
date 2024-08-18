@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "stone_table",
+  "key": {
+    "#": {
+      "item": "minecraft:cobblestone_wall"
+    },
+    "x": {
+      "item": "minecraft:stone"
+    }
+  },
+  "pattern": [
+    "xxx",
+    "# #",
+    "# #"
+  ],
+  "result": {
+    "item": "teastory:stone_table"
+  },
+  "show_notification": true
+}
