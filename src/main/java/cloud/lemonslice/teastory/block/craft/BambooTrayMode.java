@@ -60,8 +60,8 @@ public enum BambooTrayMode
     public static boolean isOnFrame(Level world, BlockPos pos)
     {
         // TODO：
-        // return world.getBlockState(pos.below()).getBlock() instanceof WoodenFrameBlock;
-        return false;
+        return world.getBlockState(pos.below()).getBlock() instanceof WoodenFrameBlock;
+        // return false;
     }
 
     @Override

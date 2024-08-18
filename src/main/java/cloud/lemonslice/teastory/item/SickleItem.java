@@ -22,11 +22,14 @@ public class SickleItem extends DiggerItem {
     }
 
 
+
     // onBlockDestroyed
     @Override
     public boolean mineBlock(ItemStack stack, Level worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving) {
-        stack.hurtAndBreak(1, entityLiving, (entity) -> entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));
-        harvestCrops(worldIn, pos, 0);
+        if (!worldIn.isClientSide) {
+            stack.hurtAndBreak(1, entityLiving, (entity) -> entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+            harvestCrops(worldIn, pos, 0);
+        }
         return super.mineBlock(stack, worldIn, state, pos, entityLiving);
     }
 

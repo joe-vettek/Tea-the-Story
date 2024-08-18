@@ -1,6 +1,9 @@
 package xueluoanping.teastory.client;
 
+import cloud.lemonslice.teastory.block.crops.TrellisWithVineBlock;
 import cloud.lemonslice.teastory.client.color.block.GrassBlockColor;
+import cloud.lemonslice.teastory.client.color.block.SaucepanBlockColor;
+import cloud.lemonslice.teastory.client.color.block.TeaCupBlockColor;
 import cloud.lemonslice.teastory.client.color.item.BottleItemColors;
 import cloud.lemonslice.teastory.client.color.item.BucketItemColors;
 import cloud.lemonslice.teastory.client.color.item.CupItemColors;
@@ -8,9 +11,12 @@ import cloud.lemonslice.teastory.client.color.item.GrassBlockItemColors;
 import cloud.lemonslice.teastory.client.gui.DrinkMakerGui;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
@@ -41,6 +47,24 @@ public class ClientSetup {
         event.enqueueWork(() -> {
             MenuScreens.register(TileEntityTypeRegistry.DRINK_MAKER_CONTAINER.get(), DrinkMakerGui::new);
 
+            ItemBlockRenderTypes.setRenderLayer(BlockRegister.DRY_HAYSTACK.get(), RenderType.cutoutMipped());
+            ItemBlockRenderTypes.setRenderLayer(BlockRegister.WET_HAYSTACK.get(), RenderType.cutoutMipped());
+            ItemBlockRenderTypes.setRenderLayer(BlockRegister.GRASS_BLOCK_WITH_HOLE.get(), RenderType.cutoutMipped());
+            ItemBlockRenderTypes.setRenderLayer(BlockRegister.BAMBOO_GLASS_DOOR.get(), RenderType.cutoutMipped());
+            ItemBlockRenderTypes.setRenderLayer(TileEntityTypeRegistry.DRINK_MAKER.get(), RenderType.cutoutMipped());
+
+            ItemBlockRenderTypes.setRenderLayer(BlockRegister.WILD_GRAPE.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(BlockRegister.GRAPE.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(BlockRegister.CUCUMBER.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(BlockRegister.BITTER_GOURD.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(BlockRegister.CHILI_PLANT.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(BlockRegister.CHINESE_CABBAGE_PLANT.get(), RenderType.cutout());
+
+            BlockRegister.ModBlocks.getEntries().forEach(blockHolder -> {
+                if (blockHolder.get() instanceof TrellisWithVineBlock) {
+                    ItemBlockRenderTypes.setRenderLayer(blockHolder.get(), RenderType.cutout());
+                }
+            });
         });
     }
 
@@ -48,6 +72,12 @@ public class ClientSetup {
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(EntityTypeRegistry.SEAT_TYPE.get(), pContext -> new EntityRenderer<Entity>(pContext) {
+            @Override
+            public ResourceLocation getTextureLocation(Entity pEntity) {
+                return null;
+            }
+        });
         // FluidDrawersLegacyMod.logger("Register Renderer");
         // ModContents.DRBlockEntities.getEntries().forEach((reg) -> {
         //     event.registerBlockEntityRenderer((BlockEntityType<BlockEntityFluidDrawer>)reg.get(),
@@ -85,14 +115,23 @@ public class ClientSetup {
         // FluidRegistry.BLOCKS.getEntries().forEach(e -> Minecraft.getInstance().getBlockColors().register(FLUID_COLOR, e.get()));
         // Minecraft.getInstance().getBlockColors().register(TEA_CUP_COLOR, BlockRegistry.WOODEN_TRAY);
         // Minecraft.getInstance().getBlockColors().register(SAUCEPAN_COLOR, BlockRegistry.SAUCEPAN);
+        var grassColor = new GrassBlockColor();
+        event.register(grassColor, BlockRegister.GRASS_BLOCK_WITH_HOLE.get(), BlockRegister.WATERMELON_VINE.get());
+        BlockRegister.ModBlocks.getEntries().forEach(blockHolder -> {
+            if (blockHolder.get() instanceof TrellisWithVineBlock) {
+                event.register(grassColor, blockHolder.get());
+            }
+        });
+        event.register(new TeaCupBlockColor(), TileEntityTypeRegistry.WOODEN_TRAY.get());
+        event.register(new SaucepanBlockColor(), BlockRegister.saucepan.get());
 
-        event.register(new GrassBlockColor(), BlockRegister.GRASS_BLOCK_WITH_HOLE.get(), BlockRegister.WATERMELON_VINE.get());
+
     }
 
     @SubscribeEvent
     public static void onRegisterColorHandlersEvent_Item(RegisterColorHandlersEvent.Item event) {
-        var buckColors=new BucketItemColors();
-        FluidRegistry.ITEMS.getEntries().forEach(itemRegistryObject -> event.register(buckColors,itemRegistryObject.get()));
+        var buckColors = new BucketItemColors();
+        FluidRegistry.ITEMS.getEntries().forEach(itemRegistryObject -> event.register(buckColors, itemRegistryObject.get()));
         event.register(new CupItemColors(), ItemRegister.PORCELAIN_CUP_DRINK.get());
         event.register(new BottleItemColors(), ItemRegister.BOTTLE_DRINK.get());
         event.register(new GrassBlockItemColors(), BlockRegister.GRASS_BLOCK_WITH_HOLE.get().asItem());

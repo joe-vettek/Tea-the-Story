@@ -87,6 +87,8 @@ public class TeaStory {
         RecipeRegister.DRRecipeSerializer.register(FMLJavaModLoadingContext.get().getModEventBus());
         RecipeRegister.DRRecipeType.register(FMLJavaModLoadingContext.get().getModEventBus());
 
+        EntityTypeRegistry.ENTITY_TYPE_DEFERRED_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
+
         // ModContents.DRMenuType.register(FMLJavaModLoadingContext.get().getModEventBus());
 
         // ModContents.init();

@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public abstract class NormalContainerTileEntity extends SyncedBlockEntity implements MenuProvider
 {
-    private boolean prepareForRemove = false;
+    // private boolean prepareForRemove = false;
 
     public NormalContainerTileEntity(BlockEntityType<?> tileEntityTypeIn, BlockPos pos, BlockState state) {
         super(tileEntityTypeIn, pos, state);
