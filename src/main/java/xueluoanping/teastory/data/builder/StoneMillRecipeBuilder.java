@@ -78,7 +78,7 @@ public class StoneMillRecipeBuilder {
 
         @Override
         public void serializeRecipeData(JsonObject json) {
-            if (!(inputFluid.matchingFluidStacks==null||inputFluid.getMatchingFluidStacks().isEmpty())) {
+            if (!(inputFluid.matchingFluidStacks == null || inputFluid.getMatchingFluidStacks().isEmpty())) {
                 json.add("fluid_ingredient", inputFluid.serialize());
             }
             if (!inputItem.checkInvalidation()) {
@@ -86,15 +86,19 @@ public class StoneMillRecipeBuilder {
             }
 
             JsonArray jsonarray = new JsonArray();
+            boolean use = false;
             for (ItemStack itemStack : this.outputItems) {
+                if (itemStack.isEmpty()) continue;
                 JsonObject jsonItem = new JsonObject();
                 jsonItem.addProperty("item", ForgeRegistries.ITEMS.getKey(itemStack.getItem()).toString());
                 if (itemStack.getCount() > 1) {
                     jsonItem.addProperty("count", itemStack.getCount());
                 }
                 jsonarray.add(jsonItem);
+                use = true;
             }
-            json.add("output_items", jsonarray);
+            if (use)
+                json.add("output_items", jsonarray);
 
             if (!outputFluid.isEmpty()) {
                 JsonObject jsonItem = new JsonObject();

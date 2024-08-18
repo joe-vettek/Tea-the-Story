@@ -7,10 +7,5 @@
     "amount": 100,
     "fluid": "teastory:carrot_juice"
   },
-  "output_items": [
-    {
-      "item": "minecraft:air"
-    }
-  ],
   "work_time": 200
 }
