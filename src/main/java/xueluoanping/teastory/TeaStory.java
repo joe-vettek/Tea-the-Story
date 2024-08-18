@@ -1,6 +1,7 @@
 package xueluoanping.teastory;
 
 
+import cloud.lemonslice.teastory.block.crops.VineInfoManager;
 import cloud.lemonslice.teastory.config.NormalConfigs;
 import cloud.lemonslice.teastory.recipe.drink.DrinkEffectManager;
 import net.minecraft.resources.ResourceLocation;
@@ -108,6 +109,7 @@ public class TeaStory {
     public void FMLCommonSetup(final FMLCommonSetupEvent event) {
         // start.dataGen(event);
         DrinkEffectManager.init();
+        VineInfoManager.initTrellisBlocks();
     }
 
     public void gatherData(final GatherDataEvent event) {

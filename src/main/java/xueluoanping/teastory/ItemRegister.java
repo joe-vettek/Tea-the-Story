@@ -6,6 +6,7 @@ import cloud.lemonslice.teastory.item.food.NormalFoods;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -16,6 +17,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import xueluoanping.teastory.client.SoundEventsRegistry;
 
 
 // import static xueluoanping.fluiddrawerslegacy.FluidDrawersLegacyMod.CREATIVE_TAB;
@@ -100,25 +102,36 @@ public class ItemRegister {
     });
 
 
-    public static RegistryObject<Item> DRIED_BEETROOT = ModItems.register("dried_beetroot",() -> new Item(new Item.Properties().food(NormalFoods.DRIED_BEETROOT)));
-    public static RegistryObject<Item> DRIED_CARROT = ModItems.register("dried_carrot",() -> new Item(new Item.Properties().food(NormalFoods.DRIED_CARROT)));
-    public static RegistryObject<Item> BEEF_JERKY = ModItems.register("beef_jerky",() -> new Item(new Item.Properties().food(NormalFoods.BEEF_JERKY)));
-    public static RegistryObject<Item> PORK_JERKY = ModItems.register("pork_jerky",() -> new Item(new Item.Properties().food(NormalFoods.PORK_JERKY)));
-    public static RegistryObject<Item> CHICKEN_JERKY = ModItems.register("chicken_jerky",() -> new Item(new Item.Properties().food(NormalFoods.CHICKEN_JERKY)));
-    public static RegistryObject<Item> RABBIT_JERKY = ModItems.register("rabbit_jerky",() -> new Item(new Item.Properties().food(NormalFoods.RABBIT_JERKY)));
-    public static RegistryObject<Item> MUTTON_JERKY = ModItems.register("mutton_jerky",() -> new Item(new Item.Properties().food(NormalFoods.MUTTON_JERKY)));
-    
-    public static RegistryObject<Item> NETHER_WART_RICE_BOWL = ModItems.register("nether_wart_rice_bowl",() -> new Item(new Item.Properties().food(NormalFoods.NETHER_WART_RICE_BOWL)));
-    public static RegistryObject<Item> SPICY_BEEF_RICE_BOWL = ModItems.register("spicy_beef_rice_bowl",() -> new Item(new Item.Properties().food(NormalFoods.SPICY_BEEF_RICE_BOWL)));
-    public static RegistryObject<Item> BEEF_RICE_BOWL = ModItems.register("beef_rice_bowl",() -> new Item(new Item.Properties().food(NormalFoods.BEEF_RICE_BOWL)));
-    public static RegistryObject<Item> RISE_BOWL = ModItems.register("rise_bowl",() -> new Item(new Item.Properties().food(NormalFoods.RISE_BOWL)));
-    public static RegistryObject<Item> PICKLED_CABBAGE_WITH_FISH = ModItems.register("pickled_cabbage_with_fish",() -> new Item(new Item.Properties().food(NormalFoods.PICKLED_CABBAGE_WITH_FISH)));
-    public static RegistryObject<Item> STEAMED_CHINESE_CABBAGE = ModItems.register("steamed_chinese_cabbage",() -> new Item(new Item.Properties().food(NormalFoods.STEAMED_CHINESE_CABBAGE)));
-    public static RegistryObject<Item> HONEY_BITTER_GOURD = ModItems.register("honey_bitter_gourd",() -> new Item(new Item.Properties().food(NormalFoods.HONEY_BITTER_GOURD)));
-    public static RegistryObject<Item> SHREDDED_CUCUMBER_SALAD = ModItems.register("shredded_cucumber_salad",() -> new Item(new Item.Properties().food(NormalFoods.SHREDDED_CUCUMBER_SALAD)));
-    public static RegistryObject<Item> PORK_BAOZI = ModItems.register("pork_baozi",() -> new Item(new Item.Properties().food(NormalFoods.PORK_BAOZI)));
-    public static RegistryObject<Item> BEEF_BURGER = ModItems.register("beef_burger",() -> new Item(new Item.Properties().food(NormalFoods.BEEF_BURGER)));
-    public static RegistryObject<Item> CHICKEN_BURGER = ModItems.register("chicken_burger",() -> new Item(new Item.Properties().food(NormalFoods.CHICKEN_BURGER)));
+    public static RegistryObject<Item> DRIED_BEETROOT = ModItems.register("dried_beetroot", () -> new Item(new Item.Properties().food(NormalFoods.DRIED_BEETROOT)));
+    public static RegistryObject<Item> DRIED_CARROT = ModItems.register("dried_carrot", () -> new Item(new Item.Properties().food(NormalFoods.DRIED_CARROT)));
+    public static RegistryObject<Item> BEEF_JERKY = ModItems.register("beef_jerky", () -> new Item(new Item.Properties().food(NormalFoods.BEEF_JERKY)));
+    public static RegistryObject<Item> PORK_JERKY = ModItems.register("pork_jerky", () -> new Item(new Item.Properties().food(NormalFoods.PORK_JERKY)));
+    public static RegistryObject<Item> CHICKEN_JERKY = ModItems.register("chicken_jerky", () -> new Item(new Item.Properties().food(NormalFoods.CHICKEN_JERKY)));
+    public static RegistryObject<Item> RABBIT_JERKY = ModItems.register("rabbit_jerky", () -> new Item(new Item.Properties().food(NormalFoods.RABBIT_JERKY)));
+    public static RegistryObject<Item> MUTTON_JERKY = ModItems.register("mutton_jerky", () -> new Item(new Item.Properties().food(NormalFoods.MUTTON_JERKY)));
+
+    public static RegistryObject<Item> NETHER_WART_RICE_BOWL = ModItems.register("nether_wart_rice_bowl", () -> new Item(new Item.Properties().food(NormalFoods.NETHER_WART_RICE_BOWL)));
+    public static RegistryObject<Item> SPICY_BEEF_RICE_BOWL = ModItems.register("spicy_beef_rice_bowl", () -> new Item(new Item.Properties().food(NormalFoods.SPICY_BEEF_RICE_BOWL)));
+    public static RegistryObject<Item> BEEF_RICE_BOWL = ModItems.register("beef_rice_bowl", () -> new Item(new Item.Properties().food(NormalFoods.BEEF_RICE_BOWL)));
+    public static RegistryObject<Item> RISE_BOWL = ModItems.register("rise_bowl", () -> new Item(new Item.Properties().food(NormalFoods.RISE_BOWL)));
+    public static RegistryObject<Item> PICKLED_CABBAGE_WITH_FISH = ModItems.register("pickled_cabbage_with_fish", () -> new Item(new Item.Properties().food(NormalFoods.PICKLED_CABBAGE_WITH_FISH)));
+    public static RegistryObject<Item> STEAMED_CHINESE_CABBAGE = ModItems.register("steamed_chinese_cabbage", () -> new Item(new Item.Properties().food(NormalFoods.STEAMED_CHINESE_CABBAGE)));
+    public static RegistryObject<Item> HONEY_BITTER_GOURD = ModItems.register("honey_bitter_gourd", () -> new Item(new Item.Properties().food(NormalFoods.HONEY_BITTER_GOURD)));
+    public static RegistryObject<Item> SHREDDED_CUCUMBER_SALAD = ModItems.register("shredded_cucumber_salad", () -> new Item(new Item.Properties().food(NormalFoods.SHREDDED_CUCUMBER_SALAD)));
+    public static RegistryObject<Item> PORK_BAOZI = ModItems.register("pork_baozi", () -> new Item(new Item.Properties().food(NormalFoods.PORK_BAOZI)));
+    public static RegistryObject<Item> BEEF_BURGER = ModItems.register("beef_burger", () -> new Item(new Item.Properties().food(NormalFoods.BEEF_BURGER)));
+    public static RegistryObject<Item> CHICKEN_BURGER = ModItems.register("chicken_burger", () -> new Item(new Item.Properties().food(NormalFoods.CHICKEN_BURGER)));
+
+    public static RegistryObject<Item> PICKING_TEA_RECORD = ModItems.register("picking_tea", () -> new SRecordItem(1, () -> SoundEventsRegistry.RECORD_PICKING_TEA, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
+    public static RegistryObject<Item> SPRING_FESTIVAL_OVERTURE_RECORD = ModItems.register("spring_festival_overture", () -> new SRecordItem(2, () -> SoundEventsRegistry.RECORD_SPRING_FESTIVAL_OVERTURE, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
+    public static RegistryObject<Item> FLOWERS_AND_MOON_RECORD = ModItems.register("flowers_moon", () -> new SRecordItem(3, () -> SoundEventsRegistry.RECORD_FLOWERS_AND_MOON, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
+    public static RegistryObject<Item> MOVING_UP_RECORD = ModItems.register("moving_up", () -> new SRecordItem(4, () -> SoundEventsRegistry.RECORD_MOVING_UP, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
+    public static RegistryObject<Item> JOYFUL_RECORD = ModItems.register("joyful", () -> new SRecordItem(5, () -> SoundEventsRegistry.RECORD_JOYFUL, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
+    public static RegistryObject<Item> DANCING_GOLDEN_SNAKE_RECORD = ModItems.register("dancing_golden_snake", () -> new SRecordItem(6, () -> SoundEventsRegistry.RECORD_DANCING_GOLDEN_SNAKE, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
+    public static RegistryObject<Item> GREEN_WILLOW_RECORD = ModItems.register("green_willow", () -> new SRecordItem(7, () -> SoundEventsRegistry.RECORD_GREEN_WILLOW, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
+    public static RegistryObject<Item> PURPLE_BAMBOO_MELODY_RECORD = ModItems.register("purple_bamboo_melody", () -> new SRecordItem(8, () -> SoundEventsRegistry.RECORD_PURPLE_BAMBOO_MELODY, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
+    public static RegistryObject<Item> WELCOME_MARCH_RECORD = ModItems.register("welcome_march", () -> new SRecordItem(9, () -> SoundEventsRegistry.RECORD_WELCOME_MARCH, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
+
 
 }
 

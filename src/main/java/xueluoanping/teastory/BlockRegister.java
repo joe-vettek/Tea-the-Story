@@ -1,6 +1,7 @@
 package xueluoanping.teastory;
 
 
+import cloud.lemonslice.teastory.block.BowlBlock;
 import cloud.lemonslice.teastory.block.craft.*;
 import cloud.lemonslice.teastory.block.crops.*;
 import cloud.lemonslice.teastory.block.decorations.*;
@@ -130,8 +131,10 @@ public class BlockRegister {
     // RegistryObject<Item> itemBlock = DREntityBlockItems.register(path, () -> new ItemFluidDrawer(fluiddrawer.get(), new Item.Properties()));
     // RegistryObject<BlockEntityType<BlockEntityFluidDrawer>> tankTileEntityType = DRBlockEntities.register(path,
     //         () -> BlockEntityType.Builder.of((pos, state) -> new BlockEntityFluidDrawer(count, pos, state), fluiddrawer.get()).build(null));
-    public static RegistryObject<Block> GRASS_BLOCK_WITH_HOLE = ModBlocks.register("grass_block_with_hole", () -> new GrassBlock(Block.Properties.copy(Blocks.GRASS_BLOCK).strength(0.6F)));
+    public static RegistryObject<Block> GRASS_BLOCK_WITH_HOLE = ModBlocks.register("grass_block_with_hole", () -> new GrassBlock(Block.Properties.copy(Blocks.GRASS_BLOCK).strength(0.6F).randomTicks()));
     public static RegistryObject<Item> GRASS_BLOCK_WITH_HOLE_ITEM = ModItems.register("grass_block_with_hole", () -> new BlockItem(GRASS_BLOCK_WITH_HOLE.get(), new Item.Properties()));
+    public static RegistryObject<Block> WOODEN_BOWL = ModBlocks.register("wooden_bowl", () -> new BowlBlock(Block.Properties.copy(Blocks.GRASS_BLOCK).strength(0.4F).noOcclusion()));
+    public static RegistryObject<Item> WOODEN_BOWL_ITEM = ModItems.register("wooden_bowl", () -> new BlockItem(WOODEN_BOWL.get(), new Item.Properties()));
 
 
     private static boolean predFalse(BlockState p_235436_0_, BlockGetter p_235436_1_, BlockPos p_235436_2_) {
@@ -195,6 +198,15 @@ public class BlockRegister {
     public static RegistryObject<Item> FRESH_BAMBOO_WALL_ITEM = ModItems.register("fresh_bamboo_wall", () -> new BlockItem(FRESH_BAMBOO_WALL.get(), new Item.Properties()));
     public static RegistryObject<Block> DRIED_BAMBOO_WALL = ModBlocks.register("dried_bamboo_wall", () -> new BambooWallBlock(Block.Properties.copy(Blocks.BAMBOO_PLANKS).strength(0.6F).noOcclusion()));
     public static RegistryObject<Item> DRIED_BAMBOO_WALL_ITEM = ModItems.register("dried_bamboo_wall", () -> new BlockItem(DRIED_BAMBOO_WALL.get(), new Item.Properties()));
+
+
+    // FLOWERS 花朵
+    public static RegistryObject<HybridizableFlowerBlock> CHRYSANTHEMUM = ModBlocks.register("chrysanthemum", () -> new HybridizableFlowerBlock(Block.Properties.copy(Blocks.DANDELION).noOcclusion()));
+    public static RegistryObject<Item> CHRYSANTHEMUM_ITEM = ModItems.register("chrysanthemum", () -> new BlockItem(CHRYSANTHEMUM.get(), new Item.Properties()));
+    public static RegistryObject<HybridizableFlowerBlock> HYACINTH = ModBlocks.register("hyacinth", () -> new HybridizableFlowerBlock(Block.Properties.copy(Blocks.DANDELION).noOcclusion()));
+    public static RegistryObject<Item> HYACINTH_ITEM = ModItems.register("hyacinth", () -> new BlockItem(HYACINTH.get(), new Item.Properties()));
+    public static RegistryObject<HybridizableFlowerBlock> ZINNIA = ModBlocks.register("zinnia", () -> new HybridizableFlowerBlock(Block.Properties.copy(Blocks.DANDELION).noOcclusion()));
+    public static RegistryObject<Item> ZINNIA_ITEM = ModItems.register("zinnia", () -> new BlockItem(ZINNIA.get(), new Item.Properties()));
 
 }
 

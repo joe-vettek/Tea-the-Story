@@ -34,6 +34,10 @@ public class ModContent {
                                 ItemRegister.BOTTLE_DRINK.get().fillItemGroup(output);
                                 TileEntityTypeRegistry.IRON_KETTLE_ITEM.get().fillItemGroup(output);
                                 TileEntityTypeRegistry.PORCELAIN_TEAPOT.get().fillItemGroup(output);
+
+                                BlockRegister.CHRYSANTHEMUM.get().fillItemGroup(output);
+                                BlockRegister.HYACINTH.get().fillItemGroup(output);
+                                BlockRegister.ZINNIA.get().fillItemGroup(output);
                             })
                             .build());
         });

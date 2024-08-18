@@ -8,11 +8,6 @@ import java.util.Map;
 
 
 public final class VineInfoManager {
-
-    static {
-        initTrellisBlocks();
-    }
-
     private final static Map<VinePair, TrellisWithVineBlock> TRELLIS_VINES_INFO = new HashMap<>();
     private final static Map<TrellisWithVineBlock, TrellisBlock> TRELLIS_INFO = new HashMap<>();
 
@@ -21,7 +16,7 @@ public final class VineInfoManager {
         TRELLIS_INFO.put(vineOut, blockIn);
     }
 
-    public static void initTrellisBlocks() {
+    public static void  initTrellisBlocks() {
         registerVineTypeConnections(VineType.GRAPE, BlockRegister.OAK_TRELLIS.get(), BlockRegister.OAK_TRELLIS_GRAPE.get());
         registerVineTypeConnections(VineType.GRAPE, BlockRegister.BIRCH_TRELLIS.get(), BlockRegister.BIRCH_TRELLIS_GRAPE.get());
         registerVineTypeConnections(VineType.GRAPE, BlockRegister.JUNGLE_TRELLIS.get(), BlockRegister.JUNGLE_TRELLIS_GRAPE.get());

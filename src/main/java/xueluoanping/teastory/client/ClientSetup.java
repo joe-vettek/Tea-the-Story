@@ -1,13 +1,12 @@
 package xueluoanping.teastory.client;
 
+import cloud.lemonslice.teastory.block.crops.HybridizableFlowerBlock;
 import cloud.lemonslice.teastory.block.crops.TrellisWithVineBlock;
 import cloud.lemonslice.teastory.client.color.block.GrassBlockColor;
+import cloud.lemonslice.teastory.client.color.block.HybridizableFlowerBlockColor;
 import cloud.lemonslice.teastory.client.color.block.SaucepanBlockColor;
 import cloud.lemonslice.teastory.client.color.block.TeaCupBlockColor;
-import cloud.lemonslice.teastory.client.color.item.BottleItemColors;
-import cloud.lemonslice.teastory.client.color.item.BucketItemColors;
-import cloud.lemonslice.teastory.client.color.item.CupItemColors;
-import cloud.lemonslice.teastory.client.color.item.GrassBlockItemColors;
+import cloud.lemonslice.teastory.client.color.item.*;
 import cloud.lemonslice.teastory.client.gui.DrinkMakerGui;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -61,7 +60,7 @@ public class ClientSetup {
             ItemBlockRenderTypes.setRenderLayer(BlockRegister.CHINESE_CABBAGE_PLANT.get(), RenderType.cutout());
 
             BlockRegister.ModBlocks.getEntries().forEach(blockHolder -> {
-                if (blockHolder.get() instanceof TrellisWithVineBlock) {
+                if (blockHolder.get() instanceof TrellisWithVineBlock || blockHolder.get() instanceof HybridizableFlowerBlock) {
                     ItemBlockRenderTypes.setRenderLayer(blockHolder.get(), RenderType.cutout());
                 }
             });
@@ -122,6 +121,12 @@ public class ClientSetup {
                 event.register(grassColor, blockHolder.get());
             }
         });
+        var hybridizableFlowerBlockColor = new HybridizableFlowerBlockColor();
+        BlockRegister.ModBlocks.getEntries().forEach(blockHolder -> {
+            if (blockHolder.get() instanceof HybridizableFlowerBlock) {
+                event.register(hybridizableFlowerBlockColor, blockHolder.get());
+            }
+        });
         event.register(new TeaCupBlockColor(), TileEntityTypeRegistry.WOODEN_TRAY.get());
         event.register(new SaucepanBlockColor(), BlockRegister.saucepan.get());
 
@@ -135,5 +140,11 @@ public class ClientSetup {
         event.register(new CupItemColors(), ItemRegister.PORCELAIN_CUP_DRINK.get());
         event.register(new BottleItemColors(), ItemRegister.BOTTLE_DRINK.get());
         event.register(new GrassBlockItemColors(), BlockRegister.GRASS_BLOCK_WITH_HOLE.get().asItem());
+        var hybridizableFlowerItemColor = new HybridizableFlowerItemColor();
+        BlockRegister.ModBlocks.getEntries().forEach(blockHolder -> {
+            if (blockHolder.get() instanceof HybridizableFlowerBlock) {
+                event.register(hybridizableFlowerItemColor, blockHolder.get());
+            }
+        });
     }
 }
