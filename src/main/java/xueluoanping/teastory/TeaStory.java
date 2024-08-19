@@ -91,6 +91,7 @@ public class TeaStory {
 
         EntityTypeRegistry.ENTITY_TYPE_DEFERRED_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
 
+        LootRegister.LOOT_MODIFIERS.register(FMLJavaModLoadingContext.get().getModEventBus());
         // ModContents.DRMenuType.register(FMLJavaModLoadingContext.get().getModEventBus());
 
         // ModContents.init();

@@ -7,6 +7,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 import xueluoanping.teastory.TeaStory;
+import xueluoanping.teastory.data.loot.GLMProvider;
 import xueluoanping.teastory.data.provider.*;
 
 import java.util.concurrent.CompletableFuture;
@@ -29,6 +30,9 @@ public final class start {
 
 
             generator.addProvider(event.includeServer(),new TRecipeProvider(packOutput));
+
+            generator.addProvider(event.includeServer(),new GLMProvider(packOutput, MODID));
+
         }
     }
 }

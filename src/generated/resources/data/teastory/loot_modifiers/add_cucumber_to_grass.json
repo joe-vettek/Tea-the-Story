@@ -1,0 +1,22 @@
+{
+  "type": "teastory:add_item",
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:blocks/grass"
+    },
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:blocks/tall_grass"
+    },
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:blocks/fern"
+    },
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:blocks/large_fern"
+    }
+  ],
+  "item": "teastory:cucumber"
+}
