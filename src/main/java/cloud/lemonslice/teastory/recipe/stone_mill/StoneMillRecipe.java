@@ -2,6 +2,8 @@ package cloud.lemonslice.teastory.recipe.stone_mill;
 
 
 import cloud.lemonslice.teastory.blockentity.StoneMillTileEntity;
+import net.minecraft.world.level.material.Fluids;
+import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.craft.BlockEntityRecipeWrapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -54,7 +56,7 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
 
     @Override
     public ItemStack assemble(BlockEntityRecipeWrapper p_44001_, RegistryAccess p_267165_) {
-        return this.outputItems.get(0).copy();
+        return !this.outputItems.isEmpty() ? this.outputItems.get(0).copy() : ItemStack.EMPTY.copy();
     }
 
     @Override
@@ -64,7 +66,7 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
 
     @Override
     public ItemStack getResultItem(RegistryAccess p_267052_) {
-        return this.outputItems.get(0);
+        return !this.outputItems.isEmpty() ? this.outputItems.get(0) : ItemStack.EMPTY;
     }
 
     @Override
@@ -171,13 +173,13 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
                 outputItems = NonNullList.create();
             }
 
-
             int i = json.has("work_time") ? json.get("work_time").getAsInt() : 200;
             return new StoneMillRecipe(recipeId, group, inputItem, inputFluid, outputItems, outputFluid, i);
         }
 
         @Override
         public StoneMillRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+
             String groupIn = buffer.readUtf(32767);
             Ingredient inputItem = Ingredient.fromNetwork(buffer);
             FluidIngredient inputFluid = FluidIngredient.read(buffer);
@@ -199,6 +201,7 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
         public void toNetwork(FriendlyByteBuf buffer, StoneMillRecipe recipe) {
             buffer.writeUtf(recipe.getGroup());
             recipe.getInputItem().toNetwork(buffer);
+            TeaStory.logger(recipe.getInputFluid().serialize());
             recipe.getInputFluid().write(buffer);
 
             buffer.writeVarInt(recipe.getOutputItems().size());
@@ -206,6 +209,7 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
                 buffer.writeItemStack(ingredient, false);
             }
 
+            FluidIngredient fluidIngredient=FluidIngredient.EMPTY;
             buffer.writeFluidStack(recipe.getOutputFluid());
 
             buffer.writeVarInt(recipe.getWorkTime());

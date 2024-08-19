@@ -146,7 +146,7 @@ public final class NormalTags
         public final static TagKey<Item> FOOD_JERKY = ItemTags.create(new ResourceLocation("forge:food/jerky"));
         public final static TagKey<Item> FOOD_MEAT = ItemTags.create(new ResourceLocation("forge:food/meat"));
 
-        public final static TagKey<Item> DIRT = ItemTags.create(new ResourceLocation("forge:dirt"));
+        public final static TagKey<Item> DIRT = ItemTags.DIRT;
         public final static TagKey<Item> DUSTS_ASH = ItemTags.create(new ResourceLocation("forge:dusts/ash"));
     }
 

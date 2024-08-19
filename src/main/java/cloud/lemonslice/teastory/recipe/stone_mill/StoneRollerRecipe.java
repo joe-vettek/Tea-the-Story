@@ -44,7 +44,7 @@ public class StoneRollerRecipe implements Recipe<RecipeWrapper> {
 
     @Override
     public ItemStack assemble(RecipeWrapper p_44001_, RegistryAccess p_267165_) {
-        return this.outputItems.get(0).copy();
+        return !this.outputItems.isEmpty() ? this.outputItems.get(0).copy() : ItemStack.EMPTY.copy();
     }
 
     @Override
@@ -54,7 +54,7 @@ public class StoneRollerRecipe implements Recipe<RecipeWrapper> {
 
     @Override
     public ItemStack getResultItem(RegistryAccess p_267052_) {
-        return this.outputItems.get(0);
+        return !this.outputItems.isEmpty() ? this.outputItems.get(0) : ItemStack.EMPTY;
     }
 
     @Override

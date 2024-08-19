@@ -26,7 +26,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public abstract class FluidIngredient implements Predicate<FluidStack> {
-    public static final FluidIngredient EMPTY = new FluidIngredient.FluidStackIngredient();
+    // Strange Empty but we need to found why
+    public static final FluidIngredient EMPTY = FluidIngredient.fromFluidStack(FluidStack.EMPTY);
     public List<FluidStack> matchingFluidStacks;
     protected int amountRequired;
     public static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().disableHtmlEscaping().create();

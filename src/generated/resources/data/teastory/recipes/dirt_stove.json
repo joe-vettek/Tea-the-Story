@@ -4,7 +4,7 @@
   "group": "stove",
   "key": {
     "x": {
-      "tag": "forge:dirt"
+      "tag": "minecraft:dirt"
     }
   },
   "pattern": [
