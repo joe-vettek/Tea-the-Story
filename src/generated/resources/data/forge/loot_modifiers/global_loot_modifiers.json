@@ -1,8 +1,17 @@
 {
   "entries": [
     "teastory:add_bitter_gourd_to_grass",
+    "teastory:add_bitter_gourd_to_tall_grass",
+    "teastory:add_rice_grains_to_tall_grass",
+    "teastory:add_cucumber_to_fern",
+    "teastory:add_cucumber_to_large_fern",
     "teastory:add_cucumber_to_grass",
-    "teastory:add_rice_grains_to_grass"
+    "teastory:add_cucumber_to_tall_grass",
+    "teastory:add_rice_grains_to_grass",
+    "teastory:add_bitter_gourd_to_fern",
+    "teastory:add_bitter_gourd_to_large_fern",
+    "teastory:add_rice_grains_to_fern",
+    "teastory:add_rice_grains_to_large_fern"
   ],
   "replace": false
 }

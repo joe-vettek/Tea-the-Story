@@ -6,7 +6,7 @@
       "terms": [
         {
           "condition": "forge:loot_table_id",
-          "loot_table_id": "minecraft:blocks/grass"
+          "loot_table_id": "minecraft:blocks/fern"
         },
         {
           "chance": 0.1,

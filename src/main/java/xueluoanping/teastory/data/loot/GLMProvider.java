@@ -1,12 +1,15 @@
 package xueluoanping.teastory.data.loot;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.TallGrassBlock;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraftforge.common.data.GlobalLootModifierProvider;
 import net.minecraftforge.common.loot.LootTableIdCondition;
 import xueluoanping.teastory.BlockRegister;
@@ -23,15 +26,18 @@ public class GLMProvider extends GlobalLootModifierProvider {
     @Override
     protected void start() {
 
-        var cond = new LootItemCondition[4];
-        cond[0]=LootTableIdCondition.builder(Blocks.GRASS.getLootTable()).build();
-        cond[1]=LootTableIdCondition.builder(Blocks.TALL_GRASS.getLootTable()).build();
-        cond[2]=LootTableIdCondition.builder(Blocks.FERN.getLootTable()).build();
-        cond[3]=LootTableIdCondition.builder(Blocks.LARGE_FERN.getLootTable()).build();
 
-        add("add_" + BlockRegister.BITTER_GOURDS.getId().getPath() + "_to_grass", new AddItemModifier(cond, BlockRegister.CUCUMBERS.get(), 1));
-        add("add_" + BlockRegister.CUCUMBERS.getId().getPath() + "_to_grass", new AddItemModifier(cond, BlockRegister.CUCUMBERS.get(), 1));
-        add("add_" + BlockRegister.RICE_GRAINS.getId().getPath() + "_to_grass", new AddItemModifier(cond, BlockRegister.CUCUMBERS.get(), 1));
+        for (Block grass : List.of(Blocks.GRASS, Blocks.TALL_GRASS, Blocks.FERN, Blocks.LARGE_FERN)) {
+            LootItemCondition lootItemCondition = LootTableIdCondition.builder(grass.getLootTable())
+                    .and(LootItemRandomChanceCondition.randomChance(0.1f))
+                    .build();
+
+            String id = BuiltInRegistries.BLOCK.getKey(grass).getPath();
+            add("add_" + BlockRegister.BITTER_GOURDS.getId().getPath() + "_to_" + id, new AddItemModifier(new LootItemCondition[]{lootItemCondition}, BlockRegister.CUCUMBERS.get(), 1));
+            add("add_" + BlockRegister.CUCUMBERS.getId().getPath() + "_to_" + id, new AddItemModifier(new LootItemCondition[]{lootItemCondition}, BlockRegister.CUCUMBERS.get(), 1));
+            add("add_" + BlockRegister.RICE_GRAINS.getId().getPath() + "_to_" + id, new AddItemModifier(new LootItemCondition[]{lootItemCondition}, BlockRegister.CUCUMBERS.get(), 1));
+
+        }
 
     }
 
