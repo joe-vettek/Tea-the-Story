@@ -33,9 +33,9 @@ public class GLMProvider extends GlobalLootModifierProvider {
                     .build();
 
             String id = BuiltInRegistries.BLOCK.getKey(grass).getPath();
-            add("add_" + BlockRegister.BITTER_GOURDS.getId().getPath() + "_to_" + id, new AddItemModifier(new LootItemCondition[]{lootItemCondition}, BlockRegister.CUCUMBERS.get(), 1));
+            add("add_" + BlockRegister.BITTER_GOURDS.getId().getPath() + "_to_" + id, new AddItemModifier(new LootItemCondition[]{lootItemCondition}, BlockRegister.BITTER_GOURDS.get(), 1));
             add("add_" + BlockRegister.CUCUMBERS.getId().getPath() + "_to_" + id, new AddItemModifier(new LootItemCondition[]{lootItemCondition}, BlockRegister.CUCUMBERS.get(), 1));
-            add("add_" + BlockRegister.RICE_GRAINS.getId().getPath() + "_to_" + id, new AddItemModifier(new LootItemCondition[]{lootItemCondition}, BlockRegister.CUCUMBERS.get(), 1));
+            add("add_" + BlockRegister.RICE_GRAINS.getId().getPath() + "_to_" + id, new AddItemModifier(new LootItemCondition[]{lootItemCondition}, BlockRegister.RICE_GRAINS.get(), 1));
 
         }
 
