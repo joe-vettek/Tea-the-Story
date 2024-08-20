@@ -145,8 +145,9 @@ public class StoneMillBlock extends NormalHorizontalBlock implements EntityBlock
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level worldIn, BlockState state, BlockEntityType<T> blockEntityType) {
-        return !worldIn.isClientSide ?
-                createTickerHelper(blockEntityType, TileEntityTypeRegistry.STONE_MILL_TYPE.get(), StoneMillTileEntity::tick) : null;
+        return createTickerHelper(blockEntityType, TileEntityTypeRegistry.STONE_MILL_TYPE.get(), StoneMillTileEntity::tick);
+        // return !worldIn.isClientSide ?
+        //         createTickerHelper(blockEntityType, TileEntityTypeRegistry.STONE_MILL_TYPE.get(), StoneMillTileEntity::tick) : null;
 
     }
 

@@ -58,7 +58,7 @@ public class BambooTrayGui extends AbstractContainerScreen<BambooTrayContainer>
         int textureWidth = 0;
         if (totalTicks != 0)
         {
-            textureWidth = (int) Math.ceil(24 * processTicks / totalTicks);
+            textureWidth = (int) Math.ceil((double) (24 * processTicks) / totalTicks);
         }
         // blit(matrixStack, offsetX + 76, offsetY + 31, 176, 0, textureWidth, 17);
         matrixStack.blit(TEXTURE, offsetX + 76, offsetY + 31, 176, 0, textureWidth, 17);

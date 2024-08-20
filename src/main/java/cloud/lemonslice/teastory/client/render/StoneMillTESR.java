@@ -23,6 +23,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import xueluoanping.teastory.ItemRegister;
+import xueluoanping.teastory.block.NormalHorizontalBlock;
 
 public class StoneMillTESR implements BlockEntityRenderer<StoneMillTileEntity> {
     public StoneMillTESR(BlockEntityRendererProvider.Context pContext) {
@@ -65,7 +66,7 @@ public class StoneMillTESR implements BlockEntityRenderer<StoneMillTileEntity> {
             int b = color & 0xFF;
             int a = color >> 24 & 0xFF;
 
-            Direction facing = tileEntityIn.getBlockState().getValue(BlockStateProperties.FACING);
+            Direction facing = tileEntityIn.getBlockState().getValue(NormalHorizontalBlock.FACING);
             int light = LevelRenderer.getLightColor(tileEntityIn.getLevel(), tileEntityIn.getBlockPos());
 
             switch (facing) {

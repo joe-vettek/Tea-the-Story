@@ -157,8 +157,9 @@ public class StoneRollerBlock extends Block implements EntityBlock
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level worldIn, BlockState state, BlockEntityType<T> blockEntityType) {
-        return !worldIn.isClientSide ?
-                NormalHorizontalBlock.createTickerHelper(blockEntityType, TileEntityTypeRegistry.STONE_ROLLER_TYPE.get(), StoneRollerTileEntity::tick) : null;
+      return  NormalHorizontalBlock.createTickerHelper(blockEntityType, TileEntityTypeRegistry.STONE_ROLLER_TYPE.get(), StoneRollerTileEntity::tick);
+        // return !worldIn.isClientSide ?
+        //         NormalHorizontalBlock.createTickerHelper(blockEntityType, TileEntityTypeRegistry.STONE_ROLLER_TYPE.get(), StoneRollerTileEntity::tick) : null;
     }
 
 }

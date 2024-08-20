@@ -1,7 +1,6 @@
 package cloud.lemonslice.teastory.client.gui;
 
 
-import cloud.lemonslice.silveroak.client.texture.TexturePos;
 import cloud.lemonslice.teastory.container.DrinkMakerContainer;
 import cloud.lemonslice.teastory.recipe.drink.DrinkRecipe;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -11,7 +10,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;

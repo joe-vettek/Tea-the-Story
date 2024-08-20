@@ -3,6 +3,7 @@ package cloud.lemonslice.teastory.recipe.stone_mill;
 
 import cloud.lemonslice.teastory.blockentity.StoneMillTileEntity;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.craft.BlockEntityRecipeWrapper;
 import com.google.gson.JsonArray;
@@ -48,7 +49,8 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
         if (this.inputItem.test(inv.getItem(0))) {
             if (inv.getBlockEntity() instanceof StoneMillTileEntity stoneMillTileEntity) {
                 FluidStack fluidStack = stoneMillTileEntity.getFluidTank().getFluidInTank(0).copy();
-                return inputFluid.test(fluidStack);
+                // return outputFluid.test(fluidStack);
+                return stoneMillTileEntity.getFluidTank().fill(getOutputFluid(), IFluidHandler.FluidAction.SIMULATE)==getOutputFluid().getAmount();
             }
         }
         return false;

@@ -57,7 +57,7 @@ public class StoneMillTileEntity extends NormalContainerTileEntity {
         this.inputInventory.deserializeNBT(nbt.getCompound("InputInventory"));
         this.outputInventory.deserializeNBT(nbt.getCompound("OutputInventory"));
         this.fluidTank.readFromNBT(nbt.getCompound("FluidTank"));
-        this.processTicks = nbt.getInt("ProcessTicks");
+        // this.processTicks = nbt.getInt("ProcessTicks");
     }
 
     // write
@@ -87,61 +87,60 @@ public class StoneMillTileEntity extends NormalContainerTileEntity {
     }
 
 
-
-
     public FluidTank getFluidTank() {
         return fluidTank;
     }
 
 
-    public static void tick(Level worldIn, BlockPos pos, BlockState blockState, StoneMillTileEntity basinBlockEntity) {
-        if (worldIn == null || basinBlockEntity.isRemoved()) return;
+    public static void tick(Level worldIn, BlockPos pos, BlockState blockState, StoneMillTileEntity stoneMillTileEntity) {
+        if (worldIn == null || stoneMillTileEntity.isRemoved()) return;
 
-        ItemStack input = basinBlockEntity.inputInventory.getStackInSlot(0);
+        ItemStack input = stoneMillTileEntity.inputInventory.getStackInSlot(0);
         if (input.isEmpty()) {
-            basinBlockEntity.setProcessTicks(0);
-            basinBlockEntity.currentRecipe = null;
+            stoneMillTileEntity.setProcessTicks(0);
+            stoneMillTileEntity.currentRecipe = null;
             return;
         }
-        var warp=new BlockEntityRecipeWrapper(basinBlockEntity.inputInventory,basinBlockEntity);
-        if (basinBlockEntity.currentRecipe == null || !basinBlockEntity.currentRecipe.matches(warp, worldIn)) {
-            basinBlockEntity.currentRecipe = worldIn.getRecipeManager().getRecipeFor(RecipeRegister.STONE_MILL.get(),warp, worldIn).orElse(null);
+        var warp = new BlockEntityRecipeWrapper(stoneMillTileEntity.inputInventory, stoneMillTileEntity);
+        if (stoneMillTileEntity.currentRecipe == null || !stoneMillTileEntity.currentRecipe.matches(warp, worldIn)) {
+            stoneMillTileEntity.currentRecipe = worldIn.getRecipeManager().getRecipeFor(RecipeRegister.STONE_MILL.get(), warp, worldIn).orElse(null);
         }
 
-        if (basinBlockEntity.currentRecipe != null) {
-            basinBlockEntity.angel += 3;
-            basinBlockEntity.angel %= 360;
+        if (stoneMillTileEntity.currentRecipe != null) {
+            stoneMillTileEntity.angel += 3;
+            stoneMillTileEntity.angel %= 360;
             boolean flag = true;
-            for (ItemStack out : basinBlockEntity.currentRecipe.getOutputItems()) {
-                if (!ItemHandlerHelper.insertItem(basinBlockEntity.outputInventory, out.copy(), true).isEmpty()) {
+            for (ItemStack out : stoneMillTileEntity.currentRecipe.getOutputItems()) {
+                if (!ItemHandlerHelper.insertItem(stoneMillTileEntity.outputInventory, out.copy(), true).isEmpty()) {
                     flag = false;
                 }
             }
             if (flag) {
-                if (++basinBlockEntity.processTicks >= basinBlockEntity.currentRecipe.getWorkTime()) {
-                    for (ItemStack out : basinBlockEntity.currentRecipe.getOutputItems()) {
-                        ItemHandlerHelper.insertItem(basinBlockEntity.outputInventory, out.copy(), false);
+                if (++stoneMillTileEntity.processTicks >= stoneMillTileEntity.currentRecipe.getWorkTime()) {
+                    for (ItemStack out : stoneMillTileEntity.currentRecipe.getOutputItems()) {
+                        ItemHandlerHelper.insertItem(stoneMillTileEntity.outputInventory, out.copy(), false);
                     }
-                    basinBlockEntity.inputInventory.extractItem(0, 1, false);
+                    stoneMillTileEntity.inputInventory.extractItem(0, 1, false);
 
-                    if (!basinBlockEntity.currentRecipe.getInputFluid().getMatchingFluidStacks().isEmpty()) {
-                        var fluidStacks = basinBlockEntity.currentRecipe.getInputFluid().getMatchingFluidStacks();
-                        for (FluidStack fluidStack : fluidStacks) {
-                            if (fluidStack.getFluid() == basinBlockEntity.fluidTank.getFluid().getFluid()) {
-                                basinBlockEntity.fluidTank.drain(fluidStack.getAmount(), IFluidHandler.FluidAction.EXECUTE);
-                            }
+                    if (!stoneMillTileEntity.currentRecipe.getOutputFluid().isEmpty()) {
+                        var fluidStacks = stoneMillTileEntity.currentRecipe.getOutputFluid();
+                        if (stoneMillTileEntity.fluidTank.isEmpty()
+                                || stoneMillTileEntity.fluidTank.getFluid().getFluid() == fluidStacks.getFluid())
+                        // for (FluidStack fluidStack : fluidStacks)
+                        {
+                            stoneMillTileEntity.fluidTank.fill(fluidStacks, IFluidHandler.FluidAction.EXECUTE);
                         }
                     }
 
-                    if (!basinBlockEntity.currentRecipe.getOutputFluid().isEmpty()) {
-                        FluidUtil.getFluidHandler(worldIn, pos.below().relative(basinBlockEntity.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING)), Direction.UP).ifPresent(handler ->
-                                handler.fill(basinBlockEntity.currentRecipe.getOutputFluid(), IFluidHandler.FluidAction.EXECUTE));
+                    if (!stoneMillTileEntity.currentRecipe.getOutputFluid().isEmpty()) {
+                        FluidUtil.getFluidHandler(worldIn, pos.below().relative(stoneMillTileEntity.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING)), Direction.UP).ifPresent(handler ->
+                                handler.fill(stoneMillTileEntity.currentRecipe.getOutputFluid(), IFluidHandler.FluidAction.EXECUTE));
                     }
-                    basinBlockEntity.processTicks = 0;
+                    stoneMillTileEntity.processTicks = 0;
                 }
             }
         } else {
-            basinBlockEntity.setProcessTicks(0);
+            stoneMillTileEntity.setProcessTicks(0);
         }
     }
 

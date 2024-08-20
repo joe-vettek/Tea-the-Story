@@ -89,41 +89,43 @@ public class StoneRollerTileEntity extends NormalContainerTileEntity {
     }
 
 
-    public static void tick(Level worldIn, BlockPos pos, BlockState blockState, StoneRollerTileEntity basinBlockEntity) {
-        ItemStack input = basinBlockEntity.getStackInSlot(0);
+    public static void tick(Level worldIn, BlockPos pos, BlockState blockState, StoneRollerTileEntity stoneRollerTileEntity) {
+        ItemStack input = stoneRollerTileEntity.getStackInSlot(0);
         if (input.isEmpty()) {
-            basinBlockEntity.setProcessTicks(0);
-            basinBlockEntity.currentRecipe = null;
+            stoneRollerTileEntity.setProcessTicks(0);
+            stoneRollerTileEntity.currentRecipe = null;
             return;
         }
-        var warp = new RecipeWrapper(basinBlockEntity.inputInventory);
-        if (basinBlockEntity.currentRecipe == null || !basinBlockEntity.currentRecipe.matches(warp, basinBlockEntity.getLevel())) {
-            basinBlockEntity.currentRecipe = basinBlockEntity.getLevel().getRecipeManager().getRecipeFor(RecipeRegister.STONE_ROLLER.get(), warp, basinBlockEntity.getLevel()).orElse(null);
+        var warp = new RecipeWrapper(stoneRollerTileEntity.inputInventory);
+        if (stoneRollerTileEntity.currentRecipe == null || !stoneRollerTileEntity.currentRecipe.matches(warp, stoneRollerTileEntity.getLevel())) {
+            stoneRollerTileEntity.currentRecipe = stoneRollerTileEntity.getLevel().getRecipeManager().getRecipeFor(RecipeRegister.STONE_ROLLER.get(), warp, stoneRollerTileEntity.getLevel()).orElse(null);
         }
 
-        if (basinBlockEntity.currentRecipe != null) {
-            basinBlockEntity.woodenFrameAngel += 3;
-            basinBlockEntity.woodenFrameAngel %= 360;
-            basinBlockEntity.stoneAngel += 4;
-            basinBlockEntity.stoneAngel %= 360;
+        if (stoneRollerTileEntity.currentRecipe != null) {
+            stoneRollerTileEntity.woodenFrameAngel += 3;
+            stoneRollerTileEntity.woodenFrameAngel %= 360;
+            stoneRollerTileEntity.stoneAngel += 4;
+            stoneRollerTileEntity.stoneAngel %= 360;
+            stoneRollerTileEntity.isWorking=true;
             boolean flag = true;
-            for (ItemStack out : basinBlockEntity.currentRecipe.getOutputItems()) {
-                if (!ItemHandlerHelper.insertItem(basinBlockEntity.outputInventory, out.copy(), true).isEmpty()) {
+            for (ItemStack out : stoneRollerTileEntity.currentRecipe.getOutputItems()) {
+                if (!ItemHandlerHelper.insertItem(stoneRollerTileEntity.outputInventory, out.copy(), true).isEmpty()) {
                     flag = false;
                 }
             }
             if (flag) {
-                if (++basinBlockEntity.processTicks >= basinBlockEntity.currentRecipe.getWorkTime()) {
-                    for (ItemStack out : basinBlockEntity.currentRecipe.getOutputItems()) {
-                        ItemHandlerHelper.insertItem(basinBlockEntity.outputInventory, out.copy(), false);
+                if (++stoneRollerTileEntity.processTicks >= stoneRollerTileEntity.currentRecipe.getWorkTime()) {
+                    for (ItemStack out : stoneRollerTileEntity.currentRecipe.getOutputItems()) {
+                        ItemHandlerHelper.insertItem(stoneRollerTileEntity.outputInventory, out.copy(), false);
                     }
-                    basinBlockEntity.inputInventory.extractItem(0, 1, false);
+                    stoneRollerTileEntity.inputInventory.extractItem(0, 1, false);
 
-                    basinBlockEntity.processTicks = 0;
+                    stoneRollerTileEntity.processTicks = 0;
                 }
             }
         } else {
-            basinBlockEntity.setProcessTicks(0);
+            stoneRollerTileEntity.setProcessTicks(0);
+            stoneRollerTileEntity.isWorking=false;
         }
     }
 

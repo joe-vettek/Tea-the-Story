@@ -50,7 +50,7 @@ public class BambooTrayTileEntity extends NormalContainerTileEntity {
     public void load(CompoundTag tag) {
         super.load(tag);
         this.containerInventory.ifPresent(h -> ((INBTSerializable<CompoundTag>) h).deserializeNBT(tag.getCompound("Inv")));
-        this.processTicks = tag.getInt("ProcessTicks");
+        // this.processTicks = tag.getInt("ProcessTicks");
         this.totalTicks = tag.getInt("TotalTicks");
         this.mode = BambooTrayMode.values()[tag.getInt("Mode")];
     }

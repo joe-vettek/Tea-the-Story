@@ -10,9 +10,12 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import xueluoanping.teastory.ItemRegister;
+import xueluoanping.teastory.TeaStory;
 
 
 public class StoneRollerTESR implements BlockEntityRenderer<StoneRollerTileEntity> {
@@ -28,6 +31,7 @@ public class StoneRollerTESR implements BlockEntityRenderer<StoneRollerTileEntit
         matrixStackIn.pushPose();
         matrixStackIn.translate(0.5, 0.5, 0.5);
         float woodenFrameAngel = tileEntityIn.getWoodenFrameAngel();
+
         if (tileEntityIn.isWorking()) {
             woodenFrameAngel += partialTicks * 3.0F;
         }
@@ -43,9 +47,10 @@ public class StoneRollerTESR implements BlockEntityRenderer<StoneRollerTileEntit
         // matrixStackIn.rotate(new Quaternion(Vector3f.ZP, stoneAngel, true));
         matrixStackIn.mulPose(XYZ.deg_to_rad(0,0,stoneAngel));
 
-        Lighting.setupForFlatItems();
-        renderItem.renderStatic(new ItemStack(ItemRegister.STONE_ROLLER_TOP.get()), ItemDisplayContext.FIXED, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn, mc.level, 0);
-        Lighting.setupFor3DItems();
+        // Lighting.setupForFlatItems();
+        int seed=(int)(tileEntityIn.getBlockState().getBlock().getSeed(tileEntityIn.getBlockState(), tileEntityIn.getBlockPos()));
+        renderItem.renderStatic(new ItemStack(ItemRegister.STONE_ROLLER_TOP.get()), ItemDisplayContext.FIXED,  combinedLightIn, combinedOverlayIn,matrixStackIn, bufferIn, tileEntityIn.getLevel(),seed );
+        // Lighting.setupFor3DItems();
         matrixStackIn.popPose();
 
         matrixStackIn.pushPose();

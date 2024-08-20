@@ -172,8 +172,8 @@ public class BambooTrayBlock extends Block implements EntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level worldIn, BlockState state, BlockEntityType<T> blockEntityType) {
-        return !worldIn.isClientSide ?
-                NormalHorizontalBlock.createTickerHelper(blockEntityType, TileEntityTypeRegistry.BAMBOO_TRAY_TYPE.get(), BambooTrayTileEntity::tick) : null;
+        // return !worldIn.isClientSide ?
+           return      NormalHorizontalBlock.createTickerHelper(blockEntityType, TileEntityTypeRegistry.BAMBOO_TRAY_TYPE.get(), BambooTrayTileEntity::tick) ;
     }
 
 }
