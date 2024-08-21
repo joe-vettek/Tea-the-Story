@@ -39,12 +39,12 @@ public class StoveGui extends AbstractContainerScreen<StoveContainer> {
         // blit(matrixStack, offsetX, offsetY, 0, 0, imageWidth, imageHeight);
         matrixStack.blit(TEXTURE, offsetX, offsetY, 0, 0, imageWidth, imageHeight);
 
-        int fuelTicks = ((StoveTileEntity)this.container.getTileEntity()).getFuelTicks();
-        int remainTicks =((StoveTileEntity)this.container.getTileEntity()).getRemainTicks();
+        int fuelTicks = ((StoveTileEntity) this.container.getTileEntity()).getFuelTicks();
+        int remainTicks = ((StoveTileEntity) this.container.getTileEntity()).getRemainTicks();
         int textureHeight = fuelTicks == 0 ? 0 : (int) Math.ceil(14.0F * remainTicks / fuelTicks);
 
         // blit(matrixStack, offsetX + 81, offsetY + 16 + 14 - textureHeight, 176, 14 - textureHeight, 14, textureHeight);
-        matrixStack.blit(TEXTURE, offsetX, offsetY, offsetX + 81, offsetY + 16 + 14 - textureHeight, 176, 14 - textureHeight, 14, textureHeight);
+        matrixStack.blit(TEXTURE, offsetX + 81, offsetY + 16 + 14 - textureHeight, 176, 14 - textureHeight, 14, textureHeight);
 
     }
 

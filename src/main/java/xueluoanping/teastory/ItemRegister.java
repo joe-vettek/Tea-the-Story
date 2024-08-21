@@ -113,7 +113,7 @@ public class ItemRegister {
     public static RegistryObject<Item> NETHER_WART_RICE_BOWL = ModItems.register("nether_wart_rice_bowl", () -> new Item(new Item.Properties().food(NormalFoods.NETHER_WART_RICE_BOWL)));
     public static RegistryObject<Item> SPICY_BEEF_RICE_BOWL = ModItems.register("spicy_beef_rice_bowl", () -> new Item(new Item.Properties().food(NormalFoods.SPICY_BEEF_RICE_BOWL)));
     public static RegistryObject<Item> BEEF_RICE_BOWL = ModItems.register("beef_rice_bowl", () -> new Item(new Item.Properties().food(NormalFoods.BEEF_RICE_BOWL)));
-    public static RegistryObject<Item> RISE_BOWL = ModItems.register("rise_bowl", () -> new Item(new Item.Properties().food(NormalFoods.RISE_BOWL)));
+    public static RegistryObject<Item> RICE_BOWL = ModItems.register("rice_bowl", () -> new Item(new Item.Properties().food(NormalFoods.RISE_BOWL)));
     public static RegistryObject<Item> PICKLED_CABBAGE_WITH_FISH = ModItems.register("pickled_cabbage_with_fish", () -> new Item(new Item.Properties().food(NormalFoods.PICKLED_CABBAGE_WITH_FISH)));
     public static RegistryObject<Item> STEAMED_CHINESE_CABBAGE = ModItems.register("steamed_chinese_cabbage", () -> new Item(new Item.Properties().food(NormalFoods.STEAMED_CHINESE_CABBAGE)));
     public static RegistryObject<Item> HONEY_BITTER_GOURD = ModItems.register("honey_bitter_gourd", () -> new Item(new Item.Properties().food(NormalFoods.HONEY_BITTER_GOURD)));

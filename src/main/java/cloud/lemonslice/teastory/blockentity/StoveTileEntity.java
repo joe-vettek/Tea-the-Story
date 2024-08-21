@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -21,6 +22,7 @@ import net.minecraftforge.common.util.LazyOptional;
 
 import net.minecraftforge.items.ItemStackHandler;
 import xueluoanping.teastory.ItemRegister;
+import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.block.entity.NormalContainerTileEntity;
 
@@ -53,7 +55,7 @@ public class StoveTileEntity extends NormalContainerTileEntity {
         this.remainTicks = tag.getInt("RemainTicks");
         this.workTicks = tag.getInt("WorkTicks");
         this.lit = tag.getBoolean("Lit");
-
+        // TeaStory.logger(level, fuelTicks, remainTicks, workTicks);
     }
 
     // write
@@ -66,6 +68,7 @@ public class StoveTileEntity extends NormalContainerTileEntity {
         tag.putInt("WorkTicks", workTicks);
         tag.putBoolean("Lit", lit);
         super.saveAdditional(tag);
+
     }
 
 
@@ -83,20 +86,21 @@ public class StoveTileEntity extends NormalContainerTileEntity {
     }
 
 
-    public static void tick(Level worldIn, BlockPos pos, BlockState blockState, StoveTileEntity basinBlockEntity) {
-        if (basinBlockEntity.doubleClickTicks > 0) {
-            basinBlockEntity.doubleClickTicks--;
+    public static void tick(Level worldIn, BlockPos pos, BlockState blockState, StoveTileEntity stoveTileEntity) {
+        if (stoveTileEntity.doubleClickTicks > 0) {
+            stoveTileEntity.doubleClickTicks--;
         }
-        if (!basinBlockEntity.lit) {
-            basinBlockEntity.addFuel();
+        if (!stoveTileEntity.isBurning()) {
+            stoveTileEntity.addFuel();
         }
-        if (basinBlockEntity.remainTicks > 0) {
-            basinBlockEntity.remainTicks--;
-            basinBlockEntity.setChanged();
+        if (stoveTileEntity.remainTicks > 0) {
+            stoveTileEntity.remainTicks--;
+            // stoveTileEntity.setChanged();
+            stoveTileEntity.inventoryChanged();
         } else {
-            if (!basinBlockEntity.lit && basinBlockEntity.getBlockState().getValue(StoveBlock.LIT)) {
-                StoveBlock.setState(false, basinBlockEntity.getLevel(), basinBlockEntity.getBlockPos());
-                basinBlockEntity.inventoryChanged();
+            if (worldIn instanceof ServerLevel && !stoveTileEntity.isBurning() && blockState.getValue(StoveBlock.LIT)) {
+                StoveBlock.setState(false, worldIn, pos);
+                stoveTileEntity.inventoryChanged();
             }
         }
     }

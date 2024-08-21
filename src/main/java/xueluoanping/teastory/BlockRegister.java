@@ -134,8 +134,8 @@ public class BlockRegister {
     //         () -> BlockEntityType.Builder.of((pos, state) -> new BlockEntityFluidDrawer(count, pos, state), fluiddrawer.get()).build(null));
     public static RegistryObject<Block> GRASS_BLOCK_WITH_HOLE = ModBlocks.register("grass_block_with_hole", () -> new GrassBlock(Block.Properties.copy(Blocks.GRASS_BLOCK).strength(0.6F).randomTicks()));
     public static RegistryObject<Item> GRASS_BLOCK_WITH_HOLE_ITEM = ModItems.register("grass_block_with_hole", () -> new BlockItem(GRASS_BLOCK_WITH_HOLE.get(), new Item.Properties()));
-    public static RegistryObject<Block> WOODEN_BOWL = ModBlocks.register("wooden_bowl", () -> new BowlBlock(Block.Properties.copy(Blocks.GRASS_BLOCK).strength(0.4F).noOcclusion()));
-    public static RegistryObject<Item> WOODEN_BOWL_ITEM = ModItems.register("wooden_bowl", () -> new BlockItem(WOODEN_BOWL.get(), new Item.Properties()));
+    // public static RegistryObject<Block> WOODEN_BOWL = ModBlocks.register("wooden_bowl", () -> new BowlBlock(Block.Properties.copy(Blocks.GRASS_BLOCK).strength(0.4F).noOcclusion()));
+    public static RegistryObject<Item> WOODEN_BOWL_ITEM = ModItems.register("wooden_bowl", () -> new Item( new Item.Properties()));
 
 
     private static boolean predFalse(BlockState p_235436_0_, BlockGetter p_235436_1_, BlockPos p_235436_2_) {

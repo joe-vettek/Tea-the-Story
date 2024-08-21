@@ -7,6 +7,8 @@ import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 import xueluoanping.teastory.TeaStory;
+import xueluoanping.teastory.data.lang.Lang_EN;
+import xueluoanping.teastory.data.lang.Lang_ZH;
 import xueluoanping.teastory.data.loot.GLMProvider;
 import xueluoanping.teastory.data.provider.*;
 
@@ -28,11 +30,12 @@ public final class start {
             generator.addProvider(event.includeServer(),new NormalItemTagProvider(packOutput, lookupProvider, blockTags.contentsGetter()));
             generator.addProvider(event.includeServer(),new NormalFluidTagProvider(packOutput,lookupProvider, MODID, helper));
 
-
             generator.addProvider(event.includeServer(),new TRecipeProvider(packOutput));
-
             generator.addProvider(event.includeServer(),new GLMProvider(packOutput, MODID));
 
+        }if (event.includeClient()) {
+            generator.addProvider(event.includeClient(),new Lang_EN(packOutput, helper));
+            generator.addProvider(event.includeClient(),new Lang_ZH(packOutput, helper));
         }
     }
 }

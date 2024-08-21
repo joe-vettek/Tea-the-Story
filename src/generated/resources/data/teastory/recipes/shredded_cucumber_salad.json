@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "teastory:wooden_bowl"
+    },
+    {
+      "item": "teastory:bitter_gourd"
+    },
+    {
+      "item": "minecraft:shears"
+    }
+  ],
+  "result": {
+    "item": "teastory:shredded_cucumber_salad"
+  }
+}

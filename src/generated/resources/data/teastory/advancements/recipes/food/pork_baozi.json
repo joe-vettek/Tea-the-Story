@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_planks": {
+    "has_rice": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:oak_fence"
+              "teastory:rice_grains"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "teastory:oak_trellis"
+        "recipe": "teastory:pork_baozi"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_planks",
+      "has_rice",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "teastory:oak_trellis"
+      "teastory:pork_baozi"
     ]
   },
   "sends_telemetry_event": false

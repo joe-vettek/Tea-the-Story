@@ -95,6 +95,20 @@ public final class TRecipeProvider extends RecipeProvider {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemRegister.WET_STRAW.get(), 7).requires(BlockRegister.WET_HAYSTACK.get()).group("wet_straw").unlockedBy("has_wet_haystack", has(BlockRegister.WET_HAYSTACK.get())).save(consumer);
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemRegister.DRY_STRAW.get(), 7).requires(BlockRegister.DRY_HAYSTACK.get()).group("dry_straw").unlockedBy("has_dry_haystack", has(BlockRegister.DRY_HAYSTACK.get())).save(consumer);
 
+        // 食物
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ItemRegister.RICE_BALL_WITH_KELP.get()).requires(ItemRegister.RICE_BALL.get()).requires(Items.KELP).unlockedBy("has_rice", has(BlockRegister.RICE_GRAINS.get())).save(consumer);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ItemRegister.RICE_BOWL.get()).requires(ItemRegister.RICE_BALL.get()).requires(BlockRegister.WOODEN_BOWL_ITEM.get()).unlockedBy("has_rice", has(BlockRegister.RICE_GRAINS.get())).save(consumer);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ItemRegister.NETHER_WART_RICE_BOWL.get()).requires(ItemRegister.RICE_BOWL.get()).requires(Items.NETHER_WART).unlockedBy("has_rice", has(BlockRegister.RICE_GRAINS.get())).save(consumer);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ItemRegister.BEEF_RICE_BOWL.get()).requires(ItemRegister.RICE_BOWL.get()).requires(Items.COOKED_BEEF).unlockedBy("has_rice", has(BlockRegister.RICE_GRAINS.get())).save(consumer);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ItemRegister.SPICY_BEEF_RICE_BOWL.get()).requires(ItemRegister.BEEF_RICE_BOWL.get()).requires(BlockRegister.CHILI.get()).unlockedBy("has_rice", has(BlockRegister.RICE_GRAINS.get())).save(consumer);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ItemRegister.STEAMED_CHINESE_CABBAGE.get()).requires(BlockRegister.CHINESE_CABBAGE.get()).requires(BlockRegister.CHINESE_CABBAGE.get()).unlockedBy("has_rice", has(BlockRegister.RICE_GRAINS.get())).save(consumer);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ItemRegister.PICKLED_CABBAGE_WITH_FISH.get()).requires(ItemRegister.STEAMED_CHINESE_CABBAGE.get()).requires(Items.COOKED_SALMON).unlockedBy("has_rice", has(BlockRegister.RICE_GRAINS.get())).save(consumer);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ItemRegister.HONEY_BITTER_GOURD.get()).requires(BlockRegister.WOODEN_BOWL_ITEM.get()).requires(BlockRegister.BITTER_GOURDS.get()).requires(Items.HONEY_BOTTLE).unlockedBy("has_rice", has(BlockRegister.RICE_GRAINS.get())).save(consumer);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ItemRegister.SHREDDED_CUCUMBER_SALAD.get()).requires(BlockRegister.WOODEN_BOWL_ITEM.get()).requires(BlockRegister.BITTER_GOURDS.get()).requires(Items.SHEARS).unlockedBy("has_rice", has(BlockRegister.RICE_GRAINS.get())).save(consumer);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ItemRegister.PORK_BAOZI.get()).requires(BlockRegister.WOODEN_BOWL_ITEM.get()).requires(Items.BREAD).requires(Items.COOKED_PORKCHOP).unlockedBy("has_rice", has(BlockRegister.RICE_GRAINS.get())).save(consumer);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ItemRegister.CHICKEN_BURGER.get()).requires(Items.BREAD).requires(Items.COOKED_CHICKEN).requires(BlockRegister.CHINESE_CABBAGE.get()).unlockedBy("has_rice", has(BlockRegister.RICE_GRAINS.get())).save(consumer);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ItemRegister.BEEF_BURGER.get()).requires(Items.BREAD).requires(Items.COOKED_BEEF).requires(BlockRegister.CHINESE_CABBAGE.get()).unlockedBy("has_rice", has(BlockRegister.RICE_GRAINS.get())).save(consumer);
+
         // Smelting Recipes 熔炼配方
 
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(Items.WATER_BUCKET), RecipeCategory.MISC, FluidRegistry.BOILING_WATER_BUCKET.get(), 0.2F, 200).unlockedBy("has_water_bucket", has(Items.WATER_BUCKET)).save(consumer);

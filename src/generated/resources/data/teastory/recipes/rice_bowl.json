@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "teastory:rice_ball"
+    },
+    {
+      "item": "teastory:wooden_bowl"
+    }
+  ],
+  "result": {
+    "item": "teastory:rice_bowl"
+  }
+}
