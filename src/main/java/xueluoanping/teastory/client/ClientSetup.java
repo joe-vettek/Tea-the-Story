@@ -18,23 +18,24 @@ import cloud.lemonslice.teastory.client.render.StoneMillTESR;
 import cloud.lemonslice.teastory.client.render.StoneRollerTESR;
 import cloud.lemonslice.teastory.client.render.StoveTESR;
 import cloud.lemonslice.teastory.client.render.WoodenBarrelTESR;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.ItemModelShaper;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.client.resources.model.MultiPartBakedModel;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.repository.Pack;
+import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
@@ -42,13 +43,15 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.client.model.data.ModelData;
+import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import xueluoanping.teastory.*;
+import xueluoanping.teastory.resource.ServerModFilePackResources;
 import xueluoanping.teastory.variant.Planks;
 
+import java.util.List;
 import java.util.Map;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -86,10 +89,16 @@ public class ClientSetup {
             ItemBlockRenderTypes.setRenderLayer(BlockRegister.CHINESE_CABBAGE_PLANT.get(), RenderType.cutout());
 
             BlockRegister.ModBlocks.getEntries().forEach(blockHolder -> {
-                if (blockHolder.get() instanceof TrellisWithVineBlock || blockHolder.get() instanceof HybridizableFlowerBlock) {
+                if ( blockHolder.get() instanceof HybridizableFlowerBlock) {
                     ItemBlockRenderTypes.setRenderLayer(blockHolder.get(), RenderType.cutout());
                 }
             });
+
+            for (Block block : BuiltInRegistries.BLOCK) {
+                if (block instanceof TrellisWithVineBlock) {
+                    ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutout());
+                }
+            }
         });
     }
 
@@ -121,45 +130,40 @@ public class ClientSetup {
         BakedModel OAK_TRELLIS_ITEM_MODEL = event.getModels().get(OAK_TRELLIS_ITEM_LOCATION);
 
         TeaStory.logger(OAK_TRELLIS_MODEL);
-
+        TeaStory.logger("Minecraft loading all the models with " + modelRegistry.entrySet().size());
         var state = BlockRegister.OAK_TRELLIS.get().defaultBlockState();
         Planks.resourceLocationBlockMap.forEach((res, block) -> {
             // modelRegistry.get(((HashMap.Node) (Planks.resourceLocationBlockMap).entrySet().toArray()[0]).getKey())
             // modelRegistry.put(new ModelResourceLocation((res),""),cc);
-            for (BlockState possibleState : block.getB().getStateDefinition().getPossibleStates()) {
-                final BlockState[] newstate = {state};
-                state.getProperties().forEach(
-                        k -> {
-                            newstate[0] = newstate[0].setValue((Property) k, possibleState.getValue(k));
-                        }
-                );
-                var toRes = BlockModelShaper.stateToModelLocation(possibleState);
-                TextureAtlasSprite itemc = modelRegistry.get(BlockModelShaper.stateToModelLocation(block.getA().defaultBlockState())).getParticleIcon();
-                var reModel = modelRegistry.get(BlockModelShaper.stateToModelLocation(newstate[0]));
-                modelRegistry.put(toRes, new WarpBakeModel(reModel, itemc));
+            // for (BlockState possibleState : block.getB().getStateDefinition().getPossibleStates()) {
+            //     final BlockState[] newstate = {state};
+            //     state.getProperties().forEach(
+            //             k -> {
+            //                 newstate[0] = newstate[0].setValue((Property) k, possibleState.getValue(k));
+            //             }
+            //     );
+            //     var toRes = BlockModelShaper.stateToModelLocation(possibleState);
+            //     TextureAtlasSprite itemc = modelRegistry.get(BlockModelShaper.stateToModelLocation(block.getA().defaultBlockState())).getParticleIcon();
+            //     var reModel = modelRegistry.get(BlockModelShaper.stateToModelLocation(newstate[0]));
+            //     modelRegistry.put(toRes, new WarpBakeModel(reModel, itemc));
+            // }
+            var list = List.of("bar", "center", "post", "post_up", "support");
+            for (String s : list) {
+                var partModelRes = TeaStory.rl("block/%s_%s".formatted(res.getPath(), s));
+                var reModel = modelRegistry.get(partModelRes);
+                TextureAtlasSprite particleIcon = modelRegistry.get(BlockModelShaper.stateToModelLocation(block.getA().defaultBlockState())).getParticleIcon();
+                modelRegistry.put(partModelRes, new WarpBakeModel(reModel, particleIcon));
             }
+
             {
                 var location_A = new ModelResourceLocation(BuiltInRegistries.ITEM.getKey(block.getA().asItem()), "inventory");
 
                 var location_3 = new ModelResourceLocation(BuiltInRegistries.ITEM.getKey(block.getB().asItem()), "inventory");
 
-                modelRegistry.put(location_3, new WarpBakeModel(OAK_TRELLIS_ITEM_MODEL,  modelRegistry.get(location_A).getParticleIcon()));
+                modelRegistry.put(location_3, new WarpBakeModel(OAK_TRELLIS_ITEM_MODEL, modelRegistry.get(location_A).getParticleIcon()));
             }
         });
 
-        // BakedModel existingModel = modelRegistry.get(location);
-        // ModContents.DREntityBlockItems.getEntries().forEach((reg) -> {
-        //     ModelResourceLocation location = new ModelResourceLocation(reg.getId(), "inventory");
-        //     BakedModel existingModel = modelRegistry.get(location);
-        //     if (existingModel == null) {
-        //         throw new RuntimeException("Did not find in registry");
-        //     } else if (existingModel instanceof BakedModelFluidDrawer) {
-        //         throw new RuntimeException("Tried to replace twice");
-        //     } else {
-        //         BakedModelFluidDrawer model = new BakedModelFluidDrawer(existingModel);
-        //         modelRegistry.put(location, model);
-        //     }
-        // });
     }
 
     @SubscribeEvent
@@ -175,11 +179,16 @@ public class ClientSetup {
         // Minecraft.getInstance().getBlockColors().register(SAUCEPAN_COLOR, BlockRegistry.SAUCEPAN);
         var grassColor = new GrassBlockColor();
         event.register(grassColor, BlockRegister.GRASS_BLOCK_WITH_HOLE.get(), BlockRegister.WATERMELON_VINE.get());
-        BlockRegister.ModBlocks.getEntries().forEach(blockHolder -> {
-            if (blockHolder.get() instanceof TrellisWithVineBlock) {
-                event.register(grassColor, blockHolder.get());
+        // BlockRegister.ModBlocks.getEntries().forEach(blockHolder -> {
+        //     if (blockHolder.get() instanceof TrellisWithVineBlock) {
+        //         event.register(grassColor, blockHolder.get());
+        //     }
+        // });
+        for (Block block : BuiltInRegistries.BLOCK) {
+            if (block instanceof TrellisWithVineBlock) {
+                event.register(grassColor, block);
             }
-        });
+        }
         var hybridizableFlowerBlockColor = new HybridizableFlowerBlockColor();
         BlockRegister.ModBlocks.getEntries().forEach(blockHolder -> {
             if (blockHolder.get() instanceof HybridizableFlowerBlock) {
@@ -205,5 +214,21 @@ public class ClientSetup {
                 event.register(hybridizableFlowerItemColor, blockHolder.get());
             }
         });
+    }
+
+
+    @SubscribeEvent
+    public static void onAddPackFindersEvent(AddPackFindersEvent event) {
+
+        if (event.getPackType() == PackType.SERVER_DATA) {
+
+            for (String packID : List.of(TeaStory.MODID + "_generator")) {
+                event.addRepositorySource(consumer -> consumer.accept(
+                        Pack.readMetaAndCreate(packID, Component.translatable(packID), true,
+                                id -> new ServerModFilePackResources(packID, "data/"), PackType.SERVER_DATA,
+                                Pack.Position.BOTTOM, PackSource.BUILT_IN)));
+            }
+
+        }
     }
 }

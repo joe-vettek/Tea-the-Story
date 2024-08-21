@@ -3,16 +3,15 @@ package xueluoanping.teastory.resource;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Supplier;
 
+import cloud.lemonslice.teastory.block.crops.TrellisBlock;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.minecraft.FileUtil;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.AbstractPackResources;
 import net.minecraft.server.packs.PackType;
@@ -21,10 +20,7 @@ import net.minecraft.server.packs.resources.IoSupplier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagManager;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.FenceBlock;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.forgespi.locating.IModFile;
-import net.minecraftforge.resource.PathPackResources;
 import org.jetbrains.annotations.Nullable;
 import oshi.util.tuples.Pair;
 import xueluoanping.teastory.TeaStory;
@@ -34,10 +30,10 @@ import xueluoanping.teastory.variant.Planks;
 /*
  * Thanks Create MIT License
  * */
-public class ModFilePackResources extends AbstractPackResources {
+public class ServerModFilePackResources extends AbstractPackResources {
     protected final String sourcePath;
 
-    public ModFilePackResources(String name, String sourcePath) {
+    public ServerModFilePackResources(String name, String sourcePath) {
         super(name, true);
         this.sourcePath = sourcePath;
     }
@@ -79,6 +75,11 @@ public class ModFilePackResources extends AbstractPackResources {
             Planks.resourceLocationBlockMap.forEach((resourceLocation, blockBlockPair) -> {
                 jsonArray.add(resourceLocation.toString());
             });
+            for (Map.Entry<ResourceKey<Block>, Block> resourceKeyBlockEntry : BuiltInRegistries.BLOCK.entrySet()) {
+                if (resourceKeyBlockEntry.getValue() instanceof TrellisBlock){
+                    jsonArray.add(resourceKeyBlockEntry.getKey().location().toString());
+                }
+            }
             jsonObject.add("values", jsonArray);
 
             // here we need to use the method to lock the path

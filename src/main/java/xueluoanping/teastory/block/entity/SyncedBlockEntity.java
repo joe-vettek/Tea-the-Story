@@ -54,7 +54,7 @@ public class SyncedBlockEntity extends BlockEntity {
 
         @Override
         protected void onContentsChanged(int slot) {
-            super.onContentsChanged(slot);
+            // super.onContentsChanged(slot);
             inventoryChanged();
         }
     }
@@ -67,7 +67,7 @@ public class SyncedBlockEntity extends BlockEntity {
 
         @Override
         protected void onContentsChanged() {
-            super.onContentsChanged();
+            // super.onContentsChanged();
             inventoryChanged();
         }
 

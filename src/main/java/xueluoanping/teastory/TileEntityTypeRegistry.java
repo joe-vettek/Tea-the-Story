@@ -23,6 +23,7 @@ import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import xueluoanping.teastory.blockentity.VineEntity;
 
 public class TileEntityTypeRegistry {
     public static final DeferredRegister<BlockEntityType<?>> DRBlockEntities = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, TeaStory.MODID);
@@ -91,6 +92,7 @@ public class TileEntityTypeRegistry {
     public static RegistryObject<BlockEntityType<WoodenBarrelTileEntity>> WOODEN_BARREL_TYPE = DRBlockEntities.register("wooden_barrel",
             () -> BlockEntityType.Builder.of(WoodenBarrelTileEntity::new, WOODEN_BARREL.get()).build(null));
 
+    public static RegistryObject<BlockEntityType<VineEntity>> VINE_TYPE = null;
 
 
 }

@@ -1,0 +1,111 @@
+{
+    "multipart": [
+        {
+            "when": {
+                "post": "false",
+                "up": "false",
+                "north": "false",
+                "south": "false",
+                "east": "false",
+                "west": "false"
+            },
+            "apply": {
+                "model": "teastory:block/{trellis}_center"
+            }
+        },
+        {
+            "when": {
+                "up": "true"
+            },
+            "apply": {
+                "model": "teastory:block/{trellis}_post_up"
+            }
+        },
+        {
+            "when": {
+                "post": "true"
+            },
+            "apply": {
+                "model": "teastory:block/{trellis}_post"
+            }
+        },
+        {
+            "when": {
+                "north": "true"
+            },
+            "apply": {
+                "model": "teastory:block/{trellis}_bar",
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "east": "true"
+            },
+            "apply": {
+                "model": "teastory:block/{trellis}_bar",
+                "y": 90,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "south": "true"
+            },
+            "apply": {
+                "model": "teastory:block/{trellis}_bar",
+                "y": 180,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "west": "true"
+            },
+            "apply": {
+                "model": "teastory:block/{trellis}_bar",
+                "y": 270,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "north": "true",
+                "post": "true"
+            },
+            "apply": {
+                "model": "teastory:block/{trellis}_support"
+            }
+        },
+        {
+            "when": {
+                "east": "true",
+                "post": "true"
+            },
+            "apply": {
+                "model": "teastory:block/{trellis}_support",
+                "y": 90
+            }
+        },
+        {
+            "when": {
+                "south": "true",
+                "post": "true"
+            },
+            "apply": {
+                "model": "teastory:block/{trellis}_support",
+                "y": 180
+            }
+        },
+        {
+            "when": {
+                "west": "true",
+                "post": "true"
+            },
+            "apply": {
+                "model": "teastory:block/{trellis}_support",
+                "y": 270
+            }
+        }
+    ]
+}

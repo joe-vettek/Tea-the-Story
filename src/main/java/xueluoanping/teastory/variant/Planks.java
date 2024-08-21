@@ -10,4 +10,8 @@ import java.util.Map;
 public class Planks {
    // A is old, and B is new one
    public static final Map<ResourceLocation, Pair<Block,Block>> resourceLocationBlockMap=new HashMap<>();
+
+   // All Block
+   // public static final Map<ResourceLocation, Block> resourceLocationBlockMap=new HashMap<>();
+
 }
