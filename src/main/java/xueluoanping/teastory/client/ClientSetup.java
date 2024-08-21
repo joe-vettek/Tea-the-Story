@@ -51,6 +51,7 @@ import xueluoanping.teastory.*;
 import xueluoanping.teastory.resource.ServerModFilePackResources;
 import xueluoanping.teastory.variant.Planks;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -89,7 +90,7 @@ public class ClientSetup {
             ItemBlockRenderTypes.setRenderLayer(BlockRegister.CHINESE_CABBAGE_PLANT.get(), RenderType.cutout());
 
             BlockRegister.ModBlocks.getEntries().forEach(blockHolder -> {
-                if ( blockHolder.get() instanceof HybridizableFlowerBlock) {
+                if (blockHolder.get() instanceof HybridizableFlowerBlock) {
                     ItemBlockRenderTypes.setRenderLayer(blockHolder.get(), RenderType.cutout());
                 }
             });
@@ -121,10 +122,23 @@ public class ClientSetup {
 
     }
 
+    @SubscribeEvent
+    public static void onModelBaked(ModelEvent.RegisterAdditional event) {
+        event.register(WarpBakeModel.grape_leaves_on_beam);
+        event.register(WarpBakeModel.grape_on_post_0);
+        event.register(WarpBakeModel.grape_on_post_1);
+        event.register(WarpBakeModel.grape_on_post_2);
+        event.register(WarpBakeModel.grape_on_post_3);
+    }
 
     @SubscribeEvent
     public static void onModelBaked(ModelEvent.ModifyBakingResult event) {
         Map<ResourceLocation, BakedModel> modelRegistry = event.getModels();
+
+        for (ResourceLocation grapesRe : WarpBakeModel.grapesRes) {
+            WarpBakeModel.grapes.add(modelRegistry.get(grapesRe));
+        }
+
         MultiPartBakedModel OAK_TRELLIS_MODEL = (MultiPartBakedModel) event.getModels().get(BlockModelShaper.stateToModelLocation(BlockRegister.OAK_TRELLIS.get().defaultBlockState()));
         ModelResourceLocation OAK_TRELLIS_ITEM_LOCATION = new ModelResourceLocation(BlockRegister.OAK_TRELLIS.getId(), "inventory");
         BakedModel OAK_TRELLIS_ITEM_MODEL = event.getModels().get(OAK_TRELLIS_ITEM_LOCATION);
@@ -132,33 +146,39 @@ public class ClientSetup {
         TeaStory.logger(OAK_TRELLIS_MODEL);
         TeaStory.logger("Minecraft loading all the models with " + modelRegistry.entrySet().size());
         var state = BlockRegister.OAK_TRELLIS.get().defaultBlockState();
-        Planks.resourceLocationBlockMap.forEach((res, block) -> {
+
+
+        Planks.resourceLocationBlockMap.forEach((res, plankHolders) -> {
             // modelRegistry.get(((HashMap.Node) (Planks.resourceLocationBlockMap).entrySet().toArray()[0]).getKey())
             // modelRegistry.put(new ModelResourceLocation((res),""),cc);
-            // for (BlockState possibleState : block.getB().getStateDefinition().getPossibleStates()) {
-            //     final BlockState[] newstate = {state};
-            //     state.getProperties().forEach(
-            //             k -> {
-            //                 newstate[0] = newstate[0].setValue((Property) k, possibleState.getValue(k));
-            //             }
-            //     );
-            //     var toRes = BlockModelShaper.stateToModelLocation(possibleState);
-            //     TextureAtlasSprite itemc = modelRegistry.get(BlockModelShaper.stateToModelLocation(block.getA().defaultBlockState())).getParticleIcon();
-            //     var reModel = modelRegistry.get(BlockModelShaper.stateToModelLocation(newstate[0]));
-            //     modelRegistry.put(toRes, new WarpBakeModel(reModel, itemc));
-            // }
-            var list = List.of("bar", "center", "post", "post_up", "support");
-            for (String s : list) {
-                var partModelRes = TeaStory.rl("block/%s_%s".formatted(res.getPath(), s));
-                var reModel = modelRegistry.get(partModelRes);
-                TextureAtlasSprite particleIcon = modelRegistry.get(BlockModelShaper.stateToModelLocation(block.getA().defaultBlockState())).getParticleIcon();
-                modelRegistry.put(partModelRes, new WarpBakeModel(reModel, particleIcon));
+            ArrayList<BlockState> blockStates = new ArrayList<>(plankHolders.trellisBlock().getStateDefinition().getPossibleStates());
+            plankHolders.trellisWithVineBlocks()
+                    .forEach(trellisWithVineBlock ->
+                            blockStates.addAll(trellisWithVineBlock.getStateDefinition().getPossibleStates()));
+            for (BlockState possibleState : blockStates) {
+                final BlockState[] newstate = {state};
+                state.getProperties().forEach(
+                        k -> {
+                            newstate[0] = newstate[0].setValue((Property) k, possibleState.getValue(k));
+                        }
+                );
+                var toRes = BlockModelShaper.stateToModelLocation(possibleState);
+                TextureAtlasSprite itemc = modelRegistry.get(BlockModelShaper.stateToModelLocation(plankHolders.plank().defaultBlockState())).getParticleIcon();
+                var reModel = modelRegistry.get(BlockModelShaper.stateToModelLocation(newstate[0]));
+                modelRegistry.put(toRes, new WarpBakeModel(reModel, itemc));
             }
+            // var list = List.of("bar", "center", "post", "post_up", "support");
+            // for (String s : list) {
+            //     var partModelRes = TeaStory.rl("block/%s_%s".formatted(res.getPath(), s));
+            //     var reModel = modelRegistry.get(partModelRes);
+            //     TextureAtlasSprite particleIcon = modelRegistry.get(BlockModelShaper.stateToModelLocation(block.getA().defaultBlockState())).getParticleIcon();
+            //     modelRegistry.put(partModelRes, new WarpBakeModel(reModel, particleIcon));
+            // }
 
             {
-                var location_A = new ModelResourceLocation(BuiltInRegistries.ITEM.getKey(block.getA().asItem()), "inventory");
+                var location_A = new ModelResourceLocation(BuiltInRegistries.ITEM.getKey(plankHolders.plank().asItem()), "inventory");
 
-                var location_3 = new ModelResourceLocation(BuiltInRegistries.ITEM.getKey(block.getB().asItem()), "inventory");
+                var location_3 = new ModelResourceLocation(BuiltInRegistries.ITEM.getKey(plankHolders.trellisBlock().asItem()), "inventory");
 
                 modelRegistry.put(location_3, new WarpBakeModel(OAK_TRELLIS_ITEM_MODEL, modelRegistry.get(location_A).getParticleIcon()));
             }

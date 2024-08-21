@@ -1,29 +1,5 @@
 {
   "values": [
-    "teastory:bamboo_lattice",
-    "teastory:oak_trellis",
-    "teastory:birch_trellis",
-    "teastory:jungle_trellis",
-    "teastory:spruce_trellis",
-    "teastory:dark_oak_trellis",
-    "teastory:acacia_trellis",
-    "teastory:oak_trellis_grape",
-    "teastory:birch_trellis_grape",
-    "teastory:jungle_trellis_grape",
-    "teastory:spruce_trellis_grape",
-    "teastory:dark_oak_trellis_grape",
-    "teastory:acacia_trellis_grape",
-    "teastory:oak_trellis_cucumber",
-    "teastory:birch_trellis_cucumber",
-    "teastory:jungle_trellis_cucumber",
-    "teastory:spruce_trellis_cucumber",
-    "teastory:dark_oak_trellis_cucumber",
-    "teastory:acacia_trellis_cucumber",
-    "teastory:oak_trellis_bitter_gourd",
-    "teastory:birch_trellis_bitter_gourd",
-    "teastory:jungle_trellis_bitter_gourd",
-    "teastory:spruce_trellis_bitter_gourd",
-    "teastory:dark_oak_trellis_bitter_gourd",
-    "teastory:acacia_trellis_bitter_gourd"
+    "teastory:bamboo_lattice"
   ]
 }

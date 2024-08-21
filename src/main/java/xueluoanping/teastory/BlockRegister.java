@@ -74,7 +74,7 @@ public class BlockRegister {
     public static RegistryObject<Item> CHINESE_CABBAGE_SEEDS = ModItems.register("chinese_cabbage_seeds", () -> new BlockItem(CHINESE_CABBAGE_PLANT.get(), new Item.Properties()));
 
     public static RegistryObject<TrellisBlock> OAK_TRELLIS = ModBlocks.register("oak_trellis", () -> new TrellisBlock(Block.Properties.of().mapColor(MapColor.WOOD).noOcclusion().strength(0.6F).sound(SoundType.WOOD)));
-    public static RegistryObject<Item> OAK_TRELLIS_ITEM = ModItems.register("oak_trellis", () -> new BlockItem(OAK_TRELLIS.get(), new Item.Properties()));
+    public static RegistryObject<Item> OAK_TRELLIS_ITEM = ModItems.register("oak_trellis", () -> new Item(new Item.Properties()));
     // public static RegistryObject<TrellisBlock> BIRCH_TRELLIS = ModBlocks.register("birch_trellis", () -> new TrellisBlock(Block.Properties.of().mapColor(MapColor.WOOD).noOcclusion().strength(0.6F).sound(SoundType.WOOD)));
     // public static RegistryObject<Item> BIRCH_TRELLIS_ITEM = ModItems.register("birch_trellis", () -> new BlockItem(BIRCH_TRELLIS.get(), new Item.Properties()));
     // public static RegistryObject<TrellisBlock> JUNGLE_TRELLIS = ModBlocks.register("jungle_trellis", () -> new TrellisBlock(Block.Properties.of().mapColor(MapColor.WOOD).noOcclusion().strength(0.6F).sound(SoundType.WOOD)));

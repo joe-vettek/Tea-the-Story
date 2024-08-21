@@ -30,6 +30,7 @@ import xueluoanping.teastory.resource.ClientModFilePackResources;
 import xueluoanping.teastory.resource.ServerModFilePackResources;
 import xueluoanping.teastory.variant.Planks;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,7 +69,7 @@ public class ModContent {
                                     BlockRegister.HYACINTH_ITEM.get().fillItemGroup(output);
                                     BlockRegister.ZINNIA_ITEM.get().fillItemGroup(output);
                                     Planks.resourceLocationBlockMap.forEach((resourceLocation, blockBlockPair) -> {
-                                        output.accept(blockBlockPair.getB());
+                                        output.accept(blockBlockPair.trellisBlock());
                                     });
                                 })
                                 .build());
@@ -93,13 +94,16 @@ public class ModContent {
                 String name = resourceLocationBlockEntry.getKey().toString().replace(":", ".").replace("_planks", "_trellis");
                 var blockB = new TrellisBlock(Block.Properties.copy(BlockRegister.OAK_TRELLIS.get()));
                 event.register(Registries.BLOCK, TeaStory.rl(name), () -> blockB);
-                Planks.resourceLocationBlockMap.put(TeaStory.rl(name), new Pair<>(resourceLocationBlockEntry.getValue(), blockB));
 
+                ArrayList<TrellisWithVineBlock> blocks = new ArrayList<>(3);
                 for (VineType value : VineType.values()) {
                     TrellisWithVineBlock trellisWithVineBlock = new TrellisWithVineBlock(value, Block.Properties.copy(BlockRegister.OAK_TRELLIS.get()).sound(SoundType.CROP).randomTicks());
                     VineInfoManager.registerVineTypeConnections(value, blockB, trellisWithVineBlock);
-                    event.register(Registries.BLOCK, TeaStory.rl(name+"_with_"+value.getName()+"_vine"), () -> trellisWithVineBlock);
+                    event.register(Registries.BLOCK, TeaStory.rl(name + "_with_" + value.getName() + "_vine"), () -> trellisWithVineBlock);
+                    blocks.add(trellisWithVineBlock);
                 }
+
+                Planks.resourceLocationBlockMap.put(TeaStory.rl(name), new Planks.PlankHolders(resourceLocationBlockEntry.getValue(), blockB, blocks));
 
             }
 
@@ -107,14 +111,14 @@ public class ModContent {
         }
         if (event.getRegistryKey() == Registries.ITEM) {
             Planks.resourceLocationBlockMap.forEach((resourceLocation, block) -> {
-                event.register(Registries.ITEM, resourceLocation, () -> new Citem(block.getB(), new Item.Properties()));
+                event.register(Registries.ITEM, resourceLocation, () -> new Citem(block.trellisBlock(), new Item.Properties()));
             });
         }
         if (event.getRegistryKey() == Registries.ENTITY_TYPE) {
-           Block[] blocks= BuiltInRegistries.BLOCK.stream()
-                   .filter(block -> block instanceof TrellisWithVineBlock)
-                   .toArray(Block[]::new);
-            TileEntityTypeRegistry.VINE_TYPE= TileEntityTypeRegistry.DRBlockEntities.register("trellis_vine",
+            Block[] blocks = BuiltInRegistries.BLOCK.stream()
+                    .filter(block -> block instanceof TrellisWithVineBlock)
+                    .toArray(Block[]::new);
+            TileEntityTypeRegistry.VINE_TYPE = TileEntityTypeRegistry.DRBlockEntities.register("trellis_vine",
                     () -> BlockEntityType.Builder.of(VineEntity::new, blocks).build(null));
         }
         // ServerLifecycleHooks.getCurrentServer().getResourceManager().getResourceStack(new ResourceLocation("tags/blocks/acacia_logs.json"));

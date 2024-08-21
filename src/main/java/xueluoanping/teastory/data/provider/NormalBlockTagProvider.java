@@ -29,11 +29,12 @@ public final class NormalBlockTagProvider extends BlockTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
         tag(BlockTags.WOODEN_FENCES).add(BlockRegister.BAMBOO_LATTICE.get());
-        BlockRegister.ModBlocks.getEntries().forEach(blockHolder -> {
-            if (blockHolder.get() instanceof TrellisBlock) {
-                tag(BlockTags.WOODEN_FENCES).add(blockHolder.get());
-            }
-        });
+        tag(BlockTags.WALLS).add(BlockRegister.DRIED_BAMBOO_WALL.get(),BlockRegister.DRIED_BAMBOO_WALL.get());
+        // BlockRegister.ModBlocks.getEntries().forEach(blockHolder -> {
+        //     if (blockHolder.get() instanceof TrellisBlock) {
+        //         tag(BlockTags.WOODEN_FENCES).add(blockHolder.get());
+        //     }
+        // });
 
         tag(BlockTags.WOODEN_DOORS).add(BlockRegister.BAMBOO_DOOR.get(), BlockRegister.BAMBOO_GLASS_DOOR.get());
         tag(BlockTags.SMALL_FLOWERS).add(BlockRegister.HYACINTH.get(), BlockRegister.CHRYSANTHEMUM.get(), BlockRegister.ZINNIA.get());

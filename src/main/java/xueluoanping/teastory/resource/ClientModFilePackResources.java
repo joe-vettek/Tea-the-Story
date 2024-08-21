@@ -81,7 +81,7 @@ public class ClientModFilePackResources extends AbstractPackResources {
     @Override
     public void listResources(PackType type, String namespace, String path, ResourceOutput resourceOutput) {
 
-        TeaStory.logger(namespace, path);
+        // TeaStory.logger(namespace, path);
 
         if (namespace.equals(TeaStory.MODID) && path.equals("blockstates")) {
             Path trellisPath = modFile.findResource("templates/assets/blockstates/trellis.json");
@@ -106,9 +106,10 @@ public class ClientModFilePackResources extends AbstractPackResources {
                         stringToIoSupplier(trellis.toString().replaceAll(preholder, name)));
 
                 for (VineType value : VineType.values()) {
-
                     resourceOutput.accept(TeaStory.rl("blockstates/%s.json".formatted(name + "_with_" + value.getName() + "_vine")),
-                            stringToIoSupplier(vineTypeJsonObjectMap.get(value).toString().replaceAll(preholder, name)));
+                            stringToIoSupplier(trellis.toString().replaceAll(preholder, name)));
+                    // resourceOutput.accept(TeaStory.rl("blockstates/%s.json".formatted(name + "_with_" + value.getName() + "_vine")),
+                    //         stringToIoSupplier(vineTypeJsonObjectMap.get(value).toString().replaceAll(preholder, name)));
                 }
             });
 

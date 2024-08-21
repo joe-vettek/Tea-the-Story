@@ -32,7 +32,7 @@ import java.util.List;
 public class TrellisBlock extends HorizontalConnectedBlock {
     public static final BooleanProperty POST = BooleanProperty.create("post");
     public static final BooleanProperty UP = BlockStateProperties.UP;
-    public static final BooleanProperty HORIZONTAL = BooleanProperty.create("horizontal");
+    // public static final BooleanProperty HORIZONTAL = BooleanProperty.create("horizontal");
     private static final VoxelShape[] SHAPES;
 
     public TrellisBlock(Properties properties) {
@@ -161,7 +161,7 @@ public class TrellisBlock extends HorizontalConnectedBlock {
         if (ss == null) {
             return super.getName();
         }
-        return Component.translatable(ss.getA().getDescriptionId()).append(Component.translatable("misc.block.teastory.trellis_suffix"));
+        return Component.translatable(ss.plank().getDescriptionId()).append(Component.translatable("misc.block.teastory.trellis_suffix"));
     }
 
     static {

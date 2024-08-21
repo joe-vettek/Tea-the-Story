@@ -120,11 +120,11 @@ public class ServerModFilePackResources extends AbstractPackResources {
 
 
             int count = 0;
-            for (Map.Entry<ResourceLocation, Pair<Block, Block>> pairEntry : Planks.resourceLocationBlockMap.entrySet()) {
+            for (var pairEntry : Planks.resourceLocationBlockMap.entrySet()) {
                 // resultObject = new JsonObject();
                 // resultObject.addProperty("count", 2);
                 resultObject.addProperty("item", pairEntry.getKey().toString());
-                var plankLoc = BuiltInRegistries.BLOCK.getKey(pairEntry.getValue().getA());
+                var plankLoc = BuiltInRegistries.BLOCK.getKey(pairEntry.getValue().plank());
                 var fence = ResourceLocation.tryParse((plankLoc).toString().replace("_planks", "_fence"));
                 var fenceBlock = BuiltInRegistries.BLOCK.getOptional(fence);
                 if (fenceBlock.isEmpty()) {
@@ -186,9 +186,9 @@ public class ServerModFilePackResources extends AbstractPackResources {
 
             jsonObject.addProperty("sends_telemetry_event", false);
 
-            for (Map.Entry<ResourceLocation, Pair<Block, Block>> pairEntry : Planks.resourceLocationBlockMap.entrySet()) {
+            for (var pairEntry : Planks.resourceLocationBlockMap.entrySet()) {
                 itemObject.addProperty("recipe", pairEntry.getKey().toString());
-                var plankLoc = BuiltInRegistries.BLOCK.getKey(pairEntry.getValue().getA());
+                var plankLoc = BuiltInRegistries.BLOCK.getKey(pairEntry.getValue().plank());
                 var fenceLoc = ResourceLocation.tryParse((plankLoc).toString().replace("_planks", "_fence"));
                 var fenceBlock = BuiltInRegistries.BLOCK.getOptional(fenceLoc);
                 if (fenceBlock.isEmpty()) {

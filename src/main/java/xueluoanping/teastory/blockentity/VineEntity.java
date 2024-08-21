@@ -4,11 +4,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.client.model.data.ModelData;
+import net.minecraftforge.client.model.data.ModelProperty;
+import org.jetbrains.annotations.NotNull;
 import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.block.entity.SyncedBlockEntity;
 
 public class VineEntity extends SyncedBlockEntity {
-
+    public static final ModelProperty<Integer> AGE_PROPERTY = new ModelProperty<>();
 
     public static int MAX_AGE = 3;
     public static int MAX_DISTANCE = 7;
@@ -29,6 +32,16 @@ public class VineEntity extends SyncedBlockEntity {
         this.distance = tag.getInt("distance");
     }
 
+    @Override
+    public @NotNull ModelData getModelData() {
+        return ModelData.builder().with(AGE_PROPERTY, getAge()).build();
+        // return super.getModelData();
+    }
+
+    @Override
+    public void requestModelDataUpdate() {
+        super.requestModelDataUpdate();
+    }
 
     @Override
     protected void saveAdditional(CompoundTag tag) {
