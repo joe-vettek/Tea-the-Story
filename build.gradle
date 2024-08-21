@@ -209,6 +209,8 @@ dependencies {
 
     onlyMainRuntimeOnly fg.deobf("curse.maven:journeymap-32274:4873863")
 
+    onlyMainRuntimeOnly fg.deobf("curse.maven:terrablender-563928:5378180")
+    onlyMainRuntimeOnly fg.deobf("curse.maven:regions-unexplored-659110:5558225")
     // Real mod deobf dependency examples - these get remapped to your current mappings
     // implementation fg.deobf("com.tterrag.registrate:Registrate:MC${mc_version}-${registrate_version}") // Adds registrate as a dependency
 

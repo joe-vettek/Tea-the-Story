@@ -18,25 +18,36 @@ import cloud.lemonslice.teastory.client.render.StoneMillTESR;
 import cloud.lemonslice.teastory.client.render.StoneRollerTESR;
 import cloud.lemonslice.teastory.client.render.StoveTESR;
 import cloud.lemonslice.teastory.client.render.WoodenBarrelTESR;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.ItemModelShaper;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.resources.model.MultiPartBakedModel;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import xueluoanping.teastory.*;
+import xueluoanping.teastory.variant.Planks;
 
 import java.util.Map;
 
@@ -105,7 +116,38 @@ public class ClientSetup {
     @SubscribeEvent
     public static void onModelBaked(ModelEvent.ModifyBakingResult event) {
         Map<ResourceLocation, BakedModel> modelRegistry = event.getModels();
+        MultiPartBakedModel OAK_TRELLIS_MODEL = (MultiPartBakedModel) event.getModels().get(BlockModelShaper.stateToModelLocation(BlockRegister.OAK_TRELLIS.get().defaultBlockState()));
+        ModelResourceLocation OAK_TRELLIS_ITEM_LOCATION = new ModelResourceLocation(BlockRegister.OAK_TRELLIS.getId(), "inventory");
+        BakedModel OAK_TRELLIS_ITEM_MODEL = event.getModels().get(OAK_TRELLIS_ITEM_LOCATION);
 
+        TeaStory.logger(OAK_TRELLIS_MODEL);
+
+        var state = BlockRegister.OAK_TRELLIS.get().defaultBlockState();
+        Planks.resourceLocationBlockMap.forEach((res, block) -> {
+            // modelRegistry.get(((HashMap.Node) (Planks.resourceLocationBlockMap).entrySet().toArray()[0]).getKey())
+            // modelRegistry.put(new ModelResourceLocation((res),""),cc);
+            for (BlockState possibleState : block.getB().getStateDefinition().getPossibleStates()) {
+                final BlockState[] newstate = {state};
+                state.getProperties().forEach(
+                        k -> {
+                            newstate[0] = newstate[0].setValue((Property) k, possibleState.getValue(k));
+                        }
+                );
+                var toRes = BlockModelShaper.stateToModelLocation(possibleState);
+                TextureAtlasSprite itemc = modelRegistry.get(BlockModelShaper.stateToModelLocation(block.getA().defaultBlockState())).getParticleIcon();
+                var reModel = modelRegistry.get(BlockModelShaper.stateToModelLocation(newstate[0]));
+                modelRegistry.put(toRes, new WarpBakeModel(reModel, itemc));
+            }
+            {
+                var location_A = new ModelResourceLocation(BuiltInRegistries.ITEM.getKey(block.getA().asItem()), "inventory");
+
+                var location_3 = new ModelResourceLocation(BuiltInRegistries.ITEM.getKey(block.getB().asItem()), "inventory");
+
+                modelRegistry.put(location_3, new WarpBakeModel(OAK_TRELLIS_ITEM_MODEL,  modelRegistry.get(location_A).getParticleIcon()));
+            }
+        });
+
+        // BakedModel existingModel = modelRegistry.get(location);
         // ModContents.DREntityBlockItems.getEntries().forEach((reg) -> {
         //     ModelResourceLocation location = new ModelResourceLocation(reg.getId(), "inventory");
         //     BakedModel existingModel = modelRegistry.get(location);

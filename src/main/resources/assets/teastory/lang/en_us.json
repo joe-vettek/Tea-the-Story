@@ -185,5 +185,6 @@
     "info.teastory.tooltip.iron_kettle.to_boil": "Heat it on a stove",
     "info.teastory.record": "You haven't installed Record Resources Pack",
     "commands.teastory.solar.set": "Set the solar day to %s",
-    "death.attack.boiling": "%1$s was scalded by boiling water"
+    "death.attack.boiling": "%1$s was scalded by boiling water",
+    "misc.block.teastory.trellis_suffix": " Trellis"
 }

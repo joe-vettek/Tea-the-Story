@@ -6,7 +6,11 @@ import cloud.lemonslice.teastory.helper.VoxelShapeHelper;
 import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -21,6 +25,7 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import xueluoanping.teastory.variant.Planks;
 
 import java.util.List;
 
@@ -63,6 +68,7 @@ public class TrellisBlock extends HorizontalConnectedBlock {
     }
 
 
+    // EmptyBlockGetter.INSTANCE
     @Override
     @SuppressWarnings("deprecation")
     public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
@@ -79,11 +85,11 @@ public class TrellisBlock extends HorizontalConnectedBlock {
     public BlockState getProperState(Level world, BlockPos pos) {
         BlockState state = this.defaultBlockState();
         BlockState belowState = world.getBlockState(pos.below());
-        if (belowState.is(BlockTags.WOODEN_FENCES) || belowState.isFaceSturdy(world, pos.below(), Direction.UP)) {
+        if (belowState.getBlock() instanceof TrellisBlock || belowState.is(BlockTags.WOODEN_FENCES) || belowState.isFaceSturdy(world, pos.below(), Direction.UP)) {
             state = state.setValue(POST, true);
         }
         BlockState up = world.getBlockState(pos.above());
-        if (up.is(BlockTags.WOODEN_FENCES) || up.isFaceSturdy(world, pos.above(), Direction.DOWN)) {
+        if (up.getBlock() instanceof TrellisBlock || up.is(BlockTags.WOODEN_FENCES) || up.isFaceSturdy(world, pos.above(), Direction.DOWN)) {
             state = state.setValue(UP, true);
         }
 
@@ -118,11 +124,11 @@ public class TrellisBlock extends HorizontalConnectedBlock {
         } else if (facing == Direction.DOWN) {
             BlockPos posDown = currentPos.relative(facing);
             BlockState state = worldIn.getBlockState(posDown);
-            stateIn = stateIn.setValue(POST, state.is(BlockTags.WOODEN_FENCES) || state.isFaceSturdy(worldIn, posDown, Direction.UP));
+            stateIn = stateIn.setValue(POST, state.getBlock() instanceof TrellisBlock || state.is(BlockTags.WOODEN_FENCES) || state.isFaceSturdy(worldIn, posDown, Direction.UP));
         } else if (facing == Direction.UP) {
             BlockPos posUp = currentPos.relative(facing);
             BlockState state = worldIn.getBlockState(posUp);
-            stateIn = stateIn.setValue(UP, state.is(BlockTags.WOODEN_FENCES) || state.isFaceSturdy(worldIn, posUp, Direction.DOWN));
+            stateIn = stateIn.setValue(UP, state.getBlock() instanceof TrellisBlock || state.is(BlockTags.WOODEN_FENCES) || state.isFaceSturdy(worldIn, posUp, Direction.DOWN));
         }
         return stateIn;
     }
@@ -146,6 +152,16 @@ public class TrellisBlock extends HorizontalConnectedBlock {
     public BlockState getRelevantState(BlockState old) {
         BlockState newState = this.defaultBlockState();
         return newState.setValue(NORTH, old.getValue(NORTH)).setValue(SOUTH, old.getValue(SOUTH)).setValue(WEST, old.getValue(WEST)).setValue(EAST, old.getValue(EAST)).setValue(POST, old.getValue(POST)).setValue(UP, old.getValue(UP));
+    }
+
+
+    @Override
+    public MutableComponent getName() {
+        var ss = Planks.resourceLocationBlockMap.get(BuiltInRegistries.BLOCK.getKey(this));
+        if (ss == null) {
+            return super.getName();
+        }
+        return Component.translatable(ss.getA().getDescriptionId()).append(Component.translatable("misc.block.teastory.trellis_suffix"));
     }
 
     static {

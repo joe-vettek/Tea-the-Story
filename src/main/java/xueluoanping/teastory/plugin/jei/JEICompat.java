@@ -74,6 +74,8 @@ public final class JEICompat implements IModPlugin {
                 TileEntityTypeRegistry.PORCELAIN_TEAPOT.get());
     }
 
+
+
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addRecipeCatalyst(new ItemStack(TileEntityTypeRegistry.BAMBOO_TRAY_ITEM.get()), IN_RAIN_TYPE, OUTDOORS_TYPE, INDOORS_TYPE, BAKE_TYPE);
