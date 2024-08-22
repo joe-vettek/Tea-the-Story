@@ -135,12 +135,6 @@ public class ScarecrowBlock extends NormalHorizontalBlock {
         return state.getValue(HALF) == DoubleBlockHalf.LOWER ? blockstate.isFaceSturdy(worldIn, blockpos, Direction.UP) : blockstate.is(this);
     }
 
-    @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
-        return state.getValue(HALF) == DoubleBlockHalf.LOWER ? Lists.newArrayList(new ItemStack(this)) : Collections.emptyList();
-    }
-
-
     static {
         LOWER_SHAPE = VoxelShapeHelper.createVoxelShape(5, 0, 5, 6, 16, 6);
         UPPER_SHAPE = VoxelShapeHelper.createVoxelShape(2, 0, 2, 12, 12, 12);

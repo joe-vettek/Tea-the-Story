@@ -149,9 +149,5 @@ public class CatapultBoardBlock extends NormalHorizontalBlock
         }
     }
 
-    @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
-        return Lists.newArrayList(new ItemStack(this));
-    }
 
 }

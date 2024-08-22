@@ -123,10 +123,4 @@ public class WoodenFrameBlock extends Block implements SimpleWaterloggedBlock {
         super.createBlockStateDefinition(pBuilder.add(WATERLOGGED));
     }
 
-    @Override
-    public List<ItemStack> getDrops(BlockState pState, LootParams.Builder pParams) {
-        return Lists.newArrayList(new ItemStack(this));
-    }
-
-
 }

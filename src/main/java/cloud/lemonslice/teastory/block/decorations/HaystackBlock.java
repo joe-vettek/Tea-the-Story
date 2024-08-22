@@ -159,11 +159,6 @@ public class HaystackBlock extends Block {
         return level;
     }
 
-    @Override
-    @SuppressWarnings("deprecation")
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
-        return state.getValue(HALF) == DoubleBlockHalf.LOWER ? Lists.newArrayList(new ItemStack(this)) : Collections.emptyList();
-    }
 
     static {
         VoxelShape bottom = VoxelShapeHelper.createVoxelShape(3, 0, 3, 10, 8, 10);

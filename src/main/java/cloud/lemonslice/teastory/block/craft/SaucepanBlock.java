@@ -160,7 +160,7 @@ public class SaucepanBlock extends NormalHorizontalBlock
         BlockState state = super.getStateForPlacement(context);
         if (state != null && context.getItemInHand().getOrCreateTag().contains("lid"))
         {
-            state = state.setValue(LID, false);
+            state = state.setValue(LID, context.getItemInHand().getOrCreateTag().getBoolean("lid"));
         }
         return state;
     }
@@ -189,17 +189,7 @@ public class SaucepanBlock extends NormalHorizontalBlock
         }
     }
 
-    @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
-        ItemStack pan = new ItemStack(this);
-        if (!state.getValue(LID))
-        {
-            CompoundTag nbt = new CompoundTag();
-            nbt.putBoolean("lid", false);
-            pan.setTag(nbt);
-        }
-        return Lists.newArrayList(pan);
-    }
+
 
 
     static

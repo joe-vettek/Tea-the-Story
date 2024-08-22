@@ -239,11 +239,6 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
         // return newState.setValue(AGE, 0);
     }
 
-    @Override
-    @SuppressWarnings("deprecation")
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
-        return Lists.newArrayList(new ItemStack(getEmptyTrellis(state)));
-    }
 
     public VineType getType() {
         return type;

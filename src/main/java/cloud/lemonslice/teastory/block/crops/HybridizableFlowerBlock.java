@@ -58,18 +58,6 @@ public class HybridizableFlowerBlock extends BushBlock implements BonemealableBl
 
 
     @Override
-    @SuppressWarnings("deprecation")
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
-        List<ItemStack> list = super.getDrops(state, builder);
-        ItemStack stack = new ItemStack(this);
-        var nbt = new CompoundTag();
-        nbt.putString("color", state.getValue(FLOWER_COLOR).getString());
-        stack.setTag(nbt);
-        list.add(stack);
-        return list;
-    }
-
-    @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         super.createBlockStateDefinition(pBuilder.add(FLOWER_COLOR));
     }

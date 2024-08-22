@@ -125,10 +125,5 @@ public class FilterScreenBlock extends Block
         super.createBlockStateDefinition(pBuilder.add(AXIS));
     }
 
-    @Override
-    public List<ItemStack> getDrops(BlockState pState, LootParams.Builder pParams) {
-        return Lists.newArrayList(new ItemStack(this));
-    }
-
 
 }

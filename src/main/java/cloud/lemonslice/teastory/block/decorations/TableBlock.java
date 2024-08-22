@@ -56,10 +56,7 @@ public class TableBlock extends Block {
     }
 
 
-    @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
-        return Lists.newArrayList(new ItemStack(this));
-    }
+
 
     static {
         VoxelShape one = VoxelShapeHelper.createVoxelShape(1, 0, 1, 2, 14, 2);

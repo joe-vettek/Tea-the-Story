@@ -202,10 +202,7 @@ public class PaddyFieldBlock extends HorizontalConnectedBlock implements SimpleW
         return true;
     }
 
-    @Override
-    public List<ItemStack> getDrops(BlockState blockState, LootParams.Builder builder) {
-        return Lists.newArrayList(new ItemStack(Blocks.DIRT));
-    }
+
 
     public enum Water implements StringRepresentable {
         SKIP("skip"),

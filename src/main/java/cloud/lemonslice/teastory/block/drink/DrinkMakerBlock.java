@@ -174,13 +174,6 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
         super.onRemove(blockState, worldIn, pos, state, isMoving);
     }
 
-    @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
-        List<ItemStack> list = Lists.newArrayList();
-        if (state.getValue(LEFT)) list.add(new ItemStack(this));
-        return list;
-    }
-
 
     private void dropItems(Level worldIn, BlockPos pos) {
         BlockEntity te = worldIn.getBlockEntity(pos);

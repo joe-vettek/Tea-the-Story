@@ -291,10 +291,7 @@ public class AqueductBlock extends HorizontalConnectedBlock implements SimpleWat
         super.createBlockStateDefinition(builder.add(DISTANCE, BLOCKED, BOTTOM, WATERLOGGED));
     }
 
-    @Override
-    public List<ItemStack> getDrops(BlockState p_287732_, LootParams.Builder p_287596_) {
-        return Lists.newArrayList(new ItemStack(Blocks.COBBLESTONE));
-    }
+
 
     static {
         VoxelShape POST_0 = VoxelShapeHelper.createVoxelShape(0.0D, 4.0D, 0.0D, 4.0D, 12.0D, 4.0D);

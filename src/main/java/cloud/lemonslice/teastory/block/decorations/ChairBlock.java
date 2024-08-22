@@ -97,13 +97,6 @@ public class ChairBlock extends NormalHorizontalBlock {
     }
 
 
-    @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
-        return Lists.newArrayList(new ItemStack(this));
-    }
-
-
-
     static {
         VoxelShape north_seat = VoxelShapeHelper.createVoxelShape(1D, 0D, 2D, 14D, 8D, 14D);
         VoxelShape north_back = VoxelShapeHelper.createVoxelShape(1D, 8D, 15D, 14D, 13D, 1D);
