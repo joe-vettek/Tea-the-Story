@@ -130,12 +130,10 @@ public class TeapotBlock extends NormalHorizontalBlock implements EntityBlock {
 
 
     @Override
-    public void onRemove(BlockState blockState, Level worldIn, BlockPos pos, BlockState state, boolean isMoving) {
-        popResource(worldIn, pos, getDrop(worldIn, pos));
-        super.onRemove(blockState, worldIn, pos, state, isMoving);
-
-        // worldIn.removeBlockEntity(pos);
-
+    public void onRemove(BlockState pState, Level pLevel, BlockPos pos, BlockState pNewState, boolean isMoving) {
+        if (!pNewState.is(this))
+            popResource(pLevel, pos, getDrop(pLevel, pos));
+        super.onRemove(pState, pLevel, pos, pNewState, isMoving);
     }
 
 

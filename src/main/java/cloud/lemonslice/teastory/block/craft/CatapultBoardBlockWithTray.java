@@ -41,7 +41,7 @@ import java.util.Random;
 
 public class CatapultBoardBlockWithTray extends NormalHorizontalBlock implements EntityBlock {
     private static final VoxelShape SHAPE = VoxelShapeHelper.createVoxelShape(0, 0, 0, 16, 5, 16);
-    private static final BooleanProperty ENABLED = BlockStateProperties.ENABLED;
+    public static final BooleanProperty ENABLED = BlockStateProperties.ENABLED;
 
     public CatapultBoardBlockWithTray(Properties properties) {
         super(properties);
@@ -60,8 +60,8 @@ public class CatapultBoardBlockWithTray extends NormalHorizontalBlock implements
 
 
     @Override
-    public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
-        return state.isFaceSturdy(worldIn, pos.below(), Direction.UP);
+    public boolean canSurvive(BlockState state, LevelReader pLevel, BlockPos pos) {
+        return pLevel.getBlockState(pos.below()).isFaceSturdy(pLevel, pos, Direction.UP);
     }
 
 
@@ -101,13 +101,12 @@ public class CatapultBoardBlockWithTray extends NormalHorizontalBlock implements
     }
 
     @Override
-    public void onRemove(BlockState blockState, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-        if ( !(newState.getBlock() == this)) {
-
+    public void onRemove(BlockState pState, Level worldIn, BlockPos pos, BlockState pNewState, boolean isMoving) {
+        if (!(pNewState.is(this))) {
             dropItems(worldIn, pos);
             // worldIn.removeBlockEntity(pos);
         }
-        super.onRemove(blockState, worldIn, pos, newState, isMoving);
+        super.onRemove(pState, worldIn, pos, pNewState, isMoving);
     }
 
 

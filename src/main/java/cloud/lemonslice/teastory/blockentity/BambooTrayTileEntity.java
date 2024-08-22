@@ -1,6 +1,7 @@
 package cloud.lemonslice.teastory.blockentity;
 
 import cloud.lemonslice.teastory.block.craft.BambooTrayMode;
+import cloud.lemonslice.teastory.block.craft.CatapultBoardBlockWithTray;
 import cloud.lemonslice.teastory.block.craft.IStoveBlock;
 import cloud.lemonslice.teastory.container.BambooTrayContainer;
 import cloud.lemonslice.teastory.recipe.bamboo_tray.BambooTraySingleInRecipe;
@@ -129,12 +130,11 @@ public class BambooTrayTileEntity extends NormalContainerTileEntity {
                 this.containerInventory.ifPresent(inv ->
                         inv.setStackInSlot(0, output));
                 this.processTicks = 0;
-                // TODO:
-                // if (this.getBlockState().getBlock() instanceof CatapultBoardBlockWithTray && getLevel().getBlockState(getBlockPos()).isRedstoneConductor(getLevel(),getBlockPos())) {
-                //     level.setBlock(getBlockPos(), this.getBlockState().setValue(ENABLED, true));
-                //     CatapultBoardBlockWithTray.shoot(getLevel(), getBlockPos());
-                //     getLevel().scheduleTick(getBlockPos(), this.getBlockState().getBlock(), 5);
-                // }
+                if (this.getBlockState().getBlock() instanceof CatapultBoardBlockWithTray && getLevel().getBlockState(getBlockPos()).isRedstoneConductor(getLevel(),getBlockPos())) {
+                    level.setBlockAndUpdate(getBlockPos(), this.getBlockState().setValue(CatapultBoardBlockWithTray.ENABLED, true));
+                    CatapultBoardBlockWithTray.shoot(getLevel(), getBlockPos());
+                    getLevel().scheduleTick(getBlockPos(), this.getBlockState().getBlock(), 5);
+                }
                 this.setChanged();
             }
             return true;

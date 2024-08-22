@@ -146,7 +146,7 @@ public class TeaStotryBlockLootSubProvider extends BlockLootSubProvider {
         }
         ));
 
-        add(BlockRegister.RiceSeedlingBlock.get(), (block -> {
+        add(BlockRegister.ricePlant.get(), (block -> {
 
             var lootPool=LootTable.lootTable();
             for (int i = 0; i < 3; i++) {

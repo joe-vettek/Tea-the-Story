@@ -55,9 +55,9 @@ public class StoneMillBlock extends NormalHorizontalBlock implements EntityBlock
 
 
     @Override
-    public void onRemove(BlockState blockState, Level worldIn, BlockPos pos, BlockState state, boolean isMoving) {
+    public void onRemove(BlockState blockState, Level worldIn, BlockPos pos, BlockState pNewState, boolean isMoving) {
         dropItems(worldIn, pos);
-        super.onRemove(blockState, worldIn, pos, blockState, isMoving);
+        super.onRemove(blockState, worldIn, pos, pNewState, isMoving);
     }
 
 

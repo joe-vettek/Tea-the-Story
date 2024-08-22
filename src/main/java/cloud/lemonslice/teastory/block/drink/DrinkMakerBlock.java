@@ -113,7 +113,6 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
             if (player.isCreative()) {
                 removeBottomHalf(worldIn, pos, state, player);
             }
-            onRemove(state, worldIn, pos, state, false);
         }
         super.playerWillDestroy(worldIn, pos, state, player);
     }
@@ -135,7 +134,7 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
     public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
         if (state.getValue(LEFT)) {
             BlockState blockstate = worldIn.getBlockState(pos.below());
-            return blockstate.isFaceSturdy(worldIn, pos.below(),Direction.UP);
+            return blockstate.isFaceSturdy(worldIn, pos.below(), Direction.UP);
         } else {
             Direction facing = state.getValue(FACING);
             BlockPos blockPos = pos.relative(BlockHelper.getPreviousHorizontal(facing));
@@ -167,11 +166,11 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
     }
 
     @Override
-    public void onRemove(BlockState blockState, Level worldIn, BlockPos pos, BlockState state, boolean isMoving) {
-        if ( !(state.getBlock() == this)) {
+    public void onRemove(BlockState pState, Level worldIn, BlockPos pos, BlockState pNewState, boolean isMoving) {
+        if (!(pNewState.is(this))) {
             dropItems(worldIn, pos);
         }
-        super.onRemove(blockState, worldIn, pos, state, isMoving);
+        super.onRemove(pState, worldIn, pos, pNewState, isMoving);
     }
 
 

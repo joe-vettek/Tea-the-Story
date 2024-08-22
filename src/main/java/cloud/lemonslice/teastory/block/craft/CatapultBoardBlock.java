@@ -63,8 +63,9 @@ public class CatapultBoardBlock extends NormalHorizontalBlock
         return SHAPE;
     }
     @Override
-    public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
-        return state.isFaceSturdy(worldIn, pos.below(), Direction.UP);
+    public boolean canSurvive(BlockState state, LevelReader pLevel, BlockPos pos) {
+        // return state.isFaceSturdy(pLevel, pos.below(), Direction.UP);
+        return pLevel.getBlockState(pos.below()).isFaceSturdy(pLevel, pos, Direction.UP);
     }
 
     @Override

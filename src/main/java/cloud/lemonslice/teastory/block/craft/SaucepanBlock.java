@@ -57,16 +57,14 @@ import xueluoanping.teastory.block.NormalHorizontalBlock;
 import java.util.List;
 import java.util.Random;
 
-public class SaucepanBlock extends NormalHorizontalBlock
-{
+public class SaucepanBlock extends NormalHorizontalBlock {
     public static final EnumProperty<CookStep> STEP = EnumProperty.create("step", CookStep.class);
     public static final BooleanProperty LID = BooleanProperty.create("lid");
     private static final VoxelShape PAN_SHAPE;
     private static final VoxelShape LID_SHAPE;
 
     // TODO 方块掉落
-    public SaucepanBlock(BlockBehaviour.Properties pProperties)
-    {
+    public SaucepanBlock(BlockBehaviour.Properties pProperties) {
         super(pProperties);
         this.registerDefaultState(defaultBlockState().setValue(STEP, CookStep.EMPTY).setValue(LID, true));
     }
@@ -89,10 +87,8 @@ public class SaucepanBlock extends NormalHorizontalBlock
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand)
-    {
-        if (stateIn.getValue(STEP) == CookStep.COOKED)
-        {
+    public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand) {
+        if (stateIn.getValue(STEP) == CookStep.COOKED) {
             double d0 = pos.getX() + 0.5D;
             double d1 = pos.getY() + rand.nextDouble() * 6.0D / 16.0D;
             double d2 = pos.getZ() + 0.5D;
@@ -102,50 +98,36 @@ public class SaucepanBlock extends NormalHorizontalBlock
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit)
-    {
-        if (!worldIn.isClientSide())
-        {
+    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+        if (!worldIn.isClientSide()) {
             ItemStack held = player.getItemInHand(handIn);
-            if (state.getValue(LID))
-            {
+            if (state.getValue(LID)) {
                 worldIn.setBlockAndUpdate(pos, state.setValue(LID, false));
                 player.addItem(new ItemStack(ItemRegister.SAUCEPAN_LID.get()));
                 return InteractionResult.SUCCESS;
-            }
-            else if (state.getValue(STEP) == CookStep.COOKED)
-            {
+            } else if (state.getValue(STEP) == CookStep.COOKED) {
                 worldIn.setBlockAndUpdate(pos, state.setValue(STEP, CookStep.EMPTY));
                 player.addItem(new ItemStack(ItemRegister.RICE_BALL.get(), 3));
                 return InteractionResult.SUCCESS;
-            }
-            else if (held.getItem() == ItemRegister.SAUCEPAN_LID.get())
-            {
+            } else if (held.getItem() == ItemRegister.SAUCEPAN_LID.get()) {
                 worldIn.setBlockAndUpdate(pos, state.setValue(LID, true));
                 held.shrink(1);
                 worldIn.playSound(null, player.getBlockX(), player.getBlockY() + 0.5, player.getBlockZ(), SoundEvents.METAL_HIT, SoundSource.BLOCKS, 1.0F, 1.0F);
                 return InteractionResult.SUCCESS;
-            }
-            else if (state.getValue(STEP) == CookStep.RAW && FluidUtil.getFluidContained(held).isPresent())
-            {
+            } else if (state.getValue(STEP) == CookStep.RAW && FluidUtil.getFluidContained(held).isPresent()) {
                 FluidStack fluidStack = FluidUtil.getFluidContained(held).get();
-                if (fluidStack.getFluid() == Fluids.WATER && fluidStack.getAmount() >= 1000)
-                {
-                    if (FluidUtil.interactWithFluidHandler(player, handIn, new FluidTank(1000)))
-                    {
+                if (fluidStack.getFluid() == Fluids.WATER && fluidStack.getAmount() >= 1000) {
+                    if (FluidUtil.interactWithFluidHandler(player, handIn, new FluidTank(1000))) {
                         worldIn.setBlockAndUpdate(pos, state.setValue(STEP, CookStep.WATER));
                         return InteractionResult.SUCCESS;
                     }
                     return InteractionResult.FAIL;
                 }
                 return InteractionResult.FAIL;
-            }
-            else if (state.getValue(STEP) == CookStep.EMPTY && held.getItem() == ItemRegister.WASHED_RICE.get() && held.getCount() >= 8)
-            {
+            } else if (state.getValue(STEP) == CookStep.EMPTY && held.getItem() == ItemRegister.WASHED_RICE.get() && held.getCount() >= 8) {
                 worldIn.setBlockAndUpdate(pos, state.setValue(STEP, CookStep.RAW));
                 worldIn.playSound(null, player.getBlockX(), player.getBlockY() + 0.5, player.getBlockZ(), SoundEvents.ARMOR_EQUIP_GENERIC, SoundSource.BLOCKS, 1.0F, 1.0F);
-                if (!player.isCreative())
-                {
+                if (!player.isCreative()) {
                     held.shrink(8);
                 }
                 return InteractionResult.SUCCESS;
@@ -158,42 +140,31 @@ public class SaucepanBlock extends NormalHorizontalBlock
     @Override
     public @Nullable BlockState getStateForPlacement(BlockPlaceContext context) {
         BlockState state = super.getStateForPlacement(context);
-        if (state != null && context.getItemInHand().getOrCreateTag().contains("lid"))
-        {
+        if (state != null && context.getItemInHand().getOrCreateTag().contains("lid")) {
             state = state.setValue(LID, context.getItemInHand().getOrCreateTag().getBoolean("lid"));
         }
         return state;
     }
 
 
-
     @Override
     @SuppressWarnings("deprecation")
-    public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random)
-    {
+    public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random) {
         BlockState stove = worldIn.getBlockState(pos.below());
-        if (IStoveBlock.isBurning(stove) && state.getValue(STEP) == CookStep.WATER)
-        {
+        if (IStoveBlock.isBurning(stove) && state.getValue(STEP) == CookStep.WATER) {
             int fuelPower = ((IStoveBlock) stove.getBlock()).getFuelPower();
-            if (state.getValue(LID))
-            {
-                if (random.nextInt(6 / fuelPower) == 0)
-                {
+            if (state.getValue(LID)) {
+                if (random.nextInt(6 / fuelPower) == 0) {
                     worldIn.setBlockAndUpdate(pos, state.setValue(STEP, CookStep.COOKED));
                 }
-            }
-            else if (random.nextInt(24 / fuelPower) == 0)
-            {
+            } else if (random.nextInt(24 / fuelPower) == 0) {
                 worldIn.setBlockAndUpdate(pos, state.setValue(STEP, CookStep.COOKED));
             }
         }
     }
 
 
-
-
-    static
-    {
+    static {
         VoxelShape outer = VoxelShapeHelper.createVoxelShape(1, 0, 1, 14, 12, 14);
         VoxelShape inner = VoxelShapeHelper.createVoxelShape(2, 1, 2, 12, 11, 12);
         LID_SHAPE = VoxelShapeHelper.createVoxelShape(1, 0, 1, 14, 13, 14);

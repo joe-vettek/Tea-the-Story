@@ -192,23 +192,23 @@ public class WoodenTrayBlock extends Block  implements EntityBlock
     // onReplaced
     @Override
     @SuppressWarnings("deprecation")
-    public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean pMovedByPiston)
+    public void onRemove(BlockState state, Level pLevel, BlockPos pos, BlockState pNewState, boolean pMovedByPiston)
     {
-        if (state.getBlock() != newState.getBlock())
+        if (! pNewState.is(this))
         {
-            var tileEntity = worldIn.getBlockEntity(pos);
+            var tileEntity = pLevel.getBlockEntity(pos);
             if (tileEntity instanceof TeaCupTileEntity)
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    if (!worldIn.isClientSide() && state.getValue(CUP) > i)
+                    if (!pLevel.isClientSide() && state.getValue(CUP) > i)
                     {
-                        Block.popResource(worldIn, pos, getCup((TeaCupTileEntity) tileEntity, i));
+                        Block.popResource(pLevel, pos, getCup((TeaCupTileEntity) tileEntity, i));
                     }
                 }
             }
         }
-        super.onRemove(state, worldIn, pos, newState, pMovedByPiston);
+        super.onRemove(state, pLevel, pos, pNewState, pMovedByPiston);
     }
 
 

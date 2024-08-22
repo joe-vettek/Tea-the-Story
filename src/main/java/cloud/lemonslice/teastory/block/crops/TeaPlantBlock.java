@@ -4,6 +4,7 @@ package cloud.lemonslice.teastory.block.crops;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -31,6 +32,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.PlantType;
+import net.minecraftforge.common.Tags;
 import xueluoanping.teastory.ItemRegister;
 import xueluoanping.teastory.BlockRegister;
 
@@ -77,30 +79,13 @@ public class TeaPlantBlock extends BushBlock implements BonemealableBlock {
         return state.getValue(this.getAgeProperty()) >= this.getMaxAge();
     }
 
-    @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
-        List<ItemStack> list = super.getDrops(state, builder);
-        list.add(new ItemStack(BlockRegister.TEA_SEEDS.get()));
-        int age = state.getValue(AGE);
-        if (age >= 2) {
-            list.add(new ItemStack(Items.STICK, 2));
-        }
-        if (age >= 6 && age <= 10) {
-            list.add(new ItemStack(ItemRegister.TEA_LEAVES.get(), 2));
-        } else if (age >= 11) {
-            list.add(new ItemStack(ItemRegister.TEA_LEAVES.get(), 1));
-            list.add(new ItemStack(BlockRegister.TEA_SEEDS.get(), 4));
-        }
-        return list;
-    }
-
 
     @Override
     public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource rand) {
         super.tick(state, worldIn, pos, rand);
         if (!worldIn.isAreaLoaded(pos, 1) || !worldIn.dimensionType().hasSkyLight())
             return;
-        if (worldIn.getRawBrightness(pos,0) >= 9) {
+        if (worldIn.getRawBrightness(pos, 0) >= 9) {
             int i = this.getAge(state);
 
             if (i < this.getMaxAge() && i != 8) {
@@ -167,17 +152,18 @@ public class TeaPlantBlock extends BushBlock implements BonemealableBlock {
     @Override
     public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         if (!worldIn.isClientSide()) {
-            switch (this.getAge(state)) {
-                case 8:
-                    worldIn.setBlockAndUpdate(pos, this.defaultBlockState().setValue(AGE, worldIn.getRandom().nextInt(3) + 4));
-                    worldIn.addFreshEntity(new ItemEntity(worldIn, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, new ItemStack(ItemRegister.TEA_LEAVES.get(), worldIn.getRandom().nextInt(5) + 1)));
-                    return InteractionResult.SUCCESS;
-                case 11:
-                    worldIn.setBlockAndUpdate(pos, this.defaultBlockState().setValue(AGE, worldIn.getRandom().nextInt(3) + 4));
-                    worldIn.addFreshEntity(new ItemEntity(worldIn, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, new ItemStack(BlockRegister.TEA_SEEDS.get(), worldIn.getRandom().nextInt(5) + 1)));
-                    worldIn.addFreshEntity(new ItemEntity(worldIn, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, new ItemStack(ItemRegister.TEA_LEAVES.get(), 1)));
-                    return InteractionResult.SUCCESS;
-            }
+            if (player.getItemInHand(handIn).is(Tags.Items.SHEARS))
+                switch (this.getAge(state)) {
+                    case 8:
+                        worldIn.setBlockAndUpdate(pos, this.defaultBlockState().setValue(AGE, worldIn.getRandom().nextInt(3) + 4));
+                        worldIn.addFreshEntity(new ItemEntity(worldIn, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, new ItemStack(ItemRegister.TEA_LEAVES.get(), worldIn.getRandom().nextInt(5) + 1)));
+                        return InteractionResult.SUCCESS;
+                    case 11:
+                        worldIn.setBlockAndUpdate(pos, this.defaultBlockState().setValue(AGE, worldIn.getRandom().nextInt(3) + 4));
+                        worldIn.addFreshEntity(new ItemEntity(worldIn, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, new ItemStack(BlockRegister.TEA_SEEDS.get(), worldIn.getRandom().nextInt(5) + 1)));
+                        worldIn.addFreshEntity(new ItemEntity(worldIn, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, new ItemStack(ItemRegister.TEA_LEAVES.get(), 1)));
+                        return InteractionResult.SUCCESS;
+                }
             return InteractionResult.FAIL;
         } else {
             return InteractionResult.SUCCESS;

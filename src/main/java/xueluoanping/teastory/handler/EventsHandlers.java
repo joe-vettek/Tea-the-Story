@@ -13,7 +13,7 @@ public class EventsHandlers {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onRegisterForWood(ItemTooltipEvent event) {
         if (event.getItemStack().getItem() == ItemRegister.RICE_BALL.get()) {
-            event.getToolTip().add(Component.translatable("info.teastory.tooltip.rice"));
+            // event.getToolTip().add(Component.translatable("info.teastory.tooltip.rice"));
         }
     }
 

@@ -120,9 +120,8 @@ public class StoveBlock extends NormalHorizontalBlock implements IStoveBlock, En
     public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         BlockEntity te = worldIn.getBlockEntity (pos);
         Item held = player.getItemInHand(handIn).getItem();
-        if (held == TileEntityTypeRegistry.BAMBOO_TRAY_ITEM.get() 
-                // TODO:
-                // || held == ItemRegistry.IRON_KETTLE
+        if (held == TileEntityTypeRegistry.BAMBOO_TRAY_ITEM.get()
+                || held == TileEntityTypeRegistry.IRON_KETTLE_ITEM.get()
         )
         {
             return InteractionResult.PASS;
@@ -221,15 +220,13 @@ public class StoveBlock extends NormalHorizontalBlock implements IStoveBlock, En
     }
 
     @Override
-    public void onRemove(BlockState blockState, Level worldIn, BlockPos pos, BlockState state, boolean isMoving) {
-        if (state.getBlock() != this)
+    public void onRemove(BlockState pState, Level pLevel, BlockPos pos, BlockState pNewState, boolean isMoving) {
+        if (!pNewState.is(this))
         {
-            // ((NormalContainerTileEntity) worldIn.getBlockEntity (pos)).setRemoved();
-            dropFuel(worldIn, pos);
-            dropAsh(worldIn, pos);
-            // worldIn.removeBlockEntity(pos);
+            dropFuel(pLevel, pos);
+            dropAsh(pLevel, pos);
         }
-        super.onRemove(blockState, worldIn, pos, blockState, isMoving);
+        super.onRemove(pState, pLevel, pos, pNewState, isMoving);
     }
 
 

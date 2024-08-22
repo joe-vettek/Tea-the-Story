@@ -113,7 +113,7 @@ public class ScarecrowBlock extends NormalHorizontalBlock {
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         BlockPos blockpos = context.getClickedPos();
-        if (blockpos.getY() < 255 && context.getLevel().getBlockState(blockpos.above()).canBeReplaced(context)) {
+        if (blockpos.getY() <= context.getLevel().getMaxBuildHeight() && context.getLevel().getBlockState(blockpos.above()).canBeReplaced(context)) {
             return super.getStateForPlacement(context).setValue(HALF, DoubleBlockHalf.LOWER);
         } else {
             return null;

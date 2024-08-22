@@ -20,6 +20,7 @@ public class Lang_EN extends LangHelper {
 
         add(BlockRegister.RiceSeedlingBlock.get(), "Rice Grain");
         add(BlockRegister.ricePlant.get(), "Rice Seedlings");
+        add(BlockRegister.TEA_SEEDS.get(), "Tea Seeds");
         add(BlockRegister.CHILI_PLANT.get(), "Chili Seeds");
         add(BlockRegister.CHILI.get(), "Chili");
         add(BlockRegister.CHINESE_CABBAGE_PLANT.get(), "Chinese Cabbage Seeds");

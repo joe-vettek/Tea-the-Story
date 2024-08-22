@@ -91,14 +91,12 @@ public class BambooTrayBlock extends Block implements EntityBlock {
 
 
     @Override
-    public void onRemove(BlockState blockState, Level worldIn, BlockPos pos, BlockState state, boolean isMoving) {
-        if (state.hasBlockEntity() && blockState.getBlock() != this)
+    public void onRemove(BlockState blockState, Level worldIn, BlockPos pos, BlockState pNewState, boolean isMoving) {
+        if ( pNewState.getBlock() != this)
         {
-            ((NormalContainerTileEntity) worldIn.getBlockEntity(pos)).setRemoved();
             dropItems(worldIn, pos);
-            worldIn.removeBlockEntity(pos);
         }
-        super.onRemove(blockState, worldIn, pos, blockState, isMoving);
+        super.onRemove(blockState, worldIn, pos, pNewState, isMoving);
     }
 
     @Override

@@ -21,6 +21,7 @@ public class Lang_ZH extends LangHelper {
 
         add(BlockRegister.RiceSeedlingBlock.get(), "稻谷");
         add(BlockRegister.ricePlant.get(), "水稻秧苗");
+        add(BlockRegister.TEA_SEEDS.get(), "茶籽");
         add(BlockRegister.CHILI_PLANT.get(), "辣椒种子");
         add(BlockRegister.CHILI.get(), "辣椒");
         add(BlockRegister.CHINESE_CABBAGE_PLANT.get(), "白菜种子");

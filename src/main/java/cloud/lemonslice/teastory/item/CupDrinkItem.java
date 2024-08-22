@@ -2,6 +2,7 @@ package cloud.lemonslice.teastory.item;
 
 
 import cloud.lemonslice.teastory.recipe.drink.DrinkEffectManager;
+import cloud.lemonslice.teastory.tag.NormalTags;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -55,9 +56,8 @@ public class CupDrinkItem extends ItemFluidContainer {
 
             @Override
             public boolean isFluidValid(int tank, @Nonnull FluidStack stack) {
-                // return stack.getFluid().is(DRINK);
-                //     TODO:
-                return true;
+                return stack.getFluid().is(NormalTags.Fluids.DRINK);
+                // return true;
             }
         };
     }
@@ -72,7 +72,7 @@ public class CupDrinkItem extends ItemFluidContainer {
         }
     }
 
-    // todo:
+
     // @Override
     public void fillItemGroup(CreativeModeTab.Output group)
     {
@@ -149,12 +149,11 @@ public class CupDrinkItem extends ItemFluidContainer {
 
 
     public static boolean canDrink(ItemStack stack) {
-        // TODO:
-        // if (stack.getOrCreateTag().contains(FLUID_NBT_KEY))
-        // {
-        //     return FluidUtil.getFluidContained(stack).map(f -> f.getFluid().is(DRINK)).orElse(false);
-        // }
-        // return false;
-        return true;
+        if (stack.getOrCreateTag().contains(FLUID_NBT_KEY))
+        {
+            return FluidUtil.getFluidContained(stack).map(f -> f.getFluid().is(NormalTags.Fluids.DRINK)).orElse(false);
+        }
+        return false;
+        // return true;
     }
 }
