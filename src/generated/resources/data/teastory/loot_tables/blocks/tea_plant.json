@@ -1,0 +1,395 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "teastory:tea_seeds"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "teastory:tea_plant",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "age": "2"
+          }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:stick"
+        }
+      ],
+      "rolls": 2.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "teastory:tea_plant",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "age": "3"
+          }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:stick"
+        }
+      ],
+      "rolls": 2.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "teastory:tea_plant",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "age": "4"
+          }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:stick"
+        }
+      ],
+      "rolls": 2.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "teastory:tea_plant",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "age": "5"
+          }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:stick"
+        }
+      ],
+      "rolls": 2.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "teastory:tea_plant",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "age": "6"
+          }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:stick"
+        }
+      ],
+      "rolls": 2.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "teastory:tea_plant",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "age": "7"
+          }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:stick"
+        }
+      ],
+      "rolls": 2.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "teastory:tea_plant",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "age": "8"
+          }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:stick"
+        }
+      ],
+      "rolls": 2.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "teastory:tea_plant",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "age": "9"
+          }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:stick"
+        }
+      ],
+      "rolls": 2.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "teastory:tea_plant",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "age": "10"
+          }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:stick"
+        }
+      ],
+      "rolls": 2.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "teastory:tea_plant",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "age": "11"
+          }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:stick"
+        }
+      ],
+      "rolls": 2.0
+    },
+    {
+      "bonus_rolls": 2.0,
+      "conditions": [
+        {
+          "block": "teastory:tea_plant",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "age": "6"
+          }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "teastory:tea_leaves"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 2.0,
+      "conditions": [
+        {
+          "block": "teastory:tea_plant",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "age": "7"
+          }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "teastory:tea_leaves"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 2.0,
+      "conditions": [
+        {
+          "block": "teastory:tea_plant",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "age": "8"
+          }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "teastory:tea_leaves"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 2.0,
+      "conditions": [
+        {
+          "block": "teastory:tea_plant",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "age": "9"
+          }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "teastory:tea_leaves"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 2.0,
+      "conditions": [
+        {
+          "block": "teastory:tea_plant",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "age": "10"
+          }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "teastory:tea_leaves"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 2.0,
+      "conditions": [
+        {
+          "block": "teastory:tea_plant",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "age": "11"
+          }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "teastory:tea_seeds"
+        }
+      ],
+      "rolls": 2.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "teastory:tea_plant",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "age": "11"
+          }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "teastory:tea_leaves"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "teastory:blocks/tea_plant"
+}

@@ -74,14 +74,19 @@ public class HybridizableFlowerBlock extends BushBlock implements BonemealableBl
     }
 
 
+    // we use copyState Now
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        if (context.getItemInHand().hasTag() && context.getItemInHand().getOrCreateTag().contains("color")) {
-            BlockState state = this.defaultBlockState().setValue(FLOWER_COLOR, FlowerColor.getFlowerColor(context.getItemInHand().getTag().getString("color")));
-            return state;
-        }
-        return defaultBlockState();
+        var state = defaultBlockState();
+        // if (context.getItemInHand().hasTag() && context.getItemInHand().getOrCreateTag().contains("color")) {
+        //     state = state.setValue(FLOWER_COLOR, FlowerColor.getFlowerColor(context.getItemInHand().getTag().getString("color")));
+        // }
+        // if (context.getItemInHand().getTag().contains("BlockStateTag")
+        //         && context.getItemInHand().getTag().getCompound("BlockStateTag").contains("color")) {
+        //     state = state.setValue(FLOWER_COLOR, FlowerColor.getFlowerColor(context.getItemInHand().getTag().getCompound("BlockStateTag").getString("color")));
+        // }
+        return state;
     }
 
 
@@ -94,7 +99,9 @@ public class HybridizableFlowerBlock extends BushBlock implements BonemealableBl
         ItemStack stack = new ItemStack(this);
         var nbt = new CompoundTag();
         nbt.putString("color", state.getValue(FLOWER_COLOR).getString());
-        stack.setTag(nbt);
+        var compoundtag1 = new CompoundTag();
+        compoundtag1.put("BlockStateTag", nbt);
+        stack.setTag(compoundtag1);
         return stack;
     }
 

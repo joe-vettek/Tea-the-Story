@@ -144,14 +144,6 @@ public class StemFruitBlock extends Block implements BonemealableBlock, IPlantab
         super.createBlockStateDefinition(pBuilder.add(AGE_0_4));
     }
 
-    @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder pParams) {
-        if (state.getValue(AGE_0_4) == 4)
-            return Lists.newArrayList(new ItemStack(this));
-        else
-            return Collections.emptyList();
-    }
-
 
     @Override
     public BlockState getPlant(BlockGetter world, BlockPos pos) {

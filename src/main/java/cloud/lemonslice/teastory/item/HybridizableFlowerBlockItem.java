@@ -40,6 +40,10 @@ public class HybridizableFlowerBlockItem extends BlockItem {
         if (pStack.getOrCreateTag().contains("color")) {
             pTooltip.add(Component.translatable(FlowerColor.getFlowerColor(pStack.getOrCreateTag().getString("color")).getTranslation()).withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
         }
+         if (pStack.getTag().contains("BlockStateTag")
+                && pStack.getTag().getCompound("BlockStateTag").contains("color")) {
+             pTooltip.add(Component.translatable(FlowerColor.getFlowerColor(pStack.getOrCreateTag().getCompound("BlockStateTag").getString("color")).getTranslation()).withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
+        }
     }
 
 

@@ -261,4 +261,10 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
     public RenderShape getRenderShape(BlockState pState) {
         return RenderShape.MODEL;
     }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
+        return Lists.newArrayList(new ItemStack(getEmptyTrellis(state)));
+    }
 }

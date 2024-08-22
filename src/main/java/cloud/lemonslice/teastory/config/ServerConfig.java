@@ -6,14 +6,14 @@ public class ServerConfig
 {
     protected ServerConfig(ForgeConfigSpec.Builder builder)
     {
-        Block.load(builder);
+        BlockConfig.load(builder);
         Agriculture.load(builder);
         Temperature.load(builder);
         Season.load(builder);
         Others.load(builder);
     }
 
-    public static class Block
+    public static class BlockConfig
     {
         public static ForgeConfigSpec.IntValue woodenBarrelCapacity;
 

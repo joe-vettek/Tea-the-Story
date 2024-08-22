@@ -190,12 +190,6 @@ public class MelonVineBlock extends BushBlock implements BonemealableBlock {
 
 
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
-        return state.getValue(AGE) == 7 ? Lists.newArrayList(new ItemStack(Blocks.MELON)) : Collections.emptyList();
-    }
-
-
-    @Override
     public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
         return new ItemStack(Items.MELON_SEEDS);
     }

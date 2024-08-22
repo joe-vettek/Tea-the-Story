@@ -148,7 +148,7 @@ public class ClientSetup {
         var state = BlockRegister.OAK_TRELLIS.get().defaultBlockState();
 
 
-        Planks.resourceLocationBlockMap.forEach((res, plankHolders) -> {
+        Planks.TrellisBlockMap.forEach((res, plankHolders) -> {
             // modelRegistry.get(((HashMap.Node) (Planks.resourceLocationBlockMap).entrySet().toArray()[0]).getKey())
             // modelRegistry.put(new ModelResourceLocation((res),""),cc);
             ArrayList<BlockState> blockStates = new ArrayList<>(plankHolders.trellisBlock().getStateDefinition().getPossibleStates());

@@ -100,7 +100,7 @@ public class ClientModFilePackResources extends AbstractPackResources {
             vineTypeJsonObjectMap.put(VineType.GRAPE, grapeTrellis);
 
             String preholder = "\\{trellis}";
-            Planks.resourceLocationBlockMap.forEach((resourceLocation, blockBlockPair) -> {
+            Planks.TrellisBlockMap.forEach((resourceLocation, blockBlockPair) -> {
                 String name = resourceLocation.getPath();
                 resourceOutput.accept(TeaStory.rl("blockstates/%s.json".formatted(name)),
                         stringToIoSupplier(trellis.toString().replaceAll(preholder, name)));
@@ -124,7 +124,7 @@ public class ClientModFilePackResources extends AbstractPackResources {
             JsonObject inventoryjson=getJson(modFile.findResource("templates/assets/models/item/trellis.json"));
 
             // String preholder = "\\{trellis}";
-            Planks.resourceLocationBlockMap.forEach((resourceLocation, blockBlockPair) -> {
+            Planks.TrellisBlockMap.forEach((resourceLocation, blockBlockPair) -> {
                 String name = resourceLocation.getPath();
                 typeMap.forEach((s, jsonObject) -> {
                     resourceOutput.accept(TeaStory.rl("models/block/%s_%s.json".formatted(name,s)),

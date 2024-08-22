@@ -62,7 +62,7 @@ public class BlockRegister {
 
     public static RegistryObject<Block> WATERMELON_VINE = ModBlocks.register("watermelon_vine", () -> new MelonVineBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY), Blocks.MELON));
 
-    public static RegistryObject<Block> WILD_GRAPE = ModBlocks.register("wild_grape", () -> new TeaPlantBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
+    public static RegistryObject<Block> WILD_GRAPE = ModBlocks.register("wild_grape", () -> new WildGrapeBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
     public static RegistryObject<Item> WILD_GRAPE_ITEM = ModItems.register("wild_grape", () -> new BlockItem(WILD_GRAPE.get(), new Item.Properties()));
 
     public static RegistryObject<Block> CHILI_PLANT = ModBlocks.register("chili_plant", () -> new ChiliBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));

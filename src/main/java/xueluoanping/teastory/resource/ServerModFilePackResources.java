@@ -22,7 +22,6 @@ import net.minecraft.tags.TagManager;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
-import oshi.util.tuples.Pair;
 import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.variant.Planks;
 
@@ -72,7 +71,7 @@ public class ServerModFilePackResources extends AbstractPackResources {
         if (namespace.equals("minecraft") && path.contains("tags/blocks")) {
             JsonObject jsonObject = new JsonObject();
             JsonArray jsonArray = new JsonArray();
-            Planks.resourceLocationBlockMap.forEach((resourceLocation, blockBlockPair) -> {
+            Planks.TrellisBlockMap.forEach((resourceLocation, blockBlockPair) -> {
                 jsonArray.add(resourceLocation.toString());
             });
             for (Map.Entry<ResourceKey<Block>, Block> resourceKeyBlockEntry : BuiltInRegistries.BLOCK.entrySet()) {
@@ -120,7 +119,7 @@ public class ServerModFilePackResources extends AbstractPackResources {
 
 
             int count = 0;
-            for (var pairEntry : Planks.resourceLocationBlockMap.entrySet()) {
+            for (var pairEntry : Planks.TrellisBlockMap.entrySet()) {
                 // resultObject = new JsonObject();
                 // resultObject.addProperty("count", 2);
                 resultObject.addProperty("item", pairEntry.getKey().toString());
@@ -186,7 +185,7 @@ public class ServerModFilePackResources extends AbstractPackResources {
 
             jsonObject.addProperty("sends_telemetry_event", false);
 
-            for (var pairEntry : Planks.resourceLocationBlockMap.entrySet()) {
+            for (var pairEntry : Planks.TrellisBlockMap.entrySet()) {
                 itemObject.addProperty("recipe", pairEntry.getKey().toString());
                 var plankLoc = BuiltInRegistries.BLOCK.getKey(pairEntry.getValue().plank());
                 var fenceLoc = ResourceLocation.tryParse((plankLoc).toString().replace("_planks", "_fence"));

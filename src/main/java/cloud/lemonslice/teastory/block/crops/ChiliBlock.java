@@ -51,17 +51,6 @@ public class ChiliBlock extends CropBlock {
 
 
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
-        List<ItemStack> list = new ArrayList<>();
-        if (state.getValue(AGE) == this.getMaxAge()) {
-            list.add(new ItemStack(BlockRegister.CHILI.get(), 2 + builder.getLevel().getRandom().nextInt(3)));
-            list.add(new ItemStack(getBaseSeedId(), builder.getLevel().getRandom().nextInt(2)));
-        }
-        list.add(new ItemStack(getBaseSeedId()));
-        return list;
-    }
-
-    @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         pBuilder.add(AGE);
     }

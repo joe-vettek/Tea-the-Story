@@ -22,12 +22,10 @@ import xueluoanping.teastory.BlockRegister;
 
 import java.util.List;
 
-public class WildGrapeBlock extends BushBlock
-{
+public class WildGrapeBlock extends BushBlock {
     protected static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 13.0D, 14.0D);
 
-    public WildGrapeBlock(BlockBehaviour.Properties pProperties)
-    {
+    public WildGrapeBlock(BlockBehaviour.Properties pProperties) {
         super(pProperties);
 
     }
@@ -45,14 +43,4 @@ public class WildGrapeBlock extends BushBlock
         super.entityInside(state, worldIn, pos, entityIn);
     }
 
-
-
-    @Override
-    @SuppressWarnings("deprecation")
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder)
-    {
-        List<ItemStack> list = Lists.newArrayList();
-        list.add(new ItemStack(BlockRegister.GRAPES.get(), builder.getLevel().getRandom().nextInt(4) + 1));
-        return list;
-    }
 }

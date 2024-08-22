@@ -32,8 +32,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class BambooLatticeBlock extends Block implements SimpleWaterloggedBlock
-{
+public class BambooLatticeBlock extends Block implements SimpleWaterloggedBlock {
     public static final BooleanProperty NORTH = HorizontalConnectedBlock.NORTH;
     public static final BooleanProperty EAST = HorizontalConnectedBlock.EAST;
     public static final BooleanProperty SOUTH = HorizontalConnectedBlock.SOUTH;
@@ -45,21 +44,8 @@ public class BambooLatticeBlock extends Block implements SimpleWaterloggedBlock
     protected static final VoxelShape WEST_SHAPE = VoxelShapeHelper.createVoxelShape(0.0D, 0.0D, 0.0D, 4.0D, 16.0D, 16.0D);
     protected static final VoxelShape EAST_SHAPE = VoxelShapeHelper.createVoxelShape(12.0D, 0.0D, 0.0D, 4.0D, 16.0D, 16.0D);
 
-    
-    @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder pParams) {
-        int count = 0;
-        List<ItemStack> list = Lists.newArrayList();
-        if (state.getValue(NORTH)) count++;
-        if (state.getValue(SOUTH)) count++;
-        if (state.getValue(WEST)) count++;
-        if (state.getValue(EAST)) count++;
-        list.add(new ItemStack(this.asItem(), count));
-        return list;
-    }
 
-    public BambooLatticeBlock(Properties properties)
-    {
+    public BambooLatticeBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(defaultBlockState().setValue(NORTH, false).setValue(EAST, false).setValue(SOUTH, false).setValue(WEST, false).setValue(WATERLOGGED, false));
     }
@@ -68,7 +54,6 @@ public class BambooLatticeBlock extends Block implements SimpleWaterloggedBlock
     public boolean propagatesSkylightDown(BlockState state, BlockGetter pLevel, BlockPos pPos) {
         return !state.getValue(WATERLOGGED);
     }
-
 
 
     @Override
@@ -89,51 +74,38 @@ public class BambooLatticeBlock extends Block implements SimpleWaterloggedBlock
 
     @Override
     public boolean canBeReplaced(BlockState state, BlockPlaceContext useContext) {
-        if (useContext.getItemInHand().getItem() == this.asItem())
-        {
-            if (useContext.getClickedFace() != Direction.UP)
-            {
+        if (useContext.getItemInHand().getItem() == this.asItem()) {
+            if (useContext.getClickedFace() != Direction.UP) {
                 return true;
-            }
-            else if (useContext.replacingClickedOnBlock())
-            {
+            } else if (useContext.replacingClickedOnBlock()) {
                 return false;
-            }
-            else
-            {
+            } else {
                 return true;
             }
-        }
-        else return false;
+        } else return false;
     }
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         VoxelShape shape = Shapes.empty();
-        if (state.getValue(NORTH))
-        {
+        if (state.getValue(NORTH)) {
             shape = Shapes.or(shape, NORTH_SHAPE);
         }
-        if (state.getValue(SOUTH))
-        {
+        if (state.getValue(SOUTH)) {
             shape = Shapes.or(shape, SOUTH_SHAPE);
         }
-        if (state.getValue(WEST))
-        {
+        if (state.getValue(WEST)) {
             shape = Shapes.or(shape, WEST_SHAPE);
         }
-        if (state.getValue(EAST))
-        {
+        if (state.getValue(EAST)) {
             shape = Shapes.or(shape, EAST_SHAPE);
         }
         return shape;
     }
 
 
-    protected BlockState getStateWithFacing(Player player, BlockState state)
-    {
-        switch (player.getDirection())
-        {
+    protected BlockState getStateWithFacing(Player player, BlockState state) {
+        switch (player.getDirection()) {
             case NORTH:
                 state = state.setValue(NORTH, true);
                 break;
@@ -150,17 +122,13 @@ public class BambooLatticeBlock extends Block implements SimpleWaterloggedBlock
     }
 
 
-
     @Override
-    public BlockState getStateForPlacement(BlockPlaceContext context)
-    {
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
         BlockState state = context.getLevel().getBlockState(context.getClickedPos());
-        if (state.getBlock() != this)
-        {
+        if (state.getBlock() != this) {
             state = this.defaultBlockState();
         }
-        if (context.getPlayer() != null)
-        {
+        if (context.getPlayer() != null) {
             state = getStateWithFacing(context.getPlayer(), state);
         }
         return state.setValue(WATERLOGGED, context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER);
@@ -168,22 +136,18 @@ public class BambooLatticeBlock extends Block implements SimpleWaterloggedBlock
 
     @Override
     @SuppressWarnings("deprecation")
-    public FluidState getFluidState(BlockState state)
-    {
+    public FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos)
-    {
-        if (stateIn.getValue(WATERLOGGED))
-        {
+    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos) {
+        if (stateIn.getValue(WATERLOGGED)) {
             worldIn.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(worldIn));
         }
         return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
     }
-
 
 
     @Override
@@ -193,10 +157,8 @@ public class BambooLatticeBlock extends Block implements SimpleWaterloggedBlock
 
     @Override
     @SuppressWarnings("deprecation")
-    public BlockState rotate(BlockState state, Rotation rot)
-    {
-        switch (rot)
-        {
+    public BlockState rotate(BlockState state, Rotation rot) {
+        switch (rot) {
             case CLOCKWISE_180:
                 return state.setValue(NORTH, state.getValue(SOUTH)).setValue(EAST, state.getValue(WEST)).setValue(SOUTH, state.getValue(NORTH)).setValue(WEST, state.getValue(EAST));
             case COUNTERCLOCKWISE_90:
@@ -210,10 +172,8 @@ public class BambooLatticeBlock extends Block implements SimpleWaterloggedBlock
 
     @Override
     @SuppressWarnings("deprecation")
-    public BlockState mirror(BlockState state, Mirror mirrorIn)
-    {
-        switch (mirrorIn)
-        {
+    public BlockState mirror(BlockState state, Mirror mirrorIn) {
+        switch (mirrorIn) {
             case LEFT_RIGHT:
                 return state.setValue(NORTH, state.getValue(SOUTH)).setValue(SOUTH, state.getValue(NORTH));
             case FRONT_BACK:

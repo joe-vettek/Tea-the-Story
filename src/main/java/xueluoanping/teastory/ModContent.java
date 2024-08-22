@@ -4,7 +4,6 @@ import cloud.lemonslice.teastory.block.crops.TrellisBlock;
 import cloud.lemonslice.teastory.block.crops.TrellisWithVineBlock;
 import cloud.lemonslice.teastory.block.crops.VineInfoManager;
 import cloud.lemonslice.teastory.block.crops.VineType;
-import cloud.lemonslice.teastory.blockentity.WoodenBarrelTileEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -23,11 +22,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.RegisterEvent;
-import oshi.util.tuples.Pair;
 import xueluoanping.teastory.blockentity.VineEntity;
 import xueluoanping.teastory.item.Citem;
 import xueluoanping.teastory.resource.ClientModFilePackResources;
-import xueluoanping.teastory.resource.ServerModFilePackResources;
 import xueluoanping.teastory.variant.Planks;
 
 import java.util.ArrayList;
@@ -68,7 +65,7 @@ public class ModContent {
                                     BlockRegister.CHRYSANTHEMUM_ITEM.get().fillItemGroup(output);
                                     BlockRegister.HYACINTH_ITEM.get().fillItemGroup(output);
                                     BlockRegister.ZINNIA_ITEM.get().fillItemGroup(output);
-                                    Planks.resourceLocationBlockMap.forEach((resourceLocation, blockBlockPair) -> {
+                                    Planks.TrellisBlockMap.forEach((resourceLocation, blockBlockPair) -> {
                                         output.accept(blockBlockPair.trellisBlock());
                                     });
                                 })
@@ -103,14 +100,14 @@ public class ModContent {
                     blocks.add(trellisWithVineBlock);
                 }
 
-                Planks.resourceLocationBlockMap.put(TeaStory.rl(name), new Planks.PlankHolders(resourceLocationBlockEntry.getValue(), blockB, blocks));
+                Planks.TrellisBlockMap.put(TeaStory.rl(name), new Planks.PlankHolders(resourceLocationBlockEntry.getValue(), blockB, blocks));
 
             }
 
             // Minecraft.getInstance().getResourceManager().getResource(new ResourceLocation("minecraft","tags/blocks/planks.json"))
         }
         if (event.getRegistryKey() == Registries.ITEM) {
-            Planks.resourceLocationBlockMap.forEach((resourceLocation, block) -> {
+            Planks.TrellisBlockMap.forEach((resourceLocation, block) -> {
                 event.register(Registries.ITEM, resourceLocation, () -> new Citem(block.trellisBlock(), new Item.Properties()));
             });
         }

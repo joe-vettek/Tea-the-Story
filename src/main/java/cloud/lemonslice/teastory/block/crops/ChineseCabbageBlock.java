@@ -47,16 +47,6 @@ public class ChineseCabbageBlock extends CropBlock {
         return BlockRegister.CHINESE_CABBAGE_SEEDS.get();
     }
 
-    @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
-        List<ItemStack> list = new ArrayList<>();
-        if (state.getValue(AGE) == this.getMaxAge()) {
-            list.add(new ItemStack(BlockRegister.CHINESE_CABBAGE.get(), 2 + builder.getLevel().getRandom().nextInt(3)));
-            list.add(new ItemStack(getBaseSeedId(), builder.getLevel().getRandom().nextInt(2)));
-        }
-        list.add(new ItemStack(getBaseSeedId()));
-        return list;
-    }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {

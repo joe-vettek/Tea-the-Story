@@ -10,7 +10,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -149,10 +148,14 @@ public class TrellisBlock extends HorizontalConnectedBlock {
         return newState.setValue(NORTH, old.getValue(NORTH)).setValue(SOUTH, old.getValue(SOUTH)).setValue(WEST, old.getValue(WEST)).setValue(EAST, old.getValue(EAST)).setValue(POST, old.getValue(POST)).setValue(UP, old.getValue(UP));
     }
 
+    @Override
+    public List<ItemStack> getDrops(BlockState pState, LootParams.Builder pParams) {
+        return Lists.newArrayList(new ItemStack(this));
+    }
 
     @Override
     public MutableComponent getName() {
-        var ss = Planks.resourceLocationBlockMap.get(BuiltInRegistries.BLOCK.getKey(this));
+        var ss = Planks.TrellisBlockMap.get(BuiltInRegistries.BLOCK.getKey(this));
         if (ss == null) {
             return super.getName();
         }

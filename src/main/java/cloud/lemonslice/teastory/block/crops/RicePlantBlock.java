@@ -24,16 +24,14 @@ import xueluoanping.teastory.ItemRegister;
 import java.util.List;
 
 
-public class RicePlantBlock extends CropBlock
-{
+public class RicePlantBlock extends CropBlock {
     private static final VoxelShape[] SHAPE_BY_AGE = new VoxelShape[]{
             Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D),
             Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 5.0D, 16.0D),
             Block.box(0.0D, 0.0D, 0.0D, 16.0D, 11.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D),
             Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
 
-    public RicePlantBlock(Properties copy)
-    {
+    public RicePlantBlock(Properties copy) {
         super(copy);
         this.registerDefaultState(defaultBlockState().setValue(AGE, 0));
     }
@@ -43,13 +41,11 @@ public class RicePlantBlock extends CropBlock
         return SHAPE_BY_AGE[state.getValue(AGE)];
     }
 
-    protected boolean isValidGround(BlockState state, LevelReader worldIn, BlockPos pos)
-    {
+    protected boolean isValidGround(BlockState state, LevelReader worldIn, BlockPos pos) {
         return state.getBlock() == BlockRegister.paddyField.get();
     }
 
-    protected boolean canPlantSeedlings(BlockState state, LevelReader worldIn, BlockPos pos)
-    {
+    protected boolean canPlantSeedlings(BlockState state, LevelReader worldIn, BlockPos pos) {
         return isValidGround(state, worldIn, pos) && state.getValue(BlockStateProperties.WATERLOGGED);
     }
 
@@ -65,32 +61,24 @@ public class RicePlantBlock extends CropBlock
     public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource rand) {
         super.tick(state, worldIn, pos, rand);
         if (!worldIn.isAreaLoaded(pos, 1)) return;
-        if (worldIn.getRawBrightness(pos,0) >= 9)
-        {
+        if (worldIn.getRawBrightness(pos, 0) >= 9) {
             int i = this.getAge(state);
-            if (i < this.getMaxAge())
-            {
+            if (i < this.getMaxAge()) {
                 BlockState paddy = worldIn.getBlockState(pos.below());
-                if (!(paddy.getBlock() instanceof PaddyFieldBlock))
-                {
+                if (!(paddy.getBlock() instanceof PaddyFieldBlock)) {
                     return;
                 }
-                if (i <= 2 && !paddy.getValue(BlockStateProperties.WATERLOGGED))
-                {
+                if (i <= 2 && !paddy.getValue(BlockStateProperties.WATERLOGGED)) {
                     return;
-                }
-                else if (i >= 6 && paddy.getValue(BlockStateProperties.WATERLOGGED))
-                {
+                } else if (i >= 6 && paddy.getValue(BlockStateProperties.WATERLOGGED)) {
                     return;
                 }
                 float f = getGrowthSpeed(this, worldIn, pos);
-                if (net.minecraftforge.common.ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt((int) (50.0F / f) + 1) == 0))
-                {
+                if (net.minecraftforge.common.ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt((int) (50.0F / f) + 1) == 0)) {
                     worldIn.setBlock(pos, this.getStateForAge(i + 1), Block.UPDATE_CLIENTS);
                     net.minecraftforge.common.ForgeHooks.onCropsGrowPost(worldIn, pos, state);
 
-                    if (!isNearbyTidy(i + 1, worldIn, pos))
-                    {
+                    if (!isNearbyTidy(i + 1, worldIn, pos)) {
                         growTogether(i + 1, worldIn, pos.north());
                         growTogether(i + 1, worldIn, pos.south());
                         growTogether(i + 1, worldIn, pos.east());
@@ -109,15 +97,11 @@ public class RicePlantBlock extends CropBlock
     }
 
 
-    private boolean isNearbyTidy(int age, ServerLevel worldIn, BlockPos pos)
-    {
-        for (Direction direction : Direction.Plane.HORIZONTAL)
-        {
+    private boolean isNearbyTidy(int age, ServerLevel worldIn, BlockPos pos) {
+        for (Direction direction : Direction.Plane.HORIZONTAL) {
             BlockState state = worldIn.getBlockState(pos.relative(direction));
-            if (state.getBlock() == this)
-            {
-                if (age - state.getValue(AGE) > 2)
-                {
+            if (state.getBlock() == this) {
+                if (age - state.getValue(AGE) > 2) {
                     return false;
                 }
             }
@@ -125,13 +109,10 @@ public class RicePlantBlock extends CropBlock
         return true;
     }
 
-    private void growTogether(int ageToGrow, ServerLevel worldIn, BlockPos pos)
-    {
+    private void growTogether(int ageToGrow, ServerLevel worldIn, BlockPos pos) {
         BlockState state = worldIn.getBlockState(pos);
-        if (state.getBlock() == this)
-        {
-            if (state.getValue(AGE) < ageToGrow - 2)
-            {
+        if (state.getBlock() == this) {
+            if (state.getValue(AGE) < ageToGrow - 2) {
                 worldIn.setBlockAndUpdate(pos, state.setValue(AGE, state.getValue(AGE) + 1));
                 growTogether(ageToGrow, worldIn, pos.north());
                 growTogether(ageToGrow, worldIn, pos.south());
@@ -140,6 +121,7 @@ public class RicePlantBlock extends CropBlock
             }
         }
     }
+
     @Override
     protected ItemLike getBaseSeedId() {
         return BlockRegister.riceSeedlings.get();
@@ -148,32 +130,11 @@ public class RicePlantBlock extends CropBlock
     @Override
     public ItemStack getCloneItemStack(BlockGetter worldIn, BlockPos pos, BlockState state) {
         int age = state.getValue(AGE);
-        if (age > 0)
-        {
+        if (age > 0) {
             return new ItemStack(BlockRegister.RICE_GRAINS.get());
-        }
-        else return new ItemStack(BlockRegister.riceSeedlings.get());
+        } else return new ItemStack(BlockRegister.riceSeedlings.get());
         // return new ItemStack(BlockRegister.riceSeedlings.get());
     }
 
-
-    @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
-        List<ItemStack> list = Lists.newArrayList();
-        if (getAge(state) < 3)
-        {
-            list.add(new ItemStack(BlockRegister.riceSeedlings.get()));
-        }
-        else if (getAge(state) < 7)
-        {
-            list.add(new ItemStack(ItemRegister.DRY_STRAW.get()));
-        }
-        else
-        {
-            list.add(new ItemStack(ItemRegister.DRY_STRAW.get()));
-            list.add(new ItemStack(BlockRegister.RICE_GRAINS.get(), builder.getLevel().getRandom().nextInt(4) + 1));
-        }
-        return list;
-    }
 
 }
