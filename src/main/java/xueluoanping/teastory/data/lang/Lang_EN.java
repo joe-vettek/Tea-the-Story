@@ -15,6 +15,9 @@ public class Lang_EN extends LangHelper {
 
     @Override
     protected void addTranslations() {
+        add(BlockRegister.cobblestoneAqueduct.get(), "Cobblestone Aqueduct");
+        add(BlockRegister.mossyCobblestoneAqueduct.get(), "Mossy Cobblestone Aqueduct Outlet");
+
         add(BlockRegister.RiceSeedlingBlock.get(), "Rice Grain");
         add(BlockRegister.ricePlant.get(), "Rice Seedlings");
         add(BlockRegister.CHILI_PLANT.get(), "Chili Seeds");

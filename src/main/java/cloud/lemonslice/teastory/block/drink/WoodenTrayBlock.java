@@ -212,10 +212,6 @@ public class WoodenTrayBlock extends Block  implements EntityBlock
     }
 
 
-    @Override
-    public List<ItemStack> getDrops(BlockState pState, LootParams.Builder pParams) {
-        return Lists.newArrayList(new ItemStack(this));
-    }
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {

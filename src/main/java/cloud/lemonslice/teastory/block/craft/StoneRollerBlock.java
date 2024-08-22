@@ -28,6 +28,7 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
+import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.block.NormalHorizontalBlock;
 import xueluoanping.teastory.block.entity.NormalContainerTileEntity;
@@ -53,13 +54,14 @@ public class StoneRollerBlock extends Block implements EntityBlock
 
     @Override
     public void onRemove(BlockState blockState, Level worldIn, BlockPos pos, BlockState state, boolean isMoving) {
-        if (state.hasBlockEntity() && !(blockState.getBlock() == this))
+
+        if ( !(state.getBlock() == this))
         {
-            ((NormalContainerTileEntity) worldIn.getBlockEntity(pos)).setRemoved();
+            // ((NormalContainerTileEntity) worldIn.getBlockEntity(pos)).setRemoved();
             dropItems(worldIn, pos);
-            worldIn.removeBlockEntity(pos);
+            // worldIn.removeBlockEntity(pos);
         }
-        super.onRemove(blockState, worldIn, pos, blockState, isMoving);
+        super.onRemove(blockState, worldIn, pos, state, isMoving);
     }
 
     private void dropItems(Level worldIn, BlockPos pos)
@@ -92,10 +94,7 @@ public class StoneRollerBlock extends Block implements EntityBlock
         }
     }
     
-    @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
-        return Lists.newArrayList(new ItemStack(this));
-    }
+
 
     @Override
     public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player playerIn, InteractionHand handIn, BlockHitResult hit) {

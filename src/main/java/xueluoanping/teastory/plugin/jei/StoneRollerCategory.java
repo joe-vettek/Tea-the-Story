@@ -45,7 +45,7 @@ public class StoneRollerCategory implements IRecipeCategory<StoneRollerRecipe> {
 
     @Override
     public IDrawable getBackground() {
-        return guiHelper.createDrawable(new ResourceLocation(TeaStory.MODID, "textures/gui/jei/recipes.png"), 37, 105, 74, 60);
+        return guiHelper.createDrawable(TeaStory.rl( "textures/gui/jei/recipes.png"), 37, 105, 74, 60);
     }
 
     @Override

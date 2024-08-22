@@ -1,9 +1,8 @@
-package xueluoanping.teastory.data.provider;
+package xueluoanping.teastory.data.recipe;
 
 
 import cloud.lemonslice.teastory.tag.NormalTags;
 import cloud.lemonslice.silveroak.common.recipe.FluidIngredient;
-import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.tags.ItemTags;
@@ -15,16 +14,16 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.fluids.FluidStack;
 import xueluoanping.teastory.*;
-import xueluoanping.teastory.data.builder.BambooTrayRecipeBuilder;
-import xueluoanping.teastory.data.builder.DrinkRecipeBuilder;
-import xueluoanping.teastory.data.builder.StoneMillRecipeBuilder;
-import xueluoanping.teastory.data.builder.StoneRollerRecipeBuilder;
+import xueluoanping.teastory.data.recipe.builder.BambooTrayRecipeBuilder;
+import xueluoanping.teastory.data.recipe.builder.DrinkRecipeBuilder;
+import xueluoanping.teastory.data.recipe.builder.StoneMillRecipeBuilder;
+import xueluoanping.teastory.data.recipe.builder.StoneRollerRecipeBuilder;
 
 import java.util.function.Consumer;
 
-public final class TRecipeProvider extends RecipeProvider {
+public final class TeaStoryRecipeProvider extends RecipeProvider {
 
-    public TRecipeProvider(PackOutput generator) {
+    public TeaStoryRecipeProvider(PackOutput generator) {
         super(generator);
     }
 

@@ -18,7 +18,7 @@ import java.util.List;
 
 public class StoneMillGui extends AbstractContainerScreen<StoneMillContainer> {
     private static final String TEXTURE_PATH = "textures/gui/container/gui_stone_mill.png";
-    private static final ResourceLocation TEXTURE = new ResourceLocation(TeaStory.MODID, TEXTURE_PATH);
+    private static final ResourceLocation TEXTURE = TeaStory.rl( TEXTURE_PATH);
 
     private StoneMillContainer container;
 
@@ -56,7 +56,7 @@ public class StoneMillGui extends AbstractContainerScreen<StoneMillContainer> {
         }
         // blit(matrixStack, offsetX + 95, offsetY + 37, 176, 0, textureWidth, 16);
         matrixStack.blit(TEXTURE, offsetX + 95, offsetY + 38, 176, 0, textureWidth, 16);
-        // matrixStack.blit(new ResourceLocation(TeaStory.MODID, "textures/gui/container/gui_drink_maker.png"), offsetX + 95, offsetY + 37, 176, 0, textureWidth, 16);
+        // matrixStack.blit(TeaStory.rl( "textures/gui/container/gui_drink_maker.png"), offsetX + 95, offsetY + 37, 176, 0, textureWidth, 16);
 
         container.getTileEntity().getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(fluidHandler ->
         {

@@ -1,4 +1,4 @@
-package xueluoanping.teastory.data.builder;
+package xueluoanping.teastory.data.recipe.builder;
 
 
 import cloud.lemonslice.teastory.recipe.stone_mill.StoneRollerRecipe;
@@ -12,8 +12,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.ForgeRegistries;
 import xueluoanping.teastory.RecipeRegister;
+import xueluoanping.teastory.TeaStory;
 
-import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
 
@@ -37,7 +37,7 @@ public class StoneRollerRecipeBuilder {
     }
 
     public void build(Consumer<FinishedRecipe> consumerIn, String save) {
-        ResourceLocation saveRes = new ResourceLocation(save);
+        ResourceLocation saveRes = ResourceLocation.tryParse(save);
         this.build(consumerIn, saveRes);
     }
 
@@ -53,7 +53,7 @@ public class StoneRollerRecipeBuilder {
         private final RecipeSerializer<StoneRollerRecipe> serializer =  RecipeRegister.STONE_ROLLER_SERIALIZER.get();
 
         public Result(ResourceLocation idIn, Ingredient inputItem, NonNullList<ItemStack> outputItems, int workTime) {
-            this.id = new ResourceLocation(idIn.getNamespace(), "stone_roller/" + idIn.getPath());
+            this.id = TeaStory.rl(idIn.getNamespace(), "stone_roller/" + idIn.getPath());
             this.inputItem = inputItem;
             this.outputItems = outputItems;
             this.workTime = workTime;

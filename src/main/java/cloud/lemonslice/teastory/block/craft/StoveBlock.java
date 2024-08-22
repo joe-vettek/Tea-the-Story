@@ -222,12 +222,12 @@ public class StoveBlock extends NormalHorizontalBlock implements IStoveBlock, En
 
     @Override
     public void onRemove(BlockState blockState, Level worldIn, BlockPos pos, BlockState state, boolean isMoving) {
-        if (state.hasBlockEntity() && blockState.getBlock() != this)
+        if (state.getBlock() != this)
         {
-            ((NormalContainerTileEntity) worldIn.getBlockEntity (pos)).setRemoved();
+            // ((NormalContainerTileEntity) worldIn.getBlockEntity (pos)).setRemoved();
             dropFuel(worldIn, pos);
             dropAsh(worldIn, pos);
-            worldIn.removeBlockEntity(pos);
+            // worldIn.removeBlockEntity(pos);
         }
         super.onRemove(blockState, worldIn, pos, blockState, isMoving);
     }

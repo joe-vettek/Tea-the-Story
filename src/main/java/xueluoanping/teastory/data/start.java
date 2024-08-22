@@ -10,7 +10,9 @@ import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.data.lang.Lang_EN;
 import xueluoanping.teastory.data.lang.Lang_ZH;
 import xueluoanping.teastory.data.loot.GLMProvider;
+import xueluoanping.teastory.data.loot.LFTLootTableProvider;
 import xueluoanping.teastory.data.provider.*;
+import xueluoanping.teastory.data.recipe.TeaStoryRecipeProvider;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -25,14 +27,15 @@ public final class start {
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
         if (event.includeServer()) {
 
-            var blockTags = new NormalBlockTagProvider(packOutput,lookupProvider, MODID, helper);
+            var blockTags = new TeaStoryBlockTagProvider(packOutput,lookupProvider, MODID, helper);
             generator.addProvider(event.includeServer(),blockTags);
-            generator.addProvider(event.includeServer(),new NormalItemTagProvider(packOutput, lookupProvider, blockTags.contentsGetter()));
-            generator.addProvider(event.includeServer(),new NormalFluidTagProvider(packOutput,lookupProvider, MODID, helper));
+            generator.addProvider(event.includeServer(),new TeaStoryItemTagProvider(packOutput, lookupProvider, blockTags.contentsGetter()));
+            generator.addProvider(event.includeServer(),new TeaStoryFluidTagProvider(packOutput,lookupProvider, MODID, helper));
 
-            generator.addProvider(event.includeServer(),new TRecipeProvider(packOutput));
+            generator.addProvider(event.includeServer(),new TeaStoryRecipeProvider(packOutput));
             generator.addProvider(event.includeServer(),new GLMProvider(packOutput, MODID));
 
+            generator.addProvider(event.includeServer(),new LFTLootTableProvider(packOutput));
         }if (event.includeClient()) {
             generator.addProvider(event.includeClient(),new Lang_EN(packOutput, helper));
             generator.addProvider(event.includeClient(),new Lang_ZH(packOutput, helper));

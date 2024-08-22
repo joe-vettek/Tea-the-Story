@@ -20,12 +20,12 @@ public final class EffectRegistry {
 
     @SubscribeEvent
     public static void blockRegister(RegisterEvent event) {
-        event.register(Registries.MOB_EFFECT, soundEventRegisterHelper -> {
-            soundEventRegisterHelper.register(new ResourceLocation(TeaStory.MODID, "agility"), AGILITY);
-            soundEventRegisterHelper.register(new ResourceLocation(TeaStory.MODID, "photosynthesis"), PHOTOSYNTHESIS);
-            soundEventRegisterHelper.register(new ResourceLocation(TeaStory.MODID, "life_drain"), LIFE_DRAIN);
-            soundEventRegisterHelper.register(new ResourceLocation(TeaStory.MODID, "defence"), DEFENCE);
-            soundEventRegisterHelper.register(new ResourceLocation(TeaStory.MODID, "excitement"), EXCITEMENT);
+        event.register(Registries.MOB_EFFECT, register -> {
+            register.register(TeaStory.rl( "agility"), AGILITY);
+            register.register(TeaStory.rl( "photosynthesis"), PHOTOSYNTHESIS);
+            register.register(TeaStory.rl( "life_drain"), LIFE_DRAIN);
+            register.register(TeaStory.rl( "defence"), DEFENCE);
+            register.register(TeaStory.rl( "excitement"), EXCITEMENT);
         });
     }
 

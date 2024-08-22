@@ -153,6 +153,7 @@ public class RicePlantBlock extends CropBlock
             return new ItemStack(BlockRegister.RICE_GRAINS.get());
         }
         else return new ItemStack(BlockRegister.riceSeedlings.get());
+        // return new ItemStack(BlockRegister.riceSeedlings.get());
     }
 
 

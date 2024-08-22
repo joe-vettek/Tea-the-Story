@@ -12,16 +12,16 @@ import xueluoanping.teastory.TeaStory;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class SoundEventsRegistry {
-    public final static SoundEvent CUP_BROKEN = SoundEvent.createVariableRangeEvent(new ResourceLocation(TeaStory.MODID, "block.cup_broken"));
-    public final static SoundEvent RECORD_MOVING_UP = SoundEvent.createVariableRangeEvent(new ResourceLocation(TeaStory.MODID, "record.moving_up"));
-    public final static SoundEvent RECORD_PICKING_TEA = SoundEvent.createVariableRangeEvent(new ResourceLocation(TeaStory.MODID, "record.picking_tea"));
-    public final static SoundEvent RECORD_SPRING_FESTIVAL_OVERTURE = SoundEvent.createVariableRangeEvent(new ResourceLocation(TeaStory.MODID, "record.spring_festival_overture"));
-    public final static SoundEvent RECORD_FLOWERS_AND_MOON = SoundEvent.createVariableRangeEvent(new ResourceLocation(TeaStory.MODID, "record.flowers_and_moon"));
-    public final static SoundEvent RECORD_DANCING_GOLDEN_SNAKE = SoundEvent.createVariableRangeEvent(new ResourceLocation(TeaStory.MODID, "record.dancing_golden_snake"));
-    public final static SoundEvent RECORD_JOYFUL = SoundEvent.createVariableRangeEvent(new ResourceLocation(TeaStory.MODID, "record.joyful"));
-    public final static SoundEvent RECORD_GREEN_WILLOW = SoundEvent.createVariableRangeEvent(new ResourceLocation(TeaStory.MODID, "record.green_willow"));
-    public final static SoundEvent RECORD_PURPLE_BAMBOO_MELODY = SoundEvent.createVariableRangeEvent(new ResourceLocation(TeaStory.MODID, "record.purple_bamboo_melody"));
-    public final static SoundEvent RECORD_WELCOME_MARCH = SoundEvent.createVariableRangeEvent(new ResourceLocation(TeaStory.MODID, "record.welcome_march"));
+    public final static SoundEvent CUP_BROKEN = SoundEvent.createVariableRangeEvent(TeaStory.rl( "block.cup_broken"));
+    public final static SoundEvent RECORD_MOVING_UP = SoundEvent.createVariableRangeEvent(TeaStory.rl( "record.moving_up"));
+    public final static SoundEvent RECORD_PICKING_TEA = SoundEvent.createVariableRangeEvent(TeaStory.rl( "record.picking_tea"));
+    public final static SoundEvent RECORD_SPRING_FESTIVAL_OVERTURE = SoundEvent.createVariableRangeEvent(TeaStory.rl( "record.spring_festival_overture"));
+    public final static SoundEvent RECORD_FLOWERS_AND_MOON = SoundEvent.createVariableRangeEvent(TeaStory.rl( "record.flowers_and_moon"));
+    public final static SoundEvent RECORD_DANCING_GOLDEN_SNAKE = SoundEvent.createVariableRangeEvent(TeaStory.rl( "record.dancing_golden_snake"));
+    public final static SoundEvent RECORD_JOYFUL = SoundEvent.createVariableRangeEvent(TeaStory.rl( "record.joyful"));
+    public final static SoundEvent RECORD_GREEN_WILLOW = SoundEvent.createVariableRangeEvent(TeaStory.rl( "record.green_willow"));
+    public final static SoundEvent RECORD_PURPLE_BAMBOO_MELODY = SoundEvent.createVariableRangeEvent(TeaStory.rl( "record.purple_bamboo_melody"));
+    public final static SoundEvent RECORD_WELCOME_MARCH = SoundEvent.createVariableRangeEvent(TeaStory.rl( "record.welcome_march"));
 
     @SubscribeEvent
     public static void blockRegister(RegisterEvent event) {

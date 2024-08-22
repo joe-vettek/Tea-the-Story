@@ -1,4 +1,4 @@
-package xueluoanping.teastory.data.builder;
+package xueluoanping.teastory.data.recipe.builder;
 
 import cloud.lemonslice.teastory.recipe.drink.DrinkRecipe;
 import com.google.gson.JsonArray;
@@ -13,6 +13,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.registries.ForgeRegistries;
 import xueluoanping.teastory.FluidRegistry;
 import xueluoanping.teastory.RecipeRegister;
+import xueluoanping.teastory.TeaStory;
 
 import java.util.function.Consumer;
 
@@ -42,7 +43,7 @@ public class DrinkRecipeBuilder {
 
     public void build(Consumer<FinishedRecipe> consumerIn, String save) {
         ResourceLocation originRes = ForgeRegistries.FLUIDS.getKey(this.result);
-        ResourceLocation saveRes = new ResourceLocation(save);
+        ResourceLocation saveRes = ResourceLocation.tryParse(save);
         if (saveRes.equals(originRes)) {
             throw new IllegalStateException("Recipe " + saveRes + " should remove its 'save' argument");
         } else {
@@ -62,7 +63,7 @@ public class DrinkRecipeBuilder {
         private final RecipeSerializer<DrinkRecipe> serializer = RecipeRegister.DRINK_MAKER_SERIALIZER.get();
 
         public Result(ResourceLocation idIn, Fluid resultIn, FluidIngredient fluidIngredientIn, NonNullList<Ingredient> ingredientsIn) {
-            this.id = new ResourceLocation(idIn.getNamespace(), "drink_maker/" + idIn.getPath());
+            this.id = TeaStory.rl(idIn.getNamespace(), "drink_maker/" + idIn.getPath());
             this.fluidIngredient = fluidIngredientIn;
             this.result = resultIn;
             this.ingredients = ingredientsIn;

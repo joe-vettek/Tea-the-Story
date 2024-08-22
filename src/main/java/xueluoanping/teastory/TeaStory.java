@@ -108,6 +108,10 @@ public class TeaStory {
         return new ResourceLocation(MODID, id);
     }
 
+    public static ResourceLocation rl(String namespace, String id) {
+        return new ResourceLocation(namespace, id);
+    }
+
     public void FMLCommonSetup(final FMLCommonSetupEvent event) {
         // start.dataGen(event);
         DrinkEffectManager.init();

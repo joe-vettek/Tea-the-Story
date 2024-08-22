@@ -102,10 +102,10 @@ public class CatapultBoardBlockWithTray extends NormalHorizontalBlock implements
 
     @Override
     public void onRemove(BlockState blockState, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (blockState.hasBlockEntity() && !(newState.getBlock() == this)) {
+        if ( !(newState.getBlock() == this)) {
 
             dropItems(worldIn, pos);
-            worldIn.removeBlockEntity(pos);
+            // worldIn.removeBlockEntity(pos);
         }
         super.onRemove(blockState, worldIn, pos, newState, isMoving);
     }

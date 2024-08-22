@@ -85,7 +85,7 @@ public class ServerModFilePackResources extends AbstractPackResources {
             // here we need to use the method to lock the path
             var base = BlockTags.WOODEN_FENCES.location();
             ExistingFileHelper.ResourceType resourceType = new ExistingFileHelper.ResourceType(PackType.SERVER_DATA, ".json", TagManager.getTagDir(Registries.BLOCK));
-            var loc = new ResourceLocation(base.getNamespace(), resourceType.getPrefix() + "/" + base.getPath() + resourceType.getSuffix());
+            var loc = TeaStory.rl(base.getNamespace(), resourceType.getPrefix() + "/" + base.getPath() + resourceType.getSuffix());
             resourceOutput.accept(loc, jsonObjectToIoSupplier(jsonObject));
 
         } else if (namespace.equals(TeaStory.MODID) && path.contains("recipes")) {

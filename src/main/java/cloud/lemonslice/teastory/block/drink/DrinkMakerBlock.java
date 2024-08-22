@@ -168,12 +168,8 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
 
     @Override
     public void onRemove(BlockState blockState, Level worldIn, BlockPos pos, BlockState state, boolean isMoving) {
-        if (state.getBlock() != this && !(state.getBlock() == this)) {
-            if (state.hasBlockEntity()) {
-                // ((NormalContainerTileEntity) worldIn.getBlockEntity(pos)).setRemoved();
-                dropItems(worldIn, pos);
-                worldIn.removeBlockEntity(pos);
-            }
+        if ( !(state.getBlock() == this)) {
+            dropItems(worldIn, pos);
         }
         super.onRemove(blockState, worldIn, pos, state, isMoving);
     }

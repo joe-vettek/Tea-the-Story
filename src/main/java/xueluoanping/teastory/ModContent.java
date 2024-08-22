@@ -44,7 +44,7 @@ public class ModContent {
         // BuiltInRegistries.BLOCK.entrySet().stream().filter(resourceKeyBlockEntry -> resourceKeyBlockEntry.getKey().toString().contains(TeaStory.MODID)).toList()
         if (event.getRegistryKey() == Registries.CREATIVE_MODE_TAB)
             event.register(Registries.CREATIVE_MODE_TAB, helper -> {
-                helper.register(new ResourceLocation(TeaStory.MODID, TeaStory.MODID),
+                helper.register(TeaStory.rl( TeaStory.MODID),
                         CreativeModeTab.builder().icon(() -> new ItemStack(ItemRegister.TEA_LEAVES.get()))
                                 .title(Component.translatable("itemGroup." + TeaStory.MODID + ".core"))
                                 .displayItems((params, output) -> {

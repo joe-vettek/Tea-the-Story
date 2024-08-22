@@ -14,7 +14,7 @@ import xueluoanping.teastory.TeaStory;
 
 public class StoveGui extends AbstractContainerScreen<StoveContainer> {
     private static final String TEXTURE_PATH = "textures/gui/container/gui_stove.png";
-    private static final ResourceLocation TEXTURE = new ResourceLocation(TeaStory.MODID, TEXTURE_PATH);
+    private static final ResourceLocation TEXTURE = TeaStory.rl( TEXTURE_PATH);
     private StoveContainer container;
 
     public StoveGui(StoveContainer container, Inventory inventory, Component name) {

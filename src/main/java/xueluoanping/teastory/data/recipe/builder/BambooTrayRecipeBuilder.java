@@ -1,4 +1,4 @@
-package xueluoanping.teastory.data.builder;
+package xueluoanping.teastory.data.recipe.builder;
 
 
 import cloud.lemonslice.teastory.recipe.bamboo_tray.BambooTraySingleInRecipe;
@@ -11,6 +11,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import xueluoanping.teastory.RecipeRegister;
+import xueluoanping.teastory.TeaStory;
 
 import java.util.function.Consumer;
 
@@ -62,7 +63,7 @@ public class BambooTrayRecipeBuilder
     public void build(Consumer<FinishedRecipe> consumerIn, String save)
     {
         ResourceLocation originRes = ForgeRegistries.ITEMS.getKey(this.result);
-        ResourceLocation saveRes = new ResourceLocation(save);
+        ResourceLocation saveRes = ResourceLocation.tryParse(save);
         if (saveRes.equals(originRes))
         {
             throw new IllegalStateException("Recipe " + saveRes + " should remove its 'save' argument");
@@ -88,7 +89,7 @@ public class BambooTrayRecipeBuilder
 
         public Result(ResourceLocation idIn, Ingredient ingredientIn, Item resultIn, int workingTimeIn, RecipeSerializer<? extends BambooTraySingleInRecipe> serializerIn)
         {
-            this.id = new ResourceLocation(idIn.getNamespace(), "bamboo_tray/" + idIn.getPath());
+            this.id = TeaStory.rl(idIn.getNamespace(), "bamboo_tray/" + idIn.getPath());
             this.ingredient = ingredientIn;
             this.result = resultIn;
             this.workingTime = workingTimeIn;

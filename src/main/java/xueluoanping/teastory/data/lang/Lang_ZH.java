@@ -16,6 +16,9 @@ public class Lang_ZH extends LangHelper {
 
     @Override
     protected void addTranslations() {
+        add(BlockRegister.cobblestoneAqueduct.get(), "石制水渠");
+        add(BlockRegister.mossyCobblestoneAqueduct.get(), "苔石渠口");
+
         add(BlockRegister.RiceSeedlingBlock.get(), "稻谷");
         add(BlockRegister.ricePlant.get(), "水稻秧苗");
         add(BlockRegister.CHILI_PLANT.get(), "辣椒种子");

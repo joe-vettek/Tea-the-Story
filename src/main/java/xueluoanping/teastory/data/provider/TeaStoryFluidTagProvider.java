@@ -4,7 +4,6 @@ package xueluoanping.teastory.data.provider;
 import cloud.lemonslice.teastory.tag.NormalTags;
 import com.google.common.collect.Lists;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.FluidTagsProvider;
 import net.minecraft.tags.FluidTags;
@@ -17,8 +16,8 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 
-public final class NormalFluidTagProvider extends FluidTagsProvider {
-    public NormalFluidTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, String modId, @Nullable ExistingFileHelper existingFileHelper) {
+public final class TeaStoryFluidTagProvider extends FluidTagsProvider {
+    public TeaStoryFluidTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, String modId, @Nullable ExistingFileHelper existingFileHelper) {
         super(output, lookupProvider, modId, existingFileHelper);
     }
 

@@ -1,4 +1,4 @@
-package xueluoanping.teastory.data.builder;
+package xueluoanping.teastory.data.recipe.builder;
 
 import cloud.lemonslice.teastory.recipe.stone_mill.StoneMillRecipe;
 import com.google.gson.JsonArray;
@@ -13,6 +13,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.ForgeRegistries;
 import xueluoanping.teastory.RecipeRegister;
 import net.minecraftforge.fluids.FluidStack;
+import xueluoanping.teastory.TeaStory;
 
 import java.util.function.Consumer;
 
@@ -49,7 +50,7 @@ public class StoneMillRecipeBuilder {
     }
 
     public void build(Consumer<FinishedRecipe> consumerIn, String save) {
-        ResourceLocation saveRes = new ResourceLocation(save);
+        ResourceLocation saveRes = ResourceLocation.tryParse(save);
         this.build(consumerIn, saveRes);
     }
 
@@ -67,7 +68,7 @@ public class StoneMillRecipeBuilder {
         private final RecipeSerializer<StoneMillRecipe> serializer = RecipeRegister.STONE_MILL_SERIALIZER.get();
 
         public Result(ResourceLocation idIn, Ingredient inputItem, FluidIngredient inputFluid, NonNullList<ItemStack> outputItems, FluidStack outputFluid, int workTime) {
-            this.id = new ResourceLocation(idIn.getNamespace(), "stone_mill/" + idIn.getPath());
+            this.id = TeaStory.rl(idIn.getNamespace(), "stone_mill/" + idIn.getPath());
             this.inputItem = inputItem;
             this.inputFluid = inputFluid;
             this.outputItems = outputItems;

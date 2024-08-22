@@ -17,7 +17,7 @@ import xueluoanping.teastory.TeaStory;
 public class StoneRollerGui extends AbstractContainerScreen<StoneRollerContainer>
 {
     private static final String TEXTURE_PATH = "textures/gui/container/gui_stone_roller.png";
-    private static final ResourceLocation TEXTURE = new ResourceLocation(TeaStory.MODID, TEXTURE_PATH);
+    private static final ResourceLocation TEXTURE = TeaStory.rl( TEXTURE_PATH);
 
     private StoneRollerContainer container;
 

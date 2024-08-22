@@ -20,7 +20,7 @@ import java.util.List;
 public class BambooTrayGui extends AbstractContainerScreen<BambooTrayContainer>
 {
     private static final String TEXTURE_PATH = "textures/gui/container/gui_bamboo_tray.png";
-    private static final ResourceLocation TEXTURE = new ResourceLocation(TeaStory.MODID, TEXTURE_PATH);
+    private static final ResourceLocation TEXTURE = TeaStory.rl( TEXTURE_PATH);
     private BambooTrayContainer container;
 
     public BambooTrayGui(BambooTrayContainer container, Inventory inv, Component name)
