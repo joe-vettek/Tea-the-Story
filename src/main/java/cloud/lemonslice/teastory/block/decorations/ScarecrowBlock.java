@@ -7,6 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -29,6 +30,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import xueluoanping.teastory.block.NormalHorizontalBlock;
+import xueluoanping.teastory.entity.ScarecrowEntity;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
@@ -126,6 +128,11 @@ public class ScarecrowBlock extends NormalHorizontalBlock {
         worldIn.setBlock(pos.above(), state.setValue(HALF, DoubleBlockHalf.UPPER), Block.UPDATE_ALL);
     }
 
+    @Override
+    public void onPlace(BlockState pState, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pMovedByPiston) {
+        super.onPlace(pState, pLevel, pPos, pOldState, pMovedByPiston);
+        ScarecrowEntity.create(pLevel, pPos, 0.25, 0, 0);
+    }
 
     @Override
     @SuppressWarnings("deprecation")

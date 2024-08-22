@@ -157,11 +157,13 @@ public class TeaPlantBlock extends BushBlock implements BonemealableBlock {
                     case 8:
                         worldIn.setBlockAndUpdate(pos, this.defaultBlockState().setValue(AGE, worldIn.getRandom().nextInt(3) + 4));
                         worldIn.addFreshEntity(new ItemEntity(worldIn, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, new ItemStack(ItemRegister.TEA_LEAVES.get(), worldIn.getRandom().nextInt(5) + 1)));
+                        player.getItemInHand(handIn).setDamageValue(player.getItemInHand(handIn).getDamageValue()+1);
                         return InteractionResult.SUCCESS;
                     case 11:
                         worldIn.setBlockAndUpdate(pos, this.defaultBlockState().setValue(AGE, worldIn.getRandom().nextInt(3) + 4));
                         worldIn.addFreshEntity(new ItemEntity(worldIn, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, new ItemStack(BlockRegister.TEA_SEEDS.get(), worldIn.getRandom().nextInt(5) + 1)));
                         worldIn.addFreshEntity(new ItemEntity(worldIn, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, new ItemStack(ItemRegister.TEA_LEAVES.get(), 1)));
+                        player.getItemInHand(handIn).setDamageValue(player.getItemInHand(handIn).getDamageValue()+1);
                         return InteractionResult.SUCCESS;
                 }
             return InteractionResult.FAIL;

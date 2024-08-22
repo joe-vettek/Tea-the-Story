@@ -11,7 +11,7 @@ import xueluoanping.teastory.data.lang.Lang_EN;
 import xueluoanping.teastory.data.lang.Lang_ZH;
 import xueluoanping.teastory.data.loot.GLMProvider;
 import xueluoanping.teastory.data.loot.LFTLootTableProvider;
-import xueluoanping.teastory.data.provider.*;
+import xueluoanping.teastory.data.tag.*;
 import xueluoanping.teastory.data.recipe.TeaStoryRecipeProvider;
 
 import java.util.concurrent.CompletableFuture;
@@ -31,6 +31,7 @@ public final class start {
             generator.addProvider(event.includeServer(),blockTags);
             generator.addProvider(event.includeServer(),new TeaStoryItemTagProvider(packOutput, lookupProvider, blockTags.contentsGetter()));
             generator.addProvider(event.includeServer(),new TeaStoryFluidTagProvider(packOutput,lookupProvider, MODID, helper));
+            generator.addProvider(event.includeServer(),new TeaStoryEntityTypeTagsProvider(packOutput,lookupProvider, MODID, helper));
 
             generator.addProvider(event.includeServer(),new TeaStoryRecipeProvider(packOutput));
             generator.addProvider(event.includeServer(),new GLMProvider(packOutput, MODID));

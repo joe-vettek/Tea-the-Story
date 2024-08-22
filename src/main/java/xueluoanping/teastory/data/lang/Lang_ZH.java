@@ -4,6 +4,7 @@ package xueluoanping.teastory.data.lang;
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import xueluoanping.teastory.BlockRegister;
+import xueluoanping.teastory.EntityTypeRegistry;
 import xueluoanping.teastory.ItemRegister;
 import xueluoanping.teastory.TeaStory;
 
@@ -16,6 +17,8 @@ public class Lang_ZH extends LangHelper {
 
     @Override
     protected void addTranslations() {
+        add(EntityTypeRegistry.SCARECROW_TYPE.get(), "稻草人");
+
         add(BlockRegister.cobblestoneAqueduct.get(), "石制水渠");
         add(BlockRegister.mossyCobblestoneAqueduct.get(), "苔石渠口");
 

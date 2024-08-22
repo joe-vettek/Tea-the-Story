@@ -4,6 +4,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 import xueluoanping.teastory.BlockRegister;
+import xueluoanping.teastory.EntityTypeRegistry;
 import xueluoanping.teastory.ItemRegister;
 import xueluoanping.teastory.TeaStory;
 
@@ -15,6 +16,9 @@ public class Lang_EN extends LangHelper {
 
     @Override
     protected void addTranslations() {
+        add(EntityTypeRegistry.SCARECROW_TYPE.get(), "Scarecrow");
+
+
         add(BlockRegister.cobblestoneAqueduct.get(), "Cobblestone Aqueduct");
         add(BlockRegister.mossyCobblestoneAqueduct.get(), "Mossy Cobblestone Aqueduct Outlet");
 

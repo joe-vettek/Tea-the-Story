@@ -112,6 +112,12 @@ public class ClientSetup {
                 return null;
             }
         });
+        event.registerEntityRenderer(EntityTypeRegistry.SCARECROW_TYPE.get(), pContext -> new EntityRenderer<Entity>(pContext) {
+            @Override
+            public ResourceLocation getTextureLocation(Entity pEntity) {
+                return null;
+            }
+        });
         event.registerBlockEntityRenderer(TileEntityTypeRegistry.BAMBOO_TRAY_TYPE.get(), BambooTrayTESR::new);
         event.registerBlockEntityRenderer(TileEntityTypeRegistry.DRINK_MAKER_TYPE.get(), DrinkMakerTESR::new);
         event.registerBlockEntityRenderer(TileEntityTypeRegistry.STONE_MILL_TYPE.get(), StoneMillTESR::new);

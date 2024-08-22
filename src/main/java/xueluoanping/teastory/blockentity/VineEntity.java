@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.client.model.data.ModelProperty;
 import org.jetbrains.annotations.NotNull;
+import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.block.entity.SyncedBlockEntity;
 
@@ -18,9 +19,10 @@ public class VineEntity extends SyncedBlockEntity {
     private int age = 0;
     private int distance = 0;
 
-    public VineEntity( BlockPos pos, BlockState state) {
+    public VineEntity(BlockPos pos, BlockState state) {
         super(TileEntityTypeRegistry.VINE_TYPE.get(), pos, state);
     }
+
     public VineEntity(BlockEntityType<?> tileEntityTypeIn, BlockPos pos, BlockState state) {
         super(tileEntityTypeIn, pos, state);
     }
@@ -64,23 +66,29 @@ public class VineEntity extends SyncedBlockEntity {
 
 
     public int getDistance() {
-        return distance;
+        return level != null ? distance : MAX_DISTANCE;
     }
 
 
     public void setAge(int age) {
-        this.age = age;
-        inventoryChanged();
+        if (this.age != age) {
+            this.age = age;
+            inventoryChanged();
+        }
     }
 
     public void setDistance(int distance) {
-        this.distance = distance;
-        inventoryChanged();
+        if (this.distance != distance) {
+            this.distance = distance;
+            inventoryChanged();
+        }
     }
 
     public void setAgeAndDistance(int age, int distance) {
-        this.distance = distance;
-        this.age = age;
-        inventoryChanged();
+        if (this.distance != distance || this.age != age) {
+            this.distance = distance;
+            this.age = age;
+            inventoryChanged();
+        }
     }
 }

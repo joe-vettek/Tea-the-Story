@@ -11,12 +11,16 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.event.AddPackFindersEvent;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -41,7 +45,7 @@ public class ModContent {
         // BuiltInRegistries.BLOCK.entrySet().stream().filter(resourceKeyBlockEntry -> resourceKeyBlockEntry.getKey().toString().contains(TeaStory.MODID)).toList()
         if (event.getRegistryKey() == Registries.CREATIVE_MODE_TAB)
             event.register(Registries.CREATIVE_MODE_TAB, helper -> {
-                helper.register(TeaStory.rl( TeaStory.MODID),
+                helper.register(TeaStory.rl(TeaStory.MODID),
                         CreativeModeTab.builder().icon(() -> new ItemStack(ItemRegister.TEA_LEAVES.get()))
                                 .title(Component.translatable("itemGroup." + TeaStory.MODID + ".core"))
                                 .displayItems((params, output) -> {
@@ -75,6 +79,11 @@ public class ModContent {
 
     }
 
+    @SubscribeEvent
+    public static void onRegisterEntityAttribute(EntityAttributeCreationEvent event) {
+        // event.put(EntityTypeRegistry.SCARECROW_TYPE.get(), DefaultAttributes.getSupplier(EntityType.ARMOR_STAND));
+        event.put(EntityTypeRegistry.SCARECROW_TYPE.get(), LivingEntity.createLivingAttributes().build());
+    }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onRegisterForWood(RegisterEvent event) {

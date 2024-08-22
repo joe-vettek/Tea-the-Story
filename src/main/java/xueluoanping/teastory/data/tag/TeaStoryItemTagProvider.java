@@ -1,4 +1,4 @@
-package xueluoanping.teastory.data.provider;
+package xueluoanping.teastory.data.tag;
 
 
 import cloud.lemonslice.teastory.tag.NormalTags;
