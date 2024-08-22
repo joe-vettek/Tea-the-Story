@@ -203,7 +203,7 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
         public void toNetwork(FriendlyByteBuf buffer, StoneMillRecipe recipe) {
             buffer.writeUtf(recipe.getGroup());
             recipe.getInputItem().toNetwork(buffer);
-            TeaStory.logger(recipe.getInputFluid().serialize());
+            // TeaStory.logger(recipe.getInputFluid().serialize());
             recipe.getInputFluid().write(buffer);
 
             buffer.writeVarInt(recipe.getOutputItems().size());

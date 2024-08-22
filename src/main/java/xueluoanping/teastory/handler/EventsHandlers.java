@@ -32,11 +32,11 @@ public class EventsHandlers {
                 event.getEntity().getType().is(NormalTags.Entities.BIRDS)
                 && event.getEntity() instanceof PathfinderMob pathfinderMob) {
 
-            TeaStory.logger(event.getEntity());
+            // TeaStory.logger(event.getEntity());
             pathfinderMob.goalSelector.addGoal(0, new AvoidEntityGoal<>(
                     pathfinderMob, ScarecrowEntity.class, 6.0F, 1.0D, 1.2D
             ));
-            TeaStory.logger(event.getEntity().goalSelector);
+            // TeaStory.logger(event.getEntity().goalSelector);
             // event.getToolTip().add(Component.translatable("info.teastory.tooltip.rice"));
         }
     }

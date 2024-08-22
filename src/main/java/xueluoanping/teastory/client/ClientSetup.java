@@ -149,7 +149,7 @@ public class ClientSetup {
         ModelResourceLocation OAK_TRELLIS_ITEM_LOCATION = new ModelResourceLocation(BlockRegister.OAK_TRELLIS.getId(), "inventory");
         BakedModel OAK_TRELLIS_ITEM_MODEL = event.getModels().get(OAK_TRELLIS_ITEM_LOCATION);
 
-        TeaStory.logger(OAK_TRELLIS_MODEL);
+        // TeaStory.logger(OAK_TRELLIS_MODEL);
         TeaStory.logger("Minecraft loading all the models with " + modelRegistry.entrySet().size());
         var state = BlockRegister.OAK_TRELLIS.get().defaultBlockState();
 

@@ -291,7 +291,7 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
             if (nearD < vineEntity.getDistance()) {
                 valid = true;
                 if (nearD+1<vineEntity.getDistance()){
-                    TeaStory.logger(nearD,vineEntity.getDistance());
+                    // TeaStory.logger(nearD,vineEntity.getDistance());
                 }
                 // if (nearD+1<vineEntity.getDistance()){
                 //     vineEntity.setDistance(nearD+1);

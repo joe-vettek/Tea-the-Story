@@ -1,0 +1,2 @@
+Thanks to RoitoLeonine, MalayP, Teacon community, and the open source spirit of the Minecraft mod community. 
+This mod reference is from FarmersDelight's loot modifier writing, CreateCentralKitchen's data pack registration method, Create's fluid ingredients, and Dynamic Trees' texture redirection baking quad.
