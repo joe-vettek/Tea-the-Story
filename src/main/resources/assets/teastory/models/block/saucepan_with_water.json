@@ -165,6 +165,7 @@
 			}
 		},
 		{
+			"name": "water",
 			"from": [2, 8, 2],
 			"to": [14, 8, 14],
 			"faces": {
@@ -172,7 +173,7 @@
 				"east": {"uv": [0, 0, 3, 0], "texture": "#missing"},
 				"south": {"uv": [0, 0, 2.75, 0], "texture": "#missing"},
 				"west": {"uv": [0, 0, 3, 0], "texture": "#missing"},
-				"up": {"uv": [1, 1, 15, 15], "texture": "#3"},
+				"up": {"uv": [1, 1, 15, 15], "texture": "#3","tintindex": 1},
 				"down": {"uv": [0, 0, 2.75, 3], "texture": "#missing"}
 			}
 		}
@@ -211,7 +212,12 @@
 			"name": "pot",
 			"origin": [8, 7, 17.5],
 			"color": 0,
-			"children": [0, 1, 2, 3, 4,
+			"children": [
+				0,
+				1,
+				2,
+				3,
+				4,
 				{
 					"name": "group",
 					"origin": [23, 7, 21.5],
@@ -225,5 +231,8 @@
 					"children": [8, 9, 10]
 				}
 			]
-		}, 11, 12]
+		},
+		11,
+		12
+	]
 }

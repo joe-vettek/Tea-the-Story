@@ -79,13 +79,13 @@ public class HybridizableFlowerBlock extends BushBlock implements BonemealableBl
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         var state = defaultBlockState();
-        // if (context.getItemInHand().hasTag() && context.getItemInHand().getOrCreateTag().contains("color")) {
-        //     state = state.setValue(FLOWER_COLOR, FlowerColor.getFlowerColor(context.getItemInHand().getTag().getString("color")));
-        // }
-        // if (context.getItemInHand().getTag().contains("BlockStateTag")
-        //         && context.getItemInHand().getTag().getCompound("BlockStateTag").contains("color")) {
-        //     state = state.setValue(FLOWER_COLOR, FlowerColor.getFlowerColor(context.getItemInHand().getTag().getCompound("BlockStateTag").getString("color")));
-        // }
+        if (context.getItemInHand().hasTag() && context.getItemInHand().getOrCreateTag().contains("color")) {
+            state = state.setValue(FLOWER_COLOR, FlowerColor.getFlowerColor(context.getItemInHand().getTag().getString("color")));
+        }
+        if (context.getItemInHand().getTag().contains("BlockStateTag")
+                && context.getItemInHand().getTag().getCompound("BlockStateTag").contains("color")) {
+            state = state.setValue(FLOWER_COLOR, FlowerColor.getFlowerColor(context.getItemInHand().getTag().getCompound("BlockStateTag").getString("color")));
+        }
         return state;
     }
 
