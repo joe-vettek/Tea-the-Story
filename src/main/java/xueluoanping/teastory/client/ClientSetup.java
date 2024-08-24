@@ -45,9 +45,11 @@ import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import xueluoanping.teastory.*;
+import xueluoanping.teastory.resource.ClientModFilePackResources;
 import xueluoanping.teastory.resource.ServerModFilePackResources;
 import xueluoanping.teastory.variant.Planks;
 
@@ -243,18 +245,19 @@ public class ClientSetup {
     }
 
 
+
     @SubscribeEvent
     public static void onAddPackFindersEvent(AddPackFindersEvent event) {
 
-        if (event.getPackType() == PackType.SERVER_DATA) {
-
-            for (String packID : List.of(TeaStory.MODID + "_generator")) {
+        if (event.getPackType() == PackType.CLIENT_RESOURCES) {
+            for (String packID : List.of(TeaStory.MODID + "_asset_generator")) {
                 event.addRepositorySource(consumer -> consumer.accept(
                         Pack.readMetaAndCreate(packID, Component.translatable(packID), true,
-                                id -> new ServerModFilePackResources(packID, "data/"), PackType.SERVER_DATA,
+                                id -> new ClientModFilePackResources(packID, ModList.get().getModFileById(TeaStory.MODID).getFile(), "asset/"), PackType.CLIENT_RESOURCES,
                                 Pack.Position.BOTTOM, PackSource.BUILT_IN)));
             }
 
         }
     }
+
 }

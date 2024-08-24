@@ -29,6 +29,7 @@ import net.minecraftforge.registries.RegisterEvent;
 import xueluoanping.teastory.blockentity.VineEntity;
 import xueluoanping.teastory.item.Citem;
 import xueluoanping.teastory.resource.ClientModFilePackResources;
+import xueluoanping.teastory.resource.ServerModFilePackResources;
 import xueluoanping.teastory.variant.Planks;
 
 import java.util.ArrayList;
@@ -135,11 +136,12 @@ public class ModContent {
     @SubscribeEvent
     public static void onAddPackFindersEvent(AddPackFindersEvent event) {
 
-        if (event.getPackType() == PackType.CLIENT_RESOURCES) {
-            for (String packID : List.of(TeaStory.MODID + "_asset_generator")) {
+        if (event.getPackType() == PackType.SERVER_DATA) {
+
+            for (String packID : List.of(TeaStory.MODID + "_generator")) {
                 event.addRepositorySource(consumer -> consumer.accept(
                         Pack.readMetaAndCreate(packID, Component.translatable(packID), true,
-                                id -> new ClientModFilePackResources(packID, ModList.get().getModFileById(TeaStory.MODID).getFile(), "asset/"), PackType.CLIENT_RESOURCES,
+                                id -> new ServerModFilePackResources(packID, "data/"), PackType.SERVER_DATA,
                                 Pack.Position.BOTTOM, PackSource.BUILT_IN)));
             }
 
