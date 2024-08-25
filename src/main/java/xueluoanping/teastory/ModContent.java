@@ -135,9 +135,7 @@ public class ModContent {
 
     @SubscribeEvent
     public static void onAddPackFindersEvent(AddPackFindersEvent event) {
-
         if (event.getPackType() == PackType.SERVER_DATA) {
-
             for (String packID : List.of(TeaStory.MODID + "_generator")) {
                 event.addRepositorySource(consumer -> consumer.accept(
                         Pack.readMetaAndCreate(packID, Component.translatable(packID), true,
