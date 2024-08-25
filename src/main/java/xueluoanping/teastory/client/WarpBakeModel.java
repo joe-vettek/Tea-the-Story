@@ -28,15 +28,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.IdenticalMerger;
 import net.minecraftforge.client.model.IDynamicBakedModel;
 import net.minecraftforge.client.model.data.ModelData;
+import net.minecraftforge.common.util.ConcatenatedListView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.blockentity.VineEntity;
 
-import java.util.ArrayList;
-import java.util.IdentityHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class WarpBakeModel implements IDynamicBakedModel {
 
@@ -61,8 +59,9 @@ public class WarpBakeModel implements IDynamicBakedModel {
 
     @Override
     public @NotNull List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @NotNull RandomSource rand, @NotNull ModelData extraData, @Nullable RenderType renderType) {
-        List<BakedQuad> bakedQuads = stateListMap.get(state);
+        // List<BakedQuad> bakedQuads = stateListMap.get(state);
         // if (ll == null)
+        List<BakedQuad> bakedQuads = new ArrayList<>();
         {
             if (state == null) {
                 if (side != null) return List.of();
@@ -70,11 +69,15 @@ public class WarpBakeModel implements IDynamicBakedModel {
                 for (Direction value : Direction.values()) {
                     bakedQuads.addAll(bakedModel.getQuads(null, value, rand, extraData, renderType));
                 }
-                stateListMap.put(null, bakedQuads);
+                // stateListMap.put(null, bakedQuads);
             } else {
                 bakedQuads = bakedModel.getQuads(state, side, rand, extraData, renderType);
-                stateListMap.put(state, bakedQuads);
+                // stateListMap.put(state, bakedQuads);
             }
+            if (!(bakedQuads instanceof ArrayList)) {
+                bakedQuads = new ArrayList<>(bakedQuads);
+            }
+
             for (int i = 0; i < bakedQuads.size(); i++) {
                 bakedQuads.set(i, new BakedQuadRetextured(bakedQuads.get(i), cache));
             }
@@ -83,10 +86,11 @@ public class WarpBakeModel implements IDynamicBakedModel {
                     bakedQuads.addAll(Minecraft.getInstance().getModelManager().getModel(grape_leaves_on_beam).getQuads(null, null, rand));
                 }
                 if (state.getValue(TrellisBlock.POST)) {
-                    int age=0;
+                    int age = 0;
                     try {
-                        age=extraData.get(VineEntity.AGE_PROPERTY);
-                    }catch (Exception e){}
+                        age = extraData.get(VineEntity.AGE_PROPERTY);
+                    } catch (Exception e) {
+                    }
                     bakedQuads.addAll(grapes.get(age).getQuads(null, null, rand));
                 }
             }

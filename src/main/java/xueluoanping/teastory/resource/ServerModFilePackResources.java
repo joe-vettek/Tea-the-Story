@@ -210,7 +210,7 @@ public class ServerModFilePackResources extends AbstractPackResources {
                 itemObject.add("items", itemsArray1);
                 // jsonObject.add("result", resultObject);
                 // TeaStory.logger(222,TeaStory.rl("recipes/" + pairEntry.getKey().getPath() + ".json"),jsonObject);
-                resourceOutput.accept(TeaStory.rl("advancements/recipes/misc" + pairEntry.getKey().getPath() + ".json"), jsonObjectToIoSupplier(jsonObject));
+                resourceOutput.accept(TeaStory.rl("advancements/recipes/misc/" + pairEntry.getKey().getPath() + ".json"), jsonObjectToIoSupplier(jsonObject));
             }
         }
 
