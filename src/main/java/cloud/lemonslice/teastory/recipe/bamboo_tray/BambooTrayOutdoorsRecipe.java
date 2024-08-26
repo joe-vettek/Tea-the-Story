@@ -7,9 +7,9 @@ import xueluoanping.teastory.RecipeRegister;
 
 public class BambooTrayOutdoorsRecipe extends BambooTraySingleInRecipe
 {
-    public BambooTrayOutdoorsRecipe(ResourceLocation idIn, String groupIn, Ingredient ingredientIn, ItemStack resultIn, int workTime)
+    public BambooTrayOutdoorsRecipe( String groupIn, Ingredient ingredientIn, ItemStack resultIn, int workTime)
     {
-        super(idIn, groupIn, ingredientIn, resultIn, workTime);
+        super( groupIn, ingredientIn, resultIn, workTime);
     }
 
 

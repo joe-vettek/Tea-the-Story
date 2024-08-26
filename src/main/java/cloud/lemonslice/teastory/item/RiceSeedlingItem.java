@@ -20,6 +20,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.neoforged.neoforge.event.level.BlockEvent;
 import xueluoanping.teastory.BlockRegister;
 
 
@@ -56,13 +57,14 @@ public class RiceSeedlingItem extends Item
                 FluidState ifluidstate = worldIn.getFluidState(blockpos);
                 if ((ifluidstate.getType() == Fluids.WATER || blockstate.getBlock() == BlockRegister.RiceSeedlingBlock.get()) && worldIn.isEmptyBlock(blockpos1))
                 {
-                    net.minecraftforge.common.util.BlockSnapshot blocksnapshot = net.minecraftforge.common.util.BlockSnapshot.create(worldIn.dimension(), worldIn, blockpos1);
+                    // net.minecraftforge.common.util.BlockSnapshot blocksnapshot = net.minecraftforge.common.util.BlockSnapshot.create(worldIn.dimension(), worldIn, blockpos1);
                     worldIn.setBlock(blockpos1, BlockRegister.ricePlant.get().defaultBlockState(), Block.UPDATE_ALL_IMMEDIATE);
-                    if (net.minecraftforge.event.ForgeEventFactory.onBlockPlace(playerIn, blocksnapshot, Direction.UP))
-                    {
-                        blocksnapshot.restore(true, false);
-                        return InteractionResultHolder.fail(itemstack);
-                    }
+
+                    // if (net.minecraftforge.event.ForgeEventFactory.onBlockPlace(playerIn, blocksnapshot, Direction.UP))
+                    // {
+                    //     blocksnapshot.restore(true, false);
+                    //     return InteractionResultHolder.fail(itemstack);
+                    // }
 
                     if (playerIn instanceof ServerPlayer)
                     {

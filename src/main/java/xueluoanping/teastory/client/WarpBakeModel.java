@@ -22,6 +22,7 @@ import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 
 import net.neoforged.neoforge.client.model.IDynamicBakedModel;
+import net.neoforged.neoforge.client.model.QuadTransformers;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -55,6 +56,8 @@ public class WarpBakeModel implements IDynamicBakedModel {
         this.bakedModel = bakedModel;
         this.cache = cache;
         itemOverrides = new SelfItemOverrides(this);
+        // We can use it to rotate
+        // QuadTransformers.applying().process()
     }
 
 

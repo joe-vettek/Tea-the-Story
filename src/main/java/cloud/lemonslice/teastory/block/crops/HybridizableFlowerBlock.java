@@ -2,14 +2,19 @@ package cloud.lemonslice.teastory.block.crops;
 
 
 import cloud.lemonslice.teastory.block.crops.flower.FlowerColor;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -33,6 +38,8 @@ import java.util.List;
 
 
 public class HybridizableFlowerBlock extends BushBlock implements BonemealableBlock {
+    public static final MapCodec<HybridizableFlowerBlock> CODEC = simpleCodec(HybridizableFlowerBlock::new);
+
     public static final EnumProperty<FlowerColor> FLOWER_COLOR = EnumProperty.create("color", FlowerColor.class);
     protected static final VoxelShape SHAPE = Block.box(3.0D, 0.0D, 3.0D, 13.0D, 14.0D, 13.0D);
 
@@ -41,6 +48,10 @@ public class HybridizableFlowerBlock extends BushBlock implements BonemealableBl
         this.registerDefaultState(this.defaultBlockState().setValue(FLOWER_COLOR, FlowerColor.WHITE));
     }
 
+    @Override
+    protected MapCodec<? extends BushBlock> codec() {
+        return CODEC;
+    }
 
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
@@ -71,12 +82,9 @@ public class HybridizableFlowerBlock extends BushBlock implements BonemealableBl
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         var state = defaultBlockState();
-        if (context.getItemInHand().hasTag() && context.getItemInHand().getOrCreateTag().contains("color")) {
-            state = state.setValue(FLOWER_COLOR, FlowerColor.getFlowerColor(context.getItemInHand().getTag().getString("color")));
-        }
-        if (context.getItemInHand().getTag().contains("BlockStateTag")
-                && context.getItemInHand().getTag().getCompound("BlockStateTag").contains("color")) {
-            state = state.setValue(FLOWER_COLOR, FlowerColor.getFlowerColor(context.getItemInHand().getTag().getCompound("BlockStateTag").getString("color")));
+        var pStack = context.getItemInHand();
+        if (pStack.has(DataComponents.BLOCK_STATE)) {
+            pStack.get(DataComponents.BLOCK_STATE).with(FLOWER_COLOR, state);
         }
         return state;
     }
@@ -87,19 +95,18 @@ public class HybridizableFlowerBlock extends BushBlock implements BonemealableBl
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
         ItemStack stack = new ItemStack(this);
-        var nbt = new CompoundTag();
-        nbt.putString("color", state.getValue(FLOWER_COLOR).getString());
-        var compoundtag1 = new CompoundTag();
-        compoundtag1.put("BlockStateTag", nbt);
-        stack.setTag(compoundtag1);
+        stack.update(DataComponents.BLOCK_STATE, BlockItemStateProperties.EMPTY,
+                blockItemStateProperties ->
+                        blockItemStateProperties
+                                .with(HybridizableFlowerBlock.FLOWER_COLOR, state));
+
         return stack;
     }
 
-
     @Override
-    public boolean isValidBonemealTarget(LevelReader worldIn, BlockPos pos, BlockState pState, boolean pIsClient) {
+    public boolean isValidBonemealTarget(LevelReader worldIn, BlockPos pos, BlockState pState) {
         List<BlockPos> positions = new ArrayList<>();
         Collections.addAll(positions, pos.east(), pos.west(), pos.north(), pos.south());
         for (BlockPos p : positions) {

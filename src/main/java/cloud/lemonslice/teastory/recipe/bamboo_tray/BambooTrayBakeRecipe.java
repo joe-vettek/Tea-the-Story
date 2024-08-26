@@ -7,9 +7,9 @@ import xueluoanping.teastory.RecipeRegister;
 
 public class BambooTrayBakeRecipe extends BambooTraySingleInRecipe
 {
-    public BambooTrayBakeRecipe(ResourceLocation idIn, String groupIn, Ingredient ingredientIn, ItemStack resultIn, int workTime)
+    public BambooTrayBakeRecipe(String groupIn, Ingredient ingredientIn, ItemStack resultIn, int workTime)
     {
-        super(idIn, groupIn, ingredientIn, resultIn, workTime);
+        super( groupIn, ingredientIn, resultIn, workTime);
     }
 
 

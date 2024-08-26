@@ -3,14 +3,13 @@ package xueluoanping.teastory.data.recipe.builder;
 import cloud.lemonslice.teastory.recipe.drink.DrinkRecipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import cloud.lemonslice.silveroak.common.recipe.FluidIngredient;
 import net.minecraft.core.NonNullList;
-import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
 import xueluoanping.teastory.FluidRegistry;
 import xueluoanping.teastory.RecipeRegister;
 import xueluoanping.teastory.TeaStory;
@@ -37,11 +36,11 @@ public class DrinkRecipeBuilder {
         return new DrinkRecipeBuilder(resultIn, FluidIngredient.fromFluid(FluidRegistry.BOILING_WATER_STILL.get(), 500), NonNullList.of(Ingredient.EMPTY, ingredientsIn));
     }
 
-    public void build(Consumer<FinishedRecipe> consumerIn) {
+    public void build(RecipeOutput consumerIn) {
         this.build(consumerIn, ForgeRegistries.FLUIDS.getKey(this.result));
     }
 
-    public void build(Consumer<FinishedRecipe> consumerIn, String save) {
+    public void build(RecipeOutput consumerIn, String save) {
         ResourceLocation originRes = ForgeRegistries.FLUIDS.getKey(this.result);
         ResourceLocation saveRes = ResourceLocation.tryParse(save);
         if (saveRes.equals(originRes)) {

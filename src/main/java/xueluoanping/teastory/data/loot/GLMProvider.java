@@ -1,5 +1,6 @@
 package xueluoanping.teastory.data.loot;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
@@ -12,10 +13,11 @@ import xueluoanping.teastory.BlockRegister;
 import xueluoanping.teastory.loot.AddItemModifier;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class GLMProvider extends GlobalLootModifierProvider {
-    public GLMProvider(PackOutput gen, String modid) {
-        super(gen, modid);
+    public GLMProvider(PackOutput gen, CompletableFuture<HolderLookup.Provider> registries, String modid) {
+        super(gen, registries,modid);
     }
 
     @Override

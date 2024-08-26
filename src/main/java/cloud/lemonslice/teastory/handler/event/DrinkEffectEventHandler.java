@@ -2,53 +2,54 @@ package cloud.lemonslice.teastory.handler.event;
 
 
 import cloud.lemonslice.teastory.potion.EffectRegistry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.entity.player.CanPlayerSleepEvent;
 
 public final class DrinkEffectEventHandler
 {
-    public static void applyAgilityEffect(LivingHurtEvent event)
+    public static void applyAgilityEffect(LivingIncomingDamageEvent event)
     {
         if (!event.getEntity().level().isClientSide())
         {
-            MobEffectInstance effect = event.getEntity().getEffect(EffectRegistry.AGILITY);
+            MobEffectInstance effect = event.getEntity().getEffect(EffectRegistry.getMobEffect(EffectRegistry.AGILITY));
             if (effect != null)
             {
                 if (event.getEntity().getRandom().nextFloat() < ((effect.getAmplifier() + 1) * 0.15F + 0.05F))
                 {
                     event.setCanceled(true);
+                    // event.setNewDamage(0);
                 }
             }
         }
     }
 
-    public static void applyDefenceEffect(LivingEvent event)
+    public static void applyDefenceEffect(LivingDamageEvent.Pre event)
     {
         if (!event.getEntity().level().isClientSide())
         {
-            if (event.getEntity().getEffect(EffectRegistry.DEFENCE) != null)
+            if (event.getEntity().getEffect(EffectRegistry.getMobEffect(EffectRegistry.DEFENCE)) != null)
             {
-                if (event instanceof LivingHurtEvent)
+                if (event instanceof LivingDamageEvent)
                 {
                     event.getEntity().playSound(SoundEvents.SHIELD_BREAK, 1.0F, 1.0F);
                 }
-                event.setCanceled(true);
+                event.setNewDamage(0);
+                // event.setCanceled(true);
             }
         }
     }
 
-    public static void applyLifeDrainEffect(LivingAttackEvent event)
+    public static void applyLifeDrainEffect(LivingDamageEvent.Pre event)
     {
         if (!event.getEntity().level().isClientSide())
         {
-            MobEffectInstance effect = event.getEntity().getEffect(EffectRegistry.LIFE_DRAIN);
+            MobEffectInstance effect = event.getEntity().getEffect(EffectRegistry.getMobEffect(EffectRegistry.LIFE_DRAIN));
             if (effect != null)
             {
                 int level = effect.getAmplifier() + 1;
@@ -62,15 +63,15 @@ public final class DrinkEffectEventHandler
         }
     }
 
-    public static void applyExcitementEffect(PlayerSleepInBedEvent event)
+    public static void applyExcitementEffect(CanPlayerSleepEvent event)
     {
         if (!event.getEntity().level().isClientSide())
         {
-            MobEffectInstance effect = event.getEntity().getEffect(EffectRegistry.EXCITEMENT);
+            MobEffectInstance effect = event.getEntity().getEffect(EffectRegistry.getMobEffect(EffectRegistry.EXCITEMENT));
             if (effect != null)
             {
-                event.setResult(Player.BedSleepingProblem.OTHER_PROBLEM);
-                ((ServerPlayer) event.getEntity()).sendSystemMessage(Component.translatable("info.teastory.bed.excited"), true);
+                event.setProblem(Player.BedSleepingProblem.OTHER_PROBLEM);
+                event.getEntity().sendSystemMessage(Component.translatable("info.teastory.bed.excited"), true);
             }
         }
     }

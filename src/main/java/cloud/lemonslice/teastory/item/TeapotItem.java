@@ -26,21 +26,17 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.ForgeFlowingFluid;
-import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack;
-import net.minecraftforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.capabilities.ICapabilityProvider;
+import net.neoforged.neoforge.fluids.BaseFlowingFluid;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.templates.FluidHandlerItemStack;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 import xueluoanping.teastory.FluidRegistry;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack.FLUID_NBT_KEY;
 
 public class TeapotItem extends BlockItem
 {
@@ -135,7 +131,7 @@ public class TeapotItem extends BlockItem
             // for (Fluid fluid : FluidTags.getCollection().getTagByID(new ResourceLocation("teastory:drink")).getAllElements())
             for (var fluid : FluidRegistry.FLUIDS.getEntries())
             {
-                if(fluid.get() instanceof ForgeFlowingFluid.Source) {
+                if(fluid.get() instanceof BaseFlowingFluid.Source) {
                     ItemStack itemStack = new ItemStack(this);
                     CompoundTag fluidTag = new CompoundTag();
                     new FluidStack(fluid.get(), capacity).writeToNBT(fluidTag);

@@ -29,12 +29,15 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import org.jetbrains.annotations.Nullable;
 import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.block.NormalHorizontalBlock;
 import xueluoanping.teastory.block.entity.NormalContainerTileEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public class BambooTrayBlock extends Block implements EntityBlock {
     protected static final VoxelShape SHAPE;
@@ -61,18 +64,15 @@ public class BambooTrayBlock extends Block implements EntityBlock {
 
 
     private void dropItems(Level worldIn, BlockPos pos) {
-        var te = worldIn.getBlockEntity(pos);
-        if (te != null) {
-            te.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP).ifPresent(inv ->
-            {
-                for (int i = inv.getSlots() - 1; i >= 0; --i) {
-                    if (inv.getStackInSlot(i) != ItemStack.EMPTY) {
-                        Block.popResource(worldIn, pos, inv.getStackInSlot(i));
-                        ((IItemHandlerModifiable) inv).setStackInSlot(i, ItemStack.EMPTY);
-                    }
+        Optional.ofNullable(worldIn.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.UP)).ifPresent(inv ->
+        {
+            for (int i = inv.getSlots() - 1; i >= 0; --i) {
+                if (inv.getStackInSlot(i) != ItemStack.EMPTY) {
+                    Block.popResource(worldIn, pos, inv.getStackInSlot(i));
+                    ((IItemHandlerModifiable) inv).setStackInSlot(i, ItemStack.EMPTY);
                 }
-            });
-        }
+            }
+        });
     }
 
 
@@ -89,37 +89,37 @@ public class BambooTrayBlock extends Block implements EntityBlock {
 
     @Override
     public void onRemove(BlockState blockState, Level worldIn, BlockPos pos, BlockState pNewState, boolean isMoving) {
-        if ( pNewState.getBlock() != this)
-        {
+        if (pNewState.getBlock() != this) {
             dropItems(worldIn, pos);
         }
         super.onRemove(blockState, worldIn, pos, pNewState, isMoving);
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
-        var te = worldIn.getBlockEntity(pos);
+    public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+        InteractionHand handIn = player.getUsedItemHand();
+        var te = level.getBlockEntity(pos);
         if (te instanceof BambooTrayTileEntity) {
-            if (worldIn.isClientSide()) {
+            if (level.isClientSide()) {
                 ((BambooTrayTileEntity) te).refreshSeed();
                 return InteractionResult.SUCCESS;
             }
             if (!player.isShiftKeyDown()) {
                 if (((BambooTrayTileEntity) te).isDoubleClick()) {
-                    dropItems(worldIn, pos);
+                    dropItems(level, pos);
                     return InteractionResult.SUCCESS;
                 }
                 if (!((BambooTrayTileEntity) te).isWorking()) {
-                    dropItems(worldIn, pos);
+                    dropItems(level, pos);
                     te.setChanged();
                 }
                 if (!player.getItemInHand(handIn).isEmpty()) {
-                    te.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP).ifPresent(inv ->
+                    Optional.ofNullable(level.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.UP)).ifPresent(inv ->
                     {
                         BambooTraySingleInRecipe recipe = null;
-                        for (Recipe<?> r : worldIn.getRecipeManager().getRecipes()) {
-                            if (r.getType().equals(((BambooTrayTileEntity) te).getRecipeType()) && ((BambooTraySingleInRecipe) r).getIngredient().test(player.getItemInHand(handIn))) {
-                                recipe = (BambooTraySingleInRecipe) r;
+                        for (var r : level.getRecipeManager().getRecipes()) {
+                            if (r.value().getType().equals(((BambooTrayTileEntity) te).getRecipeType()) && ((BambooTraySingleInRecipe) r.value()).getIngredient().test(player.getItemInHand(handIn))) {
+                                recipe = (BambooTraySingleInRecipe) r.value();
                                 break;
                             }
                         }
@@ -135,7 +135,7 @@ public class BambooTrayBlock extends Block implements EntityBlock {
                     }
                 }
             } else {
-                NetworkHooks.openScreen((ServerPlayer) player, (MenuProvider) te, te.getBlockPos());
+                player.openMenu((MenuProvider) te, te.getBlockPos());
                 return InteractionResult.SUCCESS;
             }
         }
@@ -162,7 +162,7 @@ public class BambooTrayBlock extends Block implements EntityBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level worldIn, BlockState state, BlockEntityType<T> blockEntityType) {
         // return !worldIn.isClientSide ?
-           return      NormalHorizontalBlock.createTickerHelper(blockEntityType, TileEntityTypeRegistry.BAMBOO_TRAY_TYPE.get(), BambooTrayTileEntity::tick) ;
+        return NormalHorizontalBlock.createTickerHelper(blockEntityType, TileEntityTypeRegistry.BAMBOO_TRAY_TYPE.get(), BambooTrayTileEntity::tick);
     }
 
 }

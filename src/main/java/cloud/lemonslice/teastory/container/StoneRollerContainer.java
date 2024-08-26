@@ -11,10 +11,12 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.items.SlotItemHandler;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.SlotItemHandler;
 import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.client.container.NormalContainer;
+
+import java.util.Optional;
 
 
 public class StoneRollerContainer extends NormalContainer
@@ -29,11 +31,11 @@ public class StoneRollerContainer extends NormalContainer
     {
         super(TileEntityTypeRegistry.STONE_ROLLER_CONTAINER.get(), windowId, pos, world);
         this.tileEntity = (StoneRollerTileEntity) getTileEntity();
-        tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP).ifPresent(h ->
+        Optional.ofNullable(world.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.UP)).ifPresent(h ->
         {
             addSlot(new SlotItemHandler(h, 0, 55, 38));
         });
-        tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.DOWN).ifPresent(h ->
+        Optional.ofNullable(world.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.DOWN)).ifPresent(h ->
         {
             addSlot(new SlotItemHandler(h, 0, 105, 20));
             addSlot(new SlotItemHandler(h, 1, 105, 38));

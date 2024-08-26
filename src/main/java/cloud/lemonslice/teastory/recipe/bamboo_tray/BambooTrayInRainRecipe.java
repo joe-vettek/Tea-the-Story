@@ -5,11 +5,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import xueluoanping.teastory.RecipeRegister;
 
-public class BambooTrayInRainRecipe extends BambooTraySingleInRecipe
-{
-    public BambooTrayInRainRecipe(ResourceLocation idIn, String groupIn, Ingredient ingredientIn, ItemStack resultIn, int workTime)
-    {
-        super(idIn, groupIn, ingredientIn, resultIn, workTime);
+public class BambooTrayInRainRecipe extends BambooTraySingleInRecipe {
+    public BambooTrayInRainRecipe(String groupIn, Ingredient ingredientIn, ItemStack resultIn, int workTime) {
+        super(groupIn, ingredientIn, resultIn, workTime);
     }
 
 

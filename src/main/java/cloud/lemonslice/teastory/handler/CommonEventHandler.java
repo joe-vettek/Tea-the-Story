@@ -1,13 +1,14 @@
 package cloud.lemonslice.teastory.handler;
 
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.player.BonemealEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
-import net.minecraftforge.event.level.BlockEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.entity.player.BonemealEvent;
+import net.neoforged.neoforge.event.entity.player.CanPlayerSleepEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
 import xueluoanping.teastory.TeaStory;
 
 import java.io.IOException;
@@ -18,25 +19,25 @@ import static cloud.lemonslice.teastory.handler.event.BlockEventHandler.dropAsh;
 import static cloud.lemonslice.teastory.handler.event.DrinkEffectEventHandler.*;
 
 
-@Mod.EventBusSubscriber(modid = TeaStory.MODID)
+@EventBusSubscriber(modid = TeaStory.MODID)
 public final class CommonEventHandler
 {
     @SubscribeEvent
-    public static void onLivingHurt(LivingHurtEvent event)
+    public static void onLivingHurt(LivingIncomingDamageEvent event)
     {
         applyAgilityEffect(event);
-        applyDefenceEffect(event);
+        // applyDefenceEffect(event);
     }
 
     @SubscribeEvent
-    public static void onLivingAttack(LivingAttackEvent event)
+    public static void onLivingAttack(LivingDamageEvent.Pre event)
     {
         applyLifeDrainEffect(event);
         applyDefenceEffect(event);
     }
 
     @SubscribeEvent
-    public static void onPlayerSleep(PlayerSleepInBedEvent event)
+    public static void onPlayerSleep(CanPlayerSleepEvent event)
     {
         applyExcitementEffect(event);
     }
@@ -74,12 +75,8 @@ public final class CommonEventHandler
     }
 
     @SubscribeEvent
-    public static void onEntityHurt(LivingHurtEvent event)
+    public static void onEntityHurt(LivingDamageEvent.Post event)
     {
-        try {
-            onShennongChiAttack(event);
-        } catch (IOException e) {
-           e.printStackTrace();
-        }
+        onShennongChiAttack(event);
     }
 }

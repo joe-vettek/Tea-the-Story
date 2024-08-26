@@ -31,6 +31,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 import xueluoanping.teastory.TileEntityTypeRegistry;
@@ -132,8 +133,8 @@ public class CatapultBoardBlockWithTray extends NormalHorizontalBlock implements
                         BambooTraySingleInRecipe recipe = null;
                         for (var r : level.getRecipeManager().getRecipes()) {
 
-                            if (r.value().getType().equals(((BambooTrayTileEntity) te).getRecipeType()) && ((BambooTraySingleInRecipe) r).getIngredient().test(player.getItemInHand(handIn))) {
-                                recipe = (BambooTraySingleInRecipe) r;
+                            if (r.value().getType().equals(((BambooTrayTileEntity) te).getRecipeType()) && ((BambooTraySingleInRecipe) r.value()).getIngredient().test(player.getItemInHand(handIn))) {
+                                recipe = (BambooTraySingleInRecipe) r.value();
                                 break;
                             }
                         }
@@ -149,7 +150,7 @@ public class CatapultBoardBlockWithTray extends NormalHorizontalBlock implements
                     }
                 }
             } else {
-                NetworkHooks.openScreen((ServerPlayer) player, (MenuProvider) te, te.getBlockPos());
+                player.openMenu((MenuProvider) te, te.getBlockPos());
             }
         }
         return InteractionResult.FAIL;
@@ -158,18 +159,15 @@ public class CatapultBoardBlockWithTray extends NormalHorizontalBlock implements
 
     public static void shoot(Level worldIn, BlockPos pos) {
         Direction d = worldIn.getBlockState(pos).getValue(FACING).getOpposite();
-        var te = worldIn.getBlockEntity(pos);
-        if (te != null) {
-            te.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP).ifPresent(inv ->
-            {
-                for (int i = inv.getSlots() - 1; i >= 0; --i) {
-                    if (inv.getStackInSlot(i) != ItemStack.EMPTY) {
-                        Block.popResource(worldIn, pos.relative(d), inv.getStackInSlot(i));
-                        ((IItemHandlerModifiable) inv).setStackInSlot(i, ItemStack.EMPTY);
-                    }
+        Optional.ofNullable(worldIn.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.UP)).ifPresent(inv ->
+        {
+            for (int i = inv.getSlots() - 1; i >= 0; --i) {
+                if (inv.getStackInSlot(i) != ItemStack.EMPTY) {
+                    Block.popResource(worldIn, pos.relative(d), inv.getStackInSlot(i));
+                    ((IItemHandlerModifiable) inv).setStackInSlot(i, ItemStack.EMPTY);
                 }
-            });
-        }
+            }
+        });
     }
 
 

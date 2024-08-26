@@ -12,9 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -22,18 +20,15 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
-import net.neoforged.neoforge.fluids.SimpleFluidContent;
-import net.neoforged.neoforge.fluids.capability.templates.FluidHandlerItemStack;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import xueluoanping.teastory.blockentity.VineEntity;
 import xueluoanping.teastory.item.Citem;
-import xueluoanping.teastory.resource.ClientModFilePackResources;
+import xueluoanping.teastory.item.FluidContainerItem;
 import xueluoanping.teastory.resource.ServerModFilePackResources;
 import xueluoanping.teastory.variant.Planks;
 
@@ -141,15 +136,34 @@ public class ModContent {
     // SimpleFluidContent
     @SubscribeEvent
     public static void onRegisterCapabilitiesEvent(RegisterCapabilitiesEvent event) {
-// event.registerItem(Capabilities.FluidHandler.ITEM,(s,a)->new FluidHandlerItemStack());
+        event.registerItem(Capabilities.FluidHandler.ITEM, (s, a) -> ((FluidContainerItem) s.getItem()).transferToFluidHandler(s)),ItemRegister.PORCELAIN_CUP_DRINK.value(),ItemRegister.PORCELAIN_CUP.value(), ItemRegister.BOTTLE.value(), ItemRegister.BOTTLE_DRINK.value());
+
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, TileEntityTypeRegistry.WOODEN_BARREL_TYPE.get(),
                 (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getFluidTank());
+
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, TileEntityTypeRegistry.BAMBOO_TRAY_TYPE.get(),
                 (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getContainerInventory());
+
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, TileEntityTypeRegistry.DRINK_MAKER_TYPE.get(),
-                (blockEntity, context) -> blockEntity.isRemoved() ? null : (context== Direction.DOWN?blockEntity.getOutputInventory(): blockEntity.getInputInventory()));
+                (blockEntity, context) -> blockEntity.isRemoved() ? null : (context == Direction.DOWN ? blockEntity.getOutputInventory() : blockEntity.getInputInventory()));
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, TileEntityTypeRegistry.DRINK_MAKER_TYPE.get(),
                 (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getFluidHandler());
+
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, TileEntityTypeRegistry.STONE_MILL_TYPE.get(),
+                (blockEntity, context) -> blockEntity.isRemoved() ? null : (context == Direction.DOWN ? blockEntity.getOutputInventory() : blockEntity.getInputInventory()));
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, TileEntityTypeRegistry.STONE_MILL_TYPE.get(),
+                (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getFluidTank());
+
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, TileEntityTypeRegistry.STONE_ROLLER_TYPE.get(),
+                (blockEntity, context) -> blockEntity.isRemoved() ? null : (context == Direction.DOWN ? blockEntity.getOutputInventory() : blockEntity.getInputInventory()));
+
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, TileEntityTypeRegistry.STOVE_TYPE.get(),
+                (blockEntity, context) -> blockEntity.isRemoved() ? null : (context == Direction.DOWN ? blockEntity.getAshInventory() : blockEntity.getFuelInventory()));
+
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, TileEntityTypeRegistry.IRON_KETTLE_TYPE.get(),
+                (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getFluidTank());
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, TileEntityTypeRegistry.TEAPOT_TYPE.get(),
+                (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getFluidTank());
     }
 
     @SubscribeEvent

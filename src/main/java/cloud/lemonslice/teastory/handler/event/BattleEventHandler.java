@@ -4,14 +4,14 @@ package cloud.lemonslice.teastory.handler.event;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import xueluoanping.teastory.ItemRegister;
 
 import java.io.IOException;
 
 public final class BattleEventHandler
 {
-    public static void onShennongChiAttack(LivingHurtEvent event) throws IOException
+    public static void onShennongChiAttack(LivingDamageEvent.Post event)
     {
         if (event.getSource().getEntity() instanceof Player && ((Player) event.getSource().getEntity()).getMainHandItem().getItem() == ItemRegister.IRON_SICKLE.get())
         {

@@ -2,7 +2,11 @@ package cloud.lemonslice.teastory.blockentity;
 
 
 import cloud.lemonslice.teastory.container.StoneMillContainer;
+import net.minecraft.core.HolderLookup;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import xueluoanping.teastory.craft.BlockEntityRecipeWrapper;
 import cloud.lemonslice.teastory.recipe.stone_mill.StoneMillRecipe;
@@ -44,40 +48,32 @@ public class StoneMillTileEntity extends NormalContainerTileEntity {
 
     // read
     @Override
-    public void load(CompoundTag nbt) {
-        super.load(nbt);
-        this.inputInventory.deserializeNBT(nbt.getCompound("InputInventory"));
-        this.outputInventory.deserializeNBT(nbt.getCompound("OutputInventory"));
-        this.fluidTank.readFromNBT(nbt.getCompound("FluidTank"));
+    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider pRegistries) {
+        super.loadAdditional(nbt, pRegistries);
+        this.inputInventory.deserializeNBT(pRegistries, nbt.getCompound("InputInventory"));
+        this.outputInventory.deserializeNBT(pRegistries, nbt.getCompound("OutputInventory"));
+        this.fluidTank.readFromNBT(pRegistries, nbt.getCompound("FluidTank"));
         // this.processTicks = nbt.getInt("ProcessTicks");
     }
 
     // write
     @Override
-    protected void saveAdditional(CompoundTag compound) {
-        compound.put("InputInventory", this.inputInventory.serializeNBT());
-        compound.put("OutputInventory", this.outputInventory.serializeNBT());
-        compound.put("FluidTank", this.fluidTank.writeToNBT(new CompoundTag()));
+    protected void saveAdditional(CompoundTag compound, HolderLookup.Provider pRegistries) {
+        compound.put("InputInventory", this.inputInventory.serializeNBT(pRegistries));
+        compound.put("OutputInventory", this.outputInventory.serializeNBT(pRegistries));
+        compound.put("FluidTank", this.fluidTank.writeToNBT(pRegistries, new CompoundTag()));
         compound.putInt("ProcessTicks", this.processTicks);
-        super.saveAdditional(compound);
+        super.saveAdditional(compound, pRegistries);
     }
 
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (!this.isRemoved()) {
-            if (ForgeCapabilities.ITEM_HANDLER.equals(cap)) {
-                if (side == Direction.DOWN)
-                    return LazyOptional.of(() -> outputInventory).cast();
-                else
-                    return LazyOptional.of(() -> inputInventory).cast();
-            } else if (ForgeCapabilities.FLUID_HANDLER.equals(cap)) {
-                return LazyOptional.of(this::getFluidTank).cast();
-            }
-        }
-        return super.getCapability(cap, side);
+
+    public ItemStackHandler getInputInventory() {
+        return inputInventory;
     }
 
+    public ItemStackHandler getOutputInventory() {
+        return outputInventory;
+    }
 
     public FluidTank getFluidTank() {
         return fluidTank;
@@ -95,7 +91,7 @@ public class StoneMillTileEntity extends NormalContainerTileEntity {
         }
         var warp = new BlockEntityRecipeWrapper(stoneMillTileEntity.inputInventory, stoneMillTileEntity);
         if (stoneMillTileEntity.currentRecipe == null || !stoneMillTileEntity.currentRecipe.matches(warp, worldIn)) {
-            stoneMillTileEntity.currentRecipe = worldIn.getRecipeManager().getRecipeFor(RecipeRegister.STONE_MILL.get(), warp, worldIn).orElse(null);
+            stoneMillTileEntity.currentRecipe = worldIn.getRecipeManager().getRecipeFor(RecipeRegister.STONE_MILL.get(), warp, worldIn).orElse(null).value();
         }
 
         if (stoneMillTileEntity.currentRecipe != null) {

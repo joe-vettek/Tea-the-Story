@@ -51,13 +51,13 @@ public class RecipeRegister {
 
     public static final DeferredHolder<RecipeSerializer<?>, DrinkRecipe.DrinkRecipeSerializer> DRINK_MAKER_SERIALIZER = DRRecipeSerializer
             .register("drink_maker", DrinkRecipe.DrinkRecipeSerializer::new);
-    public static final DeferredHolder<RecipeType<?>, RecipeType<Recipe<?>>> DRINK_MAKER =
+    public static final DeferredHolder<RecipeType<?>, RecipeType<DrinkRecipe>> DRINK_MAKER =
             DRRecipeType.register("drink_maker", () -> RecipeType.simple(TeaStory.rl("drink_maker")));
 
 
     public static final DeferredHolder<RecipeSerializer<?>, StoneMillRecipe.StoneMillRecipeSerializer> STONE_MILL_SERIALIZER = DRRecipeSerializer
             .register("stone_mill", StoneMillRecipe.StoneMillRecipeSerializer::new);
-    public static final DeferredHolder<RecipeType<?>, RecipeType<Recipe<?>>> STONE_MILL =
+    public static final DeferredHolder<RecipeType<?>, RecipeType<StoneMillRecipe>> STONE_MILL =
             DRRecipeType.register("stone_mill", () -> RecipeType.simple(TeaStory.rl("stone_mill")));
 
 

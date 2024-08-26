@@ -5,7 +5,6 @@ import cloud.lemonslice.teastory.block.crops.TrellisBlock;
 import cloud.lemonslice.teastory.block.crops.TrellisWithVineBlock;
 import cloud.lemonslice.teastory.block.crops.VineInfoManager;
 import cloud.lemonslice.teastory.block.crops.VineType;
-import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
@@ -13,7 +12,6 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.Tags;
 
 
 public class VineSeedsItem extends BlockItem {

@@ -50,16 +50,16 @@ public class StoneMillCategory implements IRecipeCategory<StoneMillRecipe> {
         builder.addSlot(RecipeIngredientRole.INPUT, 40+1, 21+1)
                 .addIngredients(stoneMillRecipe.getIngredients().get(0));
 
-        if (!stoneMillRecipe.getInputFluid().getMatchingFluidStacks().isEmpty()
+        if (stoneMillRecipe.getInputFluid().getStacks().length!=0
 
-        && !stoneMillRecipe.getInputFluid().getMatchingFluidStacks().get(0).isEmpty()) {
+        && !stoneMillRecipe.getInputFluid().getStacks()[0].isEmpty()) {
             // builder.addSlot(RecipeIngredientRole.INPUT, 4, 6)
             //         .addFluidStack(stoneMillRecipe.getInputFluid().getMatchingFluidStacks().get(0).getFluid(), 2000);
 
             builder.addSlot(RecipeIngredientRole.INPUT,  4, 6)
                     .setFluidRenderer(2000, false, 16, 48)
                     // .setOverlay(getBackground(), 0, 0)
-                    .addIngredient(NeoForgeTypes.FLUID_STACK, stoneMillRecipe.getInputFluid().getMatchingFluidStacks().get(0));
+                    .addIngredient(NeoForgeTypes.FLUID_STACK, stoneMillRecipe.getInputFluid().getStacks()[0]);
         }
         int n = stoneMillRecipe.getOutputItems().size();
         for (int i = 0; i < n; i++) {

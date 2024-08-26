@@ -34,10 +34,10 @@ public final class start {
             generator.addProvider(event.includeServer(),new TeaStoryFluidTagProvider(packOutput,lookupProvider, MODID, helper));
             generator.addProvider(event.includeServer(),new TeaStoryEntityTypeTagsProvider(packOutput,lookupProvider, MODID, helper));
 
-            generator.addProvider(event.includeServer(),new TeaStoryRecipeProvider(packOutput));
-            generator.addProvider(event.includeServer(),new GLMProvider(packOutput, MODID));
+            generator.addProvider(event.includeServer(),new TeaStoryRecipeProvider(packOutput,lookupProvider));
+            generator.addProvider(event.includeServer(),new GLMProvider(packOutput,lookupProvider, MODID));
 
-            generator.addProvider(event.includeServer(),new LFTLootTableProvider(packOutput));
+            generator.addProvider(event.includeServer(),new LFTLootTableProvider(packOutput,lookupProvider));
         }if (event.includeClient()) {
             generator.addProvider(event.includeClient(),new Lang_EN(packOutput, helper));
             generator.addProvider(event.includeClient(),new Lang_ZH(packOutput, helper));

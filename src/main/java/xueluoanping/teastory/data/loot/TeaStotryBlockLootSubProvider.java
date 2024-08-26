@@ -5,6 +5,7 @@ import cloud.lemonslice.teastory.block.crops.*;
 import cloud.lemonslice.teastory.block.decorations.BambooLatticeBlock;
 import cloud.lemonslice.teastory.block.drink.DrinkMakerBlock;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.util.StringRepresentable;
@@ -40,8 +41,8 @@ public class TeaStotryBlockLootSubProvider extends BlockLootSubProvider {
     // private final Map<ResourceLocation, LootTable.Builder> map = Maps.newHashMap();
 
 
-    public TeaStotryBlockLootSubProvider() {
-        super(Set.of(), FeatureFlags.REGISTRY.allFlags());
+    public TeaStotryBlockLootSubProvider(HolderLookup.Provider provider) {
+        super(Set.of(), FeatureFlags.REGISTRY.allFlags(),provider);
     }
 
 

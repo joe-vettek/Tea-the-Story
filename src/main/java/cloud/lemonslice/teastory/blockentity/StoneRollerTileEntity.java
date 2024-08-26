@@ -4,6 +4,7 @@ import cloud.lemonslice.teastory.container.StoneRollerContainer;
 import cloud.lemonslice.teastory.recipe.stone_mill.StoneRollerRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -11,13 +12,9 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-
-import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.wrapper.RecipeWrapper;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import xueluoanping.teastory.RecipeRegister;
 import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.block.entity.NormalContainerTileEntity;
@@ -40,39 +37,31 @@ public class StoneRollerTileEntity extends NormalContainerTileEntity {
         super(TileEntityTypeRegistry.STONE_ROLLER_TYPE.get(), pos, state);
     }
 
-    // read
+
     @Override
-    public void load(CompoundTag nbt) {
-        super.load(nbt);
-        this.inputInventory.deserializeNBT(nbt.getCompound("InputInventory"));
-        this.outputInventory.deserializeNBT(nbt.getCompound("OutputInventory"));
+    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider pRegistries) {
+        super.loadAdditional(nbt, pRegistries);
+        this.inputInventory.deserializeNBT(pRegistries, nbt.getCompound("InputInventory"));
+        this.outputInventory.deserializeNBT(pRegistries, nbt.getCompound("OutputInventory"));
         this.processTicks = nbt.getInt("ProcessTicks");
     }
 
-    // write
     @Override
-    protected void saveAdditional(CompoundTag compound) {
-        compound.put("InputInventory", this.inputInventory.serializeNBT());
-        compound.put("OutputInventory", this.outputInventory.serializeNBT());
+    protected void saveAdditional(CompoundTag compound, HolderLookup.Provider pRegistries) {
+        compound.put("InputInventory", this.inputInventory.serializeNBT(pRegistries));
+        compound.put("OutputInventory", this.outputInventory.serializeNBT(pRegistries));
         compound.putInt("ProcessTicks", this.processTicks);
-        super.saveAdditional(compound);
+        super.saveAdditional(compound, pRegistries);
     }
 
 
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (!this.isRemoved()) {
-            if (ForgeCapabilities.ITEM_HANDLER.equals(cap)) {
-                if (side == Direction.DOWN)
-                    return LazyOptional.of(() -> outputInventory).cast();
-                else
-                    return LazyOptional.of(() -> inputInventory).cast();
-            }
-        }
-        return super.getCapability(cap, side);
+    public ItemStackHandler getInputInventory() {
+        return inputInventory;
     }
 
+    public ItemStackHandler getOutputInventory() {
+        return outputInventory;
+    }
 
     public boolean isEmpty() {
         return inputInventory.getStackInSlot(0).isEmpty();
@@ -106,7 +95,7 @@ public class StoneRollerTileEntity extends NormalContainerTileEntity {
             stoneRollerTileEntity.woodenFrameAngel %= 360;
             stoneRollerTileEntity.stoneAngel += 4;
             stoneRollerTileEntity.stoneAngel %= 360;
-            stoneRollerTileEntity.isWorking=true;
+            stoneRollerTileEntity.isWorking = true;
             boolean flag = true;
             for (ItemStack out : stoneRollerTileEntity.currentRecipe.getOutputItems()) {
                 if (!ItemHandlerHelper.insertItem(stoneRollerTileEntity.outputInventory, out.copy(), true).isEmpty()) {
@@ -125,7 +114,7 @@ public class StoneRollerTileEntity extends NormalContainerTileEntity {
             }
         } else {
             stoneRollerTileEntity.setProcessTicks(0);
-            stoneRollerTileEntity.isWorking=false;
+            stoneRollerTileEntity.isWorking = false;
         }
     }
 

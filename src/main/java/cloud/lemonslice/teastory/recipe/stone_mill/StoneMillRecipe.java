@@ -3,13 +3,21 @@ package cloud.lemonslice.teastory.recipe.stone_mill;
 
 import cloud.lemonslice.teastory.blockentity.StoneMillTileEntity;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
+import net.neoforged.neoforge.registries.NewRegistryEvent;
 import xueluoanping.teastory.craft.BlockEntityRecipeWrapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import cloud.lemonslice.silveroak.common.recipe.FluidIngredient;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
@@ -46,14 +54,15 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
             if (inv.getBlockEntity() instanceof StoneMillTileEntity stoneMillTileEntity) {
                 FluidStack fluidStack = stoneMillTileEntity.getFluidTank().getFluidInTank(0).copy();
                 // return outputFluid.test(fluidStack);
-                return stoneMillTileEntity.getFluidTank().fill(getOutputFluid(), IFluidHandler.FluidAction.SIMULATE)==getOutputFluid().getAmount();
+                return stoneMillTileEntity.getFluidTank().fill(getOutputFluid(), IFluidHandler.FluidAction.SIMULATE) == getOutputFluid().getAmount();
             }
         }
         return false;
     }
 
+
     @Override
-    public ItemStack assemble(BlockEntityRecipeWrapper p_44001_, RegistryAccess p_267165_) {
+    public ItemStack assemble(BlockEntityRecipeWrapper p_44001_, HolderLookup.Provider p_267165_) {
         return !this.outputItems.isEmpty() ? this.outputItems.get(0).copy() : ItemStack.EMPTY.copy();
     }
 
@@ -62,8 +71,9 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
         return true;
     }
 
+
     @Override
-    public ItemStack getResultItem(RegistryAccess p_267052_) {
+    public ItemStack getResultItem(HolderLookup.Provider pRegistries) {
         return !this.outputItems.isEmpty() ? this.outputItems.get(0) : ItemStack.EMPTY;
     }
 
@@ -98,7 +108,7 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
         return this.group;
     }
 
-    @Override
+    // @Override
     public ResourceLocation getId() {
         return this.id;
     }
@@ -115,6 +125,8 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
 
 
     public static class StoneMillRecipeSerializer extends NewRegistryEvent implements RecipeSerializer<StoneMillRecipe> {
+
+
         private static NonNullList<ItemStack> readItems(JsonArray array) {
             NonNullList<ItemStack> nonnulllist = NonNullList.create();
             for (int i = 0; i < array.size(); ++i) {
@@ -207,12 +219,21 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
                 buffer.writeItemStack(ingredient, false);
             }
 
-            FluidIngredient fluidIngredient=FluidIngredient.EMPTY;
+            FluidIngredient fluidIngredient = FluidIngredient.EMPTY;
             buffer.writeFluidStack(recipe.getOutputFluid());
 
             buffer.writeVarInt(recipe.getWorkTime());
         }
 
 
+        @Override
+        public MapCodec<StoneMillRecipe> codec() {
+            return null;
+        }
+
+        @Override
+        public StreamCodec<RegistryFriendlyByteBuf, StoneMillRecipe> streamCodec() {
+            return null;
+        }
     }
 }

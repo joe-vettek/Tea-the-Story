@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
@@ -11,9 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.items.wrapper.RecipeWrapper;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.NewRegistryEvent;
+import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import xueluoanping.teastory.RecipeRegister;
 
 import javax.annotation.Nullable;
@@ -42,8 +41,9 @@ public class StoneRollerRecipe implements Recipe<RecipeWrapper> {
         return false;
     }
 
+
     @Override
-    public ItemStack assemble(RecipeWrapper p_44001_, RegistryAccess p_267165_) {
+    public ItemStack assemble(RecipeWrapper p_44001_, HolderLookup.Provider p_267165_) {
         return !this.outputItems.isEmpty() ? this.outputItems.get(0).copy() : ItemStack.EMPTY.copy();
     }
 
@@ -53,7 +53,7 @@ public class StoneRollerRecipe implements Recipe<RecipeWrapper> {
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess p_267052_) {
+    public ItemStack getResultItem(HolderLookup.Provider p_267052_) {
         return !this.outputItems.isEmpty() ? this.outputItems.get(0) : ItemStack.EMPTY;
     }
 
@@ -97,7 +97,7 @@ public class StoneRollerRecipe implements Recipe<RecipeWrapper> {
     }
 
 
-    public static class StoneRollerRecipeSerializer extends NewRegistryEvent implements RecipeSerializer<StoneRollerRecipe> {
+    public static class StoneRollerRecipeSerializer implements RecipeSerializer<StoneRollerRecipe> {
 
 
         private static NonNullList<ItemStack> readItems(JsonArray array) {

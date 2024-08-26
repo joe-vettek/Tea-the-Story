@@ -6,8 +6,8 @@ import net.minecraft.world.item.crafting.*;
 import xueluoanping.teastory.RecipeRegister;
 
 public class BambooTrayIndoorsRecipe extends BambooTraySingleInRecipe {
-    public BambooTrayIndoorsRecipe(ResourceLocation idIn, String groupIn, Ingredient ingredientIn, ItemStack resultIn, int workTime) {
-        super(idIn, groupIn, ingredientIn, resultIn, workTime);
+    public BambooTrayIndoorsRecipe(String groupIn, Ingredient ingredientIn, ItemStack resultIn, int workTime) {
+        super( groupIn, ingredientIn, resultIn, workTime);
     }
 
     @Override

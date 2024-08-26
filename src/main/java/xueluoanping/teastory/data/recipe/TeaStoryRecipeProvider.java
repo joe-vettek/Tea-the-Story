@@ -1,8 +1,9 @@
 package xueluoanping.teastory.data.recipe;
 
 
+import cloud.lemonslice.teastory.recipe.special.FlowerDyeRecipe;
 import cloud.lemonslice.teastory.tag.NormalTags;
-import cloud.lemonslice.silveroak.common.recipe.FluidIngredient;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.tags.ItemTags;
@@ -12,36 +13,44 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import xueluoanping.teastory.*;
 import xueluoanping.teastory.data.recipe.builder.BambooTrayRecipeBuilder;
 import xueluoanping.teastory.data.recipe.builder.DrinkRecipeBuilder;
 import xueluoanping.teastory.data.recipe.builder.StoneMillRecipeBuilder;
 import xueluoanping.teastory.data.recipe.builder.StoneRollerRecipeBuilder;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 public final class TeaStoryRecipeProvider extends RecipeProvider {
 
-    public TeaStoryRecipeProvider(PackOutput generator) {
-        super(generator);
+    public TeaStoryRecipeProvider(PackOutput generator, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+        super(generator, lookupProvider);
+    }
+
+    @Override
+    protected void buildRecipes(RecipeOutput pRecipeOutput, HolderLookup.Provider holderLookup) {
+        super.buildRecipes(pRecipeOutput, holderLookup);
     }
 
 
     @Override
-    protected void buildRecipes(Consumer<FinishedRecipe> consumer) {
+    protected void buildRecipes(RecipeOutput consumer) {
         // Special Custom Recipes 自定义特殊配方
-        SpecialRecipeBuilder.special(RecipeRegister.CRAFTING_SPECIAL_FLOWERDYE.get()).save(consumer, "teastory:flower_dye");
+        SpecialRecipeBuilder.special(FlowerDyeRecipe::new).save(consumer, "teastory:flower_dye");
 
         // Decoration Recipes 装饰品配方
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ItemRegister.BAMBOO_PLANK.get()).define('x', Items.BAMBOO).pattern("xx").pattern("xx").group("bamboo_plank").unlockedBy("has_bamboo", has(Items.BAMBOO)).save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockRegister.BAMBOO_DOOR.get(), 3).define('x', ItemRegister.BAMBOO_PLANK.get()).pattern("xx").pattern("xx").pattern("xx").group("bamboo_door").unlockedBy("has_bamboo_plank", has(ItemRegister.BAMBOO_PLANK.get())).save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockRegister.BAMBOO_GLASS_DOOR.get(), 3).define('x', ItemRegister.BAMBOO_PLANK.get()).define('#', Tags.Items.GLASS_COLORLESS).pattern("##").pattern("xx").pattern("xx").group("bamboo_glass_door").unlockedBy("has_bamboo_plank", has(ItemRegister.BAMBOO_PLANK.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockRegister.BAMBOO_GLASS_DOOR.get(), 3).define('x', ItemRegister.BAMBOO_PLANK.get()).define('#', Tags.Items.GLASS_PANES_COLORLESS).pattern("##").pattern("xx").pattern("xx").group("bamboo_glass_door").unlockedBy("has_bamboo_plank", has(ItemRegister.BAMBOO_PLANK.get())).save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockRegister.BAMBOO_CHAIR.get()).define('x', ItemRegister.BAMBOO_PLANK.get()).define('#', Items.BAMBOO).pattern("  #").pattern("xxx").pattern("# #").group("bamboo_chair").unlockedBy("has_bamboo_plank", has(ItemRegister.BAMBOO_PLANK.get())).save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockRegister.BAMBOO_LANTERN.get()).define('x', Blocks.TORCH).define('#', Items.BAMBOO).pattern("###").pattern("#x#").pattern("###").group("bamboo_lantern").unlockedBy("has_bamboo", has(Items.BAMBOO)).save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockRegister.BAMBOO_TABLE.get()).define('x', ItemRegister.BAMBOO_PLANK.get()).define('#', Items.BAMBOO).pattern("xxx").pattern("# #").pattern("# #").group("bamboo_table").unlockedBy("has_bamboo_plank", has(ItemRegister.BAMBOO_PLANK.get())).save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, TileEntityTypeRegistry.BAMBOO_TRAY.get()).define('x', ItemRegister.BAMBOO_PLANK.get()).define('#', Items.BAMBOO).pattern("# #").pattern("#x#").group("bamboo_tray").unlockedBy("has_bamboo_plank", has(ItemRegister.BAMBOO_PLANK.get())).save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockRegister.WOODEN_FRAME.get()).define('x', Tags.Items.RODS_WOODEN).define('#', ItemTags.PLANKS).pattern("#x#").pattern("x#x").pattern("x x").group("wooden_frame").unlockedBy("has_plank", has(ItemTags.PLANKS)).save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockRegister.FRESH_BAMBOO_WALL.get(), 2).define('x', Items.BAMBOO).define('#', Tags.Items.STRING).pattern("xxx").pattern("###").pattern("xxx").group("fresh_bamboo_wall").unlockedBy("has_bamboo", has(Items.BAMBOO)).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockRegister.FRESH_BAMBOO_WALL.get(), 2).define('x', Items.BAMBOO).define('#', Tags.Items.STRINGS).pattern("xxx").pattern("###").pattern("xxx").group("fresh_bamboo_wall").unlockedBy("has_bamboo", has(Items.BAMBOO)).save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockRegister.WOODEN_TABLE.get()).define('x', ItemTags.PLANKS).define('#', Tags.Items.RODS_WOODEN).pattern("xxx").pattern("# #").pattern("# #").group("wooden_table").unlockedBy("has_plank", has(ItemTags.PLANKS)).save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockRegister.WOODEN_CHAIR.get()).define('x', ItemTags.PLANKS).define('#', Tags.Items.RODS_WOODEN).pattern("x  ").pattern("xxx").pattern("# #").group("wooden_chair").unlockedBy("has_plank", has(ItemTags.PLANKS)).save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockRegister.STONE_TABLE.get()).define('x', Blocks.STONE).define('#', Blocks.COBBLESTONE_WALL).pattern("xxx").pattern("# #").pattern("# #").group("stone_table").unlockedBy("has_stone", has(Blocks.STONE)).save(consumer);
@@ -84,7 +93,7 @@ public final class TeaStoryRecipeProvider extends RecipeProvider {
 
         // Tool & Ingredient Recipes 工具和原料配方
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ItemRegister.WOODEN_AQUEDUCT_SHOVEL.get()).define('#', Items.WOODEN_SHOVEL).define('*', ItemTags.PLANKS).pattern(" * ").pattern(" # ").group("aqueduct_shovel").unlockedBy("has_shovel", has(Items.WOODEN_SHOVEL)).save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ItemRegister.STONE_AQUEDUCT_SHOVEL.get()).define('#', Items.STONE_SHOVEL).define('*', Tags.Items.COBBLESTONE).pattern(" * ").pattern(" # ").group("aqueduct_shovel").unlockedBy("has_shovel", has(Items.STONE_SHOVEL)).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ItemRegister.STONE_AQUEDUCT_SHOVEL.get()).define('#', Items.STONE_SHOVEL).define('*', Tags.Items.COBBLESTONES).pattern(" * ").pattern(" # ").group("aqueduct_shovel").unlockedBy("has_shovel", has(Items.STONE_SHOVEL)).save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ItemRegister.GOLD_AQUEDUCT_SHOVEL.get()).define('#', Items.GOLDEN_SHOVEL).define('*', Tags.Items.INGOTS_GOLD).pattern(" * ").pattern(" # ").group("aqueduct_shovel").unlockedBy("has_shovel", has(Items.GOLDEN_SHOVEL)).save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ItemRegister.IRON_AQUEDUCT_SHOVEL.get()).define('#', Items.IRON_SHOVEL).define('*', Tags.Items.INGOTS_IRON).pattern(" * ").pattern(" # ").group("aqueduct_shovel").unlockedBy("has_shovel", has(Items.IRON_SHOVEL)).save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ItemRegister.DIAMOND_AQUEDUCT_SHOVEL.get()).define('#', Items.DIAMOND_SHOVEL).define('*', Tags.Items.GEMS_DIAMOND).pattern(" * ").pattern(" # ").group("aqueduct_shovel").unlockedBy("has_shovel", has(Items.DIAMOND_SHOVEL)).save(consumer);
@@ -171,7 +180,7 @@ public final class TeaStoryRecipeProvider extends RecipeProvider {
 
         DrinkRecipeBuilder.boilingRecipe(FluidRegistry.WEAK_GREEN_TEA_STILL.get(), Ingredient.of(NormalTags.Items.CROPS_GREEN_TEA_LEAF), Ingredient.of(NormalTags.Items.CROPS_GREEN_TEA_LEAF)).build(consumer);
         DrinkRecipeBuilder.boilingRecipe(FluidRegistry.GREEN_TEA_STILL.get(), Ingredient.of(ItemRegister.GREEN_TEA_BAG.get())).build(consumer, "teastory:green_tea_bag");
-        DrinkRecipeBuilder.drinkRecipe(FluidRegistry.GREEN_TEA_STILL.get(), FluidIngredient.fromFluid(FluidRegistry.WEAK_GREEN_TEA_STILL.get(), 500), Ingredient.of(NormalTags.Items.CROPS_GREEN_TEA_LEAF), Ingredient.of(NormalTags.Items.CROPS_GREEN_TEA_LEAF), Ingredient.of(NormalTags.Items.CROPS_GREEN_TEA_LEAF)).build(consumer, "teastory:weak_to_green_tea");
+        DrinkRecipeBuilder.drinkRecipe(FluidRegistry.GREEN_TEA_STILL.get(), SizedFluidIngredient.of(FluidRegistry.WEAK_GREEN_TEA_STILL.get(), 500), Ingredient.of(NormalTags.Items.CROPS_GREEN_TEA_LEAF), Ingredient.of(NormalTags.Items.CROPS_GREEN_TEA_LEAF), Ingredient.of(NormalTags.Items.CROPS_GREEN_TEA_LEAF)).build(consumer, "teastory:weak_to_green_tea");
         DrinkRecipeBuilder.boilingRecipe(FluidRegistry.GREEN_TEA_STILL.get(), Ingredient.of(NormalTags.Items.CROPS_GREEN_TEA_LEAF), Ingredient.of(NormalTags.Items.CROPS_GREEN_TEA_LEAF), Ingredient.of(NormalTags.Items.CROPS_GREEN_TEA_LEAF), Ingredient.of(NormalTags.Items.CROPS_GREEN_TEA_LEAF)).build(consumer);
         DrinkRecipeBuilder.boilingRecipe(FluidRegistry.STRONG_GREEN_TEA_STILL.get(), Ingredient.of(ItemRegister.GREEN_TEA_BAG.get()), Ingredient.of(ItemRegister.GREEN_TEA_BAG.get())).build(consumer, "teastory:strong_green_tea_bag");
         DrinkRecipeBuilder.drinkRecipe(FluidRegistry.STRONG_GREEN_TEA_STILL.get(), FluidIngredient.fromFluid(FluidRegistry.GREEN_TEA_STILL.get(), 500), Ingredient.of(NormalTags.Items.CROPS_GREEN_TEA_LEAF), Ingredient.of(NormalTags.Items.CROPS_GREEN_TEA_LEAF), Ingredient.of(NormalTags.Items.CROPS_GREEN_TEA_LEAF), Ingredient.of(NormalTags.Items.CROPS_GREEN_TEA_LEAF)).build(consumer);

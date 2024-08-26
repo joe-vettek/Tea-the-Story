@@ -1,29 +1,26 @@
 package cloud.lemonslice.teastory.recipe.bamboo_tray;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.items.wrapper.RecipeWrapper;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.NewRegistryEvent;
+
+import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class BambooTraySingleInRecipe implements Recipe<RecipeWrapper> {
-    protected final ResourceLocation id;
     protected final String group;
     protected final Ingredient ingredient;
     protected final ItemStack result;
     protected final int workTime;
 
-    public BambooTraySingleInRecipe(ResourceLocation idIn, String groupIn, Ingredient ingredientIn, ItemStack resultIn, int workTime) {
-        this.id = idIn;
+    public BambooTraySingleInRecipe(String groupIn, Ingredient ingredientIn, ItemStack resultIn, int workTime) {
         this.group = groupIn;
         this.ingredient = ingredientIn;
         this.result = resultIn;
@@ -36,8 +33,13 @@ public abstract class BambooTraySingleInRecipe implements Recipe<RecipeWrapper> 
     }
 
     @Override
-    public ItemStack assemble(RecipeWrapper p_44001_, RegistryAccess p_267165_) {
+    public ItemStack assemble(RecipeWrapper pInput, HolderLookup.Provider pRegistries) {
         return this.result.copy();
+    }
+
+    @Override
+    public ItemStack getResultItem(HolderLookup.Provider pRegistries) {
+        return this.result;
     }
 
 
@@ -46,10 +48,6 @@ public abstract class BambooTraySingleInRecipe implements Recipe<RecipeWrapper> 
         return true;
     }
 
-    @Override
-    public ItemStack getResultItem(RegistryAccess p_267052_) {
-        return this.result;
-    }
 
     @Override
     public NonNullList<Ingredient> getIngredients() {
@@ -74,60 +72,56 @@ public abstract class BambooTraySingleInRecipe implements Recipe<RecipeWrapper> 
         return this.group;
     }
 
-    @Override
-    public ResourceLocation getId() {
-        return this.id;
-    }
 
-    public static class BambooTraySingleInRecipeSerializer<T extends BambooTraySingleInRecipe> extends NewRegistryEvent implements RecipeSerializer<T> {
+    public static class BambooTraySingleInRecipeSerializer<T extends BambooTraySingleInRecipe> implements RecipeSerializer<T> {
+        public final MapCodec<T> codec;
+        public final StreamCodec<RegistryFriendlyByteBuf, T> streamCodec;
+
         private final int workTime;
         private final IFactory<T> factory;
 
         public BambooTraySingleInRecipeSerializer(IFactory<T> factory, int timeIn) {
             this.workTime = timeIn;
             this.factory = factory;
+            this.codec = RecordCodecBuilder.mapCodec(
+                    recipeInstance -> recipeInstance.group(
+                                    Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group),
+                                    Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(BambooTraySingleInRecipe::getIngredient),
+                                    ItemStack.STRICT_CODEC.fieldOf("result").forGetter(recipe -> recipe.result),
+                                    Codec.INT.optionalFieldOf("work_time", this.workTime).forGetter(BambooTraySingleInRecipe::getWorkTime)
+                            )
+                            .apply(recipeInstance, this.factory::create)
+            );
+            this.streamCodec = StreamCodec.of(this::toNetwork, this::fromNetwork);
         }
 
-
-        @Override
-        public T fromJson(ResourceLocation recipeId, JsonObject json) {
-            String group = json.has("group") ? json.get("group").getAsString() : "";
-            JsonElement jsonelement = json.get("ingredient");
-            Ingredient ingredient = Ingredient.fromJson(jsonelement);
-            if (!json.has("result"))
-                throw new JsonSyntaxException("Missing result, expected to find a string or object");
-            ItemStack result;
-            if (json.get("result").isJsonObject())
-                result = ShapedRecipe.itemStackFromJson(json.getAsJsonObject("result"));
-            else {
-                result = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(json.get("result").getAsString())));
-                if (result.isEmpty()) {
-                    throw new JsonSyntaxException("Result cannot be null");
-                }
-            }
-            int i = json.has("work_time") ? json.get("work_time").getAsInt() : this.workTime;
-            return this.factory.create(recipeId, group, ingredient, result, i);
-        }
-
-        @Override
-        public @Nullable T fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+        public @Nullable T fromNetwork(RegistryFriendlyByteBuf buffer) {
             String group = buffer.readUtf(32767);
-            Ingredient ingredient = Ingredient.fromNetwork(buffer);
-            ItemStack itemstack = buffer.readItem();
+            Ingredient ingredient = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
+            ItemStack itemstack = ItemStack.STREAM_CODEC.decode(buffer);
             int i = buffer.readVarInt();
-            return this.factory.create(recipeId, group, ingredient, itemstack, i);
+            return this.factory.create(group, ingredient, itemstack, i);
         }
 
-        @Override
-        public void toNetwork(FriendlyByteBuf buffer, BambooTraySingleInRecipe recipe) {
+        public void toNetwork(RegistryFriendlyByteBuf buffer, T recipe) {
             buffer.writeUtf(recipe.getGroup());
-            recipe.getIngredient().toNetwork(buffer);
-            buffer.writeItemStack(recipe.getRecipeOutput(), false);
+            Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.ingredient);
+            ItemStack.STREAM_CODEC.encode(buffer, recipe.result);
             buffer.writeVarInt(recipe.getWorkTime());
         }
 
+        @Override
+        public MapCodec<T> codec() {
+            return codec;
+        }
+
+        @Override
+        public StreamCodec<RegistryFriendlyByteBuf, T> streamCodec() {
+            return streamCodec;
+        }
+
         public interface IFactory<T extends BambooTraySingleInRecipe> {
-            T create(ResourceLocation resourceLocation, String group, Ingredient ingredient, ItemStack result, int workingTime);
+            T create(String group, Ingredient ingredient, ItemStack result, int workingTime);
         }
     }
 }

@@ -4,6 +4,7 @@ package xueluoanping.teastory.data.recipe.builder;
 import cloud.lemonslice.teastory.recipe.bamboo_tray.BambooTraySingleInRecipe;
 import com.google.gson.JsonObject;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -60,7 +61,7 @@ public class BambooTrayRecipeBuilder
         this.build(consumerIn, ForgeRegistries.ITEMS.getKey(this.result));
     }
 
-    public void build(Consumer<FinishedRecipe> consumerIn, String save)
+    public void build(RecipeOutput consumerIn, String save)
     {
         ResourceLocation originRes = ForgeRegistries.ITEMS.getKey(this.result);
         ResourceLocation saveRes = ResourceLocation.tryParse(save);
@@ -74,7 +75,7 @@ public class BambooTrayRecipeBuilder
         }
     }
 
-    public void build(Consumer<FinishedRecipe> consumerIn, ResourceLocation id)
+    public void build(RecipeOutput consumerIn, ResourceLocation id)
     {
         consumerIn.accept(new Result(id, this.ingredient, this.result, this.workTime, this.recipeSerializer));
     }

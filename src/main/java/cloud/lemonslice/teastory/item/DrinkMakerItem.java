@@ -1,6 +1,6 @@
 package cloud.lemonslice.teastory.item;
 
-import cloud.lemonslice.silveroak.helper.BlockHelper;
+import xueluoanping.teastory.block.BlockHelper;
 import cloud.lemonslice.teastory.block.drink.DrinkMakerBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -34,7 +34,7 @@ public class DrinkMakerItem extends BlockItem {
             BlockPos pos = context.getClickedPos();
             BlockState iblockstate = worldIn.getBlockState(pos);
             Block block = iblockstate.getBlock();
-            boolean flag = block.canBeReplaced(iblockstate, new BlockPlaceContext(context));
+            boolean flag = iblockstate.canBeReplaced( new BlockPlaceContext(context));
 
             if (!flag) {
                 pos = pos.above();
@@ -47,11 +47,11 @@ public class DrinkMakerItem extends BlockItem {
 
                 BlockPos blockpos = pos.relative(BlockHelper.getNextHorizontal(enumfacing));
                 boolean left = false, right = false;
-                if (player.mayUseItemAt(blockpos, context.getClickedFace(), itemstack) && (worldIn.getBlockState(blockpos).getBlock().canBeReplaced(worldIn.getBlockState(blockpos), new BlockPlaceContext(context)) || worldIn.isEmptyBlock(blockpos)) && worldIn.getBlockState(blockpos.below()).isFaceSturdy(worldIn, blockpos.below(), Direction.UP)) {
+                if (player.mayUseItemAt(blockpos, context.getClickedFace(), itemstack) && (worldIn.getBlockState(blockpos).canBeReplaced( new BlockPlaceContext(context)) || worldIn.isEmptyBlock(blockpos)) && worldIn.getBlockState(blockpos.below()).isFaceSturdy(worldIn, blockpos.below(), Direction.UP)) {
                     left = true;
                 } else {
                     blockpos = pos.relative(BlockHelper.getPreviousHorizontal(enumfacing));
-                    if (player.mayUseItemAt(blockpos, context.getClickedFace(), itemstack) && (worldIn.getBlockState(blockpos).getBlock().canBeReplaced(worldIn.getBlockState(blockpos), new BlockPlaceContext(context)) || worldIn.isEmptyBlock(blockpos)) && worldIn.getBlockState(blockpos.below()).isFaceSturdy(worldIn, blockpos.below(), Direction.UP)) {
+                    if (player.mayUseItemAt(blockpos, context.getClickedFace(), itemstack) && (worldIn.getBlockState(blockpos).canBeReplaced( new BlockPlaceContext(context)) || worldIn.isEmptyBlock(blockpos)) && worldIn.getBlockState(blockpos.below()).isFaceSturdy(worldIn, blockpos.below(), Direction.UP)) {
                         right = true;
                     }
                 }

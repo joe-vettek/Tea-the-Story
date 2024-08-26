@@ -95,7 +95,7 @@ public class DrinkMakerTileEntity extends NormalContainerTileEntity {
         if (tileEntity.getFluidAmount() != 0 && !tileEntity.isIngredientsEmpty()) {
             var warp = new MultiRecipeWrapper(tileEntity.ingredientsInventory, tileEntity.residuesInventory, tileEntity.containerInventory);
             if (tileEntity.currentRecipe == null || !tileEntity.currentRecipe.matches(warp, worldIn)) {
-                tileEntity.currentRecipe = worldIn.getRecipeManager().getRecipeFor(RecipeRegister.DRINK_MAKER.get(), warp, worldIn).orElse(null);
+                tileEntity.currentRecipe = worldIn.getRecipeManager().getRecipeFor(RecipeRegister.DRINK_MAKER.get(), warp, worldIn).orElse(null).value();
             }
             if (tileEntity.currentRecipe != null && tileEntity.isEnoughAmount()) {
                 tileEntity.processTicks++;

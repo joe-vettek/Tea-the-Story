@@ -1,4 +1,4 @@
-package cloud.lemonslice.teastory.item;
+package xueluoanping.teastory.item;
 
 
 import cloud.lemonslice.teastory.recipe.drink.DrinkEffectManager;
@@ -8,7 +8,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -16,19 +15,19 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.fluids.BaseFlowingFluid;
+import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
-import org.jetbrains.annotations.NotNull;
 import xueluoanping.teastory.FluidRegistry;
-import xueluoanping.teastory.TeaStory;
+import xueluoanping.teastory.ModCapabilities;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.BiConsumer;
 
 
-public class CupDrinkItem extends Item {
+public class CupDrinkItem extends Item implements FluidContainerItem {
 
     public int capacity;
 
@@ -39,57 +38,29 @@ public class CupDrinkItem extends Item {
 
 
     @Override
-    public ICapabilityProvider initCapabilities(@NotNull ItemStack stack, @org.jetbrains.annotations.Nullable CompoundTag nbt) {
-        return new FluidHandlerItemStack(stack, capacity) {
-            @Nonnull
-            @Override
-            @SuppressWarnings("deprecation")
-            public ItemStack getContainer() {
-                return getFluid().isEmpty() ? new ItemStack(CupDrinkItem.this.getCraftingRemainingItem()) : this.container;
-            }
-
-            @Override
-            public boolean isFluidValid(int tank, @Nonnull FluidStack stack) {
-                return stack.getFluid().is(NormalTags.Fluids.DRINK);
-                // return true;
-            }
-        };
+    public int getCapacity() {
+        return this.capacity;
     }
 
-    @Override
-    public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
-        super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
-    }
 
     @Override
-    public void appendHoverText(ItemStack stack, @org.jetbrains.annotations.Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, TooltipContext worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
-        if (stack.getOrCreateTag().contains(FLUID_NBT_KEY)) {
-            FluidUtil.getFluidHandler(stack).ifPresent(f ->
-                    tooltip.add(MutableComponent.create((f.getFluidInTank(0).getHoverName()).getContents()).append(String.format(": %d / %dmB", f.getFluidInTank(0).getAmount(), capacity)).withStyle(ChatFormatting.GRAY)));
-        }
+        FluidUtil.getFluidHandler(stack).ifPresent(f ->
+                tooltip.add(MutableComponent.create((f.getFluidInTank(0).getHoverName()).getContents()).append(String.format(": %d / %dmB", f.getFluidInTank(0).getAmount(), capacity)).withStyle(ChatFormatting.GRAY)));
     }
 
 
     // @Override
     public void fillItemGroup(CreativeModeTab.Output group) {
-        // if (group == TeaStory.GROUP_DRINK)
-        {
-            // for (Fluid fluid : FluidTags.getCollection().getTagByID(new ResourceLocation("teastory:drink")).getAllElements())
-            for (var fluid : FluidRegistry.FLUIDS.getEntries()) {
-                if (fluid.get() instanceof ForgeFlowingFluid.Source) {
+        // for (Fluid fluid : FluidTags.getCollection().getTagByID(new ResourceLocation("teastory:drink")).getAllElements())
+        for (var fluid : FluidRegistry.FLUIDS.getEntries()) {
+            if (fluid.is(NormalTags.Fluids.DRINK))
+                if (fluid.get() instanceof BaseFlowingFluid.Source) {
                     ItemStack itemStack = new ItemStack(this);
-                    CompoundTag fluidTag = new CompoundTag();
-                    new FluidStack(fluid.get(), capacity).writeToNBT(fluidTag);
-                    itemStack.getOrCreateTag().put(FLUID_NBT_KEY, fluidTag);
+                    itemStack.set(ModCapabilities.SIMPLE_FLUID, SimpleFluidContent.copyOf(new FluidStack(fluid.get(), capacity)));
                     group.accept(itemStack);
                 }
-            }
-            // ItemStack itemStack = new ItemStack(this);
-            // CompoundNBT fluidTag = new CompoundNBT();
-            // new FluidStack(FluidRegistry.BOILING_WATER_STILL.get(), capacity).writeToNBT(fluidTag);
-            // itemStack.getOrCreateTag().put(FLUID_NBT_KEY, fluidTag);
-            // items.add(itemStack);
         }
     }
 
@@ -146,10 +117,7 @@ public class CupDrinkItem extends Item {
 
 
     public static boolean canDrink(ItemStack stack) {
-        if (stack.getOrCreateTag().contains(FLUID_NBT_KEY)) {
-            return FluidUtil.getFluidContained(stack).map(f -> f.getFluid().is(NormalTags.Fluids.DRINK)).orElse(false);
-        }
-        return false;
+        return FluidUtil.getFluidContained(stack).map(f -> f.getFluid().is(NormalTags.Fluids.DRINK)).orElse(false);
         // return true;
     }
 }

@@ -47,8 +47,12 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
+import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 import xueluoanping.teastory.*;
+import xueluoanping.teastory.fluid.TeaFluidType;
 import xueluoanping.teastory.resource.ClientModFilePackResources;
 import xueluoanping.teastory.resource.ServerModFilePackResources;
 import xueluoanping.teastory.variant.Planks;
@@ -66,17 +70,31 @@ public class ClientSetup {
         return layerToCheck == RenderType.cutoutMipped() || layerToCheck == RenderType.translucent();
     }
 
+    @SubscribeEvent
+    public static void onRegisterClientExtensionsEvent(RegisterClientExtensionsEvent event) {
+
+        FluidRegistry.FLUIDS.getEntries().forEach(holder -> {
+
+            if (holder.get().getFluidType() instanceof TeaFluidType teaFluidType
+                    && holder.get() instanceof BaseFlowingFluid baseFlowingFluid)
+                event.registerFluidType(TeaFluidType.getIClientFluidTypeExtensions(teaFluidType), baseFlowingFluid.getFluidType());
+        });
+
+    }
+
+    @SubscribeEvent
+    public static void onRegisterMenuScreensEvent(RegisterMenuScreensEvent event) {
+        event.register(TileEntityTypeRegistry.BAMBOO_TRAY_CONTAINER.get(), BambooTrayGui::new);
+        event.register(TileEntityTypeRegistry.DRINK_MAKER_CONTAINER.get(), DrinkMakerGui::new);
+        event.register(TileEntityTypeRegistry.STONE_MILL_CONTAINER.get(), StoneMillGui::new);
+        event.register(TileEntityTypeRegistry.STONE_ROLLER_CONTAINER.get(), StoneRollerGui::new);
+        event.register(TileEntityTypeRegistry.STOVE_CONTAINER.get(), StoveGui::new);
+    }
 
     @SubscribeEvent
     public static void onClientEvent(FMLClientSetupEvent event) {
         TeaStory.logger("Register Client");
         event.enqueueWork(() -> {
-            MenuScreens.register(TileEntityTypeRegistry.BAMBOO_TRAY_CONTAINER.get(), BambooTrayGui::new);
-            MenuScreens.register(TileEntityTypeRegistry.DRINK_MAKER_CONTAINER.get(), DrinkMakerGui::new);
-            MenuScreens.register(TileEntityTypeRegistry.STONE_MILL_CONTAINER.get(), StoneMillGui::new);
-            MenuScreens.register(TileEntityTypeRegistry.STONE_ROLLER_CONTAINER.get(), StoneRollerGui::new);
-            MenuScreens.register(TileEntityTypeRegistry.STOVE_CONTAINER.get(), StoveGui::new);
-
             ItemBlockRenderTypes.setRenderLayer(BlockRegister.stone_campfire.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(BlockRegister.DRY_HAYSTACK.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(BlockRegister.WET_HAYSTACK.get(), RenderType.cutout());

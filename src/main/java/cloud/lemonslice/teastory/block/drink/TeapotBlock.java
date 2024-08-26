@@ -116,7 +116,7 @@ public class TeapotBlock extends NormalHorizontalBlock implements EntityBlock {
             worldIn.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
         } else {
             var te = worldIn.getBlockEntity(pos);
-            FluidUtil.getFluidHandler(ItemHandlerHelper.copyStackWithSize(player.getItemInHand(handIn), 1)).ifPresent(item ->
+            FluidUtil.getFluidHandler(player.getItemInHand(handIn).copy()).ifPresent(item ->
                     te.getCapability(ForgeCapabilities.FLUID_HANDLER, hit.getDirection()).ifPresent(fluid ->
                             FluidUtil.interactWithFluidHandler(player, handIn, fluid)));
         }

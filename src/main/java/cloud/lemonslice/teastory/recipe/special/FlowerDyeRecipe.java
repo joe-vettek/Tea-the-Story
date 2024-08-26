@@ -1,10 +1,12 @@
 package cloud.lemonslice.teastory.recipe.special;
 
 
+import cloud.lemonslice.teastory.block.crops.HybridizableFlowerBlock;
 import cloud.lemonslice.teastory.block.crops.flower.FlowerColor;
 import cloud.lemonslice.teastory.item.HybridizableFlowerBlockItem;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
@@ -58,7 +60,7 @@ public class FlowerDyeRecipe extends CustomRecipe {
                 }
             }
         }
-        FlowerColor color = FlowerColor.getFlowerColor(itemstack.getOrCreateTag().getString("color"));
+        FlowerColor color = itemstack.get(DataComponents.BLOCK_STATE).get(HybridizableFlowerBlock.FLOWER_COLOR);
         if (color.getDye() != null) {
             return new ItemStack(color.getDye(), 2);
         }

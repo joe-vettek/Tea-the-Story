@@ -1,7 +1,7 @@
 package cloud.lemonslice.teastory.blockentity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -9,26 +9,17 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.NotNull;
 import xueluoanping.teastory.FluidRegistry;
-import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.TileEntityTypeRegistry;
-import xueluoanping.teastory.block.entity.NormalContainerTileEntity;
 import xueluoanping.teastory.block.entity.SyncedBlockEntity;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 
 public class TeapotTileEntity extends SyncedBlockEntity {
-    private final LazyOptional<FluidTank> fluidTank = LazyOptional.of(this::createFluidHandler);
+    private final FluidTank fluidTank = createFluidHandler();
     private final int capacity;
 
     public TeapotTileEntity(int capacity, BlockPos pos, BlockState state) {
@@ -43,28 +34,17 @@ public class TeapotTileEntity extends SyncedBlockEntity {
         return TileEntityTypeRegistry.TEAPOT_TYPE.get();
     }
 
-    @Nonnull
+
     @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (!this.isRemoved()) {
-            if (ForgeCapabilities.FLUID_HANDLER.equals(cap)) {
-                return fluidTank.cast();
-            }
-        }
-        return super.getCapability(cap, side);
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider pRegistries) {
+        super.loadAdditional(tag, pRegistries);
+        this.fluidTank.readFromNBT(pRegistries, tag.getCompound("FluidTank"));
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
-        this.fluidTank.ifPresent(f -> f.readFromNBT(tag.getCompound("FluidTank")));
-    }
-
-    // write
-    @Override
-    protected void saveAdditional(CompoundTag tag) {
-        fluidTank.ifPresent(f -> tag.put("FluidTank", f.writeToNBT(new CompoundTag())));
-        super.saveAdditional(tag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider pRegistries) {
+        tag.put("FluidTank", this.fluidTank.writeToNBT(pRegistries, new CompoundTag()));
+        super.saveAdditional(tag, pRegistries);
     }
 
 
@@ -83,11 +63,11 @@ public class TeapotTileEntity extends SyncedBlockEntity {
     }
 
     public FluidTank getFluidTank() {
-        return this.fluidTank.orElse(new FluidTank(0));
+        return this.fluidTank;
     }
 
     public Fluid getFluid() {
-        return this.fluidTank.map(f -> f.getFluid().getFluid()).orElse(Fluids.EMPTY);
+        return this.fluidTank.getFluid().getFluid();
     }
 
     public int getFluidAmount() {
@@ -95,12 +75,14 @@ public class TeapotTileEntity extends SyncedBlockEntity {
     }
 
     public void setFluidTank(FluidStack stack) {
-        this.fluidTank.ifPresent(f -> f.setFluid(stack));
+        this.fluidTank.setFluid(stack);
     }
 
     public void setFluid(Fluid fluid) {
-        this.fluidTank.ifPresent(f -> f.setFluid(new FluidStack(fluid, getFluidAmount())));
-        inventoryChanged();
+        if (fluid != Fluids.EMPTY) {
+            this.fluidTank.setFluid(new FluidStack(fluid, getFluidAmount()));
+            inventoryChanged();
+        }
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, TeapotTileEntity teapotTileEntity) {

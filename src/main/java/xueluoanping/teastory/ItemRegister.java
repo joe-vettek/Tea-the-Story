@@ -4,16 +4,12 @@ package xueluoanping.teastory;
 import cloud.lemonslice.teastory.item.*;
 import cloud.lemonslice.teastory.item.food.NormalFoods;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.neoforged.neoforge.capabilities.ICapabilityProvider;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import xueluoanping.teastory.client.SoundEventsRegistry;
+import xueluoanping.teastory.item.CupDrinkItem;
 
 
 // import static xueluoanping.fluiddrawerslegacy.FluidDrawersLegacyMod.CREATIVE_TAB;
@@ -57,19 +53,19 @@ public class ItemRegister {
     // DRINK 饮品
     public static DeferredHolder<Item, Item> CLAY_CUP = ModItems.register("clay_cup", () -> new Item(new Item.Properties()));
     public static DeferredHolder<Item, Item> CLAY_TEAPOT = ModItems.register("clay_teapot", () -> new Item(new Item.Properties()));
-    public static DeferredHolder<Item, Item> PORCELAIN_CUP = ModItems.register("porcelain_cup", () -> new ItemFluidContainer(new Item.Properties(), 250) {
+    public static DeferredHolder<Item, Item> PORCELAIN_CUP = ModItems.register("porcelain_cup", () -> new CupDrinkItem(250, new Item.Properties()){
+        @Override
+        public ItemStack getCraftingRemainingItem(ItemStack itemStack) {
+            return new ItemStack(PORCELAIN_CUP_DRINK.get());
+        }
+    });
+    public static DeferredHolder<Item, Item> BOTTLE = ModItems.register("bottle", () -> new CupDrinkItem(500, new Item.Properties()) {
+        @Override
+        public ItemStack getCraftingRemainingItem(ItemStack itemStack) {
+            return new ItemStack(BOTTLE_DRINK.get());
+        }
+    });
 
-        @Override
-        public ICapabilityProvider initCapabilities(@NotNull ItemStack stack, @org.jetbrains.annotations.Nullable CompoundTag nbt) {
-            return super.initCapabilities(new ItemStack(PORCELAIN_CUP_DRINK.get()), nbt);
-        }
-    });
-    public static DeferredHolder<Item, Item> BOTTLE = ModItems.register("bottle", () -> new ItemFluidContainer(new Item.Properties(), 500) {
-        @Override
-        public ICapabilityProvider initCapabilities(@NotNull ItemStack stack, @org.jetbrains.annotations.Nullable CompoundTag nbt) {
-            return super.initCapabilities(new ItemStack(BOTTLE_DRINK.get()), nbt);
-        }
-    });
 
     public static  DeferredHolder<Item,CupDrinkItem> PORCELAIN_CUP_DRINK = ModItems.register("porcelain_cup_drink", () -> new CupDrinkItem(250, new Item.Properties().craftRemainder(PORCELAIN_CUP.get()).stacksTo(1)));
     public static  DeferredHolder<Item,CupDrinkItem> BOTTLE_DRINK = ModItems.register("bottle_drink", () -> new CupDrinkItem(500, new Item.Properties().craftRemainder(BOTTLE.get()).stacksTo(1)));
@@ -119,16 +115,16 @@ public class ItemRegister {
     public static DeferredHolder<Item, Item> CHICKEN_BURGER = ModItems.register("chicken_burger", () -> new Item(new Item.Properties().food(NormalFoods.CHICKEN_BURGER)));
 
 
-    public static DeferredHolder<Item, Item> PICKING_TEA_RECORD = ModItems.register("picking_tea", () -> new SRecordItem(1, () -> SoundEventsRegistry.RECORD_PICKING_TEA, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
-    public static DeferredHolder<Item, Item> SPRING_FESTIVAL_OVERTURE_RECORD = ModItems.register("spring_festival_overture", () -> new SRecordItem(2, () -> SoundEventsRegistry.RECORD_SPRING_FESTIVAL_OVERTURE, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
-    public static DeferredHolder<Item, Item> FLOWERS_AND_MOON_RECORD = ModItems.register("flowers_moon", () -> new SRecordItem(3, () -> SoundEventsRegistry.RECORD_FLOWERS_AND_MOON, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
-    public static DeferredHolder<Item, Item> MOVING_UP_RECORD = ModItems.register("moving_up", () -> new SRecordItem(4, () -> SoundEventsRegistry.RECORD_MOVING_UP, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
-    public static DeferredHolder<Item, Item> JOYFUL_RECORD = ModItems.register("joyful", () -> new SRecordItem(5, () -> SoundEventsRegistry.RECORD_JOYFUL, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
-    public static DeferredHolder<Item, Item> DANCING_GOLDEN_SNAKE_RECORD = ModItems.register("dancing_golden_snake", () -> new SRecordItem(6, () -> SoundEventsRegistry.RECORD_DANCING_GOLDEN_SNAKE, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
-    public static DeferredHolder<Item, Item> GREEN_WILLOW_RECORD = ModItems.register("green_willow", () -> new SRecordItem(7, () -> SoundEventsRegistry.RECORD_GREEN_WILLOW, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
-    public static DeferredHolder<Item, Item> PURPLE_BAMBOO_MELODY_RECORD = ModItems.register("purple_bamboo_melody", () -> new SRecordItem(8, () -> SoundEventsRegistry.RECORD_PURPLE_BAMBOO_MELODY, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
-    public static DeferredHolder<Item, Item> WELCOME_MARCH_RECORD = ModItems.register("welcome_march", () -> new SRecordItem(9, () -> SoundEventsRegistry.RECORD_WELCOME_MARCH, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
-
+    // public static DeferredHolder<Item, Item> PICKING_TEA_RECORD = ModItems.register("picking_tea", () -> new SRecordItem(1, () -> SoundEventsRegistry.RECORD_PICKING_TEA, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
+    // public static DeferredHolder<Item, Item> SPRING_FESTIVAL_OVERTURE_RECORD = ModItems.register("spring_festival_overture", () -> new SRecordItem(2, () -> SoundEventsRegistry.RECORD_SPRING_FESTIVAL_OVERTURE, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
+    // public static DeferredHolder<Item, Item> FLOWERS_AND_MOON_RECORD = ModItems.register("flowers_moon", () -> new SRecordItem(3, () -> SoundEventsRegistry.RECORD_FLOWERS_AND_MOON, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
+    // public static DeferredHolder<Item, Item> MOVING_UP_RECORD = ModItems.register("moving_up", () -> new SRecordItem(4, () -> SoundEventsRegistry.RECORD_MOVING_UP, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
+    // public static DeferredHolder<Item, Item> JOYFUL_RECORD = ModItems.register("joyful", () -> new SRecordItem(5, () -> SoundEventsRegistry.RECORD_JOYFUL, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
+    // public static DeferredHolder<Item, Item> DANCING_GOLDEN_SNAKE_RECORD = ModItems.register("dancing_golden_snake", () -> new SRecordItem(6, () -> SoundEventsRegistry.RECORD_DANCING_GOLDEN_SNAKE, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
+    // public static DeferredHolder<Item, Item> GREEN_WILLOW_RECORD = ModItems.register("green_willow", () -> new SRecordItem(7, () -> SoundEventsRegistry.RECORD_GREEN_WILLOW, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
+    // public static DeferredHolder<Item, Item> PURPLE_BAMBOO_MELODY_RECORD = ModItems.register("purple_bamboo_melody", () -> new SRecordItem(8, () -> SoundEventsRegistry.RECORD_PURPLE_BAMBOO_MELODY, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
+    // public static DeferredHolder<Item, Item> WELCOME_MARCH_RECORD = ModItems.register("welcome_march", () -> new SRecordItem(9, () -> SoundEventsRegistry.RECORD_WELCOME_MARCH, new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(), 10));
+    //
 
 }
 

@@ -91,6 +91,8 @@ public class TeaStory {
         EntityTypeRegistry.ENTITY_TYPE_DEFERRED_REGISTER.register(modEventBus);
 
         LootRegister.LOOT_MODIFIERS.register(modEventBus);
+
+        ModCapabilities.ATTACHMENT_TYPES.register(modEventBus);
         // ModContents.DRMenuType.register(modEventBus);
 
         // ModContents.init();
@@ -104,11 +106,11 @@ public class TeaStory {
 
 
     public static ResourceLocation rl(String id) {
-        return  ResourceLocation.fromNamespaceAndPath(MODID, id);
+        return ResourceLocation.fromNamespaceAndPath(MODID, id);
     }
 
     public static ResourceLocation rl(String namespace, String id) {
-        return  ResourceLocation.fromNamespaceAndPath(namespace, id);
+        return ResourceLocation.fromNamespaceAndPath(namespace, id);
     }
 
     public void FMLCommonSetup(final FMLCommonSetupEvent event) {

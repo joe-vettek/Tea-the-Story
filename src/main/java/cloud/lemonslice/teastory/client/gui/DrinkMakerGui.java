@@ -16,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import xueluoanping.teastory.TeaStory;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public class DrinkMakerGui extends AbstractContainerScreen<DrinkMakerContainer> {
@@ -66,7 +67,7 @@ public class DrinkMakerGui extends AbstractContainerScreen<DrinkMakerContainer> 
         // float per=container.getTileEntity().getProcessTicks()*1.0f/container.getTileEntity().getTotalTicks();
         // TeaStory.logger(per);
         // guiGraphics.blit(TEXTURE,offsetX+99, offsetY+37, 176, 0, Mth.ceil(20 * per), 16);
-        container.getTileEntity().getFluidHandler().ifPresent(f ->
+        Optional.ofNullable(container.getTileEntity().getFluidHandler()).ifPresent(f ->
         {
             int capacity = f.getTankCapacity(0);
             int height;

@@ -59,7 +59,7 @@ public class BlockRegister {
     public static DeferredHolder<Item, BlockItem> wild_tea_plant_item = ModItems.register("wild_tea_plant", () -> new BlockItem(wild_tea_plant.get(), new Item.Properties()));
     public static DeferredHolder<Item, BlockItem> TEA_SEEDS = ModItems.register("tea_seeds", () -> new BlockItem(tea_plant.get(), new Item.Properties()));
 
-    public static DeferredHolder<Block, MelonVineBlock> WATERMELON_VINE = ModBlocks.register("watermelon_vine", () -> new MelonVineBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY), Blocks.MELON));
+    public static DeferredHolder<Block, MelonVineBlock> WATERMELON_VINE = ModBlocks.register("watermelon_vine", () -> new MelonVineBlock(Blocks.MELON, Block.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
 
     public static DeferredHolder<Block, WildGrapeBlock> WILD_GRAPE = ModBlocks.register("wild_grape", () -> new WildGrapeBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
     public static DeferredHolder<Item, BlockItem> WILD_GRAPE_ITEM = ModItems.register("wild_grape", () -> new BlockItem(WILD_GRAPE.get(), new Item.Properties()));

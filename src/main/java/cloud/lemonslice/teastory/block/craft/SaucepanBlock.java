@@ -115,9 +115,9 @@ public class SaucepanBlock extends NormalHorizontalBlock {
     @Override
     public @Nullable BlockState getStateForPlacement(BlockPlaceContext context) {
         BlockState state = super.getStateForPlacement(context);
-        if (state != null && context.getItemInHand().getOrCreateTag().contains("lid")) {
-            state = state.setValue(LID, context.getItemInHand().getOrCreateTag().getBoolean("lid"));
-        }
+        // if (state != null && context.getItemInHand().getOrCreateTag().contains("lid")) {
+        //     state = state.setValue(LID, context.getItemInHand().getOrCreateTag().getBoolean("lid"));
+        // }
         return state;
     }
 

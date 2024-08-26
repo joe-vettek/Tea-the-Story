@@ -4,6 +4,7 @@ package cloud.lemonslice.teastory.client.color.item;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 
 public class BucketItemColors implements ItemColor
 {
@@ -12,7 +13,7 @@ public class BucketItemColors implements ItemColor
     {
         if (itemStack.getItem() instanceof BucketItem bucketItem && tintIndex == 1)
         {
-            return net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions.of(bucketItem.getFluid()).getTintColor();
+            return IClientFluidTypeExtensions.of(bucketItem.content).getTintColor();
         }
         return -1;
     }

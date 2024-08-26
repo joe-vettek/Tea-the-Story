@@ -1,11 +1,18 @@
 package cloud.lemonslice.teastory.recipe.drink;
 
+import cloud.lemonslice.teastory.recipe.bamboo_tray.BambooTraySingleInRecipe;
 import com.google.common.collect.Lists;
 import com.google.gson.*;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
@@ -13,9 +20,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 
+import net.neoforged.neoforge.common.util.RecipeMatcher;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import xueluoanping.teastory.RecipeRegister;
 
@@ -23,14 +32,12 @@ import java.util.List;
 
 
 public class DrinkRecipe implements Recipe<RecipeWrapper> {
-    protected final ResourceLocation id;
     protected final String group;
-    protected final NonNullList<Ingredient> ingredients;
-    protected final FluidIngredient fluidIngredient;
-    protected final Fluid result;
+    protected final List<Ingredient> ingredients;
+    protected final SizedFluidIngredient fluidIngredient;
+    protected final SizedFluidIngredient result;
 
-    public DrinkRecipe(ResourceLocation idIn, String groupIn, NonNullList<Ingredient> ingredientIn, FluidIngredient fluidIn, Fluid resultIn) {
-        this.id = idIn;
+    public DrinkRecipe(String groupIn, List<Ingredient> ingredientIn, SizedFluidIngredient fluidIn, SizedFluidIngredient resultIn) {
         this.group = groupIn;
         this.ingredients = ingredientIn;
         this.fluidIngredient = fluidIn;
@@ -43,12 +50,13 @@ public class DrinkRecipe implements Recipe<RecipeWrapper> {
         List<ItemStack> inputs = Lists.newArrayList();
         return FluidUtil.getFluidHandler(inv.getItem(8).copy()).map(h ->
         {
-            if (fluidIngredient.getMatchingFluidStacks().isEmpty()) {
+            if (fluidIngredient.getStacks().length == 0) {
                 return false;
             } else {
                 boolean flag = false;
                 for (FluidStack fluidStack : fluidIngredient.getStacks()) {
-                    if (h.getFluidInTank(0).containsFluid(fluidStack)) {
+                    if (FluidStack.isSameFluid(h.getFluidInTank(0), fluidStack)
+                            && h.getFluidInTank(0).getAmount() > fluidStack.getAmount()) {
                         flag = true;
                         break;
                     }
@@ -67,13 +75,14 @@ public class DrinkRecipe implements Recipe<RecipeWrapper> {
         }).orElse(false);
     }
 
+
     @Override
-    public ItemStack assemble(RecipeWrapper inv, RegistryAccess p_267165_) {
+    public ItemStack assemble(RecipeWrapper inv, HolderLookup.Provider pRegistries) {
         return FluidUtil.getFluidHandler(inv.getItem(8).copy()).map(h ->
         {
             ItemStack container = inv.getItem(8).copy();
             CompoundTag fluidTag = new CompoundTag();
-            new FluidStack(result, h.getFluidInTank(0).getAmount()).writeToNBT(fluidTag);
+            new FluidStack(result, h.getFluidInTank(0).getAmount()).save(pRegistries, fluidTag);
             container.getOrCreateTag().put(FLUID_NBT_KEY, fluidTag);
             return container;
         }).orElse(ItemStack.EMPTY);
@@ -85,7 +94,7 @@ public class DrinkRecipe implements Recipe<RecipeWrapper> {
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess p_267052_) {
+    public ItemStack getResultItem(HolderLookup.Provider p_267052_) {
         return ItemStack.EMPTY;
     }
 
@@ -96,7 +105,7 @@ public class DrinkRecipe implements Recipe<RecipeWrapper> {
         {
             ItemStack container = inv.getItem(8).copy();
             CompoundTag fluidTag = new CompoundTag();
-            new FluidStack(result, h.getFluidInTank(0).getAmount()).writeToNBT(fluidTag);
+            (result.getFluids()[0]).save(fluidTag);
             container.getOrCreateTag().put(FLUID_NBT_KEY, fluidTag);
             return container;
         }).orElse(ItemStack.EMPTY));
@@ -104,25 +113,20 @@ public class DrinkRecipe implements Recipe<RecipeWrapper> {
 
 
     @Override
-    public ResourceLocation getId() {
-        return this.id;
-    }
-
-    @Override
     public NonNullList<Ingredient> getIngredients() {
-        return ingredients;
+        return NonNullList.copyOf(ingredients);
     }
 
     public Fluid getFluidResult() {
-        return result;
+        return result.getFluids()[0].getFluid();
     }
 
-    public FluidIngredient getFluidIngredient() {
+    public SizedFluidIngredient getFluidIngredient() {
         return fluidIngredient;
     }
 
     public int getFluidAmount() {
-        return fluidIngredient.getMatchingFluidStacks().get(0).getAmount();
+        return fluidIngredient.getStacks()[0].getAmount();
     }
 
     @Override
@@ -142,41 +146,21 @@ public class DrinkRecipe implements Recipe<RecipeWrapper> {
     }
 
 
+    public static class DrinkRecipeSerializer implements RecipeSerializer<DrinkRecipe> {
+        public static final MapCodec<DrinkRecipe> codec = RecordCodecBuilder.mapCodec(
+                recipeInstance -> recipeInstance.group(
+                                Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group),
+                                Ingredient.LIST_CODEC_NONEMPTY.fieldOf("item_ingredients").forGetter(r -> r.ingredients),
+                                SizedFluidIngredient.FLAT_CODEC.optionalFieldOf("fluid_ingredient", SizedFluidIngredient.of(FluidStack.EMPTY)).forGetter(r -> r.fluidIngredient),
+                                SizedFluidIngredient.FLAT_CODEC.fieldOf("drink_result").forGetter(r -> r.result)
+                        )
+                        .apply(recipeInstance, DrinkRecipe::new)
+        );
+        public static final StreamCodec<RegistryFriendlyByteBuf, DrinkRecipe> streamCodec =
+                StreamCodec.of(DrinkRecipeSerializer::toNetwork, DrinkRecipeSerializer::fromNetwork);
 
 
-    public static class DrinkRecipeSerializer extends NewRegistryEvent implements RecipeSerializer<DrinkRecipe> {
-
-
-        private static NonNullList<Ingredient> readIngredients(JsonArray array) {
-            NonNullList<Ingredient> nonnulllist = NonNullList.create();
-            for (int i = 0; i < array.size(); ++i) {
-                Ingredient ingredient = Ingredient.fromJson(array.get(i));
-                if (!ingredient.isEmpty()) {
-                    nonnulllist.add(ingredient);
-                }
-            }
-            return nonnulllist;
-        }
-
-
-        @Override
-        public DrinkRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
-            String group = json.has("group") ? json.get("group").getAsString() : "";
-            NonNullList<Ingredient> ingredients = readIngredients(json.getAsJsonArray("item_ingredients"));
-            if (ingredients.isEmpty()) {
-                throw new JsonParseException("No ingredients for drink recipe");
-            } else {
-                FluidIngredient fluidIngredient = FluidIngredient.deserialize(json.get("fluid_ingredient"));
-                Fluid result = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(json.get("drink_result").getAsString()));
-                if (result == null || result == Fluids.EMPTY) {
-                    throw new JsonSyntaxException("Result cannot be null");
-                }
-                return new DrinkRecipe(recipeId, group, ingredients, fluidIngredient, result);
-            }
-        }
-
-        @Override
-        public @org.jetbrains.annotations.Nullable DrinkRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+        public static DrinkRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
             String group = buffer.readUtf(32767);
 
             int i = buffer.readVarInt();
@@ -187,11 +171,11 @@ public class DrinkRecipe implements Recipe<RecipeWrapper> {
 
             FluidIngredient fluidIngredient = FluidIngredient.read(buffer);
             Fluid result = buffer.readFluidStack().getFluid();
-            return new DrinkRecipe(recipeId, group, ingredients, fluidIngredient, result);
+            return new DrinkRecipe(group, ingredients, fluidIngredient, result);
         }
 
-        @Override
-        public void toNetwork(FriendlyByteBuf buffer, DrinkRecipe recipe) {
+
+        public static void toNetwork(RegistryFriendlyByteBuf buffer, DrinkRecipe recipe) {
             buffer.writeUtf(recipe.getGroup());
             buffer.writeVarInt(recipe.getIngredients().size());
 
@@ -203,5 +187,14 @@ public class DrinkRecipe implements Recipe<RecipeWrapper> {
             buffer.writeFluidStack(new FluidStack(recipe.getFluidResult(), 1));
         }
 
+        @Override
+        public MapCodec<DrinkRecipe> codec() {
+            return codec;
+        }
+
+        @Override
+        public StreamCodec<RegistryFriendlyByteBuf, DrinkRecipe> streamCodec() {
+            return streamCodec;
+        }
     }
 }
