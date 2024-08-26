@@ -2,19 +2,15 @@ package xueluoanping.teastory.client;
 
 import cloud.lemonslice.teastory.block.crops.TrellisBlock;
 import cloud.lemonslice.teastory.block.crops.TrellisWithVineBlock;
-import cloud.lemonslice.teastory.client.gui.RenderUtil;
-import cloud.lemonslice.teastory.client.render.XYZ;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.SimpleBakedModel;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -23,18 +19,19 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.shapes.IdenticalMerger;
-import net.minecraftforge.client.model.IDynamicBakedModel;
-import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.common.util.ConcatenatedListView;
+
+import net.neoforged.neoforge.client.model.IDynamicBakedModel;
+import net.neoforged.neoforge.client.model.data.ModelData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.blockentity.VineEntity;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.IdentityHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class WarpBakeModel implements IDynamicBakedModel {
 
@@ -42,14 +39,18 @@ public class WarpBakeModel implements IDynamicBakedModel {
     private final Map<BlockState, List<BakedQuad>> stateListMap = new IdentityHashMap<>();
     private final TextureAtlasSprite cache;
     private final ItemOverrides itemOverrides;
-    public static final ResourceLocation grape_leaves_on_beam = TeaStory.rl("block/grape_leaves_on_beam");
-    public static final ResourceLocation grape_on_post_0 = TeaStory.rl("block/grape_on_post_0");
-    public static final ResourceLocation grape_on_post_1 = TeaStory.rl("block/grape_on_post_1");
-    public static final ResourceLocation grape_on_post_2 = TeaStory.rl("block/grape_on_post_2");
-    public static final ResourceLocation grape_on_post_3 = TeaStory.rl("block/grape_on_post_3");
-    public static final List<ResourceLocation> grapesRes = List.of(grape_on_post_0, grape_on_post_1, grape_on_post_2, grape_on_post_3);
+    public static final ModelResourceLocation grape_leaves_on_beam = mrl("block/grape_leaves_on_beam");
+    public static final ModelResourceLocation grape_on_post_0 = mrl("block/grape_on_post_0");
+    public static final ModelResourceLocation grape_on_post_1 = mrl("block/grape_on_post_1");
+    public static final ModelResourceLocation grape_on_post_2 = mrl("block/grape_on_post_2");
+    public static final ModelResourceLocation grape_on_post_3 = mrl("block/grape_on_post_3");
+    public static final List<ModelResourceLocation> grapesRes = List.of(grape_on_post_0, grape_on_post_1, grape_on_post_2, grape_on_post_3);
     public static final List<BakedModel> grapes = new ArrayList<>();
 
+    public static ModelResourceLocation mrl(String s) {
+        return ModelResourceLocation.standalone(TeaStory.rl(s));
+    }
+    
     public WarpBakeModel(BakedModel bakedModel, TextureAtlasSprite cache) {
         this.bakedModel = bakedModel;
         this.cache = cache;
@@ -59,9 +60,8 @@ public class WarpBakeModel implements IDynamicBakedModel {
 
     @Override
     public @NotNull List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @NotNull RandomSource rand, @NotNull ModelData extraData, @Nullable RenderType renderType) {
-        // List<BakedQuad> bakedQuads = stateListMap.get(state);
+        List<BakedQuad> bakedQuads = stateListMap.get(state);
         // if (ll == null)
-        List<BakedQuad> bakedQuads = new ArrayList<>();
         {
             if (state == null) {
                 if (side != null) return List.of();
@@ -69,15 +69,11 @@ public class WarpBakeModel implements IDynamicBakedModel {
                 for (Direction value : Direction.values()) {
                     bakedQuads.addAll(bakedModel.getQuads(null, value, rand, extraData, renderType));
                 }
-                // stateListMap.put(null, bakedQuads);
+                stateListMap.put(null, bakedQuads);
             } else {
                 bakedQuads = bakedModel.getQuads(state, side, rand, extraData, renderType);
-                // stateListMap.put(state, bakedQuads);
+                stateListMap.put(state, bakedQuads);
             }
-            if (!(bakedQuads instanceof ArrayList)) {
-                bakedQuads = new ArrayList<>(bakedQuads);
-            }
-
             for (int i = 0; i < bakedQuads.size(); i++) {
                 bakedQuads.set(i, new BakedQuadRetextured(bakedQuads.get(i), cache));
             }
@@ -86,11 +82,10 @@ public class WarpBakeModel implements IDynamicBakedModel {
                     bakedQuads.addAll(Minecraft.getInstance().getModelManager().getModel(grape_leaves_on_beam).getQuads(null, null, rand));
                 }
                 if (state.getValue(TrellisBlock.POST)) {
-                    int age = 0;
+                    int age=0;
                     try {
-                        age = extraData.get(VineEntity.AGE_PROPERTY);
-                    } catch (Exception e) {
-                    }
+                        age=extraData.get(VineEntity.AGE_PROPERTY);
+                    }catch (Exception e){}
                     bakedQuads.addAll(grapes.get(age).getQuads(null, null, rand));
                 }
             }

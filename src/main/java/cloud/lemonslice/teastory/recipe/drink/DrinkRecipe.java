@@ -1,6 +1,5 @@
 package cloud.lemonslice.teastory.recipe.drink;
 
-import cloud.lemonslice.silveroak.common.recipe.FluidIngredient;
 import com.google.common.collect.Lists;
 import com.google.gson.*;
 import net.minecraft.core.NonNullList;
@@ -13,17 +12,14 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.util.RecipeMatcher;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.items.wrapper.RecipeWrapper;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.NewRegistryEvent;
+
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
 import xueluoanping.teastory.RecipeRegister;
 
 import java.util.List;
 
-import static net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack.FLUID_NBT_KEY;
 
 public class DrinkRecipe implements Recipe<RecipeWrapper> {
     protected final ResourceLocation id;
@@ -50,7 +46,7 @@ public class DrinkRecipe implements Recipe<RecipeWrapper> {
                 return false;
             } else {
                 boolean flag = false;
-                for (FluidStack fluidStack : fluidIngredient.getMatchingFluidStacks()) {
+                for (FluidStack fluidStack : fluidIngredient.getStacks()) {
                     if (h.getFluidInTank(0).containsFluid(fluidStack)) {
                         flag = true;
                         break;

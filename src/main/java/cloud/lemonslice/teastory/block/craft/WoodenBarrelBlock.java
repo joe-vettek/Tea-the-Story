@@ -7,7 +7,7 @@ import cloud.lemonslice.teastory.tag.NormalTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -25,12 +25,13 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.fluids.FluidUtil;
 import org.jetbrains.annotations.Nullable;
 import xueluoanping.teastory.ItemRegister;
 import xueluoanping.teastory.TileEntityTypeRegistry;
+
+import java.util.Optional;
 
 public class WoodenBarrelBlock extends Block implements EntityBlock {
     private static final VoxelShape SHAPE;
@@ -45,21 +46,19 @@ public class WoodenBarrelBlock extends Block implements EntityBlock {
     }
 
 
-
     @Override
     @SuppressWarnings("deprecation")
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+    public ItemInteractionResult useItemOn(ItemStack pStack, BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         if (!worldIn.isClientSide()) {
-            var te = worldIn.getBlockEntity(pos);
-            if (FluidUtil.getFluidHandler(ItemHandlerHelper.copyStackWithSize(player.getItemInHand(handIn), 1)).isPresent()) {
-                return te.getCapability(ForgeCapabilities.FLUID_HANDLER, hit.getDirection()).map(fluidTank ->
+            if (FluidUtil.getFluidHandler(pStack.copy()).isPresent()) {
+                return Optional.ofNullable(worldIn.getCapability(Capabilities.FluidHandler.BLOCK, pos, hit.getDirection())).map(fluidTank ->
                 {
                     FluidUtil.interactWithFluidHandler(player, handIn, fluidTank);
-                    return InteractionResult.SUCCESS;
-                }).orElse(InteractionResult.FAIL);
+                    return ItemInteractionResult.SUCCESS;
+                }).orElse(ItemInteractionResult.FAIL);
             }
         }
-        return InteractionResult.SUCCESS;
+        return ItemInteractionResult.SUCCESS;
     }
 
 

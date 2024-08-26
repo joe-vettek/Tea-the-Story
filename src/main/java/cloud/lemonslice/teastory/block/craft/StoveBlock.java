@@ -39,14 +39,14 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import org.jetbrains.annotations.Nullable;
 import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.block.NormalHorizontalBlock;
 import xueluoanping.teastory.block.entity.NormalContainerTileEntity;
+
+import java.util.Optional;
 
 
 public class StoveBlock extends NormalHorizontalBlock implements IStoveBlock, EntityBlock
@@ -91,7 +91,7 @@ public class StoveBlock extends NormalHorizontalBlock implements IStoveBlock, En
 
             BlockEntity te = worldIn.getBlockEntity (pos);
 
-            te.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.DOWN).ifPresent(inv ->
+            Optional.ofNullable(worldIn.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.DOWN)).ifPresent(inv ->
             {
                 int ash = inv.getStackInSlot(0).getCount();
                 if (ash < 32)
@@ -117,8 +117,9 @@ public class StoveBlock extends NormalHorizontalBlock implements IStoveBlock, En
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+    public InteractionResult useWithoutItem(BlockState state, Level worldIn, BlockPos pos, Player player,  BlockHitResult hit) {
         BlockEntity te = worldIn.getBlockEntity (pos);
+        InteractionHand handIn =player.getUsedItemHand();
         Item held = player.getItemInHand(handIn).getItem();
         if (held == TileEntityTypeRegistry.BAMBOO_TRAY_ITEM.get()
                 || held == TileEntityTypeRegistry.IRON_KETTLE_ITEM.get()
@@ -133,7 +134,7 @@ public class StoveBlock extends NormalHorizontalBlock implements IStoveBlock, En
                 if (!worldIn.isClientSide())
                 {
                     // ((StoveTileEntity) te).refresh();
-                    NetworkHooks.openScreen((ServerPlayer) player, (MenuProvider) te, te.getBlockPos());
+                    player.openMenu((MenuProvider) te, te.getBlockPos());
                 }
                 return InteractionResult.SUCCESS;
             }
@@ -154,7 +155,7 @@ public class StoveBlock extends NormalHorizontalBlock implements IStoveBlock, En
                 }
                 else if (ForgeHooks.getBurnTime(player.getItemInHand(handIn),RecipeType.SMELTING) > 0)
                 {
-                    te.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP).ifPresent(fuel ->
+                    Optional.ofNullable(worldIn.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.UP)).ifPresent(fuel ->
                     {
                         player.setItemInHand(handIn, fuel.insertItem(0, player.getItemInHand(handIn), false));
                         te.setChanged();
@@ -186,7 +187,7 @@ public class StoveBlock extends NormalHorizontalBlock implements IStoveBlock, En
         BlockEntity te = worldIn.getBlockEntity (pos);
         if (te != null)
         {
-            te.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.DOWN).ifPresent(ash ->
+            Optional.ofNullable(worldIn.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.DOWN)).ifPresent(ash ->
             {
                 for (int i = ash.getSlots() - 1; i >= 0; --i)
                 {
@@ -205,7 +206,7 @@ public class StoveBlock extends NormalHorizontalBlock implements IStoveBlock, En
         BlockEntity te = worldIn.getBlockEntity (pos);
         if (te != null)
         {
-            te.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP).ifPresent(fuel ->
+            Optional.ofNullable(worldIn.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.UP)).ifPresent(fuel ->
             {
                 for (int i = fuel.getSlots() - 1; i >= 0; --i)
                 {
@@ -246,7 +247,7 @@ public class StoveBlock extends NormalHorizontalBlock implements IStoveBlock, En
 
         if (tileentity != null)
         {
-            tileentity.invalidateCaps();
+            tileentity.invalidateCapabilities();
             worldIn.setBlockEntity(tileentity);
         }
     }

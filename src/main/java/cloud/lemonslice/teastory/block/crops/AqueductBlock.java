@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -34,9 +35,10 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.Tags;
-import org.jetbrains.annotations.Nullable;
 
+import net.neoforged.neoforge.common.Tags;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 
 import java.util.List;
@@ -46,7 +48,7 @@ public class AqueductBlock extends HorizontalConnectedBlock implements SimpleWat
     public static final BooleanProperty BLOCKED = BooleanProperty.create("blocked");
     public static final BooleanProperty BOTTOM = BooleanProperty.create("bottom");
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    protected static  VoxelShape[] SHAPES;
+    protected static VoxelShape[] SHAPES;
     protected static final VoxelShape FULL_SHAPE = VoxelShapeHelper.createVoxelShape(0, 0, 0, 16, 15, 16);
 
     public AqueductBlock(Properties properties) {
@@ -63,9 +65,8 @@ public class AqueductBlock extends HorizontalConnectedBlock implements SimpleWat
     }
 
 
-    // onBlockActivated
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+    protected @NotNull InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player pPlayer, BlockHitResult pHitResult) {
         if (state.getValue(BLOCKED)) {
             level.setBlockAndUpdate(pos, state.setValue(BLOCKED, false));
             level.scheduleTick(pos, this, Fluids.WATER.getTickDelay(level));
@@ -73,7 +74,13 @@ public class AqueductBlock extends HorizontalConnectedBlock implements SimpleWat
                 popResource(level, pos, new ItemStack(Blocks.GRAVEL));
             }
             return InteractionResult.SUCCESS;
-        } else if (player.getItemInHand(handIn).getItem() == Blocks.GRAVEL.asItem() && !state.getValue(BLOCKED)) {
+        }
+        return super.useWithoutItem(state, level, pos, pPlayer, pHitResult);
+    }
+
+    @Override
+    protected ItemInteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult pHitResult) {
+        if (player.getItemInHand(handIn).getItem() == Blocks.GRAVEL.asItem() && !state.getValue(BLOCKED)) {
             level.setBlockAndUpdate(pos, state.setValue(BLOCKED, true).setValue(WATERLOGGED, false).setValue(DISTANCE, 32));
             if (level instanceof ServerLevel) {
                 updateWater((ServerLevel) level, pos.north(), state);
@@ -82,17 +89,17 @@ public class AqueductBlock extends HorizontalConnectedBlock implements SimpleWat
                 updateWater((ServerLevel) level, pos.west(), state);
             }
             player.getItemInHand(handIn).shrink(1);
-            return InteractionResult.SUCCESS;
+            return ItemInteractionResult.SUCCESS;
         } else {
             return fillAqueduct(level, pos, player, handIn);
         }
     }
 
-    public InteractionResult fillAqueduct(Level worldIn, BlockPos pos, Player player, InteractionHand handIn) {
-        if (player.getItemInHand(handIn).is(Tags.Items.COBBLESTONE)) {
+    public ItemInteractionResult fillAqueduct(Level worldIn, BlockPos pos, Player player, InteractionHand handIn) {
+        if (player.getItemInHand(handIn).is(Tags.Items.COBBLESTONES)) {
             worldIn.setBlockAndUpdate(pos, Blocks.COBBLESTONE.defaultBlockState());
-            return InteractionResult.SUCCESS;
-        } else return InteractionResult.PASS;
+            return ItemInteractionResult.SUCCESS;
+        } else return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
 
@@ -269,13 +276,13 @@ public class AqueductBlock extends HorizontalConnectedBlock implements SimpleWat
 
     // pickupFluid
     @Override
-    public ItemStack pickupBlock(LevelAccessor accessor, BlockPos pos, BlockState state) {
+    public ItemStack pickupBlock(@javax.annotation.Nullable Player pPlayer, LevelAccessor accessor, BlockPos pos, BlockState state) {
         return ItemStack.EMPTY;
     }
 
     // canPlaceLiquid
     @Override
-    public boolean canPlaceLiquid(BlockGetter blockGetter, BlockPos pos, BlockState state, Fluid fluid) {
+    public boolean canPlaceLiquid(@javax.annotation.Nullable Player pPlayer, BlockGetter blockGetter, BlockPos pos, BlockState state, Fluid fluid) {
         return false;
     }
 
@@ -290,7 +297,6 @@ public class AqueductBlock extends HorizontalConnectedBlock implements SimpleWat
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder.add(DISTANCE, BLOCKED, BOTTOM, WATERLOGGED));
     }
-
 
 
     static {

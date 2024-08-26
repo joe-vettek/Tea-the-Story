@@ -3,12 +3,12 @@ package cloud.lemonslice.teastory.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.network.NetworkHooks;
 import xueluoanping.teastory.EntityTypeRegistry;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public class SeatEntity extends Entity {
 
 
     @Override
-    protected void defineSynchedData() {
+    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
 
     }
 

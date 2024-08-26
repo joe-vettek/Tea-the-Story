@@ -17,7 +17,7 @@ import java.util.List;
 
 public class BambooDoorBlock extends DoorBlock {
     public BambooDoorBlock(BlockBehaviour.Properties pProperties) {
-        super(pProperties,BlockSetType.BAMBOO);
+        super(BlockSetType.BAMBOO, pProperties);
 
     }
 
@@ -31,12 +31,5 @@ public class BambooDoorBlock extends DoorBlock {
         return 60;
     }
 
-    // @Override
-    // public List<ItemStack> getDrops(BlockState pState, LootParams.Builder pParams) {
-    //     List<ItemStack> list = Lists.newArrayList();
-    //     if (pState.getValue(HALF).equals(DoubleBlockHalf.UPPER))
-    //         list.add(new ItemStack(this));
-    //     return list;
-    // }
 
 }

@@ -17,13 +17,13 @@ import net.minecraft.world.level.block.DirtPathBlock;
 import net.minecraft.world.level.block.FarmBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.Tags;
+import net.neoforged.neoforge.common.Tags;
 import xueluoanping.teastory.BlockRegister;
 import cloud.lemonslice.teastory.block.crops.PaddyFieldBlock;
 
 public class AqueductShovelItem extends ShovelItem {
-    public AqueductShovelItem(Tier tier, float attackDamageIn, float attackSpeedIn, Properties builder) {
-        super(tier, attackDamageIn, attackSpeedIn, builder);
+    public AqueductShovelItem(Tier tier,  Properties builder) {
+        super(tier, builder);
     }
 
     // onItemUse
@@ -33,7 +33,7 @@ public class AqueductShovelItem extends ShovelItem {
         BlockPos blockPos = context.getClickedPos();
         BlockState blockState = world.getBlockState(blockPos);
         Player playerEntity = context.getPlayer();
-        if (blockState.is(Tags.Blocks.COBBLESTONE)) {
+        if (blockState.is(Tags.Blocks.COBBLESTONES)) {
             if (!world.isClientSide()) {
                 world.setBlock(blockPos, ((AqueductBlock) BlockRegister.cobblestoneAqueduct.get()).getStateForPlacement(world, blockPos), 3);
                 world.scheduleTick(blockPos, BlockRegister.cobblestoneAqueduct.get(), Fluids.WATER.getTickDelay(world));

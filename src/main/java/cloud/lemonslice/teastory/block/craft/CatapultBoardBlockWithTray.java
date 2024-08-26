@@ -29,15 +29,14 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.network.NetworkHooks;
+
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.block.NormalHorizontalBlock;
-import xueluoanping.teastory.block.entity.NormalContainerTileEntity;
 
-import java.util.Random;
+import java.util.Optional;
 
 public class CatapultBoardBlockWithTray extends NormalHorizontalBlock implements EntityBlock {
     private static final VoxelShape SHAPE = VoxelShapeHelper.createVoxelShape(0, 0, 0, 16, 5, 16);
@@ -85,19 +84,17 @@ public class CatapultBoardBlockWithTray extends NormalHorizontalBlock implements
         worldIn.setBlock(pos, state.setValue(ENABLED, false), Block.UPDATE_CLIENTS);
     }
 
-    private static void dropItems(Level worldIn, BlockPos pos) {
-        var te = worldIn.getBlockEntity(pos);
-        if (te != null) {
-            te.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP).ifPresent(inv ->
-            {
-                for (int i = inv.getSlots() - 1; i >= 0; --i) {
-                    if (inv.getStackInSlot(i) != ItemStack.EMPTY) {
-                        Block.popResource(worldIn, pos, inv.getStackInSlot(i));
-                        ((IItemHandlerModifiable) inv).setStackInSlot(i, ItemStack.EMPTY);
+    private static void dropItems(Level level, BlockPos pos) {
+        Optional.ofNullable(level.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.UP))
+                .ifPresent(inv ->
+                {
+                    for (int i = inv.getSlots() - 1; i >= 0; --i) {
+                        if (inv.getStackInSlot(i) != ItemStack.EMPTY) {
+                            Block.popResource(level, pos, inv.getStackInSlot(i));
+                            ((ItemStackHandler) inv).setStackInSlot(i, ItemStack.EMPTY);
+                        }
                     }
-                }
-            });
-        }
+                });
     }
 
     @Override
@@ -111,28 +108,31 @@ public class CatapultBoardBlockWithTray extends NormalHorizontalBlock implements
 
 
     @Override
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
-        var te = worldIn.getBlockEntity(pos);
+    public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+        InteractionHand handIn = player.getUsedItemHand();
+        var te = level.getBlockEntity(pos);
         if (te instanceof BambooTrayTileEntity) {
-            if (worldIn.isClientSide()) {
+            if (level.isClientSide()) {
                 ((BambooTrayTileEntity) te).refreshSeed();
                 return InteractionResult.SUCCESS;
             }
             if (!player.isShiftKeyDown()) {
                 if (((BambooTrayTileEntity) te).isDoubleClick()) {
-                    dropItems(worldIn, pos);
+                    dropItems(level, pos);
                     return InteractionResult.SUCCESS;
                 }
                 if (!((BambooTrayTileEntity) te).isWorking()) {
-                    dropItems(worldIn, pos);
+                    dropItems(level, pos);
                     te.setChanged();
                 }
                 if (!player.getItemInHand(handIn).isEmpty()) {
-                    te.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP).ifPresent(inv ->
+
+                    Optional.ofNullable(level.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.UP)).ifPresent(inv ->
                     {
                         BambooTraySingleInRecipe recipe = null;
-                        for (var r : worldIn.getRecipeManager().getRecipes()) {
-                            if (r.getType().equals(((BambooTrayTileEntity) te).getRecipeType()) && ((BambooTraySingleInRecipe) r).getIngredient().test(player.getItemInHand(handIn))) {
+                        for (var r : level.getRecipeManager().getRecipes()) {
+
+                            if (r.value().getType().equals(((BambooTrayTileEntity) te).getRecipeType()) && ((BambooTraySingleInRecipe) r).getIngredient().test(player.getItemInHand(handIn))) {
                                 recipe = (BambooTraySingleInRecipe) r;
                                 break;
                             }

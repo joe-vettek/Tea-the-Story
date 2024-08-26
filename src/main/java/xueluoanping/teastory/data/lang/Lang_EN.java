@@ -1,7 +1,7 @@
 package xueluoanping.teastory.data.lang;
 
 import net.minecraft.data.PackOutput;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import xueluoanping.teastory.BlockRegister;
 import xueluoanping.teastory.EntityTypeRegistry;

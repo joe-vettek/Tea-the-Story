@@ -2,21 +2,21 @@ package xueluoanping.teastory.plugin.jei;
 
 
 import cloud.lemonslice.teastory.recipe.drink.DrinkRecipe;
-import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.forge.ForgeTypes;
+
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 
+import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fluids.FluidStack;
+
+import net.neoforged.neoforge.fluids.FluidStack;
 import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.TileEntityTypeRegistry;
 
@@ -79,12 +79,12 @@ public class DrinkMakerCategory implements IRecipeCategory<DrinkRecipe>
         builder.addSlot(RecipeIngredientRole.INPUT,  6, 6)
                 .setFluidRenderer(1000, false, 16, 64)
                 // .setOverlay(getBackground(), 0, 0)
-                .addIngredient(ForgeTypes.FLUID_STACK,drinkRecipe.getFluidIngredient().getMatchingFluidStacks().get(0));
+                .addIngredient(NeoForgeTypes.FLUID_STACK,drinkRecipe.getFluidIngredient().getMatchingFluidStacks().get(0));
 
         builder.addSlot(RecipeIngredientRole.OUTPUT,  127, 6)
                 .setFluidRenderer(1000, false, 16, 64)
                 // .setOverlay(getBackground(), 0, 0)
-                .addIngredient(ForgeTypes.FLUID_STACK, new FluidStack(drinkRecipe.getFluidResult(),500));
+                .addIngredient(NeoForgeTypes.FLUID_STACK, new FluidStack(drinkRecipe.getFluidResult(),500));
 
     }
 

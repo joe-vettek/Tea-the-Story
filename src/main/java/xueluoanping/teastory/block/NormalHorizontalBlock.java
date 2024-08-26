@@ -1,6 +1,7 @@
 package xueluoanping.teastory.block;
 
 import com.google.common.collect.Lists;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
@@ -16,8 +17,15 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class NormalHorizontalBlock extends HorizontalDirectionalBlock {
+    public static final MapCodec<NormalHorizontalBlock> CODEC = simpleCodec(NormalHorizontalBlock::new);
+
     public NormalHorizontalBlock(Properties properties) {
         super(properties);
+    }
+
+    @Override
+    protected MapCodec<? extends NormalHorizontalBlock> codec() {
+        return CODEC;
     }
 
     @Nullable

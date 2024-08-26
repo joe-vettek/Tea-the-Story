@@ -84,13 +84,13 @@ public class PaddyFieldBlock extends HorizontalConnectedBlock implements SimpleW
 
     // pickupFluid
     @Override
-    public ItemStack pickupBlock(LevelAccessor accessor, BlockPos pos, BlockState state) {
+    public ItemStack pickupBlock(Player player,LevelAccessor accessor, BlockPos pos, BlockState state) {
         return new ItemStack(Items.WATER_BUCKET);
     }
 
     // canPlaceLiquid
     @Override
-    public boolean canPlaceLiquid(BlockGetter blockGetter, BlockPos pos, BlockState state, Fluid fluid) {
+    public boolean canPlaceLiquid(Player player,BlockGetter blockGetter, BlockPos pos, BlockState state, Fluid fluid) {
         return false;
     }
 

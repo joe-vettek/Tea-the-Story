@@ -11,8 +11,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.common.Tags;
 import xueluoanping.teastory.*;
 import xueluoanping.teastory.data.recipe.builder.BambooTrayRecipeBuilder;
 import xueluoanping.teastory.data.recipe.builder.DrinkRecipeBuilder;
@@ -26,6 +25,7 @@ public final class TeaStoryRecipeProvider extends RecipeProvider {
     public TeaStoryRecipeProvider(PackOutput generator) {
         super(generator);
     }
+
 
     @Override
     protected void buildRecipes(Consumer<FinishedRecipe> consumer) {
@@ -65,12 +65,12 @@ public final class TeaStoryRecipeProvider extends RecipeProvider {
 
         // Craft Block Recipes 工艺方块配方
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, TileEntityTypeRegistry.DIRT_STOVE.get()).define('x', NormalTags.Items.DIRT).pattern("xxx").pattern("x x").pattern("xxx").group("stove").unlockedBy("has_dirt", has(NormalTags.Items.DIRT)).save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, TileEntityTypeRegistry.STONE_STOVE.get()).define('x', Tags.Items.STONE).define('#', TileEntityTypeRegistry.DIRT_STOVE.get()).pattern("xxx").pattern("x#x").pattern("xxx").group("stove").unlockedBy("has_dirt", has(NormalTags.Items.DIRT)).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, TileEntityTypeRegistry.STONE_STOVE.get()).define('x', Tags.Items.STONES).define('#', TileEntityTypeRegistry.DIRT_STOVE.get()).pattern("xxx").pattern("x#x").pattern("xxx").group("stove").unlockedBy("has_dirt", has(NormalTags.Items.DIRT)).save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, TileEntityTypeRegistry.DRINK_MAKER.get()).define('x', ItemTags.PLANKS).define('#', Tags.Items.RODS_WOODEN).pattern("# #").pattern("xxx").group("drink_maker").unlockedBy("has_planks", has(ItemTags.PLANKS)).save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegister.filter_screen.get()).define('x', Tags.Items.RODS_WOODEN).define('#', Tags.Items.STRING).define('*', Tags.Items.DUSTS_REDSTONE).pattern("x#x").pattern("#*#").pattern("x#x").group("filter_screen").unlockedBy("has_string", has(Tags.Items.STRING)).save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegister.BAMBOO_CATAPULT_BOARD.get()).define('x', ItemRegister.BAMBOO_PLANK.get()).define('#', Tags.Items.STONE).define('*', Tags.Items.DUSTS_REDSTONE).pattern("xxx").pattern("xxx").pattern("#*#").group("catapult_board").unlockedBy("has_bamboo_plank", has(ItemRegister.BAMBOO_PLANK.get())).save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegister.IRON_CATAPULT_BOARD.get()).define('x', Tags.Items.INGOTS_IRON).define('#', Tags.Items.STONE).define('*', Tags.Items.DUSTS_REDSTONE).pattern("xxx").pattern("xxx").pattern("#*#").group("catapult_board").unlockedBy("has_iron_ingot", has(Tags.Items.INGOTS_IRON)).save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegister.STONE_CATAPULT_BOARD.get()).define('x', Blocks.STONE).define('#', Tags.Items.STONE).define('*', Tags.Items.DUSTS_REDSTONE).pattern("xxx").pattern("xxx").pattern("#*#").group("catapult_board").unlockedBy("has_stone", has(Blocks.STONE)).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegister.filter_screen.get()).define('x', Tags.Items.RODS_WOODEN).define('#', Tags.Items.STRINGS).define('*', Tags.Items.DUSTS_REDSTONE).pattern("x#x").pattern("#*#").pattern("x#x").group("filter_screen").unlockedBy("has_string", has(Tags.Items.STRING)).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegister.BAMBOO_CATAPULT_BOARD.get()).define('x', ItemRegister.BAMBOO_PLANK.get()).define('#', Tags.Items.STONES).define('*', Tags.Items.DUSTS_REDSTONE).pattern("xxx").pattern("xxx").pattern("#*#").group("catapult_board").unlockedBy("has_bamboo_plank", has(ItemRegister.BAMBOO_PLANK.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegister.IRON_CATAPULT_BOARD.get()).define('x', Tags.Items.INGOTS_IRON).define('#', Tags.Items.STONES).define('*', Tags.Items.DUSTS_REDSTONE).pattern("xxx").pattern("xxx").pattern("#*#").group("catapult_board").unlockedBy("has_iron_ingot", has(Tags.Items.INGOTS_IRON)).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegister.STONE_CATAPULT_BOARD.get()).define('x', Blocks.STONE).define('#', Tags.Items.STONES).define('*', Tags.Items.DUSTS_REDSTONE).pattern("xxx").pattern("xxx").pattern("#*#").group("catapult_board").unlockedBy("has_stone", has(Blocks.STONE)).save(consumer);
         // ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegister.OAK_TRELLIS.get(), 2).define('#', Tags.Items.RODS_WOODEN).define('*', Blocks.OAK_FENCE).pattern("#*#").pattern(" # ").group("trellis").unlockedBy("has_planks", has(Blocks.OAK_FENCE)).save(consumer);
         // ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegister.BIRCH_TRELLIS.get(), 2).define('#', Tags.Items.RODS_WOODEN).define('*', Blocks.BIRCH_FENCE).pattern("#*#").pattern(" # ").group("trellis").unlockedBy("has_planks", has(Blocks.BIRCH_FENCE)).save(consumer);
         // ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegister.SPRUCE_TRELLIS.get(), 2).define('#', Tags.Items.RODS_WOODEN).define('*', Blocks.SPRUCE_FENCE).pattern("#*#").pattern(" # ").group("trellis").unlockedBy("has_planks", has(Blocks.SPRUCE_FENCE)).save(consumer);
@@ -182,7 +182,7 @@ public final class TeaStoryRecipeProvider extends RecipeProvider {
         DrinkRecipeBuilder.drinkRecipe(FluidRegistry.STRONG_WHITE_TEA_STILL.get(), FluidIngredient.fromFluid(FluidRegistry.WHITE_TEA_STILL.get(), 500), Ingredient.of(NormalTags.Items.CROPS_WHITE_TEA_LEAF), Ingredient.of(NormalTags.Items.CROPS_WHITE_TEA_LEAF), Ingredient.of(NormalTags.Items.CROPS_WHITE_TEA_LEAF), Ingredient.of(NormalTags.Items.CROPS_WHITE_TEA_LEAF)).build(consumer);
 
         // Stone Mill Recipes 石磨配方
-        StoneMillRecipeBuilder.recipe(600, Ingredient.of(Tags.Items.STONE), FluidIngredient.fromFluid(Fluids.WATER, 100), new FluidStack(Fluids.WATER, 100), new ItemStack(Blocks.GRAVEL)).build(consumer, "teastory:gravel");
+        StoneMillRecipeBuilder.recipe(600, Ingredient.of(Tags.Items.STONES), FluidIngredient.fromFluid(Fluids.WATER, 100), new FluidStack(Fluids.WATER, 100), new ItemStack(Blocks.GRAVEL)).build(consumer, "teastory:gravel");
         StoneMillRecipeBuilder.recipeWithDefaultTime(Ingredient.of(NormalTags.Items.CROPS_CUCUMBER), FluidIngredient.EMPTY, new FluidStack(FluidRegistry.CUCUMBER_JUICE_STILL.get(), 100), ItemStack.EMPTY).build(consumer, "teastory:cucumber_juice");
         StoneMillRecipeBuilder.recipeWithDefaultTime(Ingredient.of(NormalTags.Items.CROPS_GRAPE), FluidIngredient.EMPTY, new FluidStack(FluidRegistry.GRAPE_JUICE_STILL.get(), 100), ItemStack.EMPTY).build(consumer, "teastory:grape_juice");
         StoneMillRecipeBuilder.recipeWithDefaultTime(Ingredient.of(NormalTags.Items.CROPS_SUGAR_CANE), FluidIngredient.EMPTY, new FluidStack(FluidRegistry.SUGAR_CANE_JUICE_STILL.get(), 100), ItemStack.EMPTY).build(consumer, "teastory:sugar_cane_juice");

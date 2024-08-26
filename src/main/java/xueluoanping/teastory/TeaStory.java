@@ -5,14 +5,12 @@ import cloud.lemonslice.teastory.block.crops.VineInfoManager;
 import cloud.lemonslice.teastory.config.NormalConfigs;
 import cloud.lemonslice.teastory.recipe.drink.DrinkEffectManager;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xueluoanping.teastory.data.start;
@@ -65,52 +63,52 @@ public class TeaStory {
     }
 
 
-    public TeaStory() {
+    public TeaStory(IEventBus modEventBus, ModContainer modContainer) {
 
         // Register ourselves for server and other game events we are interested in
-        MinecraftForge.EVENT_BUS.register(this);
+        modEventBus.addListener(this::gatherData);
+        modEventBus.addListener(this::gatherData);
+
+        BlockRegister.ModBlocks.register(modEventBus);
+        BlockRegister.ModItems.register(modEventBus);
+
+        TileEntityTypeRegistry.DRBlockEntities.register(modEventBus);
+        TileEntityTypeRegistry.ModBlocks.register(modEventBus);
+        TileEntityTypeRegistry.ModItems.register(modEventBus);
+        TileEntityTypeRegistry.DRMenuType.register(modEventBus);
 
 
-        BlockRegister.ModBlocks.register(FMLJavaModLoadingContext.get().getModEventBus());
-        BlockRegister.ModItems.register(FMLJavaModLoadingContext.get().getModEventBus());
+        ItemRegister.ModItems.register(modEventBus);
 
-        TileEntityTypeRegistry.DRBlockEntities.register(FMLJavaModLoadingContext.get().getModEventBus());
-        TileEntityTypeRegistry.ModBlocks.register(FMLJavaModLoadingContext.get().getModEventBus());
-        TileEntityTypeRegistry.ModItems.register(FMLJavaModLoadingContext.get().getModEventBus());
-        TileEntityTypeRegistry.DRMenuType.register(FMLJavaModLoadingContext.get().getModEventBus());
+        FluidRegistry.BLOCKS.register(modEventBus);
+        FluidRegistry.ITEMS.register(modEventBus);
+        FluidRegistry.FLUIDS.register(modEventBus);
+        FluidRegistry.FLUID_TYPES.register(modEventBus);
 
+        RecipeRegister.DRRecipeSerializer.register(modEventBus);
+        RecipeRegister.DRRecipeType.register(modEventBus);
 
-        ItemRegister.ModItems.register(FMLJavaModLoadingContext.get().getModEventBus());
+        EntityTypeRegistry.ENTITY_TYPE_DEFERRED_REGISTER.register(modEventBus);
 
-        FluidRegistry.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        FluidRegistry.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        FluidRegistry.FLUIDS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        FluidRegistry.FLUID_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
-
-        RecipeRegister.DRRecipeSerializer.register(FMLJavaModLoadingContext.get().getModEventBus());
-        RecipeRegister.DRRecipeType.register(FMLJavaModLoadingContext.get().getModEventBus());
-
-        EntityTypeRegistry.ENTITY_TYPE_DEFERRED_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
-
-        LootRegister.LOOT_MODIFIERS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        // ModContents.DRMenuType.register(FMLJavaModLoadingContext.get().getModEventBus());
+        LootRegister.LOOT_MODIFIERS.register(modEventBus);
+        // ModContents.DRMenuType.register(modEventBus);
 
         // ModContents.init();
 
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::gatherData);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::FMLCommonSetup);
+        modEventBus.addListener(this::gatherData);
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, NormalConfigs.SERVER_CONFIG);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, NormalConfigs.CLIENT_CONFIG);
+        modEventBus.addListener(this::FMLCommonSetup);
+        modContainer.registerConfig(ModConfig.Type.COMMON, NormalConfigs.SERVER_CONFIG);
+        modContainer.registerConfig(ModConfig.Type.CLIENT, NormalConfigs.CLIENT_CONFIG);
     }
 
 
     public static ResourceLocation rl(String id) {
-        return new ResourceLocation(MODID, id);
+        return  ResourceLocation.fromNamespaceAndPath(MODID, id);
     }
 
     public static ResourceLocation rl(String namespace, String id) {
-        return new ResourceLocation(namespace, id);
+        return  ResourceLocation.fromNamespaceAndPath(namespace, id);
     }
 
     public void FMLCommonSetup(final FMLCommonSetupEvent event) {

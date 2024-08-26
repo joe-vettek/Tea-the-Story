@@ -3,6 +3,7 @@ package cloud.lemonslice.teastory.recipe.drink;
 
 
 import cloud.lemonslice.teastory.potion.EffectRegistry;
+import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -52,7 +53,7 @@ public final class DrinkEffectManager
         return DRINK_EFFECTS.get(key);
     }
 
-    public static BiConsumer<LivingEntity, Integer> createSimpleDrinkEffect(MobEffect potionIn, int durationIn, int level)
+    public static BiConsumer<LivingEntity, Integer> createSimpleDrinkEffect(Holder<MobEffect> potionIn, int durationIn, int level)
     {
         return (livingEntity, amount) -> livingEntity.addEffect(new MobEffectInstance(potionIn, durationIn * amount, level));
     }

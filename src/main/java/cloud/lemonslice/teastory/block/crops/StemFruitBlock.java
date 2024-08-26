@@ -21,14 +21,13 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.IPlantable;
+
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class StemFruitBlock extends Block implements BonemealableBlock, IPlantable {
+public class StemFruitBlock extends Block implements BonemealableBlock {
     public final VineType type;
     public static final IntegerProperty AGE_0_4 = IntegerProperty.create("age", 0, 4);
     private static final VoxelShape SHAPE = VoxelShapeHelper.createVoxelShape(3.5, 6.0, 3.5, 9.0, 10.0, 9.0);
@@ -72,9 +71,9 @@ public class StemFruitBlock extends Block implements BonemealableBlock, IPlantab
             int i = state.getValue(AGE_0_4);
             if (i < 4) {
                 float f = getGrowthChance(this, worldIn, pos, type);
-                if (ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt((int) (25.0F / f) + 1) == 0)) {
+                if (net.neoforged.neoforge.common.CommonHooks.canCropGrow(worldIn, pos, state, rand.nextInt((int) (25.0F / f) + 1) == 0)) {
                     worldIn.setBlock(pos, state.setValue(AGE_0_4, i + 1), 2);
-                    ForgeHooks.onCropsGrowPost(worldIn, pos, state);
+                    net.neoforged.neoforge.common.CommonHooks.fireCropGrowPost(worldIn, pos, state);
                 }
             }
         }
@@ -120,7 +119,7 @@ public class StemFruitBlock extends Block implements BonemealableBlock, IPlantab
 
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader pLevel, BlockPos pPos, BlockState state, boolean pIsClient) {
+    public boolean isValidBonemealTarget(LevelReader pLevel, BlockPos pPos, BlockState state) {
         return state.getValue(AGE_0_4) < 4;
     }
 
@@ -144,11 +143,4 @@ public class StemFruitBlock extends Block implements BonemealableBlock, IPlantab
         super.createBlockStateDefinition(pBuilder.add(AGE_0_4));
     }
 
-
-    @Override
-    public BlockState getPlant(BlockGetter world, BlockPos pos) {
-        BlockState state = world.getBlockState(pos);
-        if (state.getBlock() != this) return defaultBlockState();
-        return state;
-    }
 }

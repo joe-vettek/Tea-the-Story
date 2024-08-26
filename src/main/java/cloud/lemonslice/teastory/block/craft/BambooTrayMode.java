@@ -15,6 +15,7 @@ public enum BambooTrayMode
 
     public static BambooTrayMode getMode(Level world, BlockPos pos)
     {
+
         if (isInRain(world, pos))
         {
             return IN_RAIN;

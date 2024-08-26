@@ -1,8 +1,0 @@
-{
-  "type": "teastory:bamboo_tray_bake",
-  "ingredient": {
-    "item": "minecraft:beef"
-  },
-  "result": "teastory:beef_jerky",
-  "work_time": 200
-}

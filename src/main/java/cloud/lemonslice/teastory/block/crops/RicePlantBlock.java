@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
@@ -15,6 +16,7 @@ import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import xueluoanping.teastory.BlockRegister;
@@ -73,10 +75,10 @@ public class RicePlantBlock extends CropBlock {
                 } else if (i >= 6 && paddy.getValue(BlockStateProperties.WATERLOGGED)) {
                     return;
                 }
-                float f = getGrowthSpeed(this, worldIn, pos);
-                if (net.minecraftforge.common.ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt((int) (50.0F / f) + 1) == 0)) {
+                float f = getGrowthSpeed(state, worldIn, pos);
+                if (net.neoforged.neoforge.common.CommonHooks.canCropGrow(worldIn, pos, state, rand.nextInt((int) (50.0F / f) + 1) == 0)) {
                     worldIn.setBlock(pos, this.getStateForAge(i + 1), Block.UPDATE_CLIENTS);
-                    net.minecraftforge.common.ForgeHooks.onCropsGrowPost(worldIn, pos, state);
+                    net.neoforged.neoforge.common.CommonHooks.fireCropGrowPost(worldIn, pos, state);
 
                     if (!isNearbyTidy(i + 1, worldIn, pos)) {
                         growTogether(i + 1, worldIn, pos.north());
@@ -128,13 +130,13 @@ public class RicePlantBlock extends CropBlock {
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockGetter worldIn, BlockPos pos, BlockState state) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
         int age = state.getValue(AGE);
         if (age > 0) {
             return new ItemStack(BlockRegister.RICE_GRAINS.get());
         } else return new ItemStack(BlockRegister.riceSeedlings.get());
-        // return new ItemStack(BlockRegister.riceSeedlings.get());
     }
+
 
 
 }

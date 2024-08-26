@@ -23,15 +23,15 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.block.NormalHorizontalBlock;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.items.ItemHandlerHelper;
+
 
 import java.util.List;
+import java.util.Optional;
 
 
 public class StoneMillBlock extends NormalHorizontalBlock implements EntityBlock {
@@ -64,7 +64,7 @@ public class StoneMillBlock extends NormalHorizontalBlock implements EntityBlock
     private void dropItems(Level worldIn, BlockPos pos) {
         var te = worldIn.getBlockEntity(pos);
         if (te != null) {
-            te.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP).ifPresent(inv ->
+            Optional.ofNullable(worldIn.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.UP)).ifPresent(inv ->
             {
                 for (int i = inv.getSlots() - 1; i >= 0; --i) {
                     if (inv.getStackInSlot(i) != ItemStack.EMPTY) {
@@ -73,7 +73,7 @@ public class StoneMillBlock extends NormalHorizontalBlock implements EntityBlock
                     }
                 }
             });
-            te.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.DOWN).ifPresent(inv ->
+            Optional.ofNullable(worldIn.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.DOWN)).ifPresent(inv ->
             {
                 for (int i = inv.getSlots() - 1; i >= 0; --i) {
                     if (inv.getStackInSlot(i) != ItemStack.EMPTY) {
@@ -87,26 +87,28 @@ public class StoneMillBlock extends NormalHorizontalBlock implements EntityBlock
 
 
     @Override
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+    public InteractionResult useWithoutItem(BlockState state, Level worldIn, BlockPos pos, Player player, BlockHitResult hit) {
         if (!worldIn.isClientSide()) {
+            var handIn = player.getUsedItemHand();
             var te = worldIn.getBlockEntity(pos);
-            if (FluidUtil.getFluidHandler(ItemHandlerHelper.copyStackWithSize(player.getItemInHand(handIn), 1)).isPresent()) {
-                return te.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM, hit.getDirection()).map(fluidTank ->
-                {
-                    FluidUtil.interactWithFluidHandler(player, handIn, fluidTank);
-                    return InteractionResult.SUCCESS;
-                }).orElse(InteractionResult.FAIL);
+            if (FluidUtil.getFluidHandler(player.getItemInHand(handIn).copy()).isPresent()) {
+                return Optional.ofNullable(player.getItemInHand(handIn).getCapability(Capabilities.FluidHandler.ITEM))
+                        .map(fluidTank ->
+                        {
+                            FluidUtil.interactWithFluidHandler(player, handIn, fluidTank);
+                            return InteractionResult.SUCCESS;
+                        }).orElse(InteractionResult.FAIL);
             }
             if (te instanceof StoneMillTileEntity) {
                 if (!player.isShiftKeyDown()) {
                     if (!player.getItemInHand(handIn).isEmpty()) {
-                        return te.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP).map(container ->
+                        return Optional.ofNullable(worldIn.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.UP)).map(container ->
                         {
                             player.setItemInHand(handIn, container.insertItem(0, player.getItemInHand(handIn), false));
                             return InteractionResult.SUCCESS;
                         }).orElse(InteractionResult.FAIL);
                     } else {
-                        te.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.DOWN).ifPresent(container ->
+                        Optional.ofNullable(worldIn.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.DOWN)).ifPresent(container ->
                         {
                             for (int i = 0; i <= 2; i++) {
                                 ItemStack itemStack = container.extractItem(i, 64, false);
@@ -115,7 +117,7 @@ public class StoneMillBlock extends NormalHorizontalBlock implements EntityBlock
                                 }
                             }
                         });
-                        te.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP).ifPresent(container ->
+                        Optional.ofNullable(worldIn.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.UP)).ifPresent(container ->
                         {
                             if (((StoneMillTileEntity) te).isCompleted()) {
                                 ItemStack itemStack = container.extractItem(0, container.getStackInSlot(0).getCount(), false);
@@ -125,7 +127,7 @@ public class StoneMillBlock extends NormalHorizontalBlock implements EntityBlock
                         return InteractionResult.SUCCESS;
                     }
                 } else {
-                    NetworkHooks.openScreen((ServerPlayer) player, (MenuProvider) te, te.getBlockPos());
+                    player.openMenu((MenuProvider) te, te.getBlockPos());
                     return InteractionResult.SUCCESS;
                 }
             }

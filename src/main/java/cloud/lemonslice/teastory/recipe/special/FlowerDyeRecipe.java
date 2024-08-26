@@ -3,11 +3,13 @@ package cloud.lemonslice.teastory.recipe.special;
 
 import cloud.lemonslice.teastory.block.crops.flower.FlowerColor;
 import cloud.lemonslice.teastory.item.HybridizableFlowerBlockItem;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
@@ -16,15 +18,15 @@ import xueluoanping.teastory.RecipeRegister;
 public class FlowerDyeRecipe extends CustomRecipe {
 
 
-    public FlowerDyeRecipe(ResourceLocation pId, CraftingBookCategory pCategory) {
-        super(pId, pCategory);
+    public FlowerDyeRecipe(CraftingBookCategory pCategory) {
+        super(pCategory);
     }
 
     @Override
-    public boolean matches(CraftingContainer inv, Level pLevel) {
+    public boolean matches(CraftingInput inv, Level pLevel) {
         ItemStack itemstack = ItemStack.EMPTY;
 
-        for (int i = 0; i < inv.getContainerSize(); ++i) {
+        for (int i = 0; i < inv.size(); ++i) {
             ItemStack itemstack1 = inv.getItem(i);
             if (!itemstack1.isEmpty()) {
                 if (itemstack1.getItem() instanceof HybridizableFlowerBlockItem) {
@@ -41,10 +43,10 @@ public class FlowerDyeRecipe extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer inv, RegistryAccess pRegistryAccess) {
+    public ItemStack assemble(CraftingInput inv, HolderLookup.Provider pRegistryAccess) {
         ItemStack itemstack = ItemStack.EMPTY;
 
-        for (int i = 0; i < inv.getContainerSize(); ++i) {
+        for (int i = 0; i < inv.size(); ++i) {
             ItemStack itemstack1 = inv.getItem(i);
             if (!itemstack1.isEmpty()) {
                 if (itemstack1.getItem() instanceof HybridizableFlowerBlockItem) {
@@ -62,6 +64,9 @@ public class FlowerDyeRecipe extends CustomRecipe {
         }
         return ItemStack.EMPTY;
     }
+
+
+
 
     @Override
     public boolean canCraftInDimensions(int pWidth, int pHeight) {

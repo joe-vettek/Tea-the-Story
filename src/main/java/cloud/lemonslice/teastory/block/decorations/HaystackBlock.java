@@ -1,11 +1,9 @@
 package cloud.lemonslice.teastory.block.decorations;
 
 import cloud.lemonslice.teastory.helper.VoxelShapeHelper;
-import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -20,26 +18,18 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LanternBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import xueluoanping.teastory.BlockRegister;
 
 import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
 
 public class HaystackBlock extends Block {
     public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
@@ -103,13 +93,13 @@ public class HaystackBlock extends Block {
 
 
     @Override
-    public void playerWillDestroy(Level worldIn, BlockPos pos, BlockState state, Player player) {
+    public BlockState playerWillDestroy(Level worldIn, BlockPos pos, BlockState state, Player player) {
         if (!worldIn.isClientSide()) {
             if (player.isCreative()) {
                 removeBottomHalf(worldIn, pos, state, player);
             }
         }
-        super.playerWillDestroy(worldIn, pos, state, player);
+        return super.playerWillDestroy(worldIn, pos, state, player);
     }
 
 
@@ -142,7 +132,7 @@ public class HaystackBlock extends Block {
     public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random) {
         if (state.getValue(HALF) == DoubleBlockHalf.LOWER) {
             Holder<Biome> biome = worldIn.getBiome(pos);
-            int humidity = getHumid(biome.get().getModifiedClimateSettings().downfall(), biome.get().getTemperature(pos));
+            int humidity = getHumid(biome.value().getModifiedClimateSettings().downfall(), biome.value().getTemperature(pos));
             if (state.is(BlockRegister.WET_HAYSTACK.get())) {
                 if (random.nextInt(60 / (6 - humidity)) == 0) {
                     worldIn.setBlock(pos, BlockRegister.WET_HAYSTACK.get().defaultBlockState().setValue(HALF, DoubleBlockHalf.LOWER), 2);

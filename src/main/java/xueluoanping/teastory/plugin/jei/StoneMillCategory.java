@@ -1,28 +1,17 @@
 package xueluoanping.teastory.plugin.jei;
 
 import cloud.lemonslice.teastory.recipe.stone_mill.StoneMillRecipe;
-import com.google.common.collect.Lists;
-import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import xueluoanping.teastory.RecipeRegister;
 import xueluoanping.teastory.TeaStory;
-import net.minecraftforge.fluids.FluidStack;
 import xueluoanping.teastory.TileEntityTypeRegistry;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 
 public class StoneMillCategory implements IRecipeCategory<StoneMillRecipe> {
@@ -70,7 +59,7 @@ public class StoneMillCategory implements IRecipeCategory<StoneMillRecipe> {
             builder.addSlot(RecipeIngredientRole.INPUT,  4, 6)
                     .setFluidRenderer(2000, false, 16, 48)
                     // .setOverlay(getBackground(), 0, 0)
-                    .addIngredient(ForgeTypes.FLUID_STACK, stoneMillRecipe.getInputFluid().getMatchingFluidStacks().get(0));
+                    .addIngredient(NeoForgeTypes.FLUID_STACK, stoneMillRecipe.getInputFluid().getMatchingFluidStacks().get(0));
         }
         int n = stoneMillRecipe.getOutputItems().size();
         for (int i = 0; i < n; i++) {
@@ -84,7 +73,7 @@ public class StoneMillCategory implements IRecipeCategory<StoneMillRecipe> {
             builder.addSlot(RecipeIngredientRole.OUTPUT,  128, 6)
                     .setFluidRenderer(2000, false, 16, 48)
                     // .setOverlay(getBackground(), 0, 0)
-                    .addIngredient(ForgeTypes.FLUID_STACK, stoneMillRecipe.getOutputFluid());
+                    .addIngredient(NeoForgeTypes.FLUID_STACK, stoneMillRecipe.getOutputFluid());
 
         }
     }

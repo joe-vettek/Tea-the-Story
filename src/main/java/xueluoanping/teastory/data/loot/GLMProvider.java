@@ -6,8 +6,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
-import net.minecraftforge.common.data.GlobalLootModifierProvider;
-import net.minecraftforge.common.loot.LootTableIdCondition;
+import net.neoforged.neoforge.common.data.GlobalLootModifierProvider;
+import net.neoforged.neoforge.common.loot.LootTableIdCondition;
 import xueluoanping.teastory.BlockRegister;
 import xueluoanping.teastory.loot.AddItemModifier;
 
@@ -22,8 +22,8 @@ public class GLMProvider extends GlobalLootModifierProvider {
     protected void start() {
 
 
-        for (Block grass : List.of(Blocks.GRASS, Blocks.TALL_GRASS, Blocks.FERN, Blocks.LARGE_FERN)) {
-            LootItemCondition lootItemCondition = LootTableIdCondition.builder(grass.getLootTable())
+        for (Block grass : List.of(Blocks.SHORT_GRASS, Blocks.TALL_GRASS, Blocks.FERN, Blocks.LARGE_FERN)) {
+            LootItemCondition lootItemCondition = LootTableIdCondition.builder(grass.getLootTable().location())
                     .and(LootItemRandomChanceCondition.randomChance(0.1f))
                     .build();
 

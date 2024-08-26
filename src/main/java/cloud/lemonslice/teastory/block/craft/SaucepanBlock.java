@@ -1,61 +1,36 @@
 package cloud.lemonslice.teastory.block.craft;
 
-import cloud.lemonslice.teastory.blockentity.BambooTrayTileEntity;
 import cloud.lemonslice.teastory.helper.VoxelShapeHelper;
-import cloud.lemonslice.teastory.recipe.bamboo_tray.BambooTraySingleInRecipe;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.SimpleWaterloggedBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.*;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.network.NetworkHooks;
+
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.Nullable;
 import xueluoanping.teastory.ItemRegister;
-import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.block.NormalHorizontalBlock;
-import xueluoanping.teastory.block.entity.NormalContainerTileEntity;
-import com.google.common.collect.Lists;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
-import xueluoanping.teastory.block.NormalHorizontalBlock;
-
-import java.util.List;
-import java.util.Random;
 
 public class SaucepanBlock extends NormalHorizontalBlock {
     public static final EnumProperty<CookStep> STEP = EnumProperty.create("step", CookStep.class);
@@ -86,7 +61,6 @@ public class SaucepanBlock extends NormalHorizontalBlock {
 
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand) {
         if (stateIn.getValue(STEP) == CookStep.COOKED) {
             double d0 = pos.getX() + 0.5D;
@@ -97,10 +71,11 @@ public class SaucepanBlock extends NormalHorizontalBlock {
         }
     }
 
+
     @Override
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+    public InteractionResult useWithoutItem(BlockState state, Level worldIn, BlockPos pos, Player player, BlockHitResult hit) {
         if (!worldIn.isClientSide()) {
-            ItemStack held = player.getItemInHand(handIn);
+            ItemStack held = player.getItemInHand(player.getUsedItemHand());
             if (state.getValue(LID)) {
                 worldIn.setBlockAndUpdate(pos, state.setValue(LID, false));
                 player.addItem(new ItemStack(ItemRegister.SAUCEPAN_LID.get()));
@@ -117,7 +92,7 @@ public class SaucepanBlock extends NormalHorizontalBlock {
             } else if (state.getValue(STEP) == CookStep.RAW && FluidUtil.getFluidContained(held).isPresent()) {
                 FluidStack fluidStack = FluidUtil.getFluidContained(held).get();
                 if (fluidStack.getFluid() == Fluids.WATER && fluidStack.getAmount() >= 1000) {
-                    if (FluidUtil.interactWithFluidHandler(player, handIn, new FluidTank(1000))) {
+                    if (FluidUtil.interactWithFluidHandler(player, player.getUsedItemHand(), new FluidTank(1000))) {
                         worldIn.setBlockAndUpdate(pos, state.setValue(STEP, CookStep.WATER));
                         return InteractionResult.SUCCESS;
                     }

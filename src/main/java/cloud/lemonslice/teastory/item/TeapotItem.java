@@ -93,10 +93,10 @@ public class TeapotItem extends BlockItem
                     BlockState blockstate1 = worldIn.getBlockState(blockpos);
                     if (blockstate1.getBlock() instanceof LiquidBlock)
                     {
-                        Fluid fluid = ((LiquidBlock) blockstate1.getBlock()).getFluid();
+                        Fluid fluid = ((LiquidBlock) blockstate1.getBlock()).fluid.getSource();
                         if (fluid != Fluids.EMPTY && fluid.is(FluidTags.WATER))
                         {
-                            ((LiquidBlock) blockstate1.getBlock()).pickupBlock(worldIn, blockpos, blockstate1);
+                            ((LiquidBlock) blockstate1.getBlock()).pickupBlock(playerIn,worldIn, blockpos, blockstate1);
                             playerIn.awardStat(Stats.ITEM_USED.get(this));
 
                             SoundEvent soundevent = SoundEvents.BOTTLE_FILL;

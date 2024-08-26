@@ -1,10 +1,11 @@
 package cloud.lemonslice.teastory.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class ServerConfig
 {
-    protected ServerConfig(ForgeConfigSpec.Builder builder)
+    protected ServerConfig(ModConfigSpec.Builder builder)
     {
         BlockConfig.load(builder);
         Agriculture.load(builder);
@@ -15,9 +16,9 @@ public class ServerConfig
 
     public static class BlockConfig
     {
-        public static ForgeConfigSpec.IntValue woodenBarrelCapacity;
+        public static ModConfigSpec.IntValue woodenBarrelCapacity;
 
-        private static void load(ForgeConfigSpec.Builder builder)
+        private static void load(ModConfigSpec.Builder builder)
         {
             builder.push("Block");
             woodenBarrelCapacity = builder.comment("The capacity of wooden barrel. (mB)")
@@ -28,9 +29,9 @@ public class ServerConfig
 
     public static class Temperature
     {
-        public static ForgeConfigSpec.BooleanValue iceMelt;
+        public static ModConfigSpec.BooleanValue iceMelt;
 
-        private static void load(ForgeConfigSpec.Builder builder)
+        private static void load(ModConfigSpec.Builder builder)
         {
             builder.push("Temperature");
             iceMelt = builder.comment("Ice or snow layer will melt in warm place..")
@@ -41,11 +42,11 @@ public class ServerConfig
 
     public static class Season
     {
-        public static ForgeConfigSpec.BooleanValue enable;
-        public static ForgeConfigSpec.IntValue lastingDaysOfEachTerm;
-        public static ForgeConfigSpec.IntValue initialSolarTermIndex;
+        public static ModConfigSpec.BooleanValue enable;
+        public static ModConfigSpec.IntValue lastingDaysOfEachTerm;
+        public static ModConfigSpec.IntValue initialSolarTermIndex;
 
-        private static void load(ForgeConfigSpec.Builder builder)
+        private static void load(ModConfigSpec.Builder builder)
         {
             builder.push("Season");
             enable = builder.comment("Enable solar term season system.")
@@ -60,11 +61,11 @@ public class ServerConfig
 
     public static class Agriculture
     {
-        public static ForgeConfigSpec.BooleanValue canUseBoneMeal;
-        public static ForgeConfigSpec.BooleanValue useAshAsBoneMeal;
-        public static ForgeConfigSpec.BooleanValue dropRiceGrains;
+        public static ModConfigSpec.BooleanValue canUseBoneMeal;
+        public static ModConfigSpec.BooleanValue useAshAsBoneMeal;
+        public static ModConfigSpec.BooleanValue dropRiceGrains;
 
-        private static void load(ForgeConfigSpec.Builder builder)
+        private static void load(ModConfigSpec.Builder builder)
         {
             builder.push("Agriculture");
             canUseBoneMeal = builder.comment("Can bone meal be used to grow crops?")
@@ -79,9 +80,9 @@ public class ServerConfig
 
     public static class Others
     {
-        public static ForgeConfigSpec.BooleanValue woodDropsAshWhenBurning;
+        public static ModConfigSpec.BooleanValue woodDropsAshWhenBurning;
 
-        private static void load(ForgeConfigSpec.Builder builder)
+        private static void load(ModConfigSpec.Builder builder)
         {
             builder.push("Others");
             woodDropsAshWhenBurning = builder.comment("Wooden blocks will drop ashes when burning.")

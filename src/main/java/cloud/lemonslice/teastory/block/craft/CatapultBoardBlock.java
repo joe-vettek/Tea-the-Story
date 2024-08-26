@@ -11,6 +11,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -30,8 +31,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Vector3d;
 import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.block.NormalHorizontalBlock;
@@ -39,14 +38,12 @@ import xueluoanping.teastory.block.NormalHorizontalBlock;
 import java.util.List;
 import java.util.Random;
 
-public class CatapultBoardBlock extends NormalHorizontalBlock
-{
+public class CatapultBoardBlock extends NormalHorizontalBlock {
     private static final VoxelShape SHAPE = VoxelShapeHelper.createVoxelShape(0, 0, 0, 16, 2, 16);
     private static final BooleanProperty ENABLED = BlockStateProperties.ENABLED;
     private final float motion;
 
-    public CatapultBoardBlock(float motion, Properties properties)
-    {
+    public CatapultBoardBlock(float motion, Properties properties) {
         super(properties);
         this.registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH).setValue(ENABLED, false));
         this.motion = motion;
@@ -62,6 +59,7 @@ public class CatapultBoardBlock extends NormalHorizontalBlock
     public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
+
     @Override
     public boolean canSurvive(BlockState state, LevelReader pLevel, BlockPos pos) {
         // return state.isFaceSturdy(pLevel, pos.below(), Direction.UP);
@@ -86,12 +84,11 @@ public class CatapultBoardBlock extends NormalHorizontalBlock
         worldIn.setBlock(pos, state.setValue(ENABLED, false), Block.UPDATE_CLIENTS);
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand)
-    {
 
-        if (worldIn.hasNeighborSignal(pos))
-        {
+    @Override
+    public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand) {
+
+        if (worldIn.hasNeighborSignal(pos)) {
             double d0 = (double) pos.getX() + 0.5D + (rand.nextDouble() - 0.5D);
             double d1 = (double) pos.getY() + 0.125D + (rand.nextDouble() - 0.5D) * 0.2D;
             double d2 = (double) pos.getZ() + 0.5D + (rand.nextDouble() - 0.5D);
@@ -100,45 +97,35 @@ public class CatapultBoardBlock extends NormalHorizontalBlock
     }
 
 
-
     @Override
     @SuppressWarnings("deprecation")
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos,  Player player, InteractionHand handIn, BlockHitResult hit)
-    {
-        if (player.getItemInHand(handIn).getItem() == TileEntityTypeRegistry.BAMBOO_TRAY_ITEM.get())
-        {
+    public ItemInteractionResult useItemOn(ItemStack pStack, BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+        if (player.getItemInHand(handIn).getItem() == TileEntityTypeRegistry.BAMBOO_TRAY_ITEM.get()) {
             worldIn.setBlockAndUpdate(pos, TileEntityTypeRegistry.STONE_CATAPULT_BOARD_WITH_TRAY.get().defaultBlockState().setValue(FACING, state.getValue(FACING)));
             SoundType soundtype = TileEntityTypeRegistry.BAMBOO_TRAY.get().defaultBlockState().getSoundType(worldIn, pos, player);
             worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundSource.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-            return InteractionResult.SUCCESS;
-        }
-        else
-            return InteractionResult.FAIL;
+            return ItemInteractionResult.SUCCESS;
+        } else
+            return ItemInteractionResult.FAIL;
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn)
-    {
-        if (worldIn.hasNeighborSignal(pos))
-        {
+    public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn) {
+        if (worldIn.hasNeighborSignal(pos)) {
             worldIn.setBlock(pos, state.setValue(ENABLED, true), 2);
             worldIn.scheduleTick(pos, this, 5);
             Vec3 vec3d;
-            switch (state.getValue(FACING))
-            {
-                case SOUTH:
-                {
+            switch (state.getValue(FACING)) {
+                case SOUTH: {
                     vec3d = new Vec3(0, motion, -motion);
                     break;
                 }
-                case EAST:
-                {
+                case EAST: {
                     vec3d = new Vec3(-motion, motion, 0);
                     break;
                 }
-                case WEST:
-                {
+                case WEST: {
                     vec3d = new Vec3(motion, motion, 0);
                     break;
                 }

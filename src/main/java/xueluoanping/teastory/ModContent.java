@@ -19,14 +19,17 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.event.AddPackFindersEvent;
-import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegisterEvent;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.event.AddPackFindersEvent;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
+import net.neoforged.neoforge.fluids.SimpleFluidContent;
+import net.neoforged.neoforge.fluids.capability.templates.FluidHandlerItemStack;
+import net.neoforged.neoforge.registries.RegisterEvent;
 import xueluoanping.teastory.blockentity.VineEntity;
 import xueluoanping.teastory.item.Citem;
 import xueluoanping.teastory.resource.ClientModFilePackResources;
@@ -38,67 +41,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 public class ModContent {
 
     @SubscribeEvent
     public static void creativeModeTabRegister(RegisterEvent event) {
         // TeaStory.logger(event.getRegistryKey(),BuiltInRegistries.BLOCK.entrySet().stream().toList().size());
         // BuiltInRegistries.BLOCK.entrySet().stream().filter(resourceKeyBlockEntry -> resourceKeyBlockEntry.getKey().toString().contains(TeaStory.MODID)).toList()
-
-    }
-
-    @SubscribeEvent
-    public static void onRegisterEntityAttribute(EntityAttributeCreationEvent event) {
-        // event.put(EntityTypeRegistry.SCARECROW_TYPE.get(), DefaultAttributes.getSupplier(EntityType.ARMOR_STAND));
-        event.put(EntityTypeRegistry.SCARECROW_TYPE.get(), LivingEntity.createLivingAttributes().build());
-    }
-
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void onRegisterForEnd(RegisterEvent event) {
-        // if(true)return;
-        if (event.getRegistryKey() == Registries.BLOCK) {
-            Map<ResourceLocation, Block> resourceLocationBlockMap = new HashMap<>();
-            for (var block : BuiltInRegistries.BLOCK.entrySet()) {
-                // TeaStory.logger(block.getKey().location(),block.getKey().location().getPath().endsWith("_planks"));
-                if (block.getKey().location().getPath().endsWith("_planks")) {
-
-                    resourceLocationBlockMap.put(block.getKey().location(), block.getValue());
-                }
-            }
-
-            for (Map.Entry<ResourceLocation, Block> resourceLocationBlockEntry : resourceLocationBlockMap.entrySet()) {
-                String name = resourceLocationBlockEntry.getKey().toString().replace(":", ".").replace("_planks", "_trellis");
-                var blockB = new TrellisBlock(Block.Properties.copy(BlockRegister.OAK_TRELLIS.get()));
-                event.register(Registries.BLOCK, TeaStory.rl(name), () -> blockB);
-
-                ArrayList<TrellisWithVineBlock> blocks = new ArrayList<>(3);
-                for (VineType value : VineType.values()) {
-                    TrellisWithVineBlock trellisWithVineBlock = new TrellisWithVineBlock(value, Block.Properties.copy(BlockRegister.OAK_TRELLIS.get()).sound(SoundType.CROP).randomTicks());
-                    VineInfoManager.registerVineTypeConnections(value, blockB, trellisWithVineBlock);
-                    event.register(Registries.BLOCK, TeaStory.rl(name + "_with_" + value.getName() + "_vine"), () -> trellisWithVineBlock);
-                    blocks.add(trellisWithVineBlock);
-                }
-
-                Planks.TrellisBlockMap.put(TeaStory.rl(name), new Planks.PlankHolders(resourceLocationBlockEntry.getValue(), blockB, blocks));
-
-            }
-
-            // Minecraft.getInstance().getResourceManager().getResource(new ResourceLocation("minecraft","tags/blocks/planks.json"))
-        }
-        if (event.getRegistryKey() == Registries.ITEM) {
-            Planks.TrellisBlockMap.forEach((resourceLocation, block) -> {
-                event.register(Registries.ITEM, resourceLocation, () -> new Citem(block.trellisBlock(), new Item.Properties()));
-            });
-        }
-        if (event.getRegistryKey() == Registries.ENTITY_TYPE) {
-            Block[] blocks = BuiltInRegistries.BLOCK.stream()
-                    .filter(block -> block instanceof TrellisWithVineBlock)
-                    .toArray(Block[]::new);
-            TileEntityTypeRegistry.VINE_TYPE = TileEntityTypeRegistry.DRBlockEntities.register("trellis_vine",
-                    () -> BlockEntityType.Builder.of(VineEntity::new, blocks).build(null));
-        }
-
         if (event.getRegistryKey() == Registries.CREATIVE_MODE_TAB)
             event.register(Registries.CREATIVE_MODE_TAB, helper -> {
                 helper.register(TeaStory.rl(TeaStory.MODID),
@@ -132,14 +81,76 @@ public class ModContent {
                                 .build());
             });
 
+
+    }
+
+    @SubscribeEvent
+    public static void onRegisterEntityAttribute(EntityAttributeCreationEvent event) {
+        // event.put(EntityTypeRegistry.SCARECROW_TYPE.get(), DefaultAttributes.getSupplier(EntityType.ARMOR_STAND));
+        event.put(EntityTypeRegistry.SCARECROW_TYPE.get(), LivingEntity.createLivingAttributes().build());
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onRegisterForWood(RegisterEvent event) {
+        // if(true)return;
+        if (event.getRegistryKey() == Registries.BLOCK) {
+            Map<ResourceLocation, Block> resourceLocationBlockMap = new HashMap<>();
+            for (var block : BuiltInRegistries.BLOCK.entrySet()) {
+                if (block.getKey().location().getPath().endsWith("_planks")) {
+                    resourceLocationBlockMap.put(block.getKey().location(), block.getValue());
+                }
+            }
+
+            for (Map.Entry<ResourceLocation, Block> resourceLocationBlockEntry : resourceLocationBlockMap.entrySet()) {
+                String name = resourceLocationBlockEntry.getKey().toString().replace(":", ".").replace("_planks", "_trellis");
+                var blockB = new TrellisBlock(Block.Properties.ofFullCopy(BlockRegister.OAK_TRELLIS.get()));
+                event.register(Registries.BLOCK, TeaStory.rl(name), () -> blockB);
+
+                ArrayList<TrellisWithVineBlock> blocks = new ArrayList<>(3);
+                for (VineType value : VineType.values()) {
+                    TrellisWithVineBlock trellisWithVineBlock = new TrellisWithVineBlock(value, Block.Properties.ofFullCopy(BlockRegister.OAK_TRELLIS.get()).sound(SoundType.CROP).randomTicks());
+                    VineInfoManager.registerVineTypeConnections(value, blockB, trellisWithVineBlock);
+                    event.register(Registries.BLOCK, TeaStory.rl(name + "_with_" + value.getName() + "_vine"), () -> trellisWithVineBlock);
+                    blocks.add(trellisWithVineBlock);
+                }
+
+                Planks.TrellisBlockMap.put(TeaStory.rl(name), new Planks.PlankHolders(resourceLocationBlockEntry.getValue(), blockB, blocks));
+
+            }
+
+            // Minecraft.getInstance().getResourceManager().getResource(new ResourceLocation("minecraft","tags/blocks/planks.json"))
+        }
+        if (event.getRegistryKey() == Registries.ITEM) {
+            Planks.TrellisBlockMap.forEach((resourceLocation, block) -> {
+                event.register(Registries.ITEM, resourceLocation, () -> new Citem(block.trellisBlock(), new Item.Properties()));
+            });
+        }
+        if (event.getRegistryKey() == Registries.ENTITY_TYPE) {
+            Block[] blocks = BuiltInRegistries.BLOCK.stream()
+                    .filter(block -> block instanceof TrellisWithVineBlock)
+                    .toArray(Block[]::new);
+            TileEntityTypeRegistry.VINE_TYPE = TileEntityTypeRegistry.DRBlockEntities.register("trellis_vine",
+                    () -> BlockEntityType.Builder.of(VineEntity::new, blocks).build(null));
+        }
         // ServerLifecycleHooks.getCurrentServer().getResourceManager().getResourceStack(new ResourceLocation("tags/blocks/acacia_logs.json"));
     }
     // ServerLifecycleHooks.getCurrentServer().getResourceManager()
 
 
+
+    // SimpleFluidContent
+    @SubscribeEvent
+    public static void onRegisterCapabilitiesEvent (RegisterCapabilitiesEvent event) {
+// event.registerItem(Capabilities.FluidHandler.ITEM,(s,a)->new FluidHandlerItemStack());
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, TileEntityTypeRegistry.WOODEN_BARREL_TYPE.get(), (entity, context) -> {
+            return entity.isRemoved()?null:entity.getFluidTank();
+        });
+    }
     @SubscribeEvent
     public static void onAddPackFindersEvent(AddPackFindersEvent event) {
+
         if (event.getPackType() == PackType.SERVER_DATA) {
+
             for (String packID : List.of(TeaStory.MODID + "_generator")) {
                 event.addRepositorySource(consumer -> consumer.accept(
                         Pack.readMetaAndCreate(packID, Component.translatable(packID), true,

@@ -2,9 +2,8 @@ package cloud.lemonslice.teastory.recipe.stone_mill;
 
 
 import cloud.lemonslice.teastory.blockentity.StoneMillTileEntity;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import xueluoanping.teastory.TeaStory;
+
+import net.neoforged.neoforge.fluids.FluidStack;
 import xueluoanping.teastory.craft.BlockEntityRecipeWrapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -19,9 +18,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.NewRegistryEvent;
 import xueluoanping.teastory.RecipeRegister;
 
 

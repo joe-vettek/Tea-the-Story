@@ -17,17 +17,15 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.Collections;
 
 public class SickleItem extends DiggerItem {
-    public SickleItem(Tier tier, float attackDamageIn, float attackSpeedIn, Properties builder) {
-        super(attackDamageIn, attackSpeedIn, tier, BlockTags.MINEABLE_WITH_SHOVEL, builder);
+    public SickleItem(Tier tier, Properties builder) {
+        super(tier, BlockTags.MINEABLE_WITH_SHOVEL, builder);
     }
-
-
 
     // onBlockDestroyed
     @Override
     public boolean mineBlock(ItemStack stack, Level worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving) {
         if (!worldIn.isClientSide) {
-            stack.hurtAndBreak(1, entityLiving, (entity) -> entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+            stack.hurtAndBreak(1, entityLiving, EquipmentSlot.MAINHAND);
             harvestCrops(worldIn, pos, 0);
         }
         return super.mineBlock(stack, worldIn, state, pos, entityLiving);
@@ -37,7 +35,7 @@ public class SickleItem extends DiggerItem {
     private static void harvestCrops(Level worldIn, BlockPos pos, int time) {
         Block block = worldIn.getBlockState(pos).getBlock();
         if (block instanceof BonemealableBlock) {
-            if (!((BonemealableBlock) block).isValidBonemealTarget(worldIn, pos, worldIn.getBlockState(pos), worldIn.isClientSide())) {
+            if (!((BonemealableBlock) block).isValidBonemealTarget(worldIn, pos, worldIn.getBlockState(pos))) {
                 worldIn.destroyBlock(pos, true);
                 if (time < 8) {
                     harvestCrops(worldIn, pos.east(), time + 1);

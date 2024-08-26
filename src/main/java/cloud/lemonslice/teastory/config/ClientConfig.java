@@ -1,11 +1,12 @@
 package cloud.lemonslice.teastory.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class ClientConfig
 {
 
-    protected ClientConfig(ForgeConfigSpec.Builder builder)
+    protected ClientConfig(ModConfigSpec.Builder builder)
     {
         GUI.load(builder);
         Renderer.load(builder);
@@ -13,11 +14,11 @@ public class ClientConfig
 
     public static class GUI
     {
-        public static ForgeConfigSpec.IntValue playerTemperatureX;
-        public static ForgeConfigSpec.IntValue playerTemperatureY;
-        public static ForgeConfigSpec.BooleanValue debugInfo;
+        public static ModConfigSpec.IntValue playerTemperatureX;
+        public static ModConfigSpec.IntValue playerTemperatureY;
+        public static ModConfigSpec.BooleanValue debugInfo;
 
-        private static void load(ForgeConfigSpec.Builder builder)
+        private static void load(ModConfigSpec.Builder builder)
         {
             builder.push("GUI");
             playerTemperatureX = builder.comment("The position X of Player Temperature UI")
@@ -32,9 +33,9 @@ public class ClientConfig
 
     public static class Renderer
     {
-        public static ForgeConfigSpec.BooleanValue forceChunkRenderUpdate;
+        public static ModConfigSpec.BooleanValue forceChunkRenderUpdate;
 
-        private static void load(ForgeConfigSpec.Builder builder)
+        private static void load(ModConfigSpec.Builder builder)
         {
             builder.push("Renderer");
             forceChunkRenderUpdate = builder.comment("Force to update chunk rendering.")

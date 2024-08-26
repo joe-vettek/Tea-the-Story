@@ -1,11 +1,13 @@
 package xueluoanping.teastory.blockentity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.client.model.data.ModelProperty;
+
+import net.neoforged.neoforge.client.model.data.ModelData;
+import net.neoforged.neoforge.client.model.data.ModelProperty;
 import org.jetbrains.annotations.NotNull;
 import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.TileEntityTypeRegistry;
@@ -23,13 +25,10 @@ public class VineEntity extends SyncedBlockEntity {
         super(TileEntityTypeRegistry.VINE_TYPE.get(), pos, state);
     }
 
-    public VineEntity(BlockEntityType<?> tileEntityTypeIn, BlockPos pos, BlockState state) {
-        super(tileEntityTypeIn, pos, state);
-    }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider pRegistries) {
+        super.loadAdditional(tag,pRegistries);
         this.age = tag.getInt("age");
         this.distance = tag.getInt("distance");
     }
@@ -46,10 +45,10 @@ public class VineEntity extends SyncedBlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider pRegistries) {
         tag.putInt("age", getAge());
         tag.putInt("distance", getDistance());
-        super.saveAdditional(tag);
+        super.saveAdditional(tag,pRegistries);
     }
 
     public static int getMaxAge() {

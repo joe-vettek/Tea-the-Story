@@ -65,6 +65,7 @@ public final class JEICompat implements IModPlugin {
 
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration) {
+
         registration.useNbtForSubtypes(
                 BlockRegister.CHRYSANTHEMUM_ITEM.get(),
                 BlockRegister.HYACINTH_ITEM.get(),
@@ -114,8 +115,8 @@ public final class JEICompat implements IModPlugin {
                 .getRecipeManager()
                 .getRecipes()
                 .stream()
-                .filter(r -> r.getType() == type)
-                .map(c -> (T) c)
+                .filter(r -> r.value().getType() == type)
+                .map(c -> (T) c.value())
                 .collect(Collectors.toList());
     }
 }

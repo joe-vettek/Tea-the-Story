@@ -2,33 +2,19 @@ package cloud.lemonslice.teastory.block.decorations;
 
 import cloud.lemonslice.teastory.entity.SeatEntity;
 import cloud.lemonslice.teastory.helper.VoxelShapeHelper;
-import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.LanternBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import xueluoanping.teastory.block.NormalHorizontalBlock;
-
-import java.util.List;
 
 public class ChairBlock extends NormalHorizontalBlock {
     private final static VoxelShape NORTH_SHAPE;
@@ -40,7 +26,6 @@ public class ChairBlock extends NormalHorizontalBlock {
         super(properties);
         this.registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH));
     }
-
 
 
     @Override
@@ -59,10 +44,9 @@ public class ChairBlock extends NormalHorizontalBlock {
     }
 
 
-
     @Override
     @SuppressWarnings("deprecation")
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+    public InteractionResult useWithoutItem(BlockState state, Level worldIn, BlockPos pos, Player player, BlockHitResult hit) {
         double x = 0, z = 0;
         switch (state.getValue(FACING)) {
             case NORTH:
@@ -77,10 +61,10 @@ public class ChairBlock extends NormalHorizontalBlock {
             default:
                 x = 0.25;
         }
-        return SeatEntity.createSeat(worldIn, pos, player, 0.25+0.05, x, z);
+        return SeatEntity.createSeat(worldIn, pos, player, 0.25 + 0.05, x, z);
     }
 
-    
+
     @Override
     public float getShadeBrightness(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
         return 1.0F;

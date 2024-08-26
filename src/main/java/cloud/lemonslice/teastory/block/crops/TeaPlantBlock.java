@@ -31,8 +31,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.PlantType;
-import net.minecraftforge.common.Tags;
+import net.neoforged.neoforge.common.Tags;
 import xueluoanping.teastory.ItemRegister;
 import xueluoanping.teastory.BlockRegister;
 
@@ -90,9 +89,9 @@ public class TeaPlantBlock extends BushBlock implements BonemealableBlock {
 
             if (i < this.getMaxAge() && i != 8) {
                 float f = getGrowthChance(this, worldIn, pos);
-                if (net.minecraftforge.common.ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt((int) (25.0F / f) + 1) == 0)) {
+                if (net.neoforged.neoforge.common.CommonHooks.canCropGrow(worldIn, pos, state, rand.nextInt((int) (25.0F / f) + 1) == 0)) {
                     worldIn.setBlock(pos, state.setValue(AGE, i + 1), Block.UPDATE_CLIENTS);
-                    net.minecraftforge.common.ForgeHooks.onCropsGrowPost(worldIn, pos, state);
+                    net.neoforged.neoforge.common.CommonHooks.fireCropGrowPost(worldIn, pos, state);
                 }
             }
         }
@@ -210,7 +209,7 @@ public class TeaPlantBlock extends BushBlock implements BonemealableBlock {
 
     // canUseBonemeal
     @Override
-    public boolean isValidBonemealTarget(LevelReader p_256559_, BlockPos p_50898_, BlockState p_50899_, boolean p_50900_) {
+    public boolean isValidBonemealTarget(LevelReader p_256559_, BlockPos p_50898_, BlockState p_50899_) {
         return true;
     }
 

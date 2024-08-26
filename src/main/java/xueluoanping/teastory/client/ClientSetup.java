@@ -39,15 +39,15 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.ModelEvent;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.event.AddPackFindersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.event.AddPackFindersEvent;
 import xueluoanping.teastory.*;
 import xueluoanping.teastory.resource.ClientModFilePackResources;
 import xueluoanping.teastory.resource.ServerModFilePackResources;
@@ -57,7 +57,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientSetup {
 
 
@@ -141,9 +141,9 @@ public class ClientSetup {
 
     @SubscribeEvent
     public static void onModelBaked(ModelEvent.ModifyBakingResult event) {
-        Map<ResourceLocation, BakedModel> modelRegistry = event.getModels();
+        Map<ModelResourceLocation, BakedModel> modelRegistry = event.getModels();
 
-        for (ResourceLocation grapesRe : WarpBakeModel.grapesRes) {
+        for (ModelResourceLocation grapesRe : WarpBakeModel.grapesRes) {
             WarpBakeModel.grapes.add(modelRegistry.get(grapesRe));
         }
 
@@ -244,8 +244,6 @@ public class ClientSetup {
         });
     }
 
-
-
     @SubscribeEvent
     public static void onAddPackFindersEvent(AddPackFindersEvent event) {
 
@@ -259,5 +257,6 @@ public class ClientSetup {
 
         }
     }
+
 
 }

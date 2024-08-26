@@ -30,12 +30,9 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.Nullable;
 import xueluoanping.teastory.FluidRegistry;
 import xueluoanping.teastory.TileEntityTypeRegistry;
@@ -46,7 +43,6 @@ import java.util.List;
 import java.util.Random;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
-import static net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack.FLUID_NBT_KEY;
 
 public class TeapotBlock extends NormalHorizontalBlock implements EntityBlock {
     private static final VoxelShape SHAPE = Block.box(5F, 0F, 5F, 11F, 8F, 11F);
@@ -74,7 +70,6 @@ public class TeapotBlock extends NormalHorizontalBlock implements EntityBlock {
 
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand) {
         double d0 = pos.getX() + 0.5D;
         double d1 = pos.getY() + rand.nextDouble() * 6.0D / 16.0D;

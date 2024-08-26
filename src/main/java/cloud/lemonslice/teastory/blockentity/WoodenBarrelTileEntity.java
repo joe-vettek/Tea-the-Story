@@ -3,15 +3,13 @@ package cloud.lemonslice.teastory.blockentity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.block.entity.NormalContainerTileEntity;
 import xueluoanping.teastory.block.entity.SyncedBlockEntity;
@@ -21,7 +19,7 @@ import javax.annotation.Nullable;
 
 
 public class WoodenBarrelTileEntity extends SyncedBlockEntity {
-    private final LazyOptional<FluidTank> fluidTank = LazyOptional.of(this::createFluidHandler);
+    private final FluidTank fluidTank = createFluidHandler();
     private Fluid remainFluid = Fluids.EMPTY;
     private final int capacity;
     private int heightAmount = 0;
@@ -31,33 +29,19 @@ public class WoodenBarrelTileEntity extends SyncedBlockEntity {
         this.capacity = 4000;
     }
 
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (!this.isRemoved()) {
-            if (ForgeCapabilities.FLUID_HANDLER.equals(cap)) {
-                return fluidTank.cast();
-            }
-        }
-        return super.getCapability(cap, side);
-    }
-
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
-        this.fluidTank.ifPresent(f ->
-        {
-            f.readFromNBT(tag.getCompound("FluidTank"));
-            recordPreviousFluid(f.getFluid());
-        });
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider pRegistries) {
+        super.loadAdditional(tag, pRegistries);
+        this.fluidTank.readFromNBT(pRegistries, tag.getCompound("FluidTank"));
+        recordPreviousFluid(this.fluidTank.getFluid());
     }
 
     // write
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        fluidTank.ifPresent(f -> tag.put("FluidTank", f.writeToNBT(new CompoundTag())));
-        super.saveAdditional(tag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider pRegistries) {
+        tag.put("FluidTank", this.fluidTank.writeToNBT(pRegistries, new CompoundTag()));
+        super.saveAdditional(tag, pRegistries);
     }
 
 
@@ -78,11 +62,11 @@ public class WoodenBarrelTileEntity extends SyncedBlockEntity {
     }
 
     public FluidTank getFluidTank() {
-        return this.fluidTank.orElse(new FluidTank(0));
+        return this.fluidTank;
     }
 
     public Fluid getFluid() {
-        return this.fluidTank.map(f -> f.getFluid().getFluid()).orElse(Fluids.EMPTY);
+        return this.fluidTank.getFluid().getFluid();
     }
 
     public int getFluidAmount() {
@@ -90,12 +74,14 @@ public class WoodenBarrelTileEntity extends SyncedBlockEntity {
     }
 
     public void setFluidTank(FluidStack stack) {
-        this.fluidTank.ifPresent(f -> f.setFluid(stack));
+        this.fluidTank.setFluid(stack);
     }
 
     public void setFluid(Fluid fluid) {
-        this.fluidTank.ifPresent(f -> f.setFluid(new FluidStack(fluid, getFluidAmount())));
-        this.inventoryChanged();
+        if (!fluid.isSame(Fluids.EMPTY)) {
+            this.fluidTank.setFluid(new FluidStack(fluid, getFluidAmount()));
+            this.inventoryChanged();
+        }
     }
 
     public void recordPreviousFluid(FluidStack fluid) {

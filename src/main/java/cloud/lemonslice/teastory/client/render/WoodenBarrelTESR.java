@@ -16,25 +16,22 @@ import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 
 public class WoodenBarrelTESR implements BlockEntityRenderer<WoodenBarrelTileEntity> {
-    public WoodenBarrelTESR(BlockEntityRendererProvider.Context pContext )
-    {
+    public WoodenBarrelTESR(BlockEntityRendererProvider.Context pContext) {
 
     }
 
     @Override
-    public void render(WoodenBarrelTileEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn)
-    {
+    public void render(WoodenBarrelTileEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         Minecraft mc = Minecraft.getInstance();
 
         Fluid fluid = tileEntityIn.getRemainFluid();
-        if (fluid != Fluids.EMPTY && tileEntityIn.getHeight() > 0.0625F)
-        {
+        if (fluid != Fluids.EMPTY && tileEntityIn.getHeight() > 0.0625F) {
             matrixStackIn.pushPose();
 
-            VertexConsumer buffer = bufferIn.getBuffer(RenderType.translucentNoCrumbling());
+            VertexConsumer buffer = bufferIn.getBuffer(RenderType.translucentMovingBlock());
 
             TextureAtlasSprite still = mc.getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(IClientFluidTypeExtensions.of(fluid).getStillTexture());
 
@@ -49,10 +46,10 @@ public class WoodenBarrelTESR implements BlockEntityRenderer<WoodenBarrelTileEnt
 
             int light = LevelRenderer.getLightColor(tileEntityIn.getLevel(), tileEntityIn.getBlockPos());
 
-            buffer.vertex(matrixStackIn.last().pose(), 0.125F, height, 0.125F).color(r, g, b, a).uv(still.getU0(), still.getV0()).uv2(light).normal(1.0F, 0, 0).endVertex();
-            buffer.vertex(matrixStackIn.last().pose(), 0.125F, height, 0.875F).color(r, g, b, a).uv(still.getU0(), still.getV1()).uv2(light).normal(1.0F, 0, 0).endVertex();
-            buffer.vertex(matrixStackIn.last().pose(), 0.875F, height, 0.875F).color(r, g, b, a).uv(still.getU1(), still.getV1()).uv2(light).normal(1.0F, 0, 0).endVertex();
-            buffer.vertex(matrixStackIn.last().pose(), 0.875F, height, 0.125F).color(r, g, b, a).uv(still.getU1(), still.getV0()).uv2(light).normal(1.0F, 0, 0).endVertex();
+            buffer.addVertex(matrixStackIn.last().pose(), 0.125F, height, 0.125F).setColor(r, g, b, a).setUv(still.getU0(), still.getV0()).setLight(light).setNormal(1.0F, 0, 0);
+            buffer.addVertex(matrixStackIn.last().pose(), 0.125F, height, 0.875F).setColor(r, g, b, a).setUv(still.getU0(), still.getV1()).setLight(light).setNormal(1.0F, 0, 0);
+            buffer.addVertex(matrixStackIn.last().pose(), 0.875F, height, 0.875F).setColor(r, g, b, a).setUv(still.getU1(), still.getV1()).setLight(light).setNormal(1.0F, 0, 0);
+            buffer.addVertex(matrixStackIn.last().pose(), 0.875F, height, 0.125F).setColor(r, g, b, a).setUv(still.getU1(), still.getV0()).setLight(light).setNormal(1.0F, 0, 0);
 
             matrixStackIn.popPose();
         }

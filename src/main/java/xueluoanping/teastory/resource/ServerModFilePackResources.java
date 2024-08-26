@@ -20,7 +20,7 @@ import net.minecraft.server.packs.resources.IoSupplier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagManager;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
 import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.variant.Planks;
@@ -31,8 +31,6 @@ import xueluoanping.teastory.variant.Planks;
  * */
 public class ServerModFilePackResources extends AbstractPackResources {
     protected final String sourcePath;
-
-
 
     public ServerModFilePackResources(String name, String sourcePath) {
         super(name, true);
@@ -67,7 +65,6 @@ public class ServerModFilePackResources extends AbstractPackResources {
 
     @Override
     public void listResources(PackType type, String namespace, String path, ResourceOutput resourceOutput) {
-
 
 // TeaStory.logger(namespace,path);
 
@@ -140,16 +137,12 @@ public class ServerModFilePackResources extends AbstractPackResources {
 
                 itemObject.addProperty("item", fence.toString());
                 // jsonObject.add("result", resultObject);
-
                 resourceOutput.accept(TeaStory.rl("recipes/" + pairEntry.getKey().getPath() + ".json"), jsonObjectToIoSupplier(jsonObject));
                 count++;
-
             }
             TeaStory.logger("Build %s recipes".formatted(count));
 
         } else if (namespace.equals(TeaStory.MODID) && path.contains("advancements")) {
-            // if(true)
-            //     return;
             JsonObject jsonObject = new JsonObject();
 
             jsonObject.addProperty("parent", "minecraft:recipes/root");
@@ -209,7 +202,7 @@ public class ServerModFilePackResources extends AbstractPackResources {
                 itemsArray1.add(fenceLoc.toString());
                 itemObject.add("items", itemsArray1);
                 // jsonObject.add("result", resultObject);
-                // TeaStory.logger(222,TeaStory.rl("recipes/" + pairEntry.getKey().getPath() + ".json"),jsonObject);
+
                 resourceOutput.accept(TeaStory.rl("advancements/recipes/misc/" + pairEntry.getKey().getPath() + ".json"), jsonObjectToIoSupplier(jsonObject));
             }
         }

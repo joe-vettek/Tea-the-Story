@@ -42,7 +42,7 @@ public class HotWaterFlowingFluidBlock extends LiquidBlock {
 
 
     public HotWaterFlowingFluidBlock(Supplier<? extends FlowingFluid> supplier, Properties copy) {
-        super(supplier, copy);
+        super(supplier.get(), copy);
     }
 
 
@@ -52,13 +52,13 @@ public class HotWaterFlowingFluidBlock extends LiquidBlock {
         double d1 = pos.getY() + rand.nextDouble() * 6.0D / 16.0D;
         double d2 = pos.getZ() + 0.5D;
         double d4 = rand.nextDouble() * 0.6D - 0.3D;
-        if (this.getFluid().getFluidType().getTemperature() >= 373) {
+        if (this.fluid.getFluidType().getTemperature() >= 373) {
             worldIn.addParticle(ParticleTypes.BUBBLE, false, d0 + d4, d1, d2 + d4, 0.0D, 0.5D, 0.0D);
             if (rand.nextInt(32) == 0) {
                 worldIn.playSound((Player) null, (double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, SoundEvents.BUBBLE_COLUMN_UPWARDS_AMBIENT, SoundSource.BLOCKS, rand.nextFloat() * 0.25F + 0.75F, 0.1F);
             }
         }
-        if (worldIn.isEmptyBlock(pos.above()) && (this.getFluid().getFluidType().getTemperature() - 273) / 100F >= rand.nextFloat()) {
+        if (worldIn.isEmptyBlock(pos.above()) && (this.fluid.getFluidType().getTemperature() - 273) / 100F >= rand.nextFloat()) {
             worldIn.addParticle(ParticleTypes.CLOUD, false, d0 + d4, d1 + 1.25D, d2 + d4, 0.0D, 0.1D, 0.0D);
         }
     }
@@ -66,11 +66,11 @@ public class HotWaterFlowingFluidBlock extends LiquidBlock {
     @Override
     public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn) {
         if (entityIn instanceof LivingEntity) {
-            if (this.getFluid().getFluidType().getTemperature() >= 373) {
+            if (this.fluid.getFluidType().getTemperature() >= 373) {
                 entityIn.hurt(getBoiling(worldIn), 4.0F);
-            } else if (this.getFluid().getFluidType().getTemperature() >= 353) {
+            } else if (this.fluid.getFluidType().getTemperature() >= 353) {
                 entityIn.hurt(getBoiling(worldIn), 2.0F);
-            } else if (this.getFluid().getFluidType().getTemperature() >= 318) {
+            } else if (this.fluid.getFluidType().getTemperature() >= 318) {
                 entityIn.hurt(getBoiling(worldIn), 1.0F);
             } else {
                 ((LivingEntity) entityIn).addEffect(new MobEffectInstance(MobEffects.REGENERATION, 40, 0));
