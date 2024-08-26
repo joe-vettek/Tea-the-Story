@@ -79,7 +79,7 @@ public class DrinkMakerCategory implements IRecipeCategory<DrinkRecipe>
         builder.addSlot(RecipeIngredientRole.INPUT,  6, 6)
                 .setFluidRenderer(1000, false, 16, 64)
                 // .setOverlay(getBackground(), 0, 0)
-                .addIngredient(NeoForgeTypes.FLUID_STACK,drinkRecipe.getFluidIngredient().getStacks()[0]);
+                .addIngredient(NeoForgeTypes.FLUID_STACK,drinkRecipe.getFluidIngredient().getFluids()[0]);
 
         builder.addSlot(RecipeIngredientRole.OUTPUT,  127, 6)
                 .setFluidRenderer(1000, false, 16, 64)

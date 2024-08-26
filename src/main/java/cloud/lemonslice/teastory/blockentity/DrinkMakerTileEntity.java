@@ -3,10 +3,12 @@ package cloud.lemonslice.teastory.blockentity;
 import cloud.lemonslice.teastory.container.DrinkMakerContainer;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.Items;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import net.neoforged.neoforge.fluids.FluidActionResult;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import cloud.lemonslice.teastory.recipe.drink.DrinkRecipe;
@@ -105,7 +107,7 @@ public class DrinkMakerTileEntity extends NormalContainerTileEntity {
                     if (tileEntity.getFluidHandler() != null) {
                         var fluid = tileEntity.getFluidHandler();
                         var h = tileEntity.residuesInventory;
-                        int n = (int) Math.ceil(tileEntity.getFluidAmount() * 1.0F / tileEntity.currentRecipe.getFluidIngredient().getMatchingFluidStacks().get(0).getAmount());
+                        int n = (int) Math.ceil(tileEntity.getFluidAmount() * 1.0F / tileEntity.currentRecipe.getFluidIngredient().getFluids()[0].getAmount());
                         for (int i = 0; i < 4; i++) {
                             ItemStack residue = inv.getStackInSlot(i).getCraftingRemainingItem();
                             inv.extractItem(i, n, false);
@@ -119,8 +121,10 @@ public class DrinkMakerTileEntity extends NormalContainerTileEntity {
                             if (con.getStackInSlot(0).getItem().getCraftingRemainingItem() == Items.BUCKET) {
                                 con.setStackInSlot(0, tileEntity.currentRecipe.getFluidResult().getBucket().getDefaultInstance());
                             } else {
-                                CompoundTag nbt = new FluidStack(tileEntity.currentRecipe.getFluidResult(), tileEntity.getFluidAmount()).writeToNBT(new CompoundTag());
-                                fluid.getContainer().getOrCreateTag().put(FLUID_NBT_KEY, nbt);
+                                var f = new FluidStack(tileEntity.currentRecipe.getFluidResult(), tileEntity.getFluidAmount());
+                                var c = fluid.getContainer();
+                                c.getCapability(Capabilities.FluidHandler.ITEM).fill(f, IFluidHandler.FluidAction.EXECUTE);
+                                // fluid.getContainer().getOrCreateTag().put(FLUID_NBT_KEY, nbt);
                             }
                         }
                         tileEntity.setToZero();
@@ -209,7 +213,7 @@ public class DrinkMakerTileEntity extends NormalContainerTileEntity {
 
     public int getNeededAmount() {
         if (currentRecipe != null)
-            return (int) Math.ceil(this.getFluidAmount() * 1.0F / currentRecipe.getFluidIngredient().getMatchingFluidStacks().get(0).getAmount());
+            return (int) Math.ceil(this.getFluidAmount() * 1.0F / currentRecipe.getFluidIngredient().getFluids()[0].getAmount());
         else
             return 0;
     }

@@ -66,15 +66,21 @@ public final class JEICompat implements IModPlugin {
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration) {
 
-        registration.useNbtForSubtypes(
-                BlockRegister.CHRYSANTHEMUM_ITEM.get(),
-                BlockRegister.HYACINTH_ITEM.get(),
-                BlockRegister.ZINNIA_ITEM.get(),
-                ItemRegister.BOTTLE_DRINK.get(),
-                ItemRegister.PORCELAIN_CUP_DRINK.get(),
-                TileEntityTypeRegistry.PORCELAIN_TEAPOT.get());
-    }
+        registration.registerSubtypeInterpreter(BlockRegister.CHRYSANTHEMUM_ITEM.get(), (itemStack, uidContext) -> String.valueOf(itemStack));
+        registration.registerSubtypeInterpreter(BlockRegister.HYACINTH_ITEM.get(), (itemStack, uidContext) -> String.valueOf(itemStack));
+        registration.registerSubtypeInterpreter(BlockRegister.ZINNIA_ITEM.get(), (itemStack, uidContext) -> String.valueOf(itemStack));
+        registration.registerSubtypeInterpreter(ItemRegister.BOTTLE_DRINK.get(), (itemStack, uidContext) -> String.valueOf(itemStack));
+        registration.registerSubtypeInterpreter(ItemRegister.PORCELAIN_CUP_DRINK.get(), (itemStack, uidContext) -> String.valueOf(itemStack));
+        registration.registerSubtypeInterpreter(TileEntityTypeRegistry.PORCELAIN_TEAPOT.get(), (itemStack, uidContext) -> String.valueOf(itemStack));
 
+        // registration.useNbtForSubtypes(
+        //         BlockRegister.CHRYSANTHEMUM_ITEM.get(),
+        //         BlockRegister.HYACINTH_ITEM.get(),
+        //         BlockRegister.ZINNIA_ITEM.get(),
+        //         ItemRegister.BOTTLE_DRINK.get(),
+        //         ItemRegister.PORCELAIN_CUP_DRINK.get(),
+        //         TileEntityTypeRegistry.PORCELAIN_TEAPOT.get());
+    }
 
 
     @Override

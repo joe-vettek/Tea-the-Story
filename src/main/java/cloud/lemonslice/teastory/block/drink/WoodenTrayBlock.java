@@ -31,10 +31,12 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.Nullable;
 import xueluoanping.teastory.ItemRegister;
+import xueluoanping.teastory.ModCapabilities;
 import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.client.SoundEventsRegistry;
 
@@ -153,9 +155,7 @@ public class WoodenTrayBlock extends Block implements EntityBlock {
             return new ItemStack(ItemRegister.PORCELAIN_CUP.get());
         } else {
             ItemStack itemStack = new ItemStack(ItemRegister.PORCELAIN_CUP_DRINK.get());
-            CompoundTag fluidTag = new CompoundTag();
-            fluidStack.writeToNBT(fluidTag);
-            itemStack.getOrCreateTag().put(FLUID_NBT_KEY, fluidTag);
+            itemStack.set(ModCapabilities.SIMPLE_FLUID, SimpleFluidContent.copyOf(fluidStack));
             return itemStack;
         }
     }

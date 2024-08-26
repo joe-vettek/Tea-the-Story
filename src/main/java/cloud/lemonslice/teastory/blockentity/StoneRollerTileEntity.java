@@ -87,7 +87,7 @@ public class StoneRollerTileEntity extends NormalContainerTileEntity {
         }
         var warp = new RecipeWrapper(stoneRollerTileEntity.inputInventory);
         if (stoneRollerTileEntity.currentRecipe == null || !stoneRollerTileEntity.currentRecipe.matches(warp, stoneRollerTileEntity.getLevel())) {
-            stoneRollerTileEntity.currentRecipe = stoneRollerTileEntity.getLevel().getRecipeManager().getRecipeFor(RecipeRegister.STONE_ROLLER.get(), warp, stoneRollerTileEntity.getLevel()).orElse(null);
+            stoneRollerTileEntity.currentRecipe = stoneRollerTileEntity.getLevel().getRecipeManager().getRecipeFor(RecipeRegister.STONE_ROLLER.get(), warp, stoneRollerTileEntity.getLevel()).orElse(null).value();
         }
 
         if (stoneRollerTileEntity.currentRecipe != null) {

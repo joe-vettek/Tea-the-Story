@@ -11,6 +11,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -30,16 +31,20 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.Nullable;
 import xueluoanping.teastory.FluidRegistry;
+import xueluoanping.teastory.ModCapabilities;
 import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.block.NormalHorizontalBlock;
 import xueluoanping.teastory.client.SoundEventsRegistry;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
@@ -109,18 +114,19 @@ public class TeapotBlock extends NormalHorizontalBlock implements EntityBlock {
         super.fallOn(worldIn, state, pos, entityIn, fallDistance);
     }
 
+
     @Override
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
-        if (player.getItemInHand(handIn).isEmpty()) {
-            ItemHandlerHelper.giveItemToPlayer(player, getDrop(worldIn, pos));
-            worldIn.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
-        } else {
-            var te = worldIn.getBlockEntity(pos);
-            FluidUtil.getFluidHandler(player.getItemInHand(handIn).copy()).ifPresent(item ->
-                    te.getCapability(ForgeCapabilities.FLUID_HANDLER, hit.getDirection()).ifPresent(fluid ->
-                            FluidUtil.interactWithFluidHandler(player, handIn, fluid)));
-        }
+    protected InteractionResult useWithoutItem(BlockState pState, Level level, BlockPos pos, Player player, BlockHitResult pHitResult) {
+        ItemHandlerHelper.giveItemToPlayer(player, getDrop(level, pos));
+        level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
         return InteractionResult.SUCCESS;
+    }
+
+    @Override
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+        FluidUtil.getFluidHandler(player.getItemInHand(handIn).copy()).flatMap(item -> Optional.ofNullable(level.getCapability(Capabilities.FluidHandler.BLOCK, pos, hit.getDirection()))).ifPresent(fluid ->
+                FluidUtil.interactWithFluidHandler(player, handIn, fluid));
+        return ItemInteractionResult.SUCCESS;
     }
 
 
@@ -140,9 +146,7 @@ public class TeapotBlock extends NormalHorizontalBlock implements EntityBlock {
             if (fluidStack.isEmpty()) {
                 return itemStack;
             }
-            CompoundTag fluidTag = new CompoundTag();
-            fluidStack.writeToNBT(fluidTag);
-            itemStack.getOrCreateTag().put(FLUID_NBT_KEY, fluidTag);
+            itemStack.set(ModCapabilities.SIMPLE_FLUID, SimpleFluidContent.copyOf(fluidStack));
             return itemStack;
         } else return ItemStack.EMPTY;
     }

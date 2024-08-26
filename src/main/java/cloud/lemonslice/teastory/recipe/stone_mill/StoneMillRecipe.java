@@ -3,6 +3,7 @@ package cloud.lemonslice.teastory.recipe.stone_mill;
 
 import cloud.lemonslice.teastory.blockentity.StoneMillTileEntity;
 
+import cloud.lemonslice.teastory.recipe.drink.DrinkRecipe;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -12,6 +13,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import net.neoforged.neoforge.registries.NewRegistryEvent;
 import xueluoanping.teastory.craft.BlockEntityRecipeWrapper;
 import com.google.gson.JsonArray;
@@ -28,18 +30,18 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import xueluoanping.teastory.RecipeRegister;
 
+import java.util.List;
+
 
 public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
-    protected final ResourceLocation id;
     protected final String group;
-    protected final FluidIngredient inputFluid;
+    protected final SizedFluidIngredient inputFluid;
     protected final Ingredient inputItem;
-    protected final NonNullList<ItemStack> outputItems;
-    protected final FluidStack outputFluid;
+    protected final List<Ingredient> outputItems;
+    protected final SizedFluidIngredient outputFluid;
     protected final int workTime;
 
-    public StoneMillRecipe(ResourceLocation idIn, String groupIn, Ingredient inputItem, FluidIngredient inputFluid, NonNullList<ItemStack> outputItems, FluidStack outputFluid, int workTime) {
-        this.id = idIn;
+    public StoneMillRecipe(String groupIn, Ingredient inputItem, SizedFluidIngredient inputFluid, List<Ingredient> outputItems, SizedFluidIngredient outputFluid, int workTime) {
         this.group = groupIn;
         this.inputItem = inputItem;
         this.inputFluid = inputFluid;
@@ -63,7 +65,7 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
 
     @Override
     public ItemStack assemble(BlockEntityRecipeWrapper p_44001_, HolderLookup.Provider p_267165_) {
-        return !this.outputItems.isEmpty() ? this.outputItems.get(0).copy() : ItemStack.EMPTY.copy();
+        return !this.outputItems.isEmpty() ? this.outputItems.get(0).getItems()[0].copy() : ItemStack.EMPTY.copy();
     }
 
     @Override
@@ -74,7 +76,7 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
 
     @Override
     public ItemStack getResultItem(HolderLookup.Provider pRegistries) {
-        return !this.outputItems.isEmpty() ? this.outputItems.get(0) : ItemStack.EMPTY;
+        return !this.outputItems.isEmpty() ? this.outputItems.get(0).getItems()[0] : ItemStack.EMPTY;
     }
 
     @Override
@@ -87,15 +89,15 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
     }
 
     public FluidStack getOutputFluid() {
-        return outputFluid;
+        return outputFluid.getFluids()[0];
     }
 
-    public FluidIngredient getInputFluid() {
+    public SizedFluidIngredient getInputFluid() {
         return inputFluid;
     }
 
     public NonNullList<ItemStack> getOutputItems() {
-        return outputItems;
+        return NonNullList.copyOf(outputItems.stream().map(o -> o.getItems()[0]).toList());
     }
 
 
@@ -108,10 +110,6 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
         return this.group;
     }
 
-    // @Override
-    public ResourceLocation getId() {
-        return this.id;
-    }
 
     @Override
     public RecipeSerializer<?> getSerializer() {
@@ -124,116 +122,66 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
     }
 
 
-    public static class StoneMillRecipeSerializer extends NewRegistryEvent implements RecipeSerializer<StoneMillRecipe> {
+    public static class StoneMillRecipeSerializer implements RecipeSerializer<StoneMillRecipe> {
+        public static final MapCodec<StoneMillRecipe> codec = RecordCodecBuilder.mapCodec(
+                recipeInstance -> recipeInstance.group(
+                                Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group),
+                                Ingredient.CODEC_NONEMPTY.fieldOf("item_ingredients").forGetter(r -> r.inputItem),
+                                SizedFluidIngredient.FLAT_CODEC.optionalFieldOf("fluid_ingredient", SizedFluidIngredient.of(FluidStack.EMPTY)).forGetter(r -> r.inputFluid),
+                                Ingredient.LIST_CODEC.fieldOf("output_items").forGetter(r -> r.outputItems),
+                                SizedFluidIngredient.FLAT_CODEC.optionalFieldOf("output_fluid", SizedFluidIngredient.of(FluidStack.EMPTY)).forGetter(r -> r.outputFluid),
+                                Codec.INT.optionalFieldOf("work_time", 200).forGetter(r -> r.workTime)
+                        )
+                        .apply(recipeInstance, StoneMillRecipe::new)
+        );
+        public static final StreamCodec<RegistryFriendlyByteBuf, StoneMillRecipe> streamCodec =
+                StreamCodec.of(StoneMillRecipe.StoneMillRecipeSerializer::toNetwork, StoneMillRecipe.StoneMillRecipeSerializer::fromNetwork);
 
-
-        private static NonNullList<ItemStack> readItems(JsonArray array) {
-            NonNullList<ItemStack> nonnulllist = NonNullList.create();
-            for (int i = 0; i < array.size(); ++i) {
-                JsonElement item = array.get(i);
-                ItemStack itemStack;
-                if (item.isJsonObject()) {
-                    itemStack = ShapedRecipe.itemStackFromJson((JsonObject) item);
-                } else {
-                    itemStack = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(((JsonObject) item).get("output_items").getAsString())));
-                }
-                nonnulllist.add(itemStack);
-            }
-            return nonnulllist;
-        }
-
-
-        @Override
-        public StoneMillRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
-            String group = json.has("group") ? json.get("group").getAsString() : "";
-
-            if (!json.has("item_ingredient"))
-                throw new JsonSyntaxException("Missing input ingredient, expected to find a string or object");
-
-            Ingredient inputItem = Ingredient.fromJson(json.get("item_ingredient"));
-
-            FluidIngredient inputFluid;
-            if (json.has("fluid_ingredient")) {
-                inputFluid = FluidIngredient.deserialize(json.get("fluid_ingredient"));
-            } else {
-                inputFluid = FluidIngredient.EMPTY;
-            }
-
-            if (!json.has("output_fluid") && !json.has("output_items"))
-                throw new JsonSyntaxException("Missing output, expected to find a string or object");
-
-            FluidStack outputFluid;
-            if (json.has("output_fluid")) {
-                JsonObject jsonOutputFluid = json.getAsJsonObject("output_fluid");
-                Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(jsonOutputFluid.get("fluid").getAsString()));
-                if (fluid == null) {
-                    outputFluid = FluidStack.EMPTY;
-                } else {
-                    int amount = jsonOutputFluid.get("amount").getAsInt();
-                    outputFluid = new FluidStack(fluid, amount);
-                }
-            } else {
-                outputFluid = FluidStack.EMPTY;
-            }
-
-            NonNullList<ItemStack> outputItems;
-            if (json.has("output_items")) {
-                outputItems = readItems(json.getAsJsonArray("output_items"));
-            } else {
-                outputItems = NonNullList.create();
-            }
-
-            int i = json.has("work_time") ? json.get("work_time").getAsInt() : 200;
-            return new StoneMillRecipe(recipeId, group, inputItem, inputFluid, outputItems, outputFluid, i);
-        }
-
-        @Override
-        public StoneMillRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
-
-            String groupIn = buffer.readUtf(32767);
-            Ingredient inputItem = Ingredient.fromNetwork(buffer);
-            FluidIngredient inputFluid = FluidIngredient.read(buffer);
-
-            int i = buffer.readVarInt();
-            NonNullList<ItemStack> outputItems = NonNullList.withSize(i, ItemStack.EMPTY);
-            for (int j = 0; j < i; ++j) {
-                outputItems.set(j, buffer.readItem());
-            }
-
-            FluidStack outputFluid = buffer.readFluidStack();
-
-            int workTime = buffer.readVarInt();
-
-            return new StoneMillRecipe(recipeId, groupIn, inputItem, inputFluid, outputItems, outputFluid, i);
-        }
-
-        @Override
-        public void toNetwork(FriendlyByteBuf buffer, StoneMillRecipe recipe) {
+        public static void toNetwork(RegistryFriendlyByteBuf buffer, StoneMillRecipe recipe) {
             buffer.writeUtf(recipe.getGroup());
-            recipe.getInputItem().toNetwork(buffer);
-            // TeaStory.logger(recipe.getInputFluid().serialize());
-            recipe.getInputFluid().write(buffer);
+
+            Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.getInputItem());
+
+            SizedFluidIngredient.STREAM_CODEC.encode(buffer, recipe.inputFluid);
+
 
             buffer.writeVarInt(recipe.getOutputItems().size());
             for (ItemStack ingredient : recipe.getOutputItems()) {
-                buffer.writeItemStack(ingredient, false);
+                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, Ingredient.of(ingredient));
             }
 
-            FluidIngredient fluidIngredient = FluidIngredient.EMPTY;
-            buffer.writeFluidStack(recipe.getOutputFluid());
-
+            SizedFluidIngredient.STREAM_CODEC.encode(buffer, recipe.outputFluid);
             buffer.writeVarInt(recipe.getWorkTime());
+        }
+
+        public static StoneMillRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
+
+            String groupIn = buffer.readUtf(32767);
+            Ingredient inputItem = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
+            var inputFluid = SizedFluidIngredient.STREAM_CODEC.decode(buffer);
+
+            int i = buffer.readVarInt();
+            NonNullList<Ingredient> outputItems = NonNullList.withSize(i, Ingredient.EMPTY);
+            for (int j = 0; j < i; ++j) {
+                outputItems.set(j, Ingredient.CONTENTS_STREAM_CODEC.decode(buffer));
+            }
+
+            var outputFluid = SizedFluidIngredient.STREAM_CODEC.decode(buffer);
+
+            int workTime = buffer.readVarInt();
+
+            return new StoneMillRecipe(groupIn, inputItem, inputFluid, outputItems, outputFluid, workTime);
         }
 
 
         @Override
         public MapCodec<StoneMillRecipe> codec() {
-            return null;
+            return codec;
         }
 
         @Override
         public StreamCodec<RegistryFriendlyByteBuf, StoneMillRecipe> streamCodec() {
-            return null;
+            return streamCodec;
         }
     }
 }

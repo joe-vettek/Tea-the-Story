@@ -4,28 +4,35 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.common.crafting.SizedIngredient;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import xueluoanping.teastory.RecipeRegister;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class StoneRollerRecipe implements Recipe<RecipeWrapper> {
-    protected final ResourceLocation id;
     protected final String group;
     protected final Ingredient inputItem;
-    protected final NonNullList<ItemStack> outputItems;
+    protected final SizedIngredient outputItems;
     protected final int workTime;
 
-    public StoneRollerRecipe(ResourceLocation idIn, String groupIn, Ingredient inputItem, NonNullList<ItemStack> outputItems, int workTime) {
-        this.id = idIn;
+    public StoneRollerRecipe(String groupIn, Ingredient inputItem, SizedIngredient outputItems, int workTime) {
         this.group = groupIn;
         this.inputItem = inputItem;
         this.outputItems = outputItems;
@@ -44,7 +51,7 @@ public class StoneRollerRecipe implements Recipe<RecipeWrapper> {
 
     @Override
     public ItemStack assemble(RecipeWrapper p_44001_, HolderLookup.Provider p_267165_) {
-        return !this.outputItems.isEmpty() ? this.outputItems.get(0).copy() : ItemStack.EMPTY.copy();
+        return this.outputItems.getItems().length > 0 ? this.outputItems.getItems()[0].copy() : ItemStack.EMPTY;
     }
 
     @Override
@@ -54,7 +61,7 @@ public class StoneRollerRecipe implements Recipe<RecipeWrapper> {
 
     @Override
     public ItemStack getResultItem(HolderLookup.Provider p_267052_) {
-        return !this.outputItems.isEmpty() ? this.outputItems.get(0) : ItemStack.EMPTY;
+        return this.outputItems.getItems().length > 0 ? this.outputItems.getItems()[0] : ItemStack.EMPTY;
     }
 
     @Override
@@ -67,7 +74,7 @@ public class StoneRollerRecipe implements Recipe<RecipeWrapper> {
     }
 
     public NonNullList<ItemStack> getOutputItems() {
-        return outputItems;
+        return NonNullList.copyOf(List.of(outputItems.getItems()));
     }
 
 
@@ -78,11 +85,6 @@ public class StoneRollerRecipe implements Recipe<RecipeWrapper> {
     @Override
     public String getGroup() {
         return this.group;
-    }
-
-    @Override
-    public ResourceLocation getId() {
-        return this.id;
     }
 
 
@@ -99,76 +101,60 @@ public class StoneRollerRecipe implements Recipe<RecipeWrapper> {
 
     public static class StoneRollerRecipeSerializer implements RecipeSerializer<StoneRollerRecipe> {
 
-
-        private static NonNullList<ItemStack> readItems(JsonArray array) {
-            NonNullList<ItemStack> nonnulllist = NonNullList.create();
-            for (int i = 0; i < array.size(); ++i) {
-                JsonElement item = array.get(i);
-                ItemStack itemStack;
-                if (item.isJsonObject()) {
-                    itemStack = ShapedRecipe.itemStackFromJson((JsonObject) item);
-                } else {
-                    itemStack = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(((JsonObject) item).get("output_items").getAsString())));
-                }
-                nonnulllist.add(itemStack);
-            }
-            return nonnulllist;
-        }
+        public static final MapCodec<StoneRollerRecipe> codec = RecordCodecBuilder.mapCodec(
+                recipeInstance -> recipeInstance.group(
+                                Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group),
+                                Ingredient.CODEC_NONEMPTY.fieldOf("item_ingredients").forGetter(r -> r.inputItem),
+                                SizedIngredient.FLAT_CODEC.fieldOf("output_items").forGetter(r -> r.outputItems),
+                                Codec.INT.optionalFieldOf("work_time", 200).forGetter(r -> r.workTime)
+                        )
+                        .apply(recipeInstance, StoneRollerRecipe::new)
+        );
+        public static final StreamCodec<RegistryFriendlyByteBuf, StoneRollerRecipe> streamCodec =
+                StreamCodec.of(StoneRollerRecipe.StoneRollerRecipeSerializer::toNetwork, StoneRollerRecipe.StoneRollerRecipeSerializer::fromNetwork);
 
 
-        @Override
-        public StoneRollerRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
-            String group = json.has("group") ? json.get("group").getAsString() : "";
-
-            if (!json.has("item_ingredient"))
-                throw new JsonSyntaxException("Missing input ingredient, expected to find a string or object");
-
-            JsonElement jsonelement = json.get("item_ingredient");
-            Ingredient inputItem = Ingredient.fromJson(jsonelement);
-
-            if (!json.has("output_items"))
-                throw new JsonSyntaxException("Missing output, expected to find a string or object");
-
-            NonNullList<ItemStack> outputItems;
-            if (json.has("output_items")) {
-                outputItems = readItems(json.getAsJsonArray("output_items"));
-            } else {
-                outputItems = NonNullList.create();
-            }
-
-            int workTime = json.has("work_time") ? json.get("work_time").getAsInt() : 200;
-            return new StoneRollerRecipe(recipeId, group, inputItem, outputItems, workTime);
-        }
-
-        @Override
-        public @Nullable StoneRollerRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
-            String groupIn = buffer.readUtf(32767);
-            Ingredient inputItem = Ingredient.fromNetwork(buffer);
-
-            int i = buffer.readVarInt();
-            NonNullList<ItemStack> outputItems = NonNullList.withSize(i, ItemStack.EMPTY);
-            for (int j = 0; j < i; ++j) {
-                outputItems.set(j, buffer.readItem());
-            }
-
-            int workTime = buffer.readVarInt();
-
-            return new StoneRollerRecipe(recipeId, groupIn, inputItem, outputItems, workTime);
-        }
-
-        @Override
-        public void toNetwork(FriendlyByteBuf buffer, StoneRollerRecipe recipe) {
+        public static void toNetwork(RegistryFriendlyByteBuf buffer, StoneRollerRecipe recipe) {
             buffer.writeUtf(recipe.getGroup());
-            recipe.getInputItem().toNetwork(buffer);
 
-            buffer.writeVarInt(recipe.getOutputItems().size());
-            for (ItemStack ingredient : recipe.getOutputItems()) {
-                buffer.writeItemStack(ingredient, false);
-            }
+            Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.getInputItem());
+
+            // buffer.writeVarInt(recipe.getOutputItems().size());
+            // for (ItemStack ingredient : recipe.getOutputItems()) {
+            //     Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, Ingredient.of(ingredient));
+            // }
+            SizedIngredient.STREAM_CODEC.encode(buffer, recipe.outputItems);
 
             buffer.writeVarInt(recipe.getWorkTime());
         }
 
+        public static StoneRollerRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
 
+            String groupIn = buffer.readUtf(32767);
+            Ingredient inputItem = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
+
+            // int i = buffer.readVarInt();
+            // NonNullList<Ingredient> outputItems = NonNullList.withSize(i, Ingredient.EMPTY);
+            // for (int j = 0; j < i; ++j) {
+            //     outputItems.set(j, Ingredient.CONTENTS_STREAM_CODEC.decode(buffer));
+            // }
+            var outputItems = SizedIngredient.STREAM_CODEC.decode(buffer);
+
+
+            int workTime = buffer.readVarInt();
+
+            return new StoneRollerRecipe(groupIn, inputItem, outputItems, workTime);
+        }
+
+
+        @Override
+        public MapCodec<StoneRollerRecipe> codec() {
+            return codec;
+        }
+
+        @Override
+        public StreamCodec<RegistryFriendlyByteBuf, StoneRollerRecipe> streamCodec() {
+            return streamCodec;
+        }
     }
 }

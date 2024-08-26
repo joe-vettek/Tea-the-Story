@@ -31,22 +31,22 @@ public class RecipeRegister {
 
     public static final DeferredHolder<RecipeSerializer<?>, BambooTraySingleInRecipe.BambooTraySingleInRecipeSerializer<BambooTrayOutdoorsRecipe>> BAMBOO_TRAY_OUTDOORS_SERIALIZER = DRRecipeSerializer
             .register("bamboo_tray_outdoors", ()->new BambooTraySingleInRecipe.BambooTraySingleInRecipeSerializer<>(BambooTrayOutdoorsRecipe::new,200));
-    public static final DeferredHolder<RecipeType<?>, RecipeType<Recipe<?>>> BAMBOO_TRAY_OUTDOORS =
+    public static final DeferredHolder<RecipeType<?>, RecipeType<BambooTrayOutdoorsRecipe>> BAMBOO_TRAY_OUTDOORS =
             DRRecipeType.register("bamboo_tray_outdoors", () -> RecipeType.simple(TeaStory.rl("bamboo_tray_outdoors")));
 
     public static final DeferredHolder<RecipeSerializer<?>, BambooTraySingleInRecipe.BambooTraySingleInRecipeSerializer<BambooTrayIndoorsRecipe>> BAMBOO_TRAY_INDOORS_SERIALIZER = DRRecipeSerializer
             .register("bamboo_tray_indoors", ()->new BambooTraySingleInRecipe.BambooTraySingleInRecipeSerializer<>(BambooTrayIndoorsRecipe::new,200));
-    public static final DeferredHolder<RecipeType<?>, RecipeType<Recipe<?>>> BAMBOO_TRAY_INDOORS =
+    public static final DeferredHolder<RecipeType<?>, RecipeType<BambooTrayIndoorsRecipe>> BAMBOO_TRAY_INDOORS =
             DRRecipeType.register("bamboo_tray_indoors", () -> RecipeType.simple(TeaStory.rl("bamboo_tray_indoors")));
 
     public static final DeferredHolder<RecipeSerializer<?>, BambooTraySingleInRecipe.BambooTraySingleInRecipeSerializer<BambooTrayInRainRecipe>> BAMBOO_TRAY_IN_RAIN_SERIALIZER = DRRecipeSerializer
             .register("bamboo_tray_in_rain", ()->new BambooTraySingleInRecipe.BambooTraySingleInRecipeSerializer<>(BambooTrayInRainRecipe::new,200));
-    public static final DeferredHolder<RecipeType<?>, RecipeType<Recipe<?>>> BAMBOO_TRAY_IN_RAIN =
+    public static final DeferredHolder<RecipeType<?>, RecipeType<BambooTrayInRainRecipe>> BAMBOO_TRAY_IN_RAIN =
             DRRecipeType.register("bamboo_tray_in_rain", () -> RecipeType.simple(TeaStory.rl("bamboo_tray_in_rain")));
 
     public static final DeferredHolder<RecipeSerializer<?>, BambooTraySingleInRecipe.BambooTraySingleInRecipeSerializer<BambooTrayBakeRecipe>> BAMBOO_TRAY_BAKE_SERIALIZER = DRRecipeSerializer
             .register("bamboo_tray_bake",()->new BambooTraySingleInRecipe.BambooTraySingleInRecipeSerializer<>(BambooTrayBakeRecipe::new,200));
-    public static final DeferredHolder<RecipeType<?>, RecipeType<Recipe<?>>> BAMBOO_TRAY_BAKE =
+    public static final DeferredHolder<RecipeType<?>, RecipeType<BambooTrayBakeRecipe>> BAMBOO_TRAY_BAKE =
             DRRecipeType.register("bamboo_tray_bake", () -> RecipeType.simple(TeaStory.rl("bamboo_tray_bake")));
 
     public static final DeferredHolder<RecipeSerializer<?>, DrinkRecipe.DrinkRecipeSerializer> DRINK_MAKER_SERIALIZER = DRRecipeSerializer
@@ -63,7 +63,7 @@ public class RecipeRegister {
 
     public static final DeferredHolder<RecipeSerializer<?>, StoneRollerRecipe.StoneRollerRecipeSerializer> STONE_ROLLER_SERIALIZER = DRRecipeSerializer
             .register("stone_roller", StoneRollerRecipe.StoneRollerRecipeSerializer::new);
-    public static final DeferredHolder<RecipeType<?>, RecipeType<Recipe<?>>> STONE_ROLLER =
+    public static final DeferredHolder<RecipeType<?>, RecipeType<StoneRollerRecipe>> STONE_ROLLER =
             DRRecipeType.register("stone_roller", () -> RecipeType.simple(TeaStory.rl("stone_roller")));
 
     public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<FlowerDyeRecipe>> CRAFTING_SPECIAL_FLOWERDYE = DRRecipeSerializer

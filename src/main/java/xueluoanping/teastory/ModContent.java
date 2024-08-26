@@ -136,7 +136,13 @@ public class ModContent {
     // SimpleFluidContent
     @SubscribeEvent
     public static void onRegisterCapabilitiesEvent(RegisterCapabilitiesEvent event) {
-        event.registerItem(Capabilities.FluidHandler.ITEM, (s, a) -> ((FluidContainerItem) s.getItem()).transferToFluidHandler(s)),ItemRegister.PORCELAIN_CUP_DRINK.value(),ItemRegister.PORCELAIN_CUP.value(), ItemRegister.BOTTLE.value(), ItemRegister.BOTTLE_DRINK.value());
+        event.registerItem(Capabilities.FluidHandler.ITEM, (s, a) -> ((FluidContainerItem) s.getItem()).transferToFluidHandler(s),
+                ItemRegister.PORCELAIN_CUP_DRINK.value(),
+                ItemRegister.PORCELAIN_CUP.value(),
+                ItemRegister.BOTTLE.value(),
+                ItemRegister.BOTTLE_DRINK.value(),
+                TileEntityTypeRegistry.PORCELAIN_TEAPOT.value(),
+                TileEntityTypeRegistry.IRON_KETTLE_ITEM.value());
 
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, TileEntityTypeRegistry.WOODEN_BARREL_TYPE.get(),
                 (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getFluidTank());

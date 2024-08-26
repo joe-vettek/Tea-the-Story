@@ -1,28 +1,24 @@
 package cloud.lemonslice.teastory.recipe.drink;
 
-import cloud.lemonslice.teastory.recipe.bamboo_tray.BambooTraySingleInRecipe;
 import com.google.common.collect.Lists;
-import com.google.gson.*;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
 
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.util.RecipeMatcher;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
 import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
@@ -35,9 +31,9 @@ public class DrinkRecipe implements Recipe<RecipeWrapper> {
     protected final String group;
     protected final List<Ingredient> ingredients;
     protected final SizedFluidIngredient fluidIngredient;
-    protected final SizedFluidIngredient result;
+    protected final FluidIngredient result;
 
-    public DrinkRecipe(String groupIn, List<Ingredient> ingredientIn, SizedFluidIngredient fluidIn, SizedFluidIngredient resultIn) {
+    public DrinkRecipe(String groupIn, List<Ingredient> ingredientIn, SizedFluidIngredient fluidIn, FluidIngredient resultIn) {
         this.group = groupIn;
         this.ingredients = ingredientIn;
         this.fluidIngredient = fluidIn;
@@ -50,11 +46,11 @@ public class DrinkRecipe implements Recipe<RecipeWrapper> {
         List<ItemStack> inputs = Lists.newArrayList();
         return FluidUtil.getFluidHandler(inv.getItem(8).copy()).map(h ->
         {
-            if (fluidIngredient.getStacks().length == 0) {
+            if (fluidIngredient.getFluids().length == 0) {
                 return false;
             } else {
                 boolean flag = false;
-                for (FluidStack fluidStack : fluidIngredient.getStacks()) {
+                for (FluidStack fluidStack : fluidIngredient.getFluids()) {
                     if (FluidStack.isSameFluid(h.getFluidInTank(0), fluidStack)
                             && h.getFluidInTank(0).getAmount() > fluidStack.getAmount()) {
                         flag = true;
@@ -81,9 +77,10 @@ public class DrinkRecipe implements Recipe<RecipeWrapper> {
         return FluidUtil.getFluidHandler(inv.getItem(8).copy()).map(h ->
         {
             ItemStack container = inv.getItem(8).copy();
-            CompoundTag fluidTag = new CompoundTag();
-            new FluidStack(result, h.getFluidInTank(0).getAmount()).save(pRegistries, fluidTag);
-            container.getOrCreateTag().put(FLUID_NBT_KEY, fluidTag);
+            // CompoundTag fluidTag = new CompoundTag();
+            // .save(pRegistries, fluidTag);
+            //  container.getOrCreateTag().put(FLUID_NBT_KEY, fluidTag);
+            container.getCapability(Capabilities.FluidHandler.ITEM).fill(new FluidStack(result.getStacks()[0].getFluid(), h.getFluidInTank(0).getAmount()), IFluidHandler.FluidAction.EXECUTE);
             return container;
         }).orElse(ItemStack.EMPTY);
     }
@@ -104,9 +101,11 @@ public class DrinkRecipe implements Recipe<RecipeWrapper> {
         return NonNullList.of(FluidUtil.getFluidHandler(inv.getItem(8).copy()).map(h ->
         {
             ItemStack container = inv.getItem(8).copy();
-            CompoundTag fluidTag = new CompoundTag();
-            (result.getFluids()[0]).save(fluidTag);
-            container.getOrCreateTag().put(FLUID_NBT_KEY, fluidTag);
+            // CompoundTag fluidTag = new CompoundTag();
+            // (result.getFluids()[0]).save(fluidTag);
+            // container.getOrCreateTag().put(FLUID_NBT_KEY, fluidTag);
+            container.getCapability(Capabilities.FluidHandler.ITEM).fill(new FluidStack(result.getStacks()[0].getFluid(), h.getFluidInTank(0).getAmount()), IFluidHandler.FluidAction.EXECUTE);
+
             return container;
         }).orElse(ItemStack.EMPTY));
     }
@@ -118,7 +117,7 @@ public class DrinkRecipe implements Recipe<RecipeWrapper> {
     }
 
     public Fluid getFluidResult() {
-        return result.getFluids()[0].getFluid();
+        return result.getStacks()[0].getFluid();
     }
 
     public SizedFluidIngredient getFluidIngredient() {
@@ -126,7 +125,7 @@ public class DrinkRecipe implements Recipe<RecipeWrapper> {
     }
 
     public int getFluidAmount() {
-        return fluidIngredient.getStacks()[0].getAmount();
+        return fluidIngredient.getFluids()[0].getAmount();
     }
 
     @Override
@@ -152,7 +151,7 @@ public class DrinkRecipe implements Recipe<RecipeWrapper> {
                                 Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group),
                                 Ingredient.LIST_CODEC_NONEMPTY.fieldOf("item_ingredients").forGetter(r -> r.ingredients),
                                 SizedFluidIngredient.FLAT_CODEC.optionalFieldOf("fluid_ingredient", SizedFluidIngredient.of(FluidStack.EMPTY)).forGetter(r -> r.fluidIngredient),
-                                SizedFluidIngredient.FLAT_CODEC.fieldOf("drink_result").forGetter(r -> r.result)
+                                FluidIngredient.CODEC_NON_EMPTY.fieldOf("drink_result").forGetter(r -> r.result)
                         )
                         .apply(recipeInstance, DrinkRecipe::new)
         );
@@ -165,12 +164,11 @@ public class DrinkRecipe implements Recipe<RecipeWrapper> {
 
             int i = buffer.readVarInt();
             NonNullList<Ingredient> ingredients = NonNullList.withSize(i, Ingredient.EMPTY);
-            for (int j = 0; j < ingredients.size(); ++j) {
-                ingredients.set(j, Ingredient.fromNetwork(buffer));
-            }
+            ingredients.replaceAll(ignored -> Ingredient.CONTENTS_STREAM_CODEC.decode(buffer));
 
-            FluidIngredient fluidIngredient = FluidIngredient.read(buffer);
-            Fluid result = buffer.readFluidStack().getFluid();
+            SizedFluidIngredient fluidIngredient = SizedFluidIngredient.STREAM_CODEC.decode(buffer);
+            var result = FluidIngredient.STREAM_CODEC.decode(buffer);
+
             return new DrinkRecipe(group, ingredients, fluidIngredient, result);
         }
 
@@ -180,11 +178,12 @@ public class DrinkRecipe implements Recipe<RecipeWrapper> {
             buffer.writeVarInt(recipe.getIngredients().size());
 
             for (Ingredient ingredient : recipe.getIngredients()) {
-                ingredient.toNetwork(buffer);
+                // ingredient.toNetwork(buffer);
+                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, ingredient);
             }
 
-            recipe.getFluidIngredient().write(buffer);
-            buffer.writeFluidStack(new FluidStack(recipe.getFluidResult(), 1));
+            SizedFluidIngredient.STREAM_CODEC.encode(buffer, recipe.getFluidIngredient());
+            FluidIngredient.STREAM_CODEC.encode(buffer, FluidIngredient.of(recipe.getFluidResult()));
         }
 
         @Override
