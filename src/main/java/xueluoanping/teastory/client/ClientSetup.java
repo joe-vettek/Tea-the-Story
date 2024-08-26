@@ -80,7 +80,7 @@ public class ClientSetup {
         FluidRegistry.FLUIDS.getEntries().forEach(holder -> {
 
             if (holder.get().getFluidType() instanceof TeaFluidType teaFluidType
-                    && holder.get() instanceof BaseFlowingFluid baseFlowingFluid)
+                    && holder.get() instanceof BaseFlowingFluid.Source baseFlowingFluid)
                 event.registerFluidType(TeaFluidType.getIClientFluidTypeExtensions(teaFluidType), baseFlowingFluid.getFluidType());
         });
 

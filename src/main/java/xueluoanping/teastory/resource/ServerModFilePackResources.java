@@ -68,7 +68,7 @@ public class ServerModFilePackResources extends AbstractPackResources {
 
 // TeaStory.logger(namespace,path);
 
-        if (namespace.equals("minecraft") && path.contains("tags/blocks")) {
+        if (namespace.equals("minecraft") && path.contains("tags/block")) {
             JsonObject jsonObject = new JsonObject();
             JsonArray jsonArray = new JsonArray();
             Planks.TrellisBlockMap.forEach((resourceLocation, blockBlockPair) -> {
@@ -87,7 +87,7 @@ public class ServerModFilePackResources extends AbstractPackResources {
             var loc = TeaStory.rl(base.getNamespace(), resourceType.getPrefix() + "/" + base.getPath() + resourceType.getSuffix());
             resourceOutput.accept(loc, jsonObjectToIoSupplier(jsonObject));
 
-        } else if (namespace.equals(TeaStory.MODID) && path.contains("recipes")) {
+        } else if (namespace.equals(TeaStory.MODID) && path.contains("recipe")) {
             JsonObject jsonObject = new JsonObject();
 
             jsonObject.addProperty("type", "minecraft:crafting_shaped");
@@ -137,12 +137,12 @@ public class ServerModFilePackResources extends AbstractPackResources {
 
                 itemObject.addProperty("item", fence.toString());
                 // jsonObject.add("result", resultObject);
-                resourceOutput.accept(TeaStory.rl("recipes/" + pairEntry.getKey().getPath() + ".json"), jsonObjectToIoSupplier(jsonObject));
+                resourceOutput.accept(TeaStory.rl("recipe/" + pairEntry.getKey().getPath() + ".json"), jsonObjectToIoSupplier(jsonObject));
                 count++;
             }
             TeaStory.logger("Build %s recipes".formatted(count));
 
-        } else if (namespace.equals(TeaStory.MODID) && path.contains("advancements")) {
+        } else if (namespace.equals(TeaStory.MODID) && path.contains("advancement")) {
             JsonObject jsonObject = new JsonObject();
 
             jsonObject.addProperty("parent", "minecraft:recipes/root");
@@ -203,7 +203,7 @@ public class ServerModFilePackResources extends AbstractPackResources {
                 itemObject.add("items", itemsArray1);
                 // jsonObject.add("result", resultObject);
 
-                resourceOutput.accept(TeaStory.rl("advancements/recipes/misc/" + pairEntry.getKey().getPath() + ".json"), jsonObjectToIoSupplier(jsonObject));
+                resourceOutput.accept(TeaStory.rl("advancement/recipes/misc/" + pairEntry.getKey().getPath() + ".json"), jsonObjectToIoSupplier(jsonObject));
             }
         }
 

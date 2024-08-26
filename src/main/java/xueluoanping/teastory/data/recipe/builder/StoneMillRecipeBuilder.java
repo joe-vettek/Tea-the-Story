@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
 import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import xueluoanping.teastory.RecipeRegister;
 import xueluoanping.teastory.TeaStory;
@@ -34,16 +35,17 @@ public class StoneMillRecipeBuilder {
         this.workTime = workTime;
     }
 
-    public static StoneMillRecipeBuilder recipe(int workTime, Ingredient inputItem, SizedFluidIngredient inputFluid, FluidStack outputFluid, ItemStack... outputItems) {
-        return new StoneMillRecipeBuilder(inputItem, inputFluid, NonNullList.of(Ingredient.EMPTY, Arrays.stream(outputItems).map(Ingredient::of).toArray( Ingredient[]::new)), SizedFluidIngredient.of(outputFluid), workTime);
+    public static StoneMillRecipeBuilder recipe(int workTime, Ingredient inputItem, SizedFluidIngredient inputFluid, SizedFluidIngredient outputFluid, ItemStack... outputItems) {
+        var items=NonNullList.of(Ingredient.EMPTY, Arrays.stream(outputItems).filter(itemStack -> !itemStack.isEmpty()).map(Ingredient::of).toArray( Ingredient[]::new));
+        return new StoneMillRecipeBuilder(inputItem, inputFluid, items, outputFluid, workTime);
     }
 
     public static StoneMillRecipeBuilder recipeWithDefaultTime(Ingredient inputItem, SizedFluidIngredient inputFluid, FluidStack outputFluid, ItemStack... outputItems) {
-        return recipe(200, inputItem, inputFluid, outputFluid, outputItems);
+        return recipe(200, inputItem, inputFluid, SizedFluidIngredient.of(outputFluid), outputItems);
     }
 
     public static StoneMillRecipeBuilder recipeWithoutFluid(int workTime, Ingredient inputItem, ItemStack... outputItems) {
-        return recipe(workTime, inputItem, SizedFluidIngredient.of(FluidStack.EMPTY), FluidStack.EMPTY, outputItems);
+        return recipe(workTime, inputItem, null,null, outputItems);
     }
 
     public static StoneMillRecipeBuilder recipeWithDefaultTimeWithoutFluid(Ingredient inputItem, ItemStack... outputItems) {

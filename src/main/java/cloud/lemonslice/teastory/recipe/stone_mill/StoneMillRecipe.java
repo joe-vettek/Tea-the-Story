@@ -31,6 +31,7 @@ import net.minecraft.world.level.material.Fluid;
 import xueluoanping.teastory.RecipeRegister;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
@@ -48,6 +49,22 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
         this.outputItems = outputItems;
         this.outputFluid = outputFluid;
         this.workTime = workTime;
+    }
+
+    public StoneMillRecipe(String groupIn, Ingredient inputItem, SizedFluidIngredient inputFluid, List<Ingredient> outputItems, int workTime) {
+        this(groupIn, inputItem, inputFluid, outputItems, null, workTime);
+    }
+
+    public StoneMillRecipe(String groupIn, Ingredient inputItem, List<Ingredient> outputItems, SizedFluidIngredient outputFluid, int workTime) {
+        this(groupIn, inputItem, null, outputItems, outputFluid, workTime);
+    }
+
+    public StoneMillRecipe(String groupIn, Ingredient inputItem, List<Ingredient> outputItems, int workTime) {
+        this(groupIn, inputItem, null, outputItems, null, workTime);
+    }
+
+    public StoneMillRecipe(String groupIn, Ingredient ingredient, Optional<SizedFluidIngredient> sizedFluidIngredient, List<Ingredient> outputItems, Optional<SizedFluidIngredient> outputFluid, Integer workTime) {
+        this(groupIn, ingredient, sizedFluidIngredient.orElse(null), outputItems, outputFluid.orElse(null), workTime);
     }
 
     @Override
@@ -127,9 +144,9 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
                 recipeInstance -> recipeInstance.group(
                                 Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group),
                                 Ingredient.CODEC_NONEMPTY.fieldOf("item_ingredients").forGetter(r -> r.inputItem),
-                                SizedFluidIngredient.FLAT_CODEC.fieldOf("fluid_ingredient").forGetter(r -> r.inputFluid),
+                                SizedFluidIngredient.FLAT_CODEC.optionalFieldOf("fluid_ingredient").forGetter(r -> java.util.Optional.ofNullable(r.inputFluid)),
                                 Ingredient.LIST_CODEC.fieldOf("output_items").forGetter(r -> r.outputItems),
-                                SizedFluidIngredient.FLAT_CODEC.fieldOf("output_fluid").forGetter(r -> r.outputFluid),
+                                SizedFluidIngredient.FLAT_CODEC.optionalFieldOf("output_fluid").forGetter(r -> java.util.Optional.ofNullable(r.outputFluid)),
                                 Codec.INT.optionalFieldOf("work_time", 200).forGetter(r -> r.workTime)
                         )
                         .apply(recipeInstance, StoneMillRecipe::new)
@@ -142,7 +159,9 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
 
             Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.getInputItem());
 
-            SizedFluidIngredient.STREAM_CODEC.encode(buffer, recipe.inputFluid);
+            buffer.writeBoolean(recipe.inputFluid != null);
+            if (recipe.inputFluid != null)
+                SizedFluidIngredient.STREAM_CODEC.encode(buffer, recipe.inputFluid);
 
 
             buffer.writeVarInt(recipe.getOutputItems().size());
@@ -150,7 +169,10 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
                 Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, Ingredient.of(ingredient));
             }
 
-            SizedFluidIngredient.STREAM_CODEC.encode(buffer, recipe.outputFluid);
+            buffer.writeBoolean(recipe.outputFluid != null);
+            if (recipe.outputFluid != null)
+                SizedFluidIngredient.STREAM_CODEC.encode(buffer, recipe.outputFluid);
+
             buffer.writeVarInt(recipe.getWorkTime());
         }
 
@@ -158,7 +180,8 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
 
             String groupIn = buffer.readUtf(32767);
             Ingredient inputItem = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
-            var inputFluid = SizedFluidIngredient.STREAM_CODEC.decode(buffer);
+
+            var inputFluid =buffer.readBoolean()? SizedFluidIngredient.STREAM_CODEC.decode(buffer):null;
 
             int i = buffer.readVarInt();
             NonNullList<Ingredient> outputItems = NonNullList.withSize(i, Ingredient.EMPTY);
@@ -166,7 +189,7 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
                 outputItems.set(j, Ingredient.CONTENTS_STREAM_CODEC.decode(buffer));
             }
 
-            var outputFluid = SizedFluidIngredient.STREAM_CODEC.decode(buffer);
+            var outputFluid = buffer.readBoolean()?SizedFluidIngredient.STREAM_CODEC.decode(buffer):null;
 
             int workTime = buffer.readVarInt();
 
@@ -184,4 +207,5 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
             return streamCodec;
         }
     }
+
 }
