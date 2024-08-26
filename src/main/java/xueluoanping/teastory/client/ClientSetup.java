@@ -31,6 +31,7 @@ import net.minecraft.client.resources.model.MultiPartBakedModel;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackLocationInfo;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
@@ -54,12 +55,15 @@ import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 import xueluoanping.teastory.*;
 import xueluoanping.teastory.fluid.TeaFluidType;
 import xueluoanping.teastory.resource.ClientModFilePackResources;
+import xueluoanping.teastory.resource.PathResourcesSupplier;
 import xueluoanping.teastory.resource.ServerModFilePackResources;
 import xueluoanping.teastory.variant.Planks;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientSetup {
@@ -267,10 +271,13 @@ public class ClientSetup {
 
         if (event.getPackType() == PackType.CLIENT_RESOURCES) {
             for (String packID : List.of(TeaStory.MODID + "_asset_generator")) {
+                var packLocationInfo = new PackLocationInfo(
+                        packID, Component.translatable(packID), PackSource.BUILT_IN, Optional.of(Planks.knowPack(packID)
+                ));
                 event.addRepositorySource(consumer -> consumer.accept(
-                        Pack.readMetaAndCreate(packID, Component.translatable(packID), true,
-                                id -> new ClientModFilePackResources(packID, ModList.get().getModFileById(TeaStory.MODID).getFile(), "asset/"), PackType.CLIENT_RESOURCES,
-                                Pack.Position.BOTTOM, PackSource.BUILT_IN)));
+                        Pack.readMetaAndCreate(packLocationInfo,
+                                new PathResourcesSupplier(ModList.get().getModFileById(TeaStory.MODID).getFile(), Path.of("asset/")), PackType.CLIENT_RESOURCES,
+                                Planks.FEATURE_SELECTION_CONFIG)));
             }
 
         }

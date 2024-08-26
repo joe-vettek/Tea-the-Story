@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.AbstractPackResources;
+import net.minecraft.server.packs.PackLocationInfo;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.metadata.MetadataSectionSerializer;
 import net.minecraft.server.packs.resources.IoSupplier;
@@ -32,8 +33,8 @@ public class ClientModFilePackResources extends AbstractPackResources {
     protected final IModFile modFile;
     protected final Gson gson = new Gson();
 
-    public ClientModFilePackResources(String name, IModFile modFile, String sourcePath) {
-        super(name, true);
+    public ClientModFilePackResources(PackLocationInfo name, IModFile modFile, String sourcePath) {
+        super(name);
         this.sourcePath = sourcePath;
         this.modFile = modFile;
     }

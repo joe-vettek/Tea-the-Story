@@ -54,10 +54,10 @@ public final class JEICompat implements IModPlugin {
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry) {
         registry.addRecipeCategories(
-                new BambooTraySingleInCategory(registry.getJeiHelpers().getGuiHelper(), IN_RAIN_TYPE, 0),
-                new BambooTraySingleInCategory(registry.getJeiHelpers().getGuiHelper(), OUTDOORS_TYPE, 1),
-                new BambooTraySingleInCategory(registry.getJeiHelpers().getGuiHelper(), INDOORS_TYPE, 2),
-                new BambooTraySingleInCategory(registry.getJeiHelpers().getGuiHelper(), BAKE_TYPE, 3));
+                new BambooTraySingleInCategory<>(registry.getJeiHelpers().getGuiHelper(), IN_RAIN_TYPE, 0),
+                new BambooTraySingleInCategory<>(registry.getJeiHelpers().getGuiHelper(), OUTDOORS_TYPE, 1),
+                new BambooTraySingleInCategory<>(registry.getJeiHelpers().getGuiHelper(), INDOORS_TYPE, 2),
+                new BambooTraySingleInCategory<>(registry.getJeiHelpers().getGuiHelper(), BAKE_TYPE, 3));
         registry.addRecipeCategories(new DrinkMakerCategory(registry.getJeiHelpers().getGuiHelper()));
         registry.addRecipeCategories(new StoneMillCategory(registry.getJeiHelpers().getGuiHelper()));
         registry.addRecipeCategories(new StoneRollerCategory(registry.getJeiHelpers().getGuiHelper()));

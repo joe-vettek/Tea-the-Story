@@ -9,6 +9,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackLocationInfo;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
@@ -30,12 +31,10 @@ import xueluoanping.teastory.blockentity.VineEntity;
 import xueluoanping.teastory.item.Citem;
 import xueluoanping.teastory.item.FluidContainerItem;
 import xueluoanping.teastory.resource.ServerModFilePackResources;
+import xueluoanping.teastory.resource.ServerPathResourcesSupplier;
 import xueluoanping.teastory.variant.Planks;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 public class ModContent {
@@ -178,10 +177,13 @@ public class ModContent {
         if (event.getPackType() == PackType.SERVER_DATA) {
 
             for (String packID : List.of(TeaStory.MODID + "_generator")) {
+                var packLocationInfo = new PackLocationInfo(
+                        packID, Component.translatable(packID), PackSource.BUILT_IN, Optional.of(Planks.knowPack(packID)
+                ));
                 event.addRepositorySource(consumer -> consumer.accept(
-                        Pack.readMetaAndCreate(packID, Component.translatable(packID), true,
-                                id -> new ServerModFilePackResources(packID, "data/"), PackType.SERVER_DATA,
-                                Pack.Position.BOTTOM, PackSource.BUILT_IN)));
+                        Pack.readMetaAndCreate(packLocationInfo,
+                                new ServerPathResourcesSupplier("data/"), PackType.SERVER_DATA,
+                                Planks.FEATURE_SELECTION_CONFIG)));
             }
 
         }

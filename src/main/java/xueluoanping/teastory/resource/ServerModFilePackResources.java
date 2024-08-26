@@ -14,11 +14,11 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.AbstractPackResources;
+import net.minecraft.server.packs.PackLocationInfo;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.metadata.MetadataSectionSerializer;
 import net.minecraft.server.packs.resources.IoSupplier;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.TagManager;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
@@ -32,8 +32,8 @@ import xueluoanping.teastory.variant.Planks;
 public class ServerModFilePackResources extends AbstractPackResources {
     protected final String sourcePath;
 
-    public ServerModFilePackResources(String name, String sourcePath) {
-        super(name, true);
+    public ServerModFilePackResources(PackLocationInfo name, String sourcePath) {
+        super(name);
         this.sourcePath = sourcePath;
     }
 
@@ -83,7 +83,7 @@ public class ServerModFilePackResources extends AbstractPackResources {
 
             // here we need to use the method to lock the path
             var base = BlockTags.WOODEN_FENCES.location();
-            ExistingFileHelper.ResourceType resourceType = new ExistingFileHelper.ResourceType(PackType.SERVER_DATA, ".json", TagManager.getTagDir(Registries.BLOCK));
+            ExistingFileHelper.ResourceType resourceType = new ExistingFileHelper.ResourceType(PackType.SERVER_DATA, ".json", Registries.tagsDirPath(Registries.BLOCK));
             var loc = TeaStory.rl(base.getNamespace(), resourceType.getPrefix() + "/" + base.getPath() + resourceType.getSuffix());
             resourceOutput.accept(loc, jsonObjectToIoSupplier(jsonObject));
 
