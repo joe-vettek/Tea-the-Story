@@ -30,7 +30,7 @@ public class StoneRollerGui extends AbstractContainerScreen<StoneRollerContainer
     @Override
     public void render(GuiGraphics matrixStack, int mouseX, int mouseY, float partialTick)
     {
-        this.renderBackground(matrixStack);
+        this.renderBackground(matrixStack, mouseX, mouseY, partialTick);
         super.render(matrixStack, mouseX, mouseY, partialTick);
         renderTooltip(matrixStack, mouseX, mouseY);
     }

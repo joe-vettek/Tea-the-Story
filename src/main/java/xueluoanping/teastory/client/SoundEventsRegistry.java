@@ -1,16 +1,15 @@
 package xueluoanping.teastory.client;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.RegisterEvent;
+
+import net.minecraft.world.item.Items;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.registries.RegisterEvent;
 import xueluoanping.teastory.TeaStory;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(bus =EventBusSubscriber.Bus.MOD)
 public class SoundEventsRegistry {
     public final static SoundEvent CUP_BROKEN = SoundEvent.createVariableRangeEvent(TeaStory.rl( "block.cup_broken"));
     public final static SoundEvent RECORD_MOVING_UP = SoundEvent.createVariableRangeEvent(TeaStory.rl( "record.moving_up"));

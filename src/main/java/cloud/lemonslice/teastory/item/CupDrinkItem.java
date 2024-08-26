@@ -16,6 +16,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.NotNull;
 import xueluoanping.teastory.FluidRegistry;
 import xueluoanping.teastory.TeaStory;
@@ -25,12 +27,14 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-import static net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack.FLUID_NBT_KEY;
 
-public class CupDrinkItem extends ItemFluidContainer {
+public class CupDrinkItem extends Item {
+
+    public int capacity;
 
     public CupDrinkItem(int capacity, Properties name) {
-        super(name, capacity);
+        super(name);
+        this.capacity = capacity;
     }
 
 
@@ -52,26 +56,28 @@ public class CupDrinkItem extends ItemFluidContainer {
         };
     }
 
+    @Override
+    public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
+        super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
+    }
 
     @Override
     public void appendHoverText(ItemStack stack, @org.jetbrains.annotations.Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
         if (stack.getOrCreateTag().contains(FLUID_NBT_KEY)) {
             FluidUtil.getFluidHandler(stack).ifPresent(f ->
-                    tooltip.add(MutableComponent.create((f.getFluidInTank(0).getDisplayName()).getContents()).append(String.format(": %d / %dmB", f.getFluidInTank(0).getAmount(), capacity)).withStyle(ChatFormatting.GRAY)));
+                    tooltip.add(MutableComponent.create((f.getFluidInTank(0).getHoverName()).getContents()).append(String.format(": %d / %dmB", f.getFluidInTank(0).getAmount(), capacity)).withStyle(ChatFormatting.GRAY)));
         }
     }
 
 
     // @Override
-    public void fillItemGroup(CreativeModeTab.Output group)
-    {
+    public void fillItemGroup(CreativeModeTab.Output group) {
         // if (group == TeaStory.GROUP_DRINK)
         {
             // for (Fluid fluid : FluidTags.getCollection().getTagByID(new ResourceLocation("teastory:drink")).getAllElements())
-            for (var fluid : FluidRegistry.FLUIDS.getEntries())
-            {
-                if(fluid.get() instanceof ForgeFlowingFluid.Source) {
+            for (var fluid : FluidRegistry.FLUIDS.getEntries()) {
+                if (fluid.get() instanceof ForgeFlowingFluid.Source) {
                     ItemStack itemStack = new ItemStack(this);
                     CompoundTag fluidTag = new CompoundTag();
                     new FluidStack(fluid.get(), capacity).writeToNBT(fluidTag);
@@ -95,9 +101,10 @@ public class CupDrinkItem extends ItemFluidContainer {
     }
 
     @Override
-    public int getUseDuration(ItemStack stack) {
+    public int getUseDuration(ItemStack stack, LivingEntity pEntity) {
         return canDrink(stack) ? 32 : 0;
     }
+
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
@@ -123,7 +130,7 @@ public class CupDrinkItem extends ItemFluidContainer {
                     action.accept(entityLiving, handler.getAmount());
                 } else if (entityLiving instanceof Player && handler.getFluid() != FluidRegistry.BOILING_WATER_STILL.get()) {
                     var foodata = ((Player) entityLiving).getFoodData();
-                   // TeaStory.logger(foodata.getSaturationLevel());
+                    // TeaStory.logger(foodata.getSaturationLevel());
                     ((Player) entityLiving).getFoodData().setFoodLevel(foodata.getFoodLevel() + (int) (1.2F * this.capacity / 100));
                     ((Player) entityLiving).getFoodData().setSaturation(foodata.getSaturationLevel() + 0.4F);
                     // TeaStory.logger(foodata.getSaturationLevel());
@@ -139,8 +146,7 @@ public class CupDrinkItem extends ItemFluidContainer {
 
 
     public static boolean canDrink(ItemStack stack) {
-        if (stack.getOrCreateTag().contains(FLUID_NBT_KEY))
-        {
+        if (stack.getOrCreateTag().contains(FLUID_NBT_KEY)) {
             return FluidUtil.getFluidContained(stack).map(f -> f.getFluid().is(NormalTags.Fluids.DRINK)).orElse(false);
         }
         return false;

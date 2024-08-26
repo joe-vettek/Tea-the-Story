@@ -48,7 +48,7 @@ public class StoneRollerTESR implements BlockEntityRenderer<StoneRollerTileEntit
         matrixStackIn.mulPose(XYZ.deg_to_rad(0,0,stoneAngel));
 
         // Lighting.setupForFlatItems();
-        int seed=(int)(tileEntityIn.getBlockState().getBlock().getSeed(tileEntityIn.getBlockState(), tileEntityIn.getBlockPos()));
+        int seed=(int)(tileEntityIn.getBlockState().getSeed( tileEntityIn.getBlockPos()));
         renderItem.renderStatic(new ItemStack(ItemRegister.STONE_ROLLER_TOP.get()), ItemDisplayContext.FIXED,  combinedLightIn, combinedOverlayIn,matrixStackIn, bufferIn, tileEntityIn.getLevel(),seed );
         // Lighting.setupFor3DItems();
         matrixStackIn.popPose();

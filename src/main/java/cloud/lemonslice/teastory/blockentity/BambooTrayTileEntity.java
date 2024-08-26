@@ -7,20 +7,19 @@ import cloud.lemonslice.teastory.container.BambooTrayContainer;
 import cloud.lemonslice.teastory.recipe.bamboo_tray.BambooTraySingleInRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.wrapper.RecipeWrapper;
+import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import org.jetbrains.annotations.NotNull;
 import xueluoanping.teastory.RecipeRegister;
 import xueluoanping.teastory.TileEntityTypeRegistry;
@@ -39,18 +38,19 @@ public class BambooTrayTileEntity extends NormalContainerTileEntity {
 
     private BambooTrayMode mode = BambooTrayMode.OUTDOORS;
 
-    private final LazyOptional<ItemStackHandler> containerInventory = LazyOptional.of(this::createHandler);
+    private final ItemStackHandler containerInventory = createHandler();
     private BambooTraySingleInRecipe currentRecipe;
 
     public BambooTrayTileEntity(BlockPos pos, BlockState state) {
         super(TileEntityTypeRegistry.BAMBOO_TRAY_TYPE.get(), pos, state);
     }
 
+
     // read
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
-        this.containerInventory.ifPresent(h -> ((INBTSerializable<CompoundTag>) h).deserializeNBT(tag.getCompound("Inv")));
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider pRegistries) {
+        super.loadAdditional(tag, pRegistries);
+        ((INBTSerializable<CompoundTag>) this.containerInventory).deserializeNBT(pRegistries, tag.getCompound("Inv"));
         // this.processTicks = tag.getInt("ProcessTicks");
         this.totalTicks = tag.getInt("TotalTicks");
         this.mode = BambooTrayMode.values()[tag.getInt("Mode")];
@@ -58,32 +58,27 @@ public class BambooTrayTileEntity extends NormalContainerTileEntity {
 
     // write
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        containerInventory.ifPresent(h -> tag.put("Inv", ((INBTSerializable<CompoundTag>) h).serializeNBT()));
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider pRegistries) {
+        tag.put("Inv", containerInventory.serializeNBT(pRegistries));
         tag.putInt("ProcessTicks", processTicks);
         tag.putInt("TotalTicks", totalTicks);
         tag.putInt("Mode", mode.ordinal());
-        super.saveAdditional(tag);
+        super.saveAdditional(tag, pRegistries);
+    }
+
+
+    public ItemStackHandler getContainerInventory() {
+        return containerInventory;
     }
 
 
 
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (!this.isRemoved() && ForgeCapabilities.ITEM_HANDLER.equals(cap)) {
-            return containerInventory.cast();
-        }
-        return super.getCapability(cap, side);
-    }
-
-   
     public static void tick(Level worldIn, BlockPos pos, BlockState blockState, BambooTrayTileEntity tileEntity) {
         if (tileEntity.doubleClickTicks > 0) {
             tileEntity.doubleClickTicks--;
         }
-        float temp = tileEntity.getLevel().getBiome(tileEntity.getBlockPos()).get().getTemperature(tileEntity.getBlockPos());
-        float rainfall = tileEntity.getLevel().getBiome(tileEntity.getBlockPos()).get().getModifiedClimateSettings().downfall();
+        float temp = tileEntity.getLevel().getBiome(tileEntity.getBlockPos()).value().getTemperature(tileEntity.getBlockPos());
+        float rainfall = tileEntity.getLevel().getBiome(tileEntity.getBlockPos()).value().getModifiedClimateSettings().downfall();
         switch (BambooTrayMode.getMode(tileEntity.getLevel(), tileEntity.getBlockPos())) {
             case IN_RAIN:
                 tileEntity.process(RecipeRegister.BAMBOO_TRAY_IN_RAIN.get(), 1);
@@ -115,7 +110,7 @@ public class BambooTrayTileEntity extends NormalContainerTileEntity {
             return false;
         }
         if (this.currentRecipe == null || !this.currentRecipe.getIngredient().test(input) || mode != BambooTrayMode.getMode(this.getLevel(), this.getBlockPos())) {
-            this.currentRecipe = this.getLevel().getRecipeManager().getRecipeFor((RecipeType<BambooTraySingleInRecipe>) recipeType, new RecipeWrapper(this.containerInventory.resolve().get()), this.getLevel()).orElse(null);
+            this.currentRecipe = (BambooTraySingleInRecipe) this.getLevel().getRecipeManager().getRecipeFor( recipeType, new RecipeWrapper(this.containerInventory), this.getLevel()).orElse(null);
         }
         if (currentRecipe != null && !getOutput().isEmpty()) {
             this.refreshTotalTicks(currentRecipe.getWorkTime(), coefficient);
@@ -127,10 +122,9 @@ public class BambooTrayTileEntity extends NormalContainerTileEntity {
             if (this.processTicks >= this.totalTicks) {
                 ItemStack output = this.getOutput();
                 output.setCount(input.getCount());
-                this.containerInventory.ifPresent(inv ->
-                        inv.setStackInSlot(0, output));
+                this.containerInventory.setStackInSlot(0, output);
                 this.processTicks = 0;
-                if (this.getBlockState().getBlock() instanceof CatapultBoardBlockWithTray && getLevel().getBlockState(getBlockPos()).isRedstoneConductor(getLevel(),getBlockPos())) {
+                if (this.getBlockState().getBlock() instanceof CatapultBoardBlockWithTray && getLevel().getBlockState(getBlockPos()).isRedstoneConductor(getLevel(), getBlockPos())) {
                     level.setBlockAndUpdate(getBlockPos(), this.getBlockState().setValue(CatapultBoardBlockWithTray.ENABLED, true));
                     CatapultBoardBlockWithTray.shoot(getLevel(), getBlockPos());
                     getLevel().scheduleTick(getBlockPos(), this.getBlockState().getBlock(), 5);
@@ -144,7 +138,7 @@ public class BambooTrayTileEntity extends NormalContainerTileEntity {
     }
 
     public ItemStack getInput() {
-        return this.containerInventory.orElse(new ItemStackHandler()).getStackInSlot(0).copy();
+        return this.containerInventory.getStackInSlot(0).copy();
     }
 
     public ItemStack getOutput() {

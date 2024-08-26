@@ -3,15 +3,14 @@ package cloud.lemonslice.teastory.blockentity;
 import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
+
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.block.entity.SyncedBlockEntity;
 
@@ -22,50 +21,37 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
-public class TeaCupTileEntity extends SyncedBlockEntity
-{
-    private final List<LazyOptional<FluidTank>> fluidTanks = Lists.newArrayList();
+public class TeaCupTileEntity extends SyncedBlockEntity {
+    private final List<FluidTank> fluidTanks = Lists.newArrayList();
 
-    public TeaCupTileEntity(int capacity, BlockPos pos, BlockState state)
-    {
-        super(TileEntityTypeRegistry.WOODEN_TRAY_TYPE.get(),pos,state);
-        for (int i = 0; i < 3; i++)
-        {
-            fluidTanks.add(LazyOptional.of(() -> createFluidHandler(capacity)));
+    public TeaCupTileEntity(int capacity, BlockPos pos, BlockState state) {
+        super(TileEntityTypeRegistry.WOODEN_TRAY_TYPE.get(), pos, state);
+        for (int i = 0; i < 3; i++) {
+            fluidTanks.add(createFluidHandler(capacity));
         }
     }
 
-
-    @Nonnull
     @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side)
-    {
-        return super.getCapability(cap, side);
-    }
-    @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
-        fluidTanks.get(0).ifPresent(f -> f.readFromNBT(tag.getCompound("FluidTank_0")));
-        fluidTanks.get(1).ifPresent(f -> f.readFromNBT(tag.getCompound("FluidTank_1")));
-        fluidTanks.get(2).ifPresent(f -> f.readFromNBT(tag.getCompound("FluidTank_2")));
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider pRegistries) {
+        super.loadAdditional(tag, pRegistries);
+        fluidTanks.get(0).readFromNBT(pRegistries, tag.getCompound("FluidTank_0"));
+        fluidTanks.get(1).readFromNBT(pRegistries, tag.getCompound("FluidTank_1"));
+        fluidTanks.get(2).readFromNBT(pRegistries, tag.getCompound("FluidTank_2"));
     }
 
     // write
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        fluidTanks.get(0).ifPresent(f -> tag.put("FluidTank_0", f.writeToNBT(new CompoundTag())));
-        fluidTanks.get(1).ifPresent(f -> tag.put("FluidTank_1", f.writeToNBT(new CompoundTag())));
-        fluidTanks.get(2).ifPresent(f -> tag.put("FluidTank_2", f.writeToNBT(new CompoundTag())));
-        super.saveAdditional(tag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider pRegistries) {
+        tag.put("FluidTank_0",fluidTanks.get(0).writeToNBT(pRegistries,new CompoundTag()));
+        tag.put("FluidTank_1",fluidTanks.get(1).writeToNBT(pRegistries,new CompoundTag()));
+        tag.put("FluidTank_2",fluidTanks.get(2).writeToNBT(pRegistries,new CompoundTag()));
+        super.saveAdditional(tag,pRegistries);
     }
 
-    private FluidTank createFluidHandler(int capacity)
-    {
-        return new FluidTank(capacity)
-        {
+    private FluidTank createFluidHandler(int capacity) {
+        return new FluidTank(capacity) {
             @Override
-            protected void onContentsChanged()
-            {
+            protected void onContentsChanged() {
                 // TeaCupTileEntity.this.refresh();
                 // TeaCupTileEntity.this.markDirty();
                 // super.onContentsChanged();
@@ -73,36 +59,30 @@ public class TeaCupTileEntity extends SyncedBlockEntity
             }
 
             @Override
-            public boolean isFluidValid(FluidStack stack)
-            {
+            public boolean isFluidValid(FluidStack stack) {
                 return !stack.getFluid().getFluidType().isLighterThanAir() && stack.getFluid().getFluidType().getTemperature() < 500;
             }
         };
     }
 
-    public FluidTank getFluidTank(int index)
-    {
-        return this.fluidTanks.get(index).orElse(new FluidTank(0));
+    public FluidTank getFluidTank(int index) {
+        return this.fluidTanks.get(index);
     }
 
-    public Fluid getFluid(int index)
-    {
-        return this.fluidTanks.get(index).map(f -> f.getFluid().getFluid()).orElse(Fluids.EMPTY);
+    public Fluid getFluid(int index) {
+        return this.fluidTanks.get(index).getFluid().getFluid();
     }
 
-    public int getFluidAmount(int index)
-    {
+    public int getFluidAmount(int index) {
         return getFluidTank(index).getFluidAmount();
     }
 
-    public void setFluidTank(int index, FluidStack stack)
-    {
-        this.fluidTanks.get(index).ifPresent(f -> f.setFluid(stack));
+    public void setFluidTank(int index, FluidStack stack) {
+        this.fluidTanks.get(index).setFluid(stack);
     }
 
-    public void setFluid(int index, Fluid fluid)
-    {
-        this.fluidTanks.get(index).ifPresent(f -> f.setFluid(new FluidStack(fluid, getFluidAmount(index))));
+    public void setFluid(int index, Fluid fluid) {
+        this.fluidTanks.get(index).setFluid(new FluidStack(fluid, getFluidAmount(index)));
         // this.refresh();
         inventoryChanged();
     }

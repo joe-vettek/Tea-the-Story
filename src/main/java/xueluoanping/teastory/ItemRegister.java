@@ -118,6 +118,7 @@ public class ItemRegister {
     public static DeferredHolder<Item, Item> BEEF_BURGER = ModItems.register("beef_burger", () -> new Item(new Item.Properties().food(NormalFoods.BEEF_BURGER)));
     public static DeferredHolder<Item, Item> CHICKEN_BURGER = ModItems.register("chicken_burger", () -> new Item(new Item.Properties().food(NormalFoods.CHICKEN_BURGER)));
 
+
     public static DeferredHolder<Item, Item> PICKING_TEA_RECORD = ModItems.register("picking_tea", () -> new SRecordItem(1, () -> SoundEventsRegistry.RECORD_PICKING_TEA, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
     public static DeferredHolder<Item, Item> SPRING_FESTIVAL_OVERTURE_RECORD = ModItems.register("spring_festival_overture", () -> new SRecordItem(2, () -> SoundEventsRegistry.RECORD_SPRING_FESTIVAL_OVERTURE, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
     public static DeferredHolder<Item, Item> FLOWERS_AND_MOON_RECORD = ModItems.register("flowers_moon", () -> new SRecordItem(3, () -> SoundEventsRegistry.RECORD_FLOWERS_AND_MOON, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));

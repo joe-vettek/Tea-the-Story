@@ -1,6 +1,5 @@
 package cloud.lemonslice.teastory.block.drink;
 
-import cloud.lemonslice.teastory.blockentity.StoveTileEntity;
 import cloud.lemonslice.teastory.blockentity.TeapotTileEntity;
 import cloud.lemonslice.teastory.fluid.HotWaterFlowingFluidBlock;
 import cloud.lemonslice.teastory.helper.VoxelShapeHelper;
@@ -18,14 +17,9 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.property.Properties;
 import org.jetbrains.annotations.Nullable;
 import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.block.NormalHorizontalBlock;
-
-import java.util.Random;
 
 public class IronKettleBlock extends TeapotBlock implements EntityBlock {
     private static final VoxelShape SHAPE = VoxelShapeHelper.createVoxelShape(2, 0, 2, 12, 11, 12);
@@ -42,7 +36,6 @@ public class IronKettleBlock extends TeapotBlock implements EntityBlock {
 
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand) {
         var tileentity = worldIn.getBlockEntity(pos);
         if (tileentity instanceof TeapotTileEntity && ((TeapotTileEntity) tileentity).getFluid().getFluidType().getTemperature() >= 333) {

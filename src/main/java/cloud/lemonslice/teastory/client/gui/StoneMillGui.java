@@ -10,15 +10,16 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import xueluoanping.teastory.TeaStory;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public class StoneMillGui extends AbstractContainerScreen<StoneMillContainer> {
     private static final String TEXTURE_PATH = "textures/gui/container/gui_stone_mill.png";
-    private static final ResourceLocation TEXTURE = TeaStory.rl( TEXTURE_PATH);
+    private static final ResourceLocation TEXTURE = TeaStory.rl(TEXTURE_PATH);
 
     private StoneMillContainer container;
 
@@ -29,7 +30,7 @@ public class StoneMillGui extends AbstractContainerScreen<StoneMillContainer> {
 
     @Override
     public void render(GuiGraphics matrixStack, int mouseX, int mouseY, float partialTick) {
-        this.renderBackground(matrixStack);
+        this.renderBackground(matrixStack, mouseX, mouseY, partialTick);
         super.render(matrixStack, mouseX, mouseY, partialTick);
         renderTooltip(matrixStack, mouseX, mouseY);
     }
@@ -58,7 +59,7 @@ public class StoneMillGui extends AbstractContainerScreen<StoneMillContainer> {
         matrixStack.blit(TEXTURE, offsetX + 95, offsetY + 38, 176, 0, textureWidth, 16);
         // matrixStack.blit(TeaStory.rl( "textures/gui/container/gui_drink_maker.png"), offsetX + 95, offsetY + 37, 176, 0, textureWidth, 16);
 
-        container.getTileEntity().getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(fluidHandler ->
+        Optional.ofNullable(container.getTileEntity().getLevel().getCapability(Capabilities.FluidHandler.BLOCK, container.getTileEntity().getBlockPos(), null)).ifPresent(fluidHandler ->
         {
             int capacity = fluidHandler.getTankCapacity(0);
             int height = 0;
@@ -72,9 +73,9 @@ public class StoneMillGui extends AbstractContainerScreen<StoneMillContainer> {
             if (!fs.isEmpty()) {
                 RenderUtil.renderFluidStackInGUI(matrixStack.pose().last().pose(), fs, 16, height, offsetX + 37, offsetY + 48 + 22);
                 if (offsetX + 37 < mouseX && mouseX < offsetX + 37 + 16
-                        && offsetY + 20 < mouseY && mouseY < offsetY + 12 + 60){
+                        && offsetY + 20 < mouseY && mouseY < offsetY + 12 + 60) {
 
-                    matrixStack.fill(offsetX + 37,  offsetY +21, offsetX + 37 + 16, offsetY + 11 + 60, 0, 0x88FFFFFF);
+                    matrixStack.fill(offsetX + 37, offsetY + 21, offsetX + 37 + 16, offsetY + 11 + 60, 0, 0x88FFFFFF);
                 }
             }
             poseStack.popPose();
@@ -96,7 +97,7 @@ public class StoneMillGui extends AbstractContainerScreen<StoneMillContainer> {
         int offsetX = (width - imageWidth) / 2, offsetY = (height - imageHeight) / 2;
         if (offsetX + 37 < mouseX && mouseX < offsetX + 37 + 16
                 && offsetY + 20 < mouseY && mouseY < offsetY + 12 + 60)
-            matrixStack.renderComponentTooltip(this.font, List.of(((StoneMillTileEntity) this.container.getTileEntity()).getFluidTank().getFluid().getDisplayName()), mouseX, mouseY);
+            matrixStack.renderComponentTooltip(this.font, List.of(((StoneMillTileEntity) this.container.getTileEntity()).getFluidTank().getFluid().getHoverName()), mouseX, mouseY);
 
     }
 }

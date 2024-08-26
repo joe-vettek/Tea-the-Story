@@ -4,6 +4,7 @@ import cloud.lemonslice.teastory.block.crops.TrellisBlock;
 import cloud.lemonslice.teastory.block.crops.TrellisWithVineBlock;
 import cloud.lemonslice.teastory.block.crops.VineInfoManager;
 import cloud.lemonslice.teastory.block.crops.VineType;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -137,15 +138,20 @@ public class ModContent {
     // ServerLifecycleHooks.getCurrentServer().getResourceManager()
 
 
-
     // SimpleFluidContent
     @SubscribeEvent
-    public static void onRegisterCapabilitiesEvent (RegisterCapabilitiesEvent event) {
+    public static void onRegisterCapabilitiesEvent(RegisterCapabilitiesEvent event) {
 // event.registerItem(Capabilities.FluidHandler.ITEM,(s,a)->new FluidHandlerItemStack());
-        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, TileEntityTypeRegistry.WOODEN_BARREL_TYPE.get(), (entity, context) -> {
-            return entity.isRemoved()?null:entity.getFluidTank();
-        });
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, TileEntityTypeRegistry.WOODEN_BARREL_TYPE.get(),
+                (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getFluidTank());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, TileEntityTypeRegistry.BAMBOO_TRAY_TYPE.get(),
+                (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getContainerInventory());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, TileEntityTypeRegistry.DRINK_MAKER_TYPE.get(),
+                (blockEntity, context) -> blockEntity.isRemoved() ? null : (context== Direction.DOWN?blockEntity.getOutputInventory(): blockEntity.getInputInventory()));
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, TileEntityTypeRegistry.DRINK_MAKER_TYPE.get(),
+                (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getFluidHandler());
     }
+
     @SubscribeEvent
     public static void onAddPackFindersEvent(AddPackFindersEvent event) {
 

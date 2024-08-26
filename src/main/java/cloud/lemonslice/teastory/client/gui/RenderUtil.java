@@ -8,9 +8,9 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
-import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidType;
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidType;
 import org.joml.Matrix4f;
 
 public class RenderUtil {
@@ -32,13 +32,13 @@ public class RenderUtil {
         float green = ((RGBA >> 8) & 0xFF) / 255f;
         float blue = ((RGBA) & 0xFF) / 255f;
 
-        builder.vertex(matrix, x, y, z)
-                .color(red, green, blue, alpha)
-                .uv(u, v)
-                .overlayCoords(overlay)
-                .uv2(light)
-                .normal(0f, 1f, 0f)
-                .endVertex();
+        builder.addVertex(matrix, x, y, z)
+                .setColor(red, green, blue, alpha)
+                .setUv(u, v)
+                .setOverlay(overlay)
+                .setLight(light)
+                .setNormal(0f, 1f, 0f)
+        ;
     }
 
     public static void buildMatrix(Matrix4f matrix, VertexConsumer builder, float x, float y, float z, float u, float v, int RGBA) {
@@ -47,10 +47,10 @@ public class RenderUtil {
         float blue = ((RGBA >> 0) & 0xFF) / 255f;
         int alpha = 1;
 
-        builder.vertex(matrix, x, y, z)
-                .color(red, green, blue, alpha)
-                .uv(u, v)
-                .endVertex();
+        builder.addVertex(matrix, x, y, z)
+                .setColor(red, green, blue, alpha)
+                .setUv(u, v)
+        ;
     }
 
     public static TextureAtlasSprite getBlockSprite(ResourceLocation sprite) {
@@ -108,7 +108,9 @@ public class RenderUtil {
         float u0 = FLUID.getU0();
         float v0 = FLUID.getV0();
         Tesselator tessellator = Tesselator.getInstance();
-        BufferBuilder builder = tessellator.getBuilder();
+        // BufferBuilder builder = tessellator.getBuilder();
+        var builder = tessellator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+
 
         /*
          * 渲染循环
@@ -137,14 +139,17 @@ public class RenderUtil {
                 float u1 = j == 0 ? FLUID.getU0() + ((FLUID.getU1() - u0) * ((float) extraWidth / 16f)) : FLUID.getU1();
 
                 // 渲染主代码
-                builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+                // builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
                 buildMatrix(matrix, builder, xStart, yStart - yOffset, 0.0f, u0, v0, color);
                 buildMatrix(matrix, builder, xStart, yStart, 0.0f, u0, v1, color);
                 buildMatrix(matrix, builder, xStart + xOffset, yStart, 0.0f, u1, v1, color);
                 buildMatrix(matrix, builder, xStart + xOffset, yStart - yOffset, 0.0f, u1, v0, color);
-                tessellator.end();
+                // tessellator.end();
             }
         }
+
+        BufferUploader.drawWithShader(builder.buildOrThrow());
+
         RenderSystem.setShaderColor(1, 1, 1, 1);
         RenderSystem.disableBlend();
     }

@@ -24,6 +24,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
@@ -42,10 +43,9 @@ import java.util.List;
 import java.util.Random;
 
 public class MelonVineBlock extends BushBlock implements BonemealableBlock {
-    // public static final MapCodec<MelonVineBlock> CODEC = simpleCodec(MelonVineBlock::new);
     public static final MapCodec<MelonVineBlock> CODEC = RecordCodecBuilder.mapCodec(
-            vineBlockInstance -> vineBlockInstance.group(BlockSetType.CODEC.fieldOf("melon").forGetter((melonVineBlock -> melonVineBlock.melon)), propertiesCodec())
-                    .apply(vineBlockInstance, MelonVineBlock::new)
+            blockInstance -> blockInstance.group(Block.CODEC.forGetter(melonVineBlock -> melonVineBlock.melon), propertiesCodec())
+                    .apply(blockInstance, MelonVineBlock::new)
     );
 
     public static final IntegerProperty AGE = BlockStateProperties.AGE_7;
@@ -53,7 +53,7 @@ public class MelonVineBlock extends BushBlock implements BonemealableBlock {
     private static final VoxelShape SHAPE_MELON = VoxelShapeHelper.createVoxelShape(0, 0, 0, 16, 13, 16);
     private final Block melon;
 
-    public MelonVineBlock(Properties copy, Block melon) {
+    public MelonVineBlock(Block melon,Properties copy) {
         super(copy);
         this.registerDefaultState(defaultBlockState().setValue(AGE, 0));
         this.melon = melon;

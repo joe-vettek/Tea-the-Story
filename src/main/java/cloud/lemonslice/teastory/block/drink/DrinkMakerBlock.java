@@ -1,18 +1,15 @@
 package cloud.lemonslice.teastory.block.drink;
 
 import cloud.lemonslice.silveroak.helper.BlockHelper;
-import cloud.lemonslice.teastory.blockentity.BambooTrayTileEntity;
 import cloud.lemonslice.teastory.blockentity.DrinkMakerTileEntity;
-import cloud.lemonslice.teastory.blockentity.StoneMillTileEntity;
 import cloud.lemonslice.teastory.helper.VoxelShapeHelper;
-import com.google.common.collect.Lists;
-import net.minecraft.client.ClientRecipeBook;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -22,7 +19,6 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -30,21 +26,17 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.network.NetworkHooks;
+
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.fluids.FluidUtil;
 import org.jetbrains.annotations.Nullable;
 import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.block.NormalHorizontalBlock;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.items.ItemHandlerHelper;
-import xueluoanping.teastory.block.entity.NormalContainerTileEntity;
 
-import java.util.List;
+import java.util.Optional;
 
 public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBlock {
     public static final BooleanProperty LEFT = BooleanProperty.create("left");
@@ -108,13 +100,14 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
 
 
     @Override
-    public void playerWillDestroy(Level worldIn, BlockPos pos, BlockState state, Player player) {
+    public BlockState playerWillDestroy(Level worldIn, BlockPos pos, BlockState state, Player player) {
         if (!worldIn.isClientSide()) {
             if (player.isCreative()) {
                 removeBottomHalf(worldIn, pos, state, player);
             }
         }
-        super.playerWillDestroy(worldIn, pos, state, player);
+
+        return super.playerWillDestroy(worldIn, pos, state, player);
     }
 
 
@@ -187,25 +180,37 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
-
-        if (!worldIn.isClientSide()) {
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+        if (!pLevel.isClientSide()) {
             flag = false;
+            if (!pState.getValue(LEFT)) {
+                pos = pos.relative(BlockHelper.getPreviousHorizontal(pState.getValue(FACING)));
+            }
+
+            BlockPos finalPos = pos;
+            FluidUtil.getFluidHandler(pStack.copy()).ifPresent(item ->
+                    Optional.ofNullable(pLevel.getCapability(Capabilities.FluidHandler.BLOCK, finalPos,pHitResult.getDirection())).ifPresent(fluid ->
+                            flag = FluidUtil.interactWithFluidHandler(pPlayer, pHand, fluid)));
+            if (flag)
+                return ItemInteractionResult.SUCCESS;
+
+        }
+        return super.useItemOn(pStack, pState, pLevel, pos, pPlayer, pHand, pHitResult);
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level worldIn, BlockPos pos, Player pPlayer, BlockHitResult pHitResult) {
+        if (!worldIn.isClientSide()) {
             if (!state.getValue(LEFT)) {
                 pos = pos.relative(BlockHelper.getPreviousHorizontal(state.getValue(FACING)));
             }
             BlockEntity te = worldIn.getBlockEntity(pos);
-            FluidUtil.getFluidHandler(ItemHandlerHelper.copyStackWithSize(player.getItemInHand(handIn), 1)).ifPresent(item ->
-                    te.getCapability(ForgeCapabilities.FLUID_HANDLER, hit.getDirection()).ifPresent(fluid ->
-                            flag = FluidUtil.interactWithFluidHandler(player, handIn, fluid)));
-            if (flag)
-                return InteractionResult.SUCCESS;
             if (te instanceof DrinkMakerTileEntity) {
                 // ((DrinkMakerTileEntity) te).requestModelDataUpdate();
-                NetworkHooks.openScreen((ServerPlayer) player, (MenuProvider) te, te.getBlockPos());
+                pPlayer.openMenu((MenuProvider) te, te.getBlockPos());
             }
         }
-        return InteractionResult.SUCCESS;
+        return super.useWithoutItem(state, worldIn, pos, pPlayer, pHitResult);
     }
 
 

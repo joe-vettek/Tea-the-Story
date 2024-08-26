@@ -12,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
@@ -22,9 +23,8 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.ForgeHooks;
+import net.neoforged.neoforge.common.CommonHooks;
 import org.jetbrains.annotations.Nullable;
-import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.blockentity.VineEntity;
 
@@ -44,10 +44,10 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
         return new ItemStack(getEmptyTrellis(state));
-        // return ItemStack.EMPTY;
     }
+
 
     // 此处state不一定为本类型
     private void onSignal(ServerLevel level, BlockPos pos, BlockState state, int energy, Direction from, RandomSource random) {
@@ -82,7 +82,7 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
                         // int i = state.getValue(AGE);
                         int i = vineEntity.getAge();
                         float f = 5.0F; // TODO Connected setValue humidity.
-                        if (ForgeHooks.onCropsGrowPre(level, pos, state, random.nextInt((int) (25.0F / f) + 1) == 0)) {
+                        if (CommonHooks.canCropGrow(level, pos, state, random.nextInt((int) (25.0F / f) + 1) == 0)) {
                             if (!hasPost(state)) {
                                 if (random.nextBoolean()) // Leaves grow up.
                                 {
@@ -95,13 +95,13 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
                                     if (level.getBlockState(pos.below()).isAir() && !hasNearFruit(level, pos.below(), type.getFruit())) {
                                         // level.setBlockAndUpdate(pos, state.setValue(AGE, (i + 1) % 4));
                                         vineEntity.setAge(((i + 1) % 4));
-                                        level.setBlock(pos.below(), type.getFruit().defaultBlockState(),Block.UPDATE_CLIENTS);
-                                        ForgeHooks.onCropsGrowPost(level, pos, state);
+                                        level.setBlock(pos.below(), type.getFruit().defaultBlockState(), Block.UPDATE_CLIENTS);
+                                        CommonHooks.fireCropGrowPost(level, pos, state);
                                         return;
                                     }
                                 }
                             }
-                            ForgeHooks.onCropsGrowPost(level, pos, state);
+                            CommonHooks.fireCropGrowPost(level, pos, state);
                         }
                     }
                 }
@@ -287,10 +287,10 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
         if (level.getBlockState(pos.below()).is(BlockTags.DIRT)) {
             valid = true;
         } else if (level.getBlockEntity(pos) instanceof VineEntity vineEntity) {
-            int nearD=getNearDistance2(level, pos);
+            int nearD = getNearDistance2(level, pos);
             if (nearD < vineEntity.getDistance()) {
                 valid = true;
-                if (nearD+1<vineEntity.getDistance()){
+                if (nearD + 1 < vineEntity.getDistance()) {
                     // TeaStory.logger(nearD,vineEntity.getDistance());
                 }
                 // if (nearD+1<vineEntity.getDistance()){

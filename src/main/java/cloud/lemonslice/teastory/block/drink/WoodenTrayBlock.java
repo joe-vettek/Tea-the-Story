@@ -11,6 +11,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -28,10 +29,10 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
-import net.minecraftforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.Nullable;
 import xueluoanping.teastory.ItemRegister;
 import xueluoanping.teastory.TileEntityTypeRegistry;
@@ -39,39 +40,31 @@ import xueluoanping.teastory.client.SoundEventsRegistry;
 
 import java.util.List;
 
-import static net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack.FLUID_NBT_KEY;
 
-public class WoodenTrayBlock extends Block  implements EntityBlock
-{
+public class WoodenTrayBlock extends Block implements EntityBlock {
     public static final IntegerProperty DRINK = IntegerProperty.create("drink", 0, 3);
     public static final IntegerProperty CUP = IntegerProperty.create("cup", 0, 3);
 
     private static final VoxelShape TRAY = VoxelShapeHelper.createVoxelShape(0, 0, 0, 16, 2, 16);
     private static final VoxelShape WITH_CUP = VoxelShapeHelper.createVoxelShape(0, 0, 0, 16, 6, 16);
 
-    public WoodenTrayBlock(BlockBehaviour.Properties pProperties)
-    {
+    public WoodenTrayBlock(BlockBehaviour.Properties pProperties) {
         super(pProperties);
     }
 
 
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        if (pState.getValue(CUP) > 0)
-        {
+        if (pState.getValue(CUP) > 0) {
             return WITH_CUP;
-        }
-        else
-        {
+        } else {
             return TRAY;
         }
     }
 
 
-
     @Override
-    public boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos)
-    {
+    public boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos) {
         return true;
     }
 
@@ -81,50 +74,23 @@ public class WoodenTrayBlock extends Block  implements EntityBlock
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit)
-    {
-        ItemStack held = player.getItemInHand(handIn);
-        var te = worldIn.getBlockEntity(pos);
-        if (te instanceof TeaCupTileEntity)
-        {
-            if (held.isEmpty())
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+        var te = pLevel.getBlockEntity(pPos);
+        if (te instanceof TeaCupTileEntity) {
             {
-                int index = state.getValue(CUP) - 1;
-                if (index > -1)
-                {
-                    ItemStack itemStack = getCup((TeaCupTileEntity) te, index);
-                    ItemHandlerHelper.giveItemToPlayer(player, itemStack);
-                    if (itemStack.getItem() == ItemRegister.PORCELAIN_CUP.get())
-                    {
-                        worldIn.setBlockAndUpdate(pos, state.setValue(CUP, state.getValue(CUP) - 1));
-                    }
-                    else
-                    {
-                        worldIn.setBlockAndUpdate(pos, state.setValue(CUP, state.getValue(CUP) - 1).setValue(DRINK, state.getValue(DRINK) - 1));
-                    }
-                }
-            }
-            else
-            {
-                int index = state.getValue(CUP);
-                if (!setCup((TeaCupTileEntity) te, index, held, worldIn, pos, state))
-                {
-                    if (held.getItem() == TileEntityTypeRegistry.PORCELAIN_TEAPOT.get())
-                    {
-                        FluidUtil.getFluidHandler(ItemHandlerHelper.copyStackWithSize(player.getItemInHand(handIn), 1)).ifPresent(item ->
+                int index = pState.getValue(CUP);
+                if (!setCup((TeaCupTileEntity) te, index, pStack, pLevel, pPos, pState)) {
+                    if (pStack.getItem() == TileEntityTypeRegistry.PORCELAIN_TEAPOT.get()) {
+                        FluidUtil.getFluidHandler(pStack.copy()).ifPresent(item ->
                         {
-                            for (int i = 0; i < 3; i++)
-                            {
+                            for (int i = 0; i < 3; i++) {
                                 FluidTank tank = ((TeaCupTileEntity) te).getFluidTank(i);
-                                if (tank.isEmpty())
-                                {
-                                    if (FluidUtil.interactWithFluidHandler(player, handIn, tank))
-                                    {
-                                        if (state.getValue(DRINK) + 1 <= 3)
-                                        {
-                                            worldIn.setBlockAndUpdate(pos, state.setValue(DRINK, state.getValue(DRINK) + 1));
+                                if (tank.isEmpty()) {
+                                    if (FluidUtil.interactWithFluidHandler(pPlayer, pHand, tank)) {
+                                        if (pState.getValue(DRINK) + 1 <= 3) {
+                                            pLevel.setBlockAndUpdate(pPos, pState.setValue(DRINK, pState.getValue(DRINK) + 1));
                                         }
-                                        worldIn.playSound(null, pos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 0.5F, 0.9F);
+                                        pLevel.playSound(null, pPos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 0.5F, 0.9F);
                                     }
                                     break;
                                 }
@@ -134,53 +100,59 @@ public class WoodenTrayBlock extends Block  implements EntityBlock
                 }
             }
         }
-        return InteractionResult.SUCCESS;
+        return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
+        var te = pLevel.getBlockEntity(pPos);
+        if (te instanceof TeaCupTileEntity) {
+            int index = pState.getValue(CUP) - 1;
+            if (index > -1) {
+                ItemStack itemStack = getCup((TeaCupTileEntity) te, index);
+                ItemHandlerHelper.giveItemToPlayer(pPlayer, itemStack);
+                if (itemStack.getItem() == ItemRegister.PORCELAIN_CUP.get()) {
+                    pLevel.setBlockAndUpdate(pPos, pState.setValue(CUP, pState.getValue(CUP) - 1));
+                } else {
+                    pLevel.setBlockAndUpdate(pPos, pState.setValue(CUP, pState.getValue(CUP) - 1).setValue(DRINK, pState.getValue(DRINK) - 1));
+                }
+            }
+        }
+
+        return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);
     }
 
 
-    public boolean setCup(TeaCupTileEntity te, int index, ItemStack itemStack, Level world, BlockPos pos, BlockState state)
-    {
-        if (index >= 3)
-        {
+    public boolean setCup(TeaCupTileEntity te, int index, ItemStack itemStack, Level world, BlockPos pos, BlockState state) {
+        if (index >= 3) {
             return false;
         }
-        if (itemStack.getItem() == ItemRegister.PORCELAIN_CUP_DRINK.get() || itemStack.getItem() == ItemRegister.PORCELAIN_CUP.get() )
-        {
+        if (itemStack.getItem() == ItemRegister.PORCELAIN_CUP_DRINK.get() || itemStack.getItem() == ItemRegister.PORCELAIN_CUP.get()) {
             FluidStack stack = FluidUtil.getFluidContained(itemStack).orElse(FluidStack.EMPTY);
-            if (!stack.isEmpty())
-            {
-                if (state.getValue(DRINK) + 1 <= 3)
-                {
+            if (!stack.isEmpty()) {
+                if (state.getValue(DRINK) + 1 <= 3) {
                     world.setBlockAndUpdate(pos, state.setValue(CUP, state.getValue(CUP) + 1).setValue(DRINK, state.getValue(DRINK) + 1));
                     world.playSound(null, pos, SoundEvents.STONE_PLACE, SoundSource.BLOCKS, 0.5F, 0.9F);
                 }
-            }
-            else
-            {
+            } else {
                 world.setBlockAndUpdate(pos, state.setValue(CUP, state.getValue(CUP) + 1));
                 world.playSound(null, pos, SoundEvents.STONE_PLACE, SoundSource.BLOCKS, 0.5F, 0.9F);
             }
             te.setFluidTank(index, stack);
             itemStack.shrink(1);
             return true;
-        }
-        else return false;
+        } else return false;
     }
 
-    public ItemStack getCup(TeaCupTileEntity te, int index)
-    {
-        if (index > 3)
-        {
+    public ItemStack getCup(TeaCupTileEntity te, int index) {
+        if (index > 3) {
             return ItemStack.EMPTY;
         }
         FluidStack fluidStack = te.getFluidTank(index).getFluidInTank(0);
-        if (fluidStack.isEmpty())
-        {
-            return new ItemStack(ItemRegister.PORCELAIN_CUP.get() );
-        }
-        else
-        {
-            ItemStack itemStack = new ItemStack(ItemRegister.PORCELAIN_CUP_DRINK.get() );
+        if (fluidStack.isEmpty()) {
+            return new ItemStack(ItemRegister.PORCELAIN_CUP.get());
+        } else {
+            ItemStack itemStack = new ItemStack(ItemRegister.PORCELAIN_CUP_DRINK.get());
             CompoundTag fluidTag = new CompoundTag();
             fluidStack.writeToNBT(fluidTag);
             itemStack.getOrCreateTag().put(FLUID_NBT_KEY, fluidTag);
@@ -192,17 +164,12 @@ public class WoodenTrayBlock extends Block  implements EntityBlock
     // onReplaced
     @Override
     @SuppressWarnings("deprecation")
-    public void onRemove(BlockState state, Level pLevel, BlockPos pos, BlockState pNewState, boolean pMovedByPiston)
-    {
-        if (! pNewState.is(this))
-        {
+    public void onRemove(BlockState state, Level pLevel, BlockPos pos, BlockState pNewState, boolean pMovedByPiston) {
+        if (!pNewState.is(this)) {
             var tileEntity = pLevel.getBlockEntity(pos);
-            if (tileEntity instanceof TeaCupTileEntity)
-            {
-                for (int i = 0; i < 3; i++)
-                {
-                    if (!pLevel.isClientSide() && state.getValue(CUP) > i)
-                    {
+            if (tileEntity instanceof TeaCupTileEntity) {
+                for (int i = 0; i < 3; i++) {
+                    if (!pLevel.isClientSide() && state.getValue(CUP) > i) {
                         Block.popResource(pLevel, pos, getCup((TeaCupTileEntity) tileEntity, i));
                     }
                 }
@@ -210,7 +177,6 @@ public class WoodenTrayBlock extends Block  implements EntityBlock
         }
         super.onRemove(state, pLevel, pos, pNewState, pMovedByPiston);
     }
-
 
 
     @Override

@@ -14,7 +14,7 @@ import xueluoanping.teastory.TeaStory;
 
 public class StoveGui extends AbstractContainerScreen<StoveContainer> {
     private static final String TEXTURE_PATH = "textures/gui/container/gui_stove.png";
-    private static final ResourceLocation TEXTURE = TeaStory.rl( TEXTURE_PATH);
+    private static final ResourceLocation TEXTURE = TeaStory.rl(TEXTURE_PATH);
     private StoveContainer container;
 
     public StoveGui(StoveContainer container, Inventory inventory, Component name) {
@@ -24,7 +24,7 @@ public class StoveGui extends AbstractContainerScreen<StoveContainer> {
 
     @Override
     public void render(GuiGraphics matrixStack, int mouseX, int mouseY, float partialTick) {
-        this.renderBackground(matrixStack);
+        this.renderBackground(matrixStack, mouseX, mouseY, partialTick);
         super.render(matrixStack, mouseX, mouseY, partialTick);
         renderTooltip(matrixStack, mouseX, mouseY);
     }
