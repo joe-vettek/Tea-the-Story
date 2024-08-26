@@ -1,0 +1,10 @@
+{
+  "type": "teastory:bamboo_tray_bake",
+  "ingredient": {
+    "item": "teastory:mutton_jerky"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:mutton"
+  }
+}

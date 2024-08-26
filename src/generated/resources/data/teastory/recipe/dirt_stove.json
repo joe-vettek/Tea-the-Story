@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "stove",
+  "key": {
+    "x": {
+      "tag": "minecraft:dirt"
+    }
+  },
+  "pattern": [
+    "xxx",
+    "x x",
+    "xxx"
+  ],
+  "result": {
+    "count": 1,
+    "id": "teastory:dirt_stove"
+  }
+}

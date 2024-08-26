@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "iron_kettle",
+  "key": {
+    "*": {
+      "item": "minecraft:bucket"
+    },
+    "x": {
+      "tag": "c:ingots/iron"
+    }
+  },
+  "pattern": [
+    " x ",
+    "x*x",
+    "xxx"
+  ],
+  "result": {
+    "count": 1,
+    "id": "teastory:iron_kettle"
+  }
+}

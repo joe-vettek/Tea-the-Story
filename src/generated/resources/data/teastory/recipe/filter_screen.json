@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "filter_screen",
+  "key": {
+    "#": {
+      "tag": "c:strings"
+    },
+    "*": {
+      "tag": "c:dusts/redstone"
+    },
+    "x": {
+      "tag": "c:rods/wooden"
+    }
+  },
+  "pattern": [
+    "x#x",
+    "#*#",
+    "x#x"
+  ],
+  "result": {
+    "count": 1,
+    "id": "teastory:filter_screen"
+  }
+}

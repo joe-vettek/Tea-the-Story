@@ -193,13 +193,13 @@ public final class TeaStoryRecipeProvider extends RecipeProvider {
 
         // Stone Mill Recipes 石磨配方
         StoneMillRecipeBuilder.recipe(600, Ingredient.of(Tags.Items.STONES), SizedFluidIngredient.of(Fluids.WATER, 100), new FluidStack(Fluids.WATER, 100), new ItemStack(Blocks.GRAVEL)).build(consumer, "teastory:gravel");
-        StoneMillRecipeBuilder.recipeWithDefaultTime(Ingredient.of(NormalTags.Items.CROPS_CUCUMBER), SizedFluidIngredient.of(FluidStack.EMPTY), new FluidStack(FluidRegistry.CUCUMBER_JUICE_STILL.get(), 100), ItemStack.EMPTY).build(consumer, "teastory:cucumber_juice");
-        StoneMillRecipeBuilder.recipeWithDefaultTime(Ingredient.of(NormalTags.Items.CROPS_GRAPE), SizedFluidIngredient.of(FluidStack.EMPTY), new FluidStack(FluidRegistry.GRAPE_JUICE_STILL.get(), 100), ItemStack.EMPTY).build(consumer, "teastory:grape_juice");
-        StoneMillRecipeBuilder.recipeWithDefaultTime(Ingredient.of(NormalTags.Items.CROPS_SUGAR_CANE), SizedFluidIngredient.of(FluidStack.EMPTY), new FluidStack(FluidRegistry.SUGAR_CANE_JUICE_STILL.get(), 100), ItemStack.EMPTY).build(consumer, "teastory:sugar_cane_juice");
-        StoneMillRecipeBuilder.recipeWithDefaultTime(Ingredient.of(Tags.Items.CROPS_CARROT), SizedFluidIngredient.of(FluidStack.EMPTY), new FluidStack(FluidRegistry.CARROT_JUICE_STILL.get(), 100), ItemStack.EMPTY).build(consumer, "teastory:carrot_juice");
-        StoneMillRecipeBuilder.recipeWithDefaultTime(Ingredient.of(NormalTags.Items.CROPS_APPLE), SizedFluidIngredient.of(FluidStack.EMPTY), new FluidStack(FluidRegistry.APPLE_JUICE_STILL.get(), 100), ItemStack.EMPTY).build(consumer, "teastory:apple_juice");
-        StoneMillRecipeBuilder.recipeWithDefaultTimeWithoutFluid(Ingredient.of(NormalTags.Items.CROPS_STRAW), new ItemStack(ItemRegister.CRUSHED_STRAW.get(), 2)).build(consumer, "teastory:crushed_straw");
-        StoneMillRecipeBuilder.recipeWithDefaultTimeWithoutFluid(Ingredient.of(Tags.Items.BONES), new ItemStack(Items.BONE_MEAL, 4)).build(consumer, "teastory:bone_meal");
+        // StoneMillRecipeBuilder.recipeWithDefaultTime(Ingredient.of(NormalTags.Items.CROPS_CUCUMBER), SizedFluidIngredient.of(FluidStack.EMPTY), new FluidStack(FluidRegistry.CUCUMBER_JUICE_STILL.get(), 100), ItemStack.EMPTY).build(consumer, "teastory:cucumber_juice");
+        // StoneMillRecipeBuilder.recipeWithDefaultTime(Ingredient.of(NormalTags.Items.CROPS_GRAPE), SizedFluidIngredient.of(FluidStack.EMPTY), new FluidStack(FluidRegistry.GRAPE_JUICE_STILL.get(), 100), ItemStack.EMPTY).build(consumer, "teastory:grape_juice");
+        // StoneMillRecipeBuilder.recipeWithDefaultTime(Ingredient.of(NormalTags.Items.CROPS_SUGAR_CANE), SizedFluidIngredient.of(FluidStack.EMPTY), new FluidStack(FluidRegistry.SUGAR_CANE_JUICE_STILL.get(), 100), ItemStack.EMPTY).build(consumer, "teastory:sugar_cane_juice");
+        // StoneMillRecipeBuilder.recipeWithDefaultTime(Ingredient.of(Tags.Items.CROPS_CARROT), SizedFluidIngredient.of(FluidStack.EMPTY), new FluidStack(FluidRegistry.CARROT_JUICE_STILL.get(), 100), ItemStack.EMPTY).build(consumer, "teastory:carrot_juice");
+        // StoneMillRecipeBuilder.recipeWithDefaultTime(Ingredient.of(NormalTags.Items.CROPS_APPLE), SizedFluidIngredient.of(FluidStack.EMPTY), new FluidStack(FluidRegistry.APPLE_JUICE_STILL.get(), 100), ItemStack.EMPTY).build(consumer, "teastory:apple_juice");
+        // StoneMillRecipeBuilder.recipeWithDefaultTimeWithoutFluid(Ingredient.of(NormalTags.Items.CROPS_STRAW), new ItemStack(ItemRegister.CRUSHED_STRAW.get(), 2)).build(consumer, "teastory:crushed_straw");
+        // StoneMillRecipeBuilder.recipeWithDefaultTimeWithoutFluid(Ingredient.of(Tags.Items.BONES), new ItemStack(Items.BONE_MEAL, 4)).build(consumer, "teastory:bone_meal");
 
         // Stone Roller Recipes 石碾配方
         StoneRollerRecipeBuilder.recipeWithDefaultTime(Ingredient.of(NormalTags.Items.SEEDS_RICE), new ItemStack(ItemRegister.RICE.get())).build(consumer, "teastory:rice");

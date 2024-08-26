@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "clay_cup",
+  "key": {
+    "x": {
+      "item": "minecraft:clay_ball"
+    }
+  },
+  "pattern": [
+    "x x",
+    " x "
+  ],
+  "result": {
+    "count": 1,
+    "id": "teastory:clay_cup"
+  }
+}

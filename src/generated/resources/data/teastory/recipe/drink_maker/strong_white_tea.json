@@ -1,0 +1,24 @@
+{
+  "type": "teastory:drink_maker",
+  "drink_result": {
+    "fluid": "teastory:strong_white_tea"
+  },
+  "fluid_ingredient": {
+    "amount": 500,
+    "fluid": "teastory:white_tea"
+  },
+  "item_ingredients": [
+    {
+      "tag": "forge:crops/white_tea_leaf"
+    },
+    {
+      "tag": "forge:crops/white_tea_leaf"
+    },
+    {
+      "tag": "forge:crops/white_tea_leaf"
+    },
+    {
+      "tag": "forge:crops/white_tea_leaf"
+    }
+  ]
+}

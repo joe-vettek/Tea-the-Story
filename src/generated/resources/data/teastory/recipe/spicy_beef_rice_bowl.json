@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "teastory:beef_rice_bowl"
+    },
+    {
+      "item": "teastory:chili"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "teastory:spicy_beef_rice_bowl"
+  }
+}

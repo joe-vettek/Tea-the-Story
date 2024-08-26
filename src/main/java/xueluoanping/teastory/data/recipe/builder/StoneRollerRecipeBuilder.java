@@ -7,6 +7,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
+import xueluoanping.teastory.RecipeRegister;
+import xueluoanping.teastory.TeaStory;
 
 
 public class StoneRollerRecipeBuilder {
@@ -34,6 +36,8 @@ public class StoneRollerRecipeBuilder {
     }
 
     public void build(RecipeOutput consumerIn, ResourceLocation id) {
+        id = TeaStory.rl(id.getNamespace(), "%s/%s".formatted(RecipeRegister.STONE_ROLLER.getId().getPath(), id.getPath()));
+
         consumerIn.accept(id, new StoneRollerRecipe("", this.inputItem, this.outputItems, this.workTime), null);
     }
 

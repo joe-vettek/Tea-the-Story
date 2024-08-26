@@ -56,6 +56,8 @@ public class StoneMillRecipeBuilder {
     }
 
     public void build(RecipeOutput consumerIn, ResourceLocation id) {
+        id = TeaStory.rl(id.getNamespace(), "%s/%s".formatted(RecipeRegister.STONE_MILL.getId().getPath(), id.getPath()));
+
         consumerIn.accept(id,new StoneMillRecipe("",this.inputItem, this.inputFluid, this.outputItems, this.outputFluid, this.workTime),null);
     }
 

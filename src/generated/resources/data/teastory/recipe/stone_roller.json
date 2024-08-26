@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "stone_roller",
+  "key": {
+    "#": {
+      "item": "minecraft:smooth_stone_slab"
+    },
+    "*": {
+      "item": "minecraft:smooth_stone"
+    },
+    "+": {
+      "item": "teastory:wooden_frame"
+    },
+    "/": {
+      "tag": "c:rods/wooden"
+    }
+  },
+  "pattern": [
+    " / ",
+    " +*",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "teastory:stone_roller"
+  }
+}

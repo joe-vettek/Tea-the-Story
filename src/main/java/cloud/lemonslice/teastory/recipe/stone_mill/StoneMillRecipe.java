@@ -127,9 +127,9 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
                 recipeInstance -> recipeInstance.group(
                                 Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group),
                                 Ingredient.CODEC_NONEMPTY.fieldOf("item_ingredients").forGetter(r -> r.inputItem),
-                                SizedFluidIngredient.FLAT_CODEC.optionalFieldOf("fluid_ingredient", SizedFluidIngredient.of(FluidStack.EMPTY)).forGetter(r -> r.inputFluid),
+                                SizedFluidIngredient.FLAT_CODEC.fieldOf("fluid_ingredient").forGetter(r -> r.inputFluid),
                                 Ingredient.LIST_CODEC.fieldOf("output_items").forGetter(r -> r.outputItems),
-                                SizedFluidIngredient.FLAT_CODEC.optionalFieldOf("output_fluid", SizedFluidIngredient.of(FluidStack.EMPTY)).forGetter(r -> r.outputFluid),
+                                SizedFluidIngredient.FLAT_CODEC.fieldOf("output_fluid").forGetter(r -> r.outputFluid),
                                 Codec.INT.optionalFieldOf("work_time", 200).forGetter(r -> r.workTime)
                         )
                         .apply(recipeInstance, StoneMillRecipe::new)

@@ -11,6 +11,8 @@ import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
 import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import xueluoanping.teastory.FluidRegistry;
+import xueluoanping.teastory.RecipeRegister;
+import xueluoanping.teastory.TeaStory;
 
 import java.util.List;
 
@@ -53,6 +55,8 @@ public class DrinkRecipeBuilder {
     }
 
     public void build(RecipeOutput consumerIn, ResourceLocation id) {
+        id = TeaStory.rl(id.getNamespace(), "%s/%s".formatted(RecipeRegister.DRINK_MAKER.getId().getPath(), id.getPath()));
+
         consumerIn.accept(id, new DrinkRecipe("", this.ingredients, this.fluidIngredient, this.result), null);
     }
 }

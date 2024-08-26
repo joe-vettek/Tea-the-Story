@@ -1,0 +1,10 @@
+{
+  "type": "teastory:bamboo_tray_bake",
+  "ingredient": {
+    "item": "minecraft:spider_eye"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:fermented_spider_eye"
+  }
+}

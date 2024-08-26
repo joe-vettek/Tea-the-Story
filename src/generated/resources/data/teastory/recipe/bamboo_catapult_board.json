@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "catapult_board",
+  "key": {
+    "#": {
+      "tag": "c:stones"
+    },
+    "*": {
+      "tag": "c:dusts/redstone"
+    },
+    "x": {
+      "item": "teastory:bamboo_plank"
+    }
+  },
+  "pattern": [
+    "xxx",
+    "xxx",
+    "#*#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "teastory:bamboo_catapult_board"
+  }
+}

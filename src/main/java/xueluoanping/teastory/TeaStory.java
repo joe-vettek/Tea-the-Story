@@ -67,7 +67,8 @@ public class TeaStory {
 
         // Register ourselves for server and other game events we are interested in
         modEventBus.addListener(this::gatherData);
-        modEventBus.addListener(this::gatherData);
+        modEventBus.addListener(this::FMLCommonSetup);
+
 
         BlockRegister.ModBlocks.register(modEventBus);
         BlockRegister.ModItems.register(modEventBus);
@@ -97,9 +98,8 @@ public class TeaStory {
 
         // ModContents.init();
 
-        modEventBus.addListener(this::gatherData);
+        // modEventBus.addListener(this::gatherData);
 
-        modEventBus.addListener(this::FMLCommonSetup);
         modContainer.registerConfig(ModConfig.Type.COMMON, NormalConfigs.SERVER_CONFIG);
         modContainer.registerConfig(ModConfig.Type.CLIENT, NormalConfigs.CLIENT_CONFIG);
     }

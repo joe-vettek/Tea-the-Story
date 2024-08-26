@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "wooden_frame",
+  "key": {
+    "#": {
+      "tag": "minecraft:planks"
+    },
+    "x": {
+      "tag": "c:rods/wooden"
+    }
+  },
+  "pattern": [
+    "#x#",
+    "x#x",
+    "x x"
+  ],
+  "result": {
+    "count": 1,
+    "id": "teastory:wooden_frame"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "honeycomb_briquette",
+  "key": {
+    "#": {
+      "tag": "minecraft:coals"
+    },
+    "*": {
+      "item": "minecraft:clay_ball"
+    }
+  },
+  "pattern": [
+    "# #",
+    " # ",
+    "* *"
+  ],
+  "result": {
+    "count": 1,
+    "id": "teastory:honeycomb_briquette"
+  }
+}

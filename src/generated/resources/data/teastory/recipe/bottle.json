@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "bottle",
+  "key": {
+    "#": {
+      "tag": "c:glass_panes/colorless"
+    },
+    "x": {
+      "tag": "c:nuggets/iron"
+    }
+  },
+  "pattern": [
+    " x ",
+    "# #",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "teastory:bottle"
+  }
+}

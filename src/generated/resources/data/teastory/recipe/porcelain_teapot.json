@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "cookingtime": 200,
+  "experience": 0.2,
+  "ingredient": {
+    "item": "teastory:clay_teapot"
+  },
+  "result": {
+    "count": 1,
+    "id": "teastory:porcelain_teapot"
+  }
+}

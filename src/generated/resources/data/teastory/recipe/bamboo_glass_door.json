@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "bamboo_glass_door",
+  "key": {
+    "#": {
+      "tag": "c:glass_panes/colorless"
+    },
+    "x": {
+      "item": "teastory:bamboo_plank"
+    }
+  },
+  "pattern": [
+    "##",
+    "xx",
+    "xx"
+  ],
+  "result": {
+    "count": 3,
+    "id": "teastory:bamboo_glass_door"
+  }
+}

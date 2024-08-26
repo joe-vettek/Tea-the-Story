@@ -1,0 +1,10 @@
+{
+  "type": "teastory:bamboo_tray_bake",
+  "ingredient": {
+    "item": "teastory:dried_beetroot"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:beetroot"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "teastory:drink_maker",
+  "drink_result": {
+    "fluid": "teastory:strong_green_tea"
+  },
+  "fluid_ingredient": {
+    "amount": 500,
+    "fluid": "teastory:boiling_water"
+  },
+  "item_ingredients": [
+    {
+      "item": "teastory:green_tea_bag"
+    },
+    {
+      "item": "teastory:green_tea_bag"
+    }
+  ]
+}

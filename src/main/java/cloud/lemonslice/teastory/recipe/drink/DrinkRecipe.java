@@ -150,7 +150,7 @@ public class DrinkRecipe implements Recipe<RecipeWrapper> {
                 recipeInstance -> recipeInstance.group(
                                 Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group),
                                 Ingredient.LIST_CODEC_NONEMPTY.fieldOf("item_ingredients").forGetter(r -> r.ingredients),
-                                SizedFluidIngredient.FLAT_CODEC.optionalFieldOf("fluid_ingredient", SizedFluidIngredient.of(FluidStack.EMPTY)).forGetter(r -> r.fluidIngredient),
+                                SizedFluidIngredient.FLAT_CODEC.fieldOf("fluid_ingredient").forGetter(r -> r.fluidIngredient),
                                 FluidIngredient.CODEC_NON_EMPTY.fieldOf("drink_result").forGetter(r -> r.result)
                         )
                         .apply(recipeInstance, DrinkRecipe::new)

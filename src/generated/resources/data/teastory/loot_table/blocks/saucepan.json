@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:block",
+  "functions": [
+    {
+      "block": "teastory:saucepan",
+      "function": "minecraft:copy_state",
+      "properties": [
+        "lid"
+      ]
+    }
+  ],
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "teastory:saucepan"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "teastory:blocks/saucepan"
+}

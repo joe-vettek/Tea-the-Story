@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "teastory:chinese_cabbage"
+    },
+    {
+      "item": "teastory:chinese_cabbage"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "teastory:steamed_chinese_cabbage"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "haystack",
+  "key": {
+    "#": {
+      "item": "teastory:wet_straw"
+    }
+  },
+  "pattern": [
+    " # ",
+    "###",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "teastory:wet_haystack"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "teastory:bamboo_tray_bake",
+  "ingredient": {
+    "item": "minecraft:porkchop"
+  },
+  "result": {
+    "count": 1,
+    "id": "teastory:pork_jerky"
+  }
+}

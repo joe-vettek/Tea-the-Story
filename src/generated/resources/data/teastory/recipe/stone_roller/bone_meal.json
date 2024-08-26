@@ -1,0 +1,10 @@
+{
+  "type": "teastory:stone_roller",
+  "item_ingredients": {
+    "tag": "c:bones"
+  },
+  "output_items": {
+    "count": 4,
+    "item": "minecraft:bone_meal"
+  }
+}

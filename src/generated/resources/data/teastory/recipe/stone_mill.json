@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "stone_mill",
+  "key": {
+    "#": {
+      "item": "minecraft:smooth_stone_slab"
+    },
+    "*": {
+      "item": "minecraft:smooth_stone"
+    },
+    "/": {
+      "tag": "c:rods/wooden"
+    }
+  },
+  "pattern": [
+    " / ",
+    " * ",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "teastory:stone_mill"
+  }
+}

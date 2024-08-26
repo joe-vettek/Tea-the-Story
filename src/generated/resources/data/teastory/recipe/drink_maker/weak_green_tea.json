@@ -1,0 +1,18 @@
+{
+  "type": "teastory:drink_maker",
+  "drink_result": {
+    "fluid": "teastory:weak_green_tea"
+  },
+  "fluid_ingredient": {
+    "amount": 500,
+    "fluid": "teastory:boiling_water"
+  },
+  "item_ingredients": [
+    {
+      "tag": "forge:crops/green_tea_leaf"
+    },
+    {
+      "tag": "forge:crops/green_tea_leaf"
+    }
+  ]
+}

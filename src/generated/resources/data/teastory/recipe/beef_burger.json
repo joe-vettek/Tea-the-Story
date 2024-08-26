@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:bread"
+    },
+    {
+      "item": "minecraft:cooked_beef"
+    },
+    {
+      "item": "teastory:chinese_cabbage"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "teastory:beef_burger"
+  }
+}

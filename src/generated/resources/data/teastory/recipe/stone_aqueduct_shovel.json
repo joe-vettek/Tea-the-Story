@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "aqueduct_shovel",
+  "key": {
+    "#": {
+      "item": "minecraft:stone_shovel"
+    },
+    "*": {
+      "tag": "c:cobblestones"
+    }
+  },
+  "pattern": [
+    " * ",
+    " # "
+  ],
+  "result": {
+    "count": 1,
+    "id": "teastory:stone_aqueduct_shovel"
+  }
+}

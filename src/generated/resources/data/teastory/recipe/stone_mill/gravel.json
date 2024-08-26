@@ -1,0 +1,20 @@
+{
+  "type": "teastory:stone_mill",
+  "fluid_ingredient": {
+    "amount": 100,
+    "fluid": "minecraft:water"
+  },
+  "item_ingredients": {
+    "tag": "c:stones"
+  },
+  "output_fluid": {
+    "amount": 100,
+    "fluid": "minecraft:water"
+  },
+  "output_items": [
+    {
+      "item": "minecraft:gravel"
+    }
+  ],
+  "work_time": 600
+}

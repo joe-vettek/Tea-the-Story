@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "aqueduct_shovel",
+  "key": {
+    "#": {
+      "item": "minecraft:diamond_shovel"
+    },
+    "*": {
+      "tag": "c:gems/diamond"
+    }
+  },
+  "pattern": [
+    " * ",
+    " # "
+  ],
+  "result": {
+    "count": 1,
+    "id": "teastory:diamond_aqueduct_shovel"
+  }
+}

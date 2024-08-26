@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "wooden_chair",
+  "key": {
+    "#": {
+      "tag": "c:rods/wooden"
+    },
+    "x": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "pattern": [
+    "x  ",
+    "xxx",
+    "# #"
+  ],
+  "result": {
+    "count": 1,
+    "id": "teastory:wooden_chair"
+  }
+}
