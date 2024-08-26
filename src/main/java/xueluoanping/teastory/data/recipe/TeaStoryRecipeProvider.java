@@ -2,7 +2,7 @@ package xueluoanping.teastory.data.recipe;
 
 
 import cloud.lemonslice.teastory.tag.NormalTags;
-import cloud.lemonslice.silveroak.common.recipe.FluidIngredient;
+import xueluoanping.teastory.craft.FluidIngredient;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.tags.ItemTags;

@@ -2,15 +2,13 @@ package cloud.lemonslice.teastory.recipe.stone_mill;
 
 
 import cloud.lemonslice.teastory.blockentity.StoneMillTileEntity;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.craft.BlockEntityRecipeWrapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import cloud.lemonslice.silveroak.common.recipe.FluidIngredient;
+import xueluoanping.teastory.craft.FluidIngredient;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;

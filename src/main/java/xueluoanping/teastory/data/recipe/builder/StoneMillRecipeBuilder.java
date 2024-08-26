@@ -3,7 +3,7 @@ package xueluoanping.teastory.data.recipe.builder;
 import cloud.lemonslice.teastory.recipe.stone_mill.StoneMillRecipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import cloud.lemonslice.silveroak.common.recipe.FluidIngredient;
+import xueluoanping.teastory.craft.FluidIngredient;
 import net.minecraft.core.NonNullList;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;

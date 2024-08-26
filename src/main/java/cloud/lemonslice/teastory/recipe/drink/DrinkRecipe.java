@@ -1,6 +1,6 @@
 package cloud.lemonslice.teastory.recipe.drink;
 
-import cloud.lemonslice.silveroak.common.recipe.FluidIngredient;
+import xueluoanping.teastory.craft.FluidIngredient;
 import com.google.common.collect.Lists;
 import com.google.gson.*;
 import net.minecraft.core.NonNullList;
