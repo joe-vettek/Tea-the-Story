@@ -35,7 +35,7 @@ public class AvoidCommonEntityGoal<T extends LivingEntity> extends AvoidEntityGo
             Predicate<LivingEntity> pPredicateOnAvoidEntity
     ) {
         super(pMob, pEntityClassToAvoid, pAvoidPredicate, pMaxDistance, pWalkSpeedModifier, pSprintSpeedModifier, pPredicateOnAvoidEntity);
-        this.avoidEntityTargeting = TargetingConditions.forCombat().range(pMaxDistance).selector(pPredicateOnAvoidEntity.and(pAvoidPredicate));
+        this.avoidEntityTargeting = TargetingConditions.forNonCombat().ignoreLineOfSight().range(pMaxDistance).selector(pPredicateOnAvoidEntity.and(pAvoidPredicate));
     }
 
     public AvoidCommonEntityGoal(PathfinderMob pMob, Class<T> pEntityClassToAvoid, float pMaxDistance, double pWalkSpeedModifier, double pSprintSpeedModifier, Predicate<LivingEntity> pPredicateOnAvoidEntity) {
