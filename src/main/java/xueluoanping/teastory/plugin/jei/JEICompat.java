@@ -5,6 +5,7 @@ import cloud.lemonslice.teastory.client.gui.BambooTrayGui;
 import cloud.lemonslice.teastory.client.gui.DrinkMakerGui;
 import cloud.lemonslice.teastory.client.gui.StoneMillGui;
 import cloud.lemonslice.teastory.client.gui.StoneRollerGui;
+import net.minecraft.core.component.DataComponents;
 import xueluoanping.teastory.recipe.bamboo_tray.BambooTrayBakeRecipe;
 import xueluoanping.teastory.recipe.bamboo_tray.BambooTrayInRainRecipe;
 import xueluoanping.teastory.recipe.bamboo_tray.BambooTrayIndoorsRecipe;
@@ -65,12 +66,13 @@ public final class JEICompat implements IModPlugin {
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration) {
 
-        registration.registerSubtypeInterpreter(BlockRegister.CHRYSANTHEMUM_ITEM.get(), (itemStack, uidContext) -> String.valueOf(itemStack));
-        registration.registerSubtypeInterpreter(BlockRegister.HYACINTH_ITEM.get(), (itemStack, uidContext) -> String.valueOf(itemStack));
-        registration.registerSubtypeInterpreter(BlockRegister.ZINNIA_ITEM.get(), (itemStack, uidContext) -> String.valueOf(itemStack));
-        registration.registerSubtypeInterpreter(ItemRegister.BOTTLE_DRINK.get(), (itemStack, uidContext) -> String.valueOf(itemStack));
-        registration.registerSubtypeInterpreter(ItemRegister.PORCELAIN_CUP_DRINK.get(), (itemStack, uidContext) -> String.valueOf(itemStack));
-        registration.registerSubtypeInterpreter(TileEntityTypeRegistry.PORCELAIN_TEAPOT.get(), (itemStack, uidContext) -> String.valueOf(itemStack));
+        registration.registerSubtypeInterpreter(BlockRegister.CHRYSANTHEMUM_ITEM.get(), (itemStack, uidContext) ->
+                itemStack.get(DataComponents.BLOCK_STATE)+"");
+        registration.registerSubtypeInterpreter(BlockRegister.HYACINTH_ITEM.get(), (itemStack, uidContext) -> itemStack.get(DataComponents.BLOCK_STATE)+"");
+        registration.registerSubtypeInterpreter(BlockRegister.ZINNIA_ITEM.get(), (itemStack, uidContext) -> itemStack.get(DataComponents.BLOCK_STATE)+"");
+        registration.registerSubtypeInterpreter(ItemRegister.BOTTLE_DRINK.get(), (itemStack, uidContext) -> itemStack.get(ModCapabilities.SIMPLE_FLUID)+"");
+        registration.registerSubtypeInterpreter(ItemRegister.PORCELAIN_CUP_DRINK.get(), (itemStack, uidContext) -> itemStack.get(ModCapabilities.SIMPLE_FLUID)+"");
+        registration.registerSubtypeInterpreter(TileEntityTypeRegistry.PORCELAIN_TEAPOT.get(), (itemStack, uidContext) -> itemStack.get(ModCapabilities.SIMPLE_FLUID)+"");
 
         // registration.useNbtForSubtypes(
         //         BlockRegister.CHRYSANTHEMUM_ITEM.get(),

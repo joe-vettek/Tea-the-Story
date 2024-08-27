@@ -1,5 +1,9 @@
 package xueluoanping.teastory.handler;
 
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import xueluoanping.teastory.TeaStory;
+import xueluoanping.teastory.entity.ai.AvoidCommonEntityGoal;
 import xueluoanping.teastory.tag.NormalTags;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
@@ -23,16 +27,18 @@ public class EventsHandlers {
     @SubscribeEvent
     public static void onMobSpawnEvent(EntityJoinLevelEvent event) {
         if (
-                !event.loadedFromDisk()
+                event.getLevel() instanceof ServerLevel
+                        && !event.loadedFromDisk()
                         && event.getEntity().getType().is(NormalTags.Entities.BIRDS)
                         && event.getEntity() instanceof PathfinderMob pathfinderMob) {
 
-            // TeaStory.logger(event.getEntity());
-            pathfinderMob.goalSelector.addGoal(0, new AvoidEntityGoal<>(
-                    pathfinderMob, ScarecrowEntity.class, 6.0F, 1.0D, 1.2D
+            // TeaStory.logger(event.getLevel(), pathfinderMob.goalSelector.getAvailableGoals().size());
+            pathfinderMob.goalSelector.addGoal(0, new AvoidCommonEntityGoal<>(
+                    pathfinderMob, ScarecrowEntity.class, Entity::isAlive, 8F, 1.0D, 1.2D,Entity::isAlive
             ));
-            // TeaStory.logger(event.getEntity().goalSelector);
             // event.getToolTip().add(Component.translatable("info.teastory.tooltip.rice"));
         }
     }
+
+
 }

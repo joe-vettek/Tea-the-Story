@@ -50,7 +50,7 @@ public class StoveGui extends AbstractContainerScreen<StoveContainer> {
 
     @Override
     protected void renderLabels(GuiGraphics matrixStack, int mouseX, int mouseY) {
-        matrixStack.drawString(this.font, this.title.getString(), (int) (this.imageWidth / 2 - this.font.width(this.title.getString()) / 2), (int) 6.0F, 4210752);
-        matrixStack.drawString(this.font, this.playerInventoryTitle.getString(), (int) 8.0F, (int) (this.imageHeight - 96 + 2), 4210752);
+        matrixStack.drawString(this.font, this.title.getString(), (int) (this.imageWidth / 2 - this.font.width(this.title.getString()) / 2), (int) 6.0F, 4210752,false);
+        matrixStack.drawString(this.font, this.playerInventoryTitle.getString(), (int) 8.0F, (int) (this.imageHeight - 96 + 2), 4210752,false);
     }
 }

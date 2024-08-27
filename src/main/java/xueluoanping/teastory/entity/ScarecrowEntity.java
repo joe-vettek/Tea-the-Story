@@ -11,6 +11,7 @@ import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import xueluoanping.teastory.EntityTypeRegistry;
 
@@ -24,7 +25,7 @@ public class ScarecrowEntity extends ArmorStand {
 
     private ScarecrowEntity(Level world, BlockPos pos, double height, double x, double z) {
         // this(world);
-        this(EntityTypeRegistry.SCARECROW_TYPE.get(),world);
+        this(EntityTypeRegistry.SCARECROW_TYPE.get(), world);
         this.setPos(pos.getX() + 0.5 + x, pos.getY() + height, pos.getZ() + 0.5 + z);
     }
 
@@ -61,5 +62,23 @@ public class ScarecrowEntity extends ArmorStand {
     @Override
     public boolean isDeadOrDying() {
         return this.level().isEmptyBlock(this.blockPosition());
+    }
+
+    @Override
+    public boolean attackable() {
+        return true;
+    }
+
+    @Override
+    public void remove(RemovalReason pReason) {
+        level().removeBlock(blockPosition(), false);
+        super.remove(pReason);
+    }
+
+    @Override
+    public void onRemovedFromLevel() {
+        //
+        super.onRemovedFromLevel();
+
     }
 }
