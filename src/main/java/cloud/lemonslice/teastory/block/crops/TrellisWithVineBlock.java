@@ -110,6 +110,7 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
         }
     }
 
+
     @Override
     @SuppressWarnings("deprecation")
     public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
