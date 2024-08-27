@@ -1,7 +1,7 @@
 {
   "type": "teastory:bamboo_tray_bake",
   "ingredient": {
-    "tag": "forge:crops/grape"
+    "tag": "c:crops/grape"
   },
   "result": {
     "count": 1,

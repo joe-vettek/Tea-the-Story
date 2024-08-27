@@ -4,7 +4,7 @@
   "group": "haystack",
   "key": {
     "#": {
-      "tag": "forge:crops/straw"
+      "tag": "c:crops/straw"
     }
   },
   "pattern": [

@@ -1,7 +1,7 @@
 {
   "type": "teastory:bamboo_tray_bake",
   "ingredient": {
-    "tag": "forge:food/jerky"
+    "tag": "c:food/jerky"
   },
   "result": {
     "count": 1,

@@ -106,11 +106,14 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
     }
 
     public FluidStack getOutputFluid() {
-        return outputFluid.getFluids()[0];
+        return outputFluid==null||outputFluid.getFluids().length==0?
+                FluidStack.EMPTY:outputFluid.getFluids()[0];
     }
 
-    public SizedFluidIngredient getInputFluid() {
-        return inputFluid;
+    public FluidStack getInputFluid() {
+        return inputFluid==null||inputFluid.getFluids().length==0?
+                FluidStack.EMPTY:inputFluid.getFluids()[0];
+
     }
 
     public NonNullList<ItemStack> getOutputItems() {

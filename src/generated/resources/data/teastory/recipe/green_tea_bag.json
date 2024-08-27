@@ -7,13 +7,13 @@
       "item": "teastory:empty_tea_bag"
     },
     {
-      "tag": "forge:crops/green_tea_leaf"
+      "tag": "c:crops/green_tea_leaf"
     },
     {
-      "tag": "forge:crops/green_tea_leaf"
+      "tag": "c:crops/green_tea_leaf"
     },
     {
-      "tag": "forge:crops/green_tea_leaf"
+      "tag": "c:crops/green_tea_leaf"
     }
   ],
   "result": {

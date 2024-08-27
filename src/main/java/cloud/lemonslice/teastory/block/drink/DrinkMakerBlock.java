@@ -187,9 +187,9 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
             }
 
             BlockPos finalPos = pos;
-            FluidUtil.getFluidHandler(pStack.copy()).ifPresent(item ->
-                    Optional.ofNullable(pLevel.getCapability(Capabilities.FluidHandler.BLOCK, finalPos,pHitResult.getDirection())).ifPresent(fluid ->
-                            flag = FluidUtil.interactWithFluidHandler(pPlayer, pHand, fluid)));
+            FluidUtil.getFluidHandler(pStack.copy()).flatMap(item -> Optional.ofNullable(pLevel.getCapability(Capabilities.FluidHandler.BLOCK, finalPos, pHitResult.getDirection())))
+                    .ifPresent(fluid ->
+                    flag = FluidUtil.interactWithFluidHandler(pPlayer, pHand, fluid));
             if (flag)
                 return ItemInteractionResult.SUCCESS;
 
@@ -206,7 +206,7 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
             BlockEntity te = worldIn.getBlockEntity(pos);
             if (te instanceof DrinkMakerTileEntity) {
                 // ((DrinkMakerTileEntity) te).requestModelDataUpdate();
-                pPlayer.openMenu((MenuProvider) te, te.getBlockPos());
+                pPlayer.openMenu((MenuProvider) te, pos);
             }
         }
         return super.useWithoutItem(state, worldIn, pos, pPlayer, pHitResult);

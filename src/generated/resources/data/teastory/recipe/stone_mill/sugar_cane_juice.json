@@ -1,7 +1,7 @@
 {
   "type": "teastory:stone_mill",
   "item_ingredients": {
-    "tag": "forge:crops/sugar_cane"
+    "tag": "c:crops/sugar_cane"
   },
   "output_fluid": {
     "amount": 100,

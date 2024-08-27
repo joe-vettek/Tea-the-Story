@@ -9,10 +9,10 @@
   },
   "item_ingredients": [
     {
-      "tag": "forge:crops/white_tea_leaf"
+      "tag": "c:crops/white_tea_leaf"
     },
     {
-      "tag": "forge:crops/white_tea_leaf"
+      "tag": "c:crops/white_tea_leaf"
     }
   ]
 }

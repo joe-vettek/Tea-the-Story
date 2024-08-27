@@ -66,9 +66,10 @@ public class ServerModFilePackResources extends AbstractPackResources {
     @Override
     public void listResources(PackType type, String namespace, String path, ResourceOutput resourceOutput) {
 
-// TeaStory.logger(namespace,path);
+        // if(true)return;
+// TeaStory.logger(11111,namespace,path);
 
-        if (namespace.equals("minecraft") && path.contains("tags/block")) {
+        if (namespace.equals("minecraft") && path.equals("tags/block")) {
             JsonObject jsonObject = new JsonObject();
             JsonArray jsonArray = new JsonArray();
             Planks.TrellisBlockMap.forEach((resourceLocation, blockBlockPair) -> {
@@ -87,7 +88,7 @@ public class ServerModFilePackResources extends AbstractPackResources {
             var loc = TeaStory.rl(base.getNamespace(), resourceType.getPrefix() + "/" + base.getPath() + resourceType.getSuffix());
             resourceOutput.accept(loc, jsonObjectToIoSupplier(jsonObject));
 
-        } else if (namespace.equals(TeaStory.MODID) && path.contains("recipe")) {
+        } else if (namespace.equals(TeaStory.MODID) && path.equals("recipe")) {
             JsonObject jsonObject = new JsonObject();
 
             jsonObject.addProperty("type", "minecraft:crafting_shaped");
@@ -142,7 +143,7 @@ public class ServerModFilePackResources extends AbstractPackResources {
             }
             TeaStory.logger("Build %s recipes".formatted(count));
 
-        } else if (namespace.equals(TeaStory.MODID) && path.contains("advancement")) {
+        } else if (namespace.equals(TeaStory.MODID) && path.equals("advancement")) {
             JsonObject jsonObject = new JsonObject();
 
             jsonObject.addProperty("parent", "minecraft:recipes/root");

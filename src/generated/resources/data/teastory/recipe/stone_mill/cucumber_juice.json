@@ -1,7 +1,7 @@
 {
   "type": "teastory:stone_mill",
   "item_ingredients": {
-    "tag": "forge:crops/cucumber"
+    "tag": "c:crops/cucumber"
   },
   "output_fluid": {
     "amount": 100,

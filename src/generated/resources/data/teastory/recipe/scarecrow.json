@@ -4,7 +4,7 @@
   "group": "scarecrow",
   "key": {
     "#": {
-      "tag": "forge:crops/straw"
+      "tag": "c:crops/straw"
     },
     "*": {
       "item": "teastory:dry_haystack"

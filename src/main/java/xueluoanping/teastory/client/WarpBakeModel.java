@@ -77,6 +77,9 @@ public class WarpBakeModel implements IDynamicBakedModel {
                 bakedQuads = bakedModel.getQuads(state, side, rand, extraData, renderType);
                 stateListMap.put(state, bakedQuads);
             }
+            if (!(bakedQuads instanceof ArrayList)) {
+                bakedQuads = new ArrayList<>(bakedQuads);
+            }
             for (int i = 0; i < bakedQuads.size(); i++) {
                 bakedQuads.set(i, new BakedQuadRetextured(bakedQuads.get(i), cache));
             }

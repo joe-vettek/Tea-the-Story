@@ -19,7 +19,7 @@ import javax.annotation.Nullable;
 
 
 public class WoodenBarrelTileEntity extends SyncedBlockEntity {
-    private final FluidTank fluidTank = createFluidHandler();
+    private final FluidTank fluidTank;
     private Fluid remainFluid = Fluids.EMPTY;
     private final int capacity;
     private int heightAmount = 0;
@@ -27,6 +27,7 @@ public class WoodenBarrelTileEntity extends SyncedBlockEntity {
     public WoodenBarrelTileEntity(BlockPos pos, BlockState state) {
         super(TileEntityTypeRegistry.WOODEN_BARREL_TYPE.get(), pos, state);
         this.capacity = 4000;
+        this.fluidTank = createFluidHandler(this.capacity);
     }
 
 
@@ -45,8 +46,8 @@ public class WoodenBarrelTileEntity extends SyncedBlockEntity {
     }
 
 
-    private FluidTank createFluidHandler() {
-        return new FluidTank(capacity) {
+    private FluidTank createFluidHandler(int size) {
+        return new FluidTank(size) {
             @Override
             protected void onContentsChanged() {
                 WoodenBarrelTileEntity.this.recordPreviousFluid(this.fluid);

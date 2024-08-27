@@ -1,7 +1,7 @@
 {
   "type": "teastory:stone_mill",
   "item_ingredients": {
-    "tag": "forge:crops/straw"
+    "tag": "c:crops/straw"
   },
   "output_items": [
     {
