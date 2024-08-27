@@ -1,0 +1,10 @@
+{
+  "type": "teastory:bamboo_tray_outdoors",
+  "ingredient": {
+    "item": "teastory:fresh_bamboo_wall"
+  },
+  "result": {
+    "count": 1,
+    "id": "teastory:dried_bamboo_wall"
+  }
+}

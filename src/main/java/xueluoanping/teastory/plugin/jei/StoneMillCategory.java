@@ -1,6 +1,6 @@
 package xueluoanping.teastory.plugin.jei;
 
-import cloud.lemonslice.teastory.recipe.stone_mill.StoneMillRecipe;
+import xueluoanping.teastory.recipe.stone_mill.StoneMillRecipe;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;

@@ -1,16 +1,13 @@
 package xueluoanping.teastory.handler;
 
-import cloud.lemonslice.teastory.tag.NormalTags;
-import net.minecraft.network.chat.Component;
+import xueluoanping.teastory.tag.NormalTags;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import xueluoanping.teastory.ItemRegister;
-import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.entity.ScarecrowEntity;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.GAME)

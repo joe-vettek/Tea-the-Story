@@ -11,7 +11,7 @@ import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import net.neoforged.neoforge.items.ItemStackHandler;
-import cloud.lemonslice.teastory.recipe.drink.DrinkRecipe;
+import xueluoanping.teastory.recipe.drink.DrinkRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -97,7 +97,8 @@ public class DrinkMakerTileEntity extends NormalContainerTileEntity {
         if (tileEntity.getFluidAmount() != 0 && !tileEntity.isIngredientsEmpty()) {
             var warp = new MultiRecipeWrapper(tileEntity.ingredientsInventory, tileEntity.residuesInventory, tileEntity.containerInventory);
             if (tileEntity.currentRecipe == null || !tileEntity.currentRecipe.matches(warp, worldIn)) {
-                tileEntity.currentRecipe = worldIn.getRecipeManager().getRecipeFor(RecipeRegister.DRINK_MAKER.get(), warp, worldIn).orElse(null).value();
+                worldIn.getRecipeManager().getRecipeFor(RecipeRegister.DRINK_MAKER.get(), warp, worldIn).ifPresent(drinkRecipeRecipeHolder -> tileEntity.currentRecipe = drinkRecipeRecipeHolder.value());
+
             }
             if (tileEntity.currentRecipe != null && tileEntity.isEnoughAmount()) {
                 tileEntity.processTicks++;

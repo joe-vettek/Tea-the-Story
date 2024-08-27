@@ -3,7 +3,7 @@ package cloud.lemonslice.teastory.block.craft;
 
 import cloud.lemonslice.teastory.blockentity.WoodenBarrelTileEntity;
 import cloud.lemonslice.teastory.helper.VoxelShapeHelper;
-import cloud.lemonslice.teastory.tag.NormalTags;
+import xueluoanping.teastory.tag.NormalTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionHand;

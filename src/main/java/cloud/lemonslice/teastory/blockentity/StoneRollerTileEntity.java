@@ -1,9 +1,8 @@
 package cloud.lemonslice.teastory.blockentity;
 
 import cloud.lemonslice.teastory.container.StoneRollerContainer;
-import cloud.lemonslice.teastory.recipe.stone_mill.StoneRollerRecipe;
+import xueluoanping.teastory.recipe.stone_mill.StoneRollerRecipe;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Inventory;
@@ -18,9 +17,6 @@ import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import xueluoanping.teastory.RecipeRegister;
 import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.block.entity.NormalContainerTileEntity;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class StoneRollerTileEntity extends NormalContainerTileEntity {
     private int woodenFrameAngel = 0;
@@ -87,7 +83,8 @@ public class StoneRollerTileEntity extends NormalContainerTileEntity {
         }
         var warp = new RecipeWrapper(stoneRollerTileEntity.inputInventory);
         if (stoneRollerTileEntity.currentRecipe == null || !stoneRollerTileEntity.currentRecipe.matches(warp, stoneRollerTileEntity.getLevel())) {
-            stoneRollerTileEntity.currentRecipe = stoneRollerTileEntity.getLevel().getRecipeManager().getRecipeFor(RecipeRegister.STONE_ROLLER.get(), warp, stoneRollerTileEntity.getLevel()).orElse(null).value();
+            var cc = stoneRollerTileEntity.getLevel().getRecipeManager().getRecipeFor(RecipeRegister.STONE_ROLLER.get(), warp, stoneRollerTileEntity.getLevel()).orElse(null);
+            stoneRollerTileEntity.currentRecipe = cc == null ? null : cc.value();
         }
 
         if (stoneRollerTileEntity.currentRecipe != null) {

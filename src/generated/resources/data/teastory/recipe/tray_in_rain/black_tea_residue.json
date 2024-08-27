@@ -1,0 +1,10 @@
+{
+  "type": "teastory:bamboo_tray_in_rain",
+  "ingredient": {
+    "tag": "c:crops/black_tea_leaf"
+  },
+  "result": {
+    "count": 1,
+    "id": "teastory:tea_residues"
+  }
+}

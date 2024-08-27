@@ -1,6 +1,6 @@
 package xueluoanping.teastory.item;
 
-import cloud.lemonslice.teastory.tag.NormalTags;
+import xueluoanping.teastory.tag.NormalTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.fluids.FluidStack;

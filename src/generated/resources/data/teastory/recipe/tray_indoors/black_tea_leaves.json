@@ -1,0 +1,10 @@
+{
+  "type": "teastory:bamboo_tray_indoors",
+  "ingredient": {
+    "tag": "c:crops/tea_leaf"
+  },
+  "result": {
+    "count": 1,
+    "id": "teastory:black_tea_leaves"
+  }
+}

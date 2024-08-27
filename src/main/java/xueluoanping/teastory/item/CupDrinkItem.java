@@ -1,10 +1,9 @@
 package xueluoanping.teastory.item;
 
 
-import cloud.lemonslice.teastory.recipe.drink.DrinkEffectManager;
-import cloud.lemonslice.teastory.tag.NormalTags;
+import xueluoanping.teastory.recipe.drink.DrinkEffectManager;
+import xueluoanping.teastory.tag.NormalTags;
 import net.minecraft.ChatFormatting;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundSource;

@@ -1,0 +1,10 @@
+{
+  "type": "teastory:bamboo_tray_outdoors",
+  "ingredient": {
+    "tag": "c:crops/tea_leaf"
+  },
+  "result": {
+    "count": 1,
+    "id": "teastory:green_tea_leaves"
+  }
+}

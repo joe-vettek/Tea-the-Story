@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import xueluoanping.teastory.ItemRegister;
 import xueluoanping.teastory.TeaStory;
@@ -80,6 +81,11 @@ public class StoveTileEntity extends NormalContainerTileEntity {
         }
         if (!stoveTileEntity.isBurning()) {
             stoveTileEntity.addFuel();
+        }else {
+            if(worldIn.getRandom().nextInt(60)==0) {
+                var ash=new ItemStack(ItemRegister.ASH.get());
+                ItemHandlerHelper.insertItem(stoveTileEntity.getAshInventory(),ash,false);
+            }
         }
         if (stoveTileEntity.remainTicks > 0) {
             stoveTileEntity.remainTicks--;
@@ -163,7 +169,7 @@ public class StoveTileEntity extends NormalContainerTileEntity {
         return new ItemStackHandler() {
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                return stack.getItem().equals(ItemRegister.ASH);
+                return stack.is(ItemRegister.ASH);
             }
         };
     }

@@ -1,7 +1,7 @@
 package xueluoanping.teastory.data.recipe.builder;
 
 
-import cloud.lemonslice.teastory.recipe.stone_mill.StoneRollerRecipe;
+import xueluoanping.teastory.recipe.stone_mill.StoneRollerRecipe;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;

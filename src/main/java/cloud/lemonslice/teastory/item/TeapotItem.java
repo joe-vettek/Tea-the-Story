@@ -1,7 +1,7 @@
 package cloud.lemonslice.teastory.item;
 
 
-import cloud.lemonslice.teastory.tag.NormalTags;
+import xueluoanping.teastory.tag.NormalTags;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;

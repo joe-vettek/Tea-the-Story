@@ -1,7 +1,7 @@
 package xueluoanping.teastory.data.tag;
 
 
-import cloud.lemonslice.teastory.tag.NormalTags;
+import xueluoanping.teastory.tag.NormalTags;
 import com.google.common.collect.Lists;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;

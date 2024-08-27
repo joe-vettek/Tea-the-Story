@@ -1,0 +1,10 @@
+{
+  "type": "teastory:bamboo_tray_outdoors",
+  "ingredient": {
+    "tag": "c:food/jerky"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:leather"
+  }
+}

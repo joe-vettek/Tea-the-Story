@@ -4,16 +4,14 @@ import cloud.lemonslice.teastory.block.craft.BambooTrayMode;
 import cloud.lemonslice.teastory.block.craft.CatapultBoardBlockWithTray;
 import cloud.lemonslice.teastory.block.craft.IStoveBlock;
 import cloud.lemonslice.teastory.container.BambooTrayContainer;
-import cloud.lemonslice.teastory.recipe.bamboo_tray.BambooTraySingleInRecipe;
+import xueluoanping.teastory.recipe.bamboo_tray.BambooTraySingleInRecipe;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -25,7 +23,6 @@ import xueluoanping.teastory.RecipeRegister;
 import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.block.entity.NormalContainerTileEntity;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Random;
 
@@ -72,7 +69,6 @@ public class BambooTrayTileEntity extends NormalContainerTileEntity {
     }
 
 
-
     public static void tick(Level worldIn, BlockPos pos, BlockState blockState, BambooTrayTileEntity tileEntity) {
         if (tileEntity.doubleClickTicks > 0) {
             tileEntity.doubleClickTicks--;
@@ -103,14 +99,14 @@ public class BambooTrayTileEntity extends NormalContainerTileEntity {
         }
     }
 
-    private boolean process(RecipeType recipeType, float coefficient) {
+    private boolean process(RecipeType<? extends BambooTraySingleInRecipe> recipeType, float coefficient) {
         ItemStack input = getInput();
         if (input.isEmpty()) {
             setToZero();
             return false;
         }
         if (this.currentRecipe == null || !this.currentRecipe.getIngredient().test(input) || mode != BambooTrayMode.getMode(this.getLevel(), this.getBlockPos())) {
-            this.currentRecipe = (BambooTraySingleInRecipe) this.getLevel().getRecipeManager().getRecipeFor( recipeType, new RecipeWrapper(this.containerInventory), this.getLevel()).orElse(null);
+            this.getLevel().getRecipeManager().getRecipeFor(recipeType, new RecipeWrapper(this.containerInventory), this.getLevel()).ifPresent(r -> this.currentRecipe = r.value());
         }
         if (currentRecipe != null && !getOutput().isEmpty()) {
             this.refreshTotalTicks(currentRecipe.getWorkTime(), coefficient);

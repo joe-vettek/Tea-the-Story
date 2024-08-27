@@ -1,0 +1,10 @@
+{
+  "type": "teastory:bamboo_tray_outdoors",
+  "ingredient": {
+    "item": "minecraft:rabbit"
+  },
+  "result": {
+    "count": 1,
+    "id": "teastory:rabbit_jerky"
+  }
+}

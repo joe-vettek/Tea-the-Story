@@ -9,7 +9,7 @@ import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import xueluoanping.teastory.craft.BlockEntityRecipeWrapper;
-import cloud.lemonslice.teastory.recipe.stone_mill.StoneMillRecipe;
+import xueluoanping.teastory.recipe.stone_mill.StoneMillRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -26,7 +26,6 @@ import xueluoanping.teastory.RecipeRegister;
 import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.block.entity.NormalContainerTileEntity;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 
@@ -91,7 +90,8 @@ public class StoneMillTileEntity extends NormalContainerTileEntity {
         }
         var warp = new BlockEntityRecipeWrapper(stoneMillTileEntity.inputInventory, stoneMillTileEntity);
         if (stoneMillTileEntity.currentRecipe == null || !stoneMillTileEntity.currentRecipe.matches(warp, worldIn)) {
-            stoneMillTileEntity.currentRecipe = worldIn.getRecipeManager().getRecipeFor(RecipeRegister.STONE_MILL.get(), warp, worldIn).orElse(null).value();
+            var c = worldIn.getRecipeManager().getRecipeFor(RecipeRegister.STONE_MILL.get(), warp, worldIn);
+            c.ifPresent(stoneMillRecipeRecipeHolder -> stoneMillTileEntity.currentRecipe = stoneMillRecipeRecipeHolder.value());
         }
 
         if (stoneMillTileEntity.currentRecipe != null) {

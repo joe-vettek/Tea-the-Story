@@ -1,8 +1,8 @@
 package xueluoanping.teastory.data.recipe;
 
 
-import cloud.lemonslice.teastory.recipe.special.FlowerDyeRecipe;
-import cloud.lemonslice.teastory.tag.NormalTags;
+import xueluoanping.teastory.recipe.special.FlowerDyeRecipe;
+import xueluoanping.teastory.tag.NormalTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
@@ -23,7 +23,6 @@ import xueluoanping.teastory.data.recipe.builder.StoneMillRecipeBuilder;
 import xueluoanping.teastory.data.recipe.builder.StoneRollerRecipeBuilder;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
 
 public final class TeaStoryRecipeProvider extends RecipeProvider {
 

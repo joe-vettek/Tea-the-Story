@@ -3,7 +3,7 @@ package xueluoanping.teastory;
 
 import cloud.lemonslice.teastory.block.crops.VineInfoManager;
 import cloud.lemonslice.teastory.config.NormalConfigs;
-import cloud.lemonslice.teastory.recipe.drink.DrinkEffectManager;
+import xueluoanping.teastory.recipe.drink.DrinkEffectManager;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;

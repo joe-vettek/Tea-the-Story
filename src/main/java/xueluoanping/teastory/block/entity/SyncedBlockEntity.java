@@ -46,7 +46,7 @@ public class SyncedBlockEntity extends BlockEntity {
 
     public class SyncedItemStackHandler extends ItemStackHandler {
         public SyncedItemStackHandler() {
-            super();
+            this(1);
         }
         public SyncedItemStackHandler(int i) {
             super(i);

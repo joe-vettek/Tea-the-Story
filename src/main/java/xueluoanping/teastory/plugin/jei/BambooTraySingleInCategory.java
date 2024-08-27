@@ -1,9 +1,7 @@
 package xueluoanping.teastory.plugin.jei;
 
 
-import cloud.lemonslice.teastory.recipe.bamboo_tray.BambooTrayBakeRecipe;
-import cloud.lemonslice.teastory.recipe.bamboo_tray.BambooTraySingleInRecipe;
-import mezz.jei.api.constants.VanillaTypes;
+import xueluoanping.teastory.recipe.bamboo_tray.BambooTraySingleInRecipe;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
@@ -16,8 +14,6 @@ import mezz.jei.common.Constants;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import xueluoanping.teastory.TeaStory;
-
-import java.util.Collections;
 
 public class BambooTraySingleInCategory<T extends BambooTraySingleInRecipe> implements IRecipeCategory<T> {
     private final RecipeType<T> uid;

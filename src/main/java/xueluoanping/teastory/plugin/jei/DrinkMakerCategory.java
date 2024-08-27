@@ -1,7 +1,7 @@
 package xueluoanping.teastory.plugin.jei;
 
 
-import cloud.lemonslice.teastory.recipe.drink.DrinkRecipe;
+import xueluoanping.teastory.recipe.drink.DrinkRecipe;
 
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -19,9 +19,6 @@ import net.minecraft.network.chat.Component;
 import net.neoforged.neoforge.fluids.FluidStack;
 import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.TileEntityTypeRegistry;
-
-import java.util.Arrays;
-import java.util.List;
 
 
 public class DrinkMakerCategory implements IRecipeCategory<DrinkRecipe>

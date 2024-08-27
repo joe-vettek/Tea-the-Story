@@ -29,7 +29,7 @@ public class BambooTrayGui extends AbstractContainerScreen<BambooTrayContainer> 
 
     @Override
     public void render(GuiGraphics matrixStack, int mouseX, int mouseY, float partialTick) {
-        this.renderBackground(matrixStack, mouseX, mouseY, partialTick);
+        // this.renderBackground(matrixStack, mouseX, mouseY, partialTick);
         super.render(matrixStack, mouseX, mouseY, partialTick);
         renderTooltip(matrixStack, mouseX, mouseY);
     }

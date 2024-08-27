@@ -2,7 +2,7 @@ package cloud.lemonslice.teastory.client.gui;
 
 
 import cloud.lemonslice.teastory.container.DrinkMakerContainer;
-import cloud.lemonslice.teastory.recipe.drink.DrinkRecipe;
+import xueluoanping.teastory.recipe.drink.DrinkRecipe;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -95,8 +95,8 @@ public class DrinkMakerGui extends AbstractContainerScreen<DrinkMakerContainer> 
 
     @Override
     public void render(GuiGraphics matrixStack, int mouseX, int mouseY, float partialTick) {
-        this.renderBackground(matrixStack,mouseX,mouseY,partialTick);
-        // super.render(matrixStack, mouseX, mouseY, partialTick);
+        // this.renderBackground(matrixStack,mouseX,mouseY,partialTick);
+        super.render(matrixStack, mouseX, mouseY, partialTick);
         renderTooltip(matrixStack, mouseX, mouseY);
         // super.renderTooltip(matrixStack, mouseX, mouseY);
     }

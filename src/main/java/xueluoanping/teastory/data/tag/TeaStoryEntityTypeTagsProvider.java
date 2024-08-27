@@ -1,6 +1,6 @@
 package xueluoanping.teastory.data.tag;
 
-import cloud.lemonslice.teastory.tag.NormalTags;
+import xueluoanping.teastory.tag.NormalTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.EntityTypeTagsProvider;

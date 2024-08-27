@@ -1,13 +1,12 @@
 package xueluoanping.teastory;
 
 
-import cloud.lemonslice.teastory.recipe.bamboo_tray.*;
-import cloud.lemonslice.teastory.recipe.drink.DrinkRecipe;
-import cloud.lemonslice.teastory.recipe.special.FlowerDyeRecipe;
-import cloud.lemonslice.teastory.recipe.stone_mill.StoneMillRecipe;
-import cloud.lemonslice.teastory.recipe.stone_mill.StoneRollerRecipe;
+import xueluoanping.teastory.recipe.bamboo_tray.*;
+import xueluoanping.teastory.recipe.drink.DrinkRecipe;
+import xueluoanping.teastory.recipe.special.FlowerDyeRecipe;
+import xueluoanping.teastory.recipe.stone_mill.StoneMillRecipe;
+import xueluoanping.teastory.recipe.stone_mill.StoneRollerRecipe;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;

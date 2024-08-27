@@ -1,9 +1,7 @@
 package xueluoanping.teastory.plugin.jei;
 
 
-import cloud.lemonslice.teastory.recipe.stone_mill.StoneRollerRecipe;
-import com.google.common.collect.Lists;
-import mezz.jei.api.constants.VanillaTypes;
+import xueluoanping.teastory.recipe.stone_mill.StoneRollerRecipe;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
@@ -11,16 +9,9 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.TileEntityTypeRegistry;
-
-
-import java.util.Collections;
-import java.util.List;
 
 
 public class StoneRollerCategory implements IRecipeCategory<StoneRollerRecipe> {

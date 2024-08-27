@@ -3,11 +3,10 @@ package cloud.lemonslice.teastory.block.craft;
 
 import cloud.lemonslice.teastory.blockentity.BambooTrayTileEntity;
 import cloud.lemonslice.teastory.helper.VoxelShapeHelper;
-import cloud.lemonslice.teastory.recipe.bamboo_tray.BambooTraySingleInRecipe;
+import xueluoanping.teastory.recipe.bamboo_tray.BambooTraySingleInRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
