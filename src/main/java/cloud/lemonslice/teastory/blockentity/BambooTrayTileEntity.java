@@ -126,6 +126,7 @@ public class BambooTrayTileEntity extends NormalContainerTileEntity {
                     getLevel().scheduleTick(getBlockPos(), this.getBlockState().getBlock(), 5);
                 }
                 this.setChanged();
+                this.currentRecipe=null;
             }
             return true;
         }

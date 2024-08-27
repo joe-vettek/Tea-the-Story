@@ -150,7 +150,7 @@ public class ModContent {
                 (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getContainerInventory());
 
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, TileEntityTypeRegistry.DRINK_MAKER_TYPE.get(),
-                (blockEntity, context) -> blockEntity.isRemoved() ? null : (context == Direction.DOWN ? blockEntity.getOutputInventory() : blockEntity.getInputInventory()));
+                (blockEntity, context) -> blockEntity.isRemoved() ? null : (context == Direction.DOWN ? blockEntity.getResiduesInventory() : blockEntity.getIngredientsInventory()));
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, TileEntityTypeRegistry.DRINK_MAKER_TYPE.get(),
                 (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getFluidHandler());
 

@@ -14,17 +14,19 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.NotNull;
 import xueluoanping.teastory.FluidRegistry;
+import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.block.entity.SyncedBlockEntity;
 
 
 public class TeapotTileEntity extends SyncedBlockEntity {
-    private final FluidTank fluidTank = createFluidHandler();
+    private final FluidTank fluidTank ;
     private final int capacity;
 
     public TeapotTileEntity(int capacity, BlockPos pos, BlockState state) {
         super(getTeapotTileEntityType(capacity), pos, state);
         this.capacity = capacity;
+        this.fluidTank= createFluidHandler(capacity);
     }
 
     public static BlockEntityType<?> getTeapotTileEntityType(int capacity) {
@@ -48,8 +50,8 @@ public class TeapotTileEntity extends SyncedBlockEntity {
     }
 
 
-    private FluidTank createFluidHandler() {
-        return new FluidTank(capacity) {
+    private FluidTank createFluidHandler(int size) {
+        return new FluidTank(size) {
             @Override
             protected void onContentsChanged() {
                 inventoryChanged();

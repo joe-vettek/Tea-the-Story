@@ -38,11 +38,11 @@ import java.util.Optional;
 // import static net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack.FLUID_NBT_KEY;
 
 public class DrinkMakerTileEntity extends NormalContainerTileEntity {
-    private final ItemStackHandler ingredientsInventory = createItemHandler(4);
-    private final ItemStackHandler residuesInventory = createItemHandler(4);
-    private final ItemStackHandler containerInventory = createItemHandler(1);
-    private final ItemStackHandler inputInventory = createItemHandler(1);
-    private final ItemStackHandler outputInventory = createItemHandler(1);
+    private final ItemStackHandler ingredientsInventory;
+    private final ItemStackHandler residuesInventory;
+    private final ItemStackHandler containerInventory;
+    private final ItemStackHandler inputInventory;
+    private final ItemStackHandler outputInventory;
 
     private int processTicks = 0;
     private static final int totalTicks = 200;
@@ -51,6 +51,11 @@ public class DrinkMakerTileEntity extends NormalContainerTileEntity {
 
     public DrinkMakerTileEntity(BlockPos pos, BlockState state) {
         super(TileEntityTypeRegistry.DRINK_MAKER_TYPE.get(), pos, state);
+        ingredientsInventory = createItemHandler(4);
+        residuesInventory = createItemHandler(4);
+        containerInventory = createContainerItemHandler(1);
+        inputInventory = createItemHandler(1);
+        outputInventory = createContainerItemHandler(1);
     }
 
     @Override
@@ -67,11 +72,11 @@ public class DrinkMakerTileEntity extends NormalContainerTileEntity {
     // write
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider pRegistries) {
-        tag.put("Ingredients", ((INBTSerializable<CompoundTag>) ingredientsInventory).serializeNBT(pRegistries));
-        tag.put("Residues", ((INBTSerializable<CompoundTag>) residuesInventory).serializeNBT(pRegistries));
-        tag.put("Container", ((INBTSerializable<CompoundTag>) containerInventory).serializeNBT(pRegistries));
-        tag.put("Input", ((INBTSerializable<CompoundTag>) inputInventory).serializeNBT(pRegistries));
-        tag.put("Output", ((INBTSerializable<CompoundTag>) outputInventory).serializeNBT(pRegistries));
+        tag.put("Ingredients", (ingredientsInventory).serializeNBT(pRegistries));
+        tag.put("Residues", ( residuesInventory).serializeNBT(pRegistries));
+        tag.put("Container", ( containerInventory).serializeNBT(pRegistries));
+        tag.put("Input", ( inputInventory).serializeNBT(pRegistries));
+        tag.put("Output", ( outputInventory).serializeNBT(pRegistries));
 
         tag.putInt("ProcessTicks", processTicks);
         super.saveAdditional(tag, pRegistries);
@@ -91,6 +96,13 @@ public class DrinkMakerTileEntity extends NormalContainerTileEntity {
         return false;
     }
 
+    public ItemStackHandler getIngredientsInventory() {
+        return ingredientsInventory;
+    }
+
+    public ItemStackHandler getResiduesInventory() {
+        return residuesInventory;
+    }
 
     public static void tick(Level worldIn, BlockPos pos, BlockState blockState, DrinkMakerTileEntity tileEntity) {
         // TeaStory.logger(worldIn.getGameTime());
@@ -183,7 +195,7 @@ public class DrinkMakerTileEntity extends NormalContainerTileEntity {
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
                 // return !(stack.getItem() instanceof BucketItem);
-                return true;
+                return FluidUtil.getFluidHandler(stack).isPresent();
             }
         };
     }
@@ -316,7 +328,7 @@ public class DrinkMakerTileEntity extends NormalContainerTileEntity {
 
     @Nullable
     @Override
-    public AbstractContainerMenu createMenu(int id, Inventory playerInventory, Player p_39956_) {
-        return new DrinkMakerContainer(id, playerInventory, worldPosition, level);
+    public AbstractContainerMenu createMenu(int id, Inventory playerInventory, Player player) {
+        return new DrinkMakerContainer(id, playerInventory, getBlockPos(), getLevel());
     }
 }

@@ -26,7 +26,6 @@ public abstract class BambooTraySingleInRecipe implements Recipe<RecipeWrapper> 
         this.ingredient = ingredientIn;
         this.result = resultIn;
         this.workTime = workTime;
-        TeaStory.logger(resultIn,2222,this);
     }
 
     @Override

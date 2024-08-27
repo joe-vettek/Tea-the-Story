@@ -36,12 +36,15 @@ public class StoneMillTileEntity extends NormalContainerTileEntity {
     private int processTicks = 0;
     private StoneMillRecipe currentRecipe;
 
-    private final ItemStackHandler inputInventory = new SyncedItemStackHandler();
-    private final ItemStackHandler outputInventory = new SyncedItemStackHandler(3);
-    private final FluidTank fluidTank = new SyncedFluidTank(2000);
+    private final ItemStackHandler inputInventory;
+    private final ItemStackHandler outputInventory;
+    private final FluidTank fluidTank;
 
     public StoneMillTileEntity(BlockPos pos, BlockState state) {
         super(TileEntityTypeRegistry.STONE_MILL_TYPE.get(), pos, state);
+        this.inputInventory = new SyncedItemStackHandler();
+        this.outputInventory = new SyncedItemStackHandler(3);
+        this.fluidTank = new SyncedFluidTank(2000);
     }
 
 

@@ -26,11 +26,13 @@ public class StoneRollerTileEntity extends NormalContainerTileEntity {
     private int processTicks = 0;
     private StoneRollerRecipe currentRecipe;
 
-    private ItemStackHandler inputInventory = new SyncedItemStackHandler();
-    private ItemStackHandler outputInventory = new SyncedItemStackHandler(3);
+    private final ItemStackHandler inputInventory;
+    private final ItemStackHandler outputInventory;
 
     public StoneRollerTileEntity(BlockPos pos, BlockState state) {
         super(TileEntityTypeRegistry.STONE_ROLLER_TYPE.get(), pos, state);
+        this.inputInventory = new SyncedItemStackHandler();
+        this.outputInventory = new SyncedItemStackHandler(3);
     }
 
 

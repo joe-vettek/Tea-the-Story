@@ -35,11 +35,13 @@ public class StoveTileEntity extends NormalContainerTileEntity {
 
     private int doubleClickTicks = 0;
 
-    private final ItemStackHandler fuelInventory = createFuelHandler();
-    private final ItemStackHandler ashInventory = createAshHandler();
+    private final ItemStackHandler fuelInventory;
+    private final ItemStackHandler ashInventory ;
 
     public StoveTileEntity(BlockPos pos, BlockState state) {
         super(TileEntityTypeRegistry.STOVE_TYPE.get(), pos, state);
+        this.fuelInventory = createFuelHandler();
+        this.ashInventory = createAshHandler();
     }
 
 

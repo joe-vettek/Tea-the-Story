@@ -31,19 +31,19 @@ public class BambooTrayRecipeBuilder {
     }
 
     public static BambooTrayRecipeBuilder outdoorsRecipe(Ingredient ingredientIn, Item resultIn, int workingTimeIn) {
-        return workingRecipe(ingredientIn, resultIn, workingTimeIn, (DeferredHolder) RecipeRegister.BAMBOO_TRAY_OUTDOORS_SERIALIZER);
+        return workingRecipe(ingredientIn, resultIn, workingTimeIn, RecipeRegister.BAMBOO_TRAY_OUTDOORS_SERIALIZER);
     }
 
     public static BambooTrayRecipeBuilder indoorsRecipe(Ingredient ingredientIn, Item resultIn, int workingTimeIn) {
-        return workingRecipe(ingredientIn, resultIn, workingTimeIn,(DeferredHolder)  RecipeRegister.BAMBOO_TRAY_INDOORS_SERIALIZER);
+        return workingRecipe(ingredientIn, resultIn, workingTimeIn, RecipeRegister.BAMBOO_TRAY_INDOORS_SERIALIZER);
     }
 
     public static BambooTrayRecipeBuilder wetRecipe(Ingredient ingredientIn, Item resultIn, int workingTimeIn) {
-        return workingRecipe(ingredientIn, resultIn, workingTimeIn, (DeferredHolder) RecipeRegister.BAMBOO_TRAY_IN_RAIN_SERIALIZER);
+        return workingRecipe(ingredientIn, resultIn, workingTimeIn, RecipeRegister.BAMBOO_TRAY_IN_RAIN_SERIALIZER);
     }
 
     public static BambooTrayRecipeBuilder bakeRecipe(Ingredient ingredientIn, @NotNull Item resultIn, int workingTimeIn) {
-        return workingRecipe(ingredientIn, resultIn, workingTimeIn, (DeferredHolder) RecipeRegister.BAMBOO_TRAY_BAKE_SERIALIZER);
+        return workingRecipe(ingredientIn, resultIn, workingTimeIn, RecipeRegister.BAMBOO_TRAY_BAKE_SERIALIZER);
     }
 
     public void build(RecipeOutput consumerIn) {

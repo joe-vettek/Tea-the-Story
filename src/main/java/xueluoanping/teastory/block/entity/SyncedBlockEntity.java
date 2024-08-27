@@ -57,6 +57,7 @@ public class SyncedBlockEntity extends BlockEntity {
             // super.onContentsChanged(slot);
             inventoryChanged();
         }
+
     }
 
     public class SyncedFluidTank extends FluidTank {

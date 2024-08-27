@@ -86,17 +86,6 @@ public class TeapotBlock extends NormalHorizontalBlock implements EntityBlock {
         }
     }
 
-    @Override
-    @SuppressWarnings("deprecation")
-    public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random) {
-        var tileentity = worldIn.getBlockEntity(pos);
-        if (tileentity instanceof TeapotTileEntity) {
-            if (IStoveBlock.isBurning(worldIn, pos.below()) && ((TeapotTileEntity) tileentity).getFluid() == Fluids.WATER) {
-                ((TeapotTileEntity) tileentity).setFluid(FluidRegistry.BOILING_WATER_STILL.get());
-            }
-        }
-    }
-
 
     @Override
     public void fallOn(Level worldIn, BlockState state, BlockPos pos, Entity entityIn, float fallDistance) {
@@ -124,8 +113,10 @@ public class TeapotBlock extends NormalHorizontalBlock implements EntityBlock {
 
     @Override
     protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
-        FluidUtil.getFluidHandler(player.getItemInHand(handIn).copy()).flatMap(item -> Optional.ofNullable(level.getCapability(Capabilities.FluidHandler.BLOCK, pos, hit.getDirection()))).ifPresent(fluid ->
-                FluidUtil.interactWithFluidHandler(player, handIn, fluid));
+        FluidUtil.getFluidHandler(player.getItemInHand(handIn).copy())
+                .flatMap(item ->
+                        Optional.ofNullable(level.getCapability(Capabilities.FluidHandler.BLOCK, pos, hit.getDirection()))).ifPresent(fluid ->
+                        FluidUtil.interactWithFluidHandler(player, handIn, fluid));
         return ItemInteractionResult.SUCCESS;
     }
 

@@ -1,6 +1,8 @@
 package cloud.lemonslice.teastory.item;
 
 
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.context.UseOnContext;
 import xueluoanping.teastory.tag.NormalTags;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -45,6 +47,11 @@ public class TeapotItem extends BlockItem implements FluidContainerItem {
         super(block, properties);
         this.capacity = capacity;
         this.canFillWater = fillWater;
+    }
+
+    @Override
+    public InteractionResult place(BlockPlaceContext pContext) {
+        return super.place(pContext);
     }
 
     @Override

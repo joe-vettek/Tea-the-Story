@@ -24,15 +24,14 @@ import xueluoanping.teastory.block.NormalHorizontalBlock;
 public class IronKettleBlock extends TeapotBlock implements EntityBlock {
     private static final VoxelShape SHAPE = VoxelShapeHelper.createVoxelShape(2, 0, 2, 12, 11, 12);
 
-    public IronKettleBlock( Properties properties) {
-        super( properties);
+    public IronKettleBlock(Properties properties) {
+        super(properties);
     }
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
-
 
 
     @Override
@@ -55,7 +54,7 @@ public class IronKettleBlock extends TeapotBlock implements EntityBlock {
 
 
     @Override
-    public void entityInside(BlockState p_60495_,Level worldIn, BlockPos pos, Entity entityIn) {
+    public void entityInside(BlockState p_60495_, Level worldIn, BlockPos pos, Entity entityIn) {
         if (entityIn instanceof LivingEntity) {
             var te = worldIn.getBlockEntity(pos);
             if (te instanceof TeapotTileEntity && ((TeapotTileEntity) te).getFluid().getFluidType().getTemperature() >= 333) {
@@ -71,7 +70,7 @@ public class IronKettleBlock extends TeapotBlock implements EntityBlock {
 
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-           return !pLevel.isClientSide ?
+        return !pLevel.isClientSide ?
                 NormalHorizontalBlock.createTickerHelper(pBlockEntityType, TileEntityTypeRegistry.IRON_KETTLE_TYPE.get(), TeapotTileEntity::tick) : null;
 
     }
