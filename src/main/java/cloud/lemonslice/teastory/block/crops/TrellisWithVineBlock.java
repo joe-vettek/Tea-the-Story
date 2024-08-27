@@ -110,10 +110,9 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
         }
     }
 
-
     @Override
     @SuppressWarnings("deprecation")
-    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         // Grow vertically. 垂直方向生长。
         if (!(level.getBlockEntity(pos) instanceof VineEntity vineEntity))
             return;
@@ -130,82 +129,6 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
                 }
             }
         } else vineEntity.setAge(vineEntity.getAge() + 1);
-        // if (true) return;
-        //
-        // if (hasPost(state)) {
-        //     // int i = state.getValue(AGE);
-        //     int i = vineEntity.getAge();
-        //     float f = 8.0F; // TODO Connected setValue humidity.
-        //     if (ForgeHooks.onCropsGrowPre(level, pos, state, random.nextInt((int) (25.0F / f) + 1) == 0)) {
-        //         if (i < 3) {
-        //             // level.setBlock(pos, state.setValue(AGE, i + 1), 2);
-        //             vineEntity.setAge(++i);
-        //         } else {
-        //             BlockState up = level.getBlockState(pos.above());
-        //             if (up.getBlock() instanceof TrellisBlock && !(up.getBlock() instanceof TrellisWithVineBlock)) {
-        //                 level.setBlock(pos.above(), VineInfoManager.getVineTrellis(type, (TrellisBlock) up.getBlock()).getRelevantState(up), 2);
-        //                 // .setValue(DISTANCE, state.getValue(DISTANCE) + 1)
-        //                 if (level.getBlockEntity(pos.above()) instanceof VineEntity upVine) {
-        //                     upVine.setDistance(vineEntity.getDistance() + 1);
-        //
-        //                 }
-        //             }
-        //         }
-        //         ForgeHooks.onCropsGrowPost(level, pos, state);
-        //         return;
-        //     }
-        // }
-        // // Grow horizontally and bear fruit. 水平方向蔓延和结果。
-        // if (hasHorizontalBar(state)) {
-        //     // int i = state.getValue(AGE);
-        //     int i = vineEntity.getAge();
-        //     float f = 5.0F; // TODO Connected setValue humidity.
-        //     if (ForgeHooks.onCropsGrowPre(level, pos, state, random.nextInt((int) (25.0F / f) + 1) == 0)) {
-        //         if (!hasPost(state)) {
-        //             if (random.nextBoolean()) // Leaves grow up.
-        //             {
-        //                 if (level.getBlockState(pos.below()).getBlock() != type.getFruit()) {
-        //                     // level.setBlock(pos, state.setValue(AGE, (i + 1) % 4), 2);
-        //                     vineEntity.setAge(((i + 1) % 4));
-        //                 }
-        //             } else // Bear fruit.
-        //             {
-        //                 if (level.getBlockState(pos.below()).isAir() && !hasNearFruit(level, pos.below(), type.getFruit())) {
-        //                     // level.setBlockAndUpdate(pos, state.setValue(AGE, (i + 1) % 4));
-        //                     vineEntity.setAge(((i + 1) % 4));
-        //                     level.setBlockAndUpdate(pos.below(), type.getFruit().defaultBlockState());
-        //                     ForgeHooks.onCropsGrowPost(level, pos, state);
-        //                     return;
-        //                 }
-        //             }
-        //         }
-        //         BlockPos nextPos = pos;
-        //         switch (random.nextInt(4)) {
-        //             case 0:
-        //                 nextPos = nextPos.north();
-        //                 break;
-        //             case 1:
-        //                 nextPos = nextPos.south();
-        //                 break;
-        //             case 2:
-        //                 nextPos = nextPos.east();
-        //                 break;
-        //             default:
-        //                 nextPos = nextPos.west();
-        //         }
-        //         BlockState next = level.getBlockState(nextPos);
-        //         if (next.getBlock() instanceof TrellisBlock
-        //                 && !(next.getBlock() instanceof TrellisWithVineBlock)
-        //                 && vineEntity.getDistance() < 7) {
-        //             level.setBlock(nextPos, VineInfoManager.getVineTrellis(type, (TrellisBlock) next.getBlock()).getRelevantState(next), 2);
-        //             // .setValue(DISTANCE, state.getValue(DISTANCE) + 1)
-        //             if (level.getBlockEntity(nextPos) instanceof VineEntity nextVine) {
-        //                 nextVine.setDistance(vineEntity.getDistance() + 1);
-        //             }
-        //         }
-        //         ForgeHooks.onCropsGrowPost(level, pos, state);
-        //     }
-        // }
     }
 
 
@@ -299,45 +222,6 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
                 // }
             }
         }
-
-
-        // if ((level.getBlockEntity(pos) instanceof VineEntity vineEntity)) {
-        //     int distance = 8;
-        //     if (hasHorizontalBar(stateIn)) {
-        //         distance = getNearDistance(level, pos);
-        //         if (distance < 7) {
-        //             // stateIn = stateIn.setValue(DISTANCE, distance + 1);
-        //             // vineEntity.setDistance(distance+1);
-        //             distance += 1;
-        //             valid = true;
-        //         }
-        //     }
-        //     if (hasPost(stateIn)) {
-        //         BlockState down = level.getBlockState(pos.below());
-        //         if (down.is(BlockTags.DIRT)) {
-        //             // stateIn = stateIn.setValue(DISTANCE, 0);
-        //             // vineEntity.setDistance(0);
-        //             distance = 0;
-        //             valid = true;
-        //         } else if (down.getBlock() instanceof TrellisWithVineBlock
-        //                 && level.getBlockEntity(pos.below()) instanceof VineEntity belowEntity
-        //         ) {
-        //             // down.getValue(AGE) == 3
-        //             if (belowEntity.getAge() == 3 && ((TrellisWithVineBlock) down.getBlock()).type == type) {
-        //                 // stateIn = stateIn.setValue(DISTANCE, down.getValue(DISTANCE));
-        //                 // vineEntity.setDistance(belowEntity.getDistance());
-        //                 distance = belowEntity.getDistance();
-        //                 valid = true;
-        //             }
-        //         }
-        //
-        //     }
-        //     if (valid) {
-        //         // vineEntity.setDistance(distance);
-        //     }
-        //
-        // }
-
         if (!valid) {
             stateIn = VineInfoManager.getEmptyTrellis(stateIn.getBlock()).getRelevantState(stateIn);
         }

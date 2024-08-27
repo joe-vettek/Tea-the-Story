@@ -20,6 +20,7 @@ import net.minecraft.server.packs.metadata.MetadataSectionSerializer;
 import net.minecraft.server.packs.resources.IoSupplier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
 import xueluoanping.teastory.TeaStory;
@@ -97,7 +98,7 @@ public class ServerModFilePackResources extends AbstractPackResources {
 
             JsonObject keyObject = new JsonObject();
             JsonObject rodObject = new JsonObject();
-            rodObject.addProperty("tag", "forge:rods/wooden");
+            rodObject.addProperty("tag", Tags.Items.RODS_WOODEN.location().toString());
             keyObject.add("#", rodObject);
 
             JsonObject itemObject = new JsonObject();
@@ -113,7 +114,7 @@ public class ServerModFilePackResources extends AbstractPackResources {
 
             JsonObject resultObject = new JsonObject();
             resultObject.addProperty("count", 2);
-            resultObject.addProperty("item", "teastory:acacia_trellis");
+            resultObject.addProperty("id", "teastory:acacia_trellis");
             jsonObject.add("result", resultObject);
 
             jsonObject.addProperty("show_notification", true);
@@ -123,7 +124,7 @@ public class ServerModFilePackResources extends AbstractPackResources {
             for (var pairEntry : Planks.TrellisBlockMap.entrySet()) {
                 // resultObject = new JsonObject();
                 // resultObject.addProperty("count", 2);
-                resultObject.addProperty("item", pairEntry.getKey().toString());
+                resultObject.addProperty("id", pairEntry.getKey().toString());
                 var plankLoc = BuiltInRegistries.BLOCK.getKey(pairEntry.getValue().plank());
                 var fence = ResourceLocation.tryParse((plankLoc).toString().replace("_planks", "_fence"));
                 var fenceBlock = BuiltInRegistries.BLOCK.getOptional(fence);
