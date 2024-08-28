@@ -1,6 +1,7 @@
 package cloud.lemonslice.teastory.blockentity;
 
 
+import cloud.lemonslice.teastory.config.ServerConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -26,7 +27,7 @@ public class WoodenBarrelTileEntity extends SyncedBlockEntity {
 
     public WoodenBarrelTileEntity(BlockPos pos, BlockState state) {
         super(TileEntityTypeRegistry.WOODEN_BARREL_TYPE.get(), pos, state);
-        this.capacity = 4000;
+        this.capacity = ServerConfig.BlockConfig.woodenBarrelCapacity.getAsInt();
         this.fluidTank = createFluidHandler(this.capacity);
     }
 

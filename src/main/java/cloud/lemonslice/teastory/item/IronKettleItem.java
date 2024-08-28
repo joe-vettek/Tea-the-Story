@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
+import org.jetbrains.annotations.NotNull;
 
 
 import java.util.List;
@@ -35,6 +36,10 @@ public class IronKettleItem extends TeapotItem {
         });
 
         super.appendHoverText(stack, tooltipContext, tooltip, flagIn);
+    }
 
+    @Override
+    public boolean isFluidValid(int tank, @NotNull FluidStack stack) {
+        return true;
     }
 }

@@ -3,6 +3,7 @@ package cloud.lemonslice.teastory.item;
 
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
+import net.neoforged.neoforge.fluids.*;
 import xueluoanping.teastory.tag.NormalTags;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -27,10 +28,6 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.neoforged.neoforge.fluids.BaseFlowingFluid;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidUtil;
-import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import xueluoanping.teastory.FluidRegistry;
 import xueluoanping.teastory.ModCapabilities;
@@ -49,52 +46,55 @@ public class TeapotItem extends BlockItem implements FluidContainerItem {
         this.canFillWater = fillWater;
     }
 
-    @Override
-    public InteractionResult place(BlockPlaceContext pContext) {
-        return super.place(pContext);
-    }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
-        if (canFillWater) {
+    public InteractionResult useOn(UseOnContext pContext) {
+        Level worldIn = pContext.getLevel();
+        if (canFillWater && !worldIn.isClientSide()) {
+            Player playerIn = pContext.getPlayer();
+            InteractionHand handIn = pContext.getHand();
+
             ItemStack itemStack = playerIn.getItemInHand(handIn);
             HitResult raytraceresult = getPlayerPOVHitResult(worldIn, playerIn, ClipContext.Fluid.SOURCE_ONLY);
 
-            if (raytraceresult.getType() == HitResult.Type.MISS) {
-                return new InteractionResultHolder<>(InteractionResult.PASS, itemStack);
-            } else if (raytraceresult.getType() != HitResult.Type.BLOCK) {
-                return new InteractionResultHolder<>(InteractionResult.PASS, itemStack);
-            } else {
-                BlockHitResult blockraytraceresult = (BlockHitResult) raytraceresult;
-                BlockPos blockpos = blockraytraceresult.getBlockPos();
-                if (worldIn.mayInteract(playerIn, blockpos) && playerIn.mayUseItemAt(blockpos, blockraytraceresult.getDirection(), itemStack)) {
-                    BlockState blockstate1 = worldIn.getBlockState(blockpos);
-                    if (blockstate1.getBlock() instanceof LiquidBlock) {
-                        Fluid fluid = ((LiquidBlock) blockstate1.getBlock()).fluid.getSource();
-                        if (fluid != Fluids.EMPTY && fluid.is(FluidTags.WATER)) {
-                            ((LiquidBlock) blockstate1.getBlock()).pickupBlock(playerIn, worldIn, blockpos, blockstate1);
-                            playerIn.awardStat(Stats.ITEM_USED.get(this));
 
-                            SoundEvent soundevent = SoundEvents.BOTTLE_FILL;
-                            playerIn.playSound(soundevent, 1.0F, 1.0F);
-
-                            if (!playerIn.isCreative()) {
-                                ItemStack itemStack1 = new ItemStack(this);
-                                itemStack1.set(ModCapabilities.SIMPLE_FLUID, SimpleFluidContent.copyOf(new FluidStack(fluid, capacity)));
-                                ItemHandlerHelper.giveItemToPlayer(playerIn, itemStack1);
-
-                                itemStack.shrink(1);
-                            }
-
-                            return new InteractionResultHolder<>(InteractionResult.SUCCESS, itemStack);
-                        }
-                    }
-                    return new InteractionResultHolder<>(InteractionResult.FAIL, itemStack);
-                } else {
-                    return new InteractionResultHolder<>(InteractionResult.FAIL, itemStack);
+            if (raytraceresult.getType() == HitResult.Type.BLOCK
+                    && raytraceresult instanceof BlockHitResult blockHitResult) {
+                BlockPos blockpos = blockHitResult.getBlockPos();
+                if (worldIn.getFluidState(blockpos).isSource()) {
+                    var resultItem = FluidUtil.tryPickUpFluid(itemStack, playerIn, worldIn, blockpos, blockHitResult.getDirection()).getResult();
+                    playerIn.setItemInHand(handIn, resultItem);
+                    return InteractionResult.SUCCESS;
                 }
+                // if (worldIn.mayInteract(playerIn, blockpos) && playerIn.mayUseItemAt(blockpos, blockHitResult.getDirection(), itemStack)) {
+                //     BlockState state = worldIn.getBlockState(blockpos);
+                //     if (state.getBlock() instanceof LiquidBlock liquidBlock) {
+                //         Fluid fluid = liquidBlock.fluid.getSource();
+                //         if (fluid != Fluids.EMPTY && fluid.is(FluidTags.WATER)) {
+                //             // liquidBlock.pickupBlock(playerIn, worldIn, blockpos, state);
+                //
+                //             playerIn.awardStat(Stats.ITEM_USED.get(this));
+                //             SoundEvent soundevent = SoundEvents.BOTTLE_FILL;
+                //             playerIn.playSound(soundevent, 1.0F, 1.0F);
+                //
+                //             if (!playerIn.isCreative()) {
+                //                 // ItemStack stack = new ItemStack(this);
+                //                 // stack.set(ModCapabilities.SIMPLE_FLUID, SimpleFluidContent.copyOf(new FluidStack(fluid, FluidType.BUCKET_VOLUME)));
+                //                 FluidUtil.tryPickUpFluid(itemStack,playerIn,worldIn,blockpos,blockHitResult.getDirection());
+                //                 // ItemHandlerHelper.giveItemToPlayer(playerIn, stack);
+                //                 // itemStack.shrink(1);
+                //             }
+                //             FluidUtil.tryPickUpFluid(itemStack,playerIn,worldIn,blockpos,blockHitResult.getDirection());
+                //
+                //             return InteractionResult.SUCCESS;
+                //         }
+                //     }
+                //
+                // }
+                //
             }
-        } else return super.use(worldIn, playerIn, handIn);
+        }
+        return super.useOn(pContext);
     }
 
 
@@ -116,7 +116,12 @@ public class TeapotItem extends BlockItem implements FluidContainerItem {
     public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag flagIn) {
         super.appendHoverText(stack, tooltipContext, tooltip, flagIn);
         FluidUtil.getFluidHandler(stack).ifPresent(f ->
-                tooltip.add(((MutableComponent) (f.getFluidInTank(0).getHoverName())).append(String.format(": %d / %dmB", f.getFluidInTank(0).getAmount(), capacity)).withStyle(ChatFormatting.GRAY)));
+                {
+                    var fluid = f.getFluidInTank(0);
+                    if (!fluid.isEmpty())
+                        tooltip.add(((MutableComponent) (fluid.getHoverName())).append(String.format(": %d / %dmB", f.getFluidInTank(0).getAmount(), capacity)).withStyle(ChatFormatting.GRAY));
+                }
+        );
     }
 
 

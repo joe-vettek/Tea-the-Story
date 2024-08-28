@@ -33,7 +33,7 @@ public class ItemRegister {
     public static DeferredHolder<Item, Item> WET_STRAW = ModItems.register("wet_straw", () -> new Item(new Item.Properties()));
     public static DeferredHolder<Item, Item> DRY_STRAW = ModItems.register("dry_straw", () -> new Item(new Item.Properties()));
     public static DeferredHolder<Item, Item> BAMBOO_PLANK = ModItems.register("bamboo_plank", () -> new Item(new Item.Properties()));
-    public static DeferredHolder<Item, Item> ASH = ModItems.register("ash", () -> new Item(new Item.Properties()));
+    public static DeferredHolder<Item, Item> ASH = ModItems.register("ash", () -> new FertilizerItem(new Item.Properties()));
     public static DeferredHolder<Item, Item> TEA_RESIDUES = ModItems.register("tea_residues", () -> new Item(new Item.Properties()));
     public static DeferredHolder<Item, Item> CRUSHED_STRAW = ModItems.register("crushed_straw", () -> new Item(new Item.Properties()));
 

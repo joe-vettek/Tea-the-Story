@@ -9,7 +9,6 @@ public class ServerConfig
     {
         BlockConfig.load(builder);
         Agriculture.load(builder);
-        Temperature.load(builder);
         Season.load(builder);
         Others.load(builder);
     }
@@ -27,34 +26,16 @@ public class ServerConfig
         }
     }
 
-    public static class Temperature
-    {
-        public static ModConfigSpec.BooleanValue iceMelt;
-
-        private static void load(ModConfigSpec.Builder builder)
-        {
-            builder.push("Temperature");
-            iceMelt = builder.comment("Ice or snow layer will melt in warm place..")
-                    .define("IceAndSnowMelt", true);
-            builder.pop();
-        }
-    }
 
     public static class Season
     {
         public static ModConfigSpec.BooleanValue enable;
-        public static ModConfigSpec.IntValue lastingDaysOfEachTerm;
-        public static ModConfigSpec.IntValue initialSolarTermIndex;
 
         private static void load(ModConfigSpec.Builder builder)
         {
             builder.push("Season");
-            enable = builder.comment("Enable solar term season system.")
+            enable = builder.comment("Enable solar term season compat.")
                     .define("EnableSeason", true);
-            lastingDaysOfEachTerm = builder.comment("The lasting days of each term (24 in total).")
-                    .defineInRange("LastingDaysOfEachTerm", 7, 1, 30);
-            initialSolarTermIndex = builder.comment("The index of the initial solar term.")
-                    .defineInRange("InitialSolarTermIndex", 1, 1, 24);
             builder.pop();
         }
     }

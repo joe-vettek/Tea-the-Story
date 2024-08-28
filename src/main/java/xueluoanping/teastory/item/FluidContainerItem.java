@@ -17,18 +17,21 @@ public interface FluidContainerItem {
 
     Item getCraftingRemainingItem();
 
+    default boolean isFluidValid(int tank, @Nonnull FluidStack stack) {
+        return stack.getFluid().is(NormalTags.Fluids.DRINK);
+    }
+
     default IFluidHandlerItem transferToFluidHandler(@NotNull ItemStack stack) {
         return new FluidHandlerItemStack(ModCapabilities.SIMPLE_FLUID, stack, getCapacity()) {
 
             @Override
             public @NotNull ItemStack getContainer() {
-                return getFluid().isEmpty() ? new ItemStack(getCraftingRemainingItem()) : this.container;
+                return getFluid().isEmpty() ? new ItemStack(FluidContainerItem.this.getCraftingRemainingItem()) : this.container;
             }
 
             @Override
             public boolean isFluidValid(int tank, @Nonnull FluidStack stack) {
-                return stack.getFluid().is(NormalTags.Fluids.DRINK);
-                // return true;
+               return FluidContainerItem.this.isFluidValid(tank, stack);
             }
         };
     }
