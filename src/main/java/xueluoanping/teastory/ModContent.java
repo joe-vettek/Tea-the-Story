@@ -1,7 +1,7 @@
 package xueluoanping.teastory;
 
 import cloud.lemonslice.teastory.block.crops.TrellisBlock;
-import cloud.lemonslice.teastory.block.crops.TrellisWithVineBlock;
+import xueluoanping.teastory.block.crops.TrellisWithVineBlock;
 import cloud.lemonslice.teastory.block.crops.VineInfoManager;
 import cloud.lemonslice.teastory.block.crops.VineType;
 import net.minecraft.core.Direction;
@@ -30,7 +30,6 @@ import net.neoforged.neoforge.registries.RegisterEvent;
 import xueluoanping.teastory.blockentity.VineEntity;
 import xueluoanping.teastory.item.Citem;
 import xueluoanping.teastory.item.FluidContainerItem;
-import xueluoanping.teastory.resource.ServerModFilePackResources;
 import xueluoanping.teastory.resource.ServerPathResourcesSupplier;
 import xueluoanping.teastory.variant.Planks;
 

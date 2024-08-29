@@ -1,7 +1,7 @@
 package xueluoanping.teastory.variant;
 
 import cloud.lemonslice.teastory.block.crops.TrellisBlock;
-import cloud.lemonslice.teastory.block.crops.TrellisWithVineBlock;
+import xueluoanping.teastory.block.crops.TrellisWithVineBlock;
 import net.minecraft.SharedConstants;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackSelectionConfig;

@@ -2,7 +2,7 @@ package cloud.lemonslice.teastory.item;
 
 
 import cloud.lemonslice.teastory.block.crops.TrellisBlock;
-import cloud.lemonslice.teastory.block.crops.TrellisWithVineBlock;
+import xueluoanping.teastory.block.crops.TrellisWithVineBlock;
 import cloud.lemonslice.teastory.block.crops.VineInfoManager;
 import cloud.lemonslice.teastory.block.crops.VineType;
 import net.minecraft.core.BlockPos;
