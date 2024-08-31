@@ -130,7 +130,7 @@ public class TeaStotryBlockLootSubProvider extends BlockLootSubProvider {
                     this.applyExplosionCondition(block.asItem(),
                             LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                                     .when(createStateBuilder(block, RiceSeedlingBlock.AGE, 7))
-                                    .add(LootItem.lootTableItem(block)))
+                                    .add(LootItem.lootTableItem(BlockRegister.riceSeedlings.get())))
 
             );
             for (int i = 0; i < 7; i++) {
