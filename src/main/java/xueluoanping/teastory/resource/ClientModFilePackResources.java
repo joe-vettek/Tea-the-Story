@@ -3,6 +3,8 @@ package xueluoanping.teastory.resource;
 import cloud.lemonslice.teastory.block.crops.VineType;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import net.minecraft.client.resources.model.BlockStateModelLoader;
+import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.AbstractPackResources;
 import net.minecraft.server.packs.PackLocationInfo;
@@ -84,7 +86,7 @@ public class ClientModFilePackResources extends AbstractPackResources {
 
         // TeaStory.logger(namespace, path);
 
-        if (namespace.equals(TeaStory.MODID) && path.equals("blockstates")) {
+        if (namespace.equals(TeaStory.MODID) && path.equals(BlockStateModelLoader.BLOCKSTATE_LISTER.prefix)) {
             Path trellisPath = modFile.findResource("templates/assets/blockstates/trellis.json");
             Path bittergourdTrellisPath = modFile.findResource("templates/assets/blockstates/trellis_bitter_gourd.json");
             Path cucumberTrellisPath = modFile.findResource("templates/assets/blockstates/trellis_cucumber.json");
@@ -115,7 +117,7 @@ public class ClientModFilePackResources extends AbstractPackResources {
             });
 
 
-        } else if (namespace.equals(TeaStory.MODID) && path.contains("models")) {
+        } else if (namespace.equals(TeaStory.MODID) && path.equals(ModelBakery.MODEL_LISTER.prefix)) {
 
             var list= List.of("bar","center","post","post_up","support");
             Map<String, JsonObject> typeMap = new HashMap<>();

@@ -47,8 +47,11 @@ public class BambooTrayBlock extends Block implements EntityBlock {
 
 
     @Override
-    public boolean canSurvive(BlockState p_60525_, LevelReader worldIn, BlockPos pos) {
-        return worldIn.getBlockState(pos.below()).isSolidRender(worldIn, pos);
+    public boolean canSurvive(BlockState p_60525_, LevelReader pLevel, BlockPos pos) {
+        // var low=pLevel.getBlockState(pos.below());
+        // return low.getBlock() instanceof StoveBlock
+        //         || low.isFaceSturdy(pLevel, pos, Direction.UP);
+        return pLevel.getBlockState(pos.below()).isFaceSturdy(pLevel, pos, Direction.UP);
     }
 
     @Override

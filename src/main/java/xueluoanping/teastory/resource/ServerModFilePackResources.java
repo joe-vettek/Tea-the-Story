@@ -70,14 +70,14 @@ public class ServerModFilePackResources extends AbstractPackResources {
         // if(true)return;
 // TeaStory.logger(11111,namespace,path);
 
-        if (namespace.equals("minecraft") && path.equals("tags/block")) {
+        if (namespace.equals("minecraft") && path.equals(Registries.tagsDirPath(Registries.BLOCK))) {
             JsonObject jsonObject = new JsonObject();
             JsonArray jsonArray = new JsonArray();
             Planks.TrellisBlockMap.forEach((resourceLocation, blockBlockPair) -> {
                 jsonArray.add(resourceLocation.toString());
             });
             for (Map.Entry<ResourceKey<Block>, Block> resourceKeyBlockEntry : BuiltInRegistries.BLOCK.entrySet()) {
-                if (resourceKeyBlockEntry.getValue() instanceof TrellisBlock){
+                if (resourceKeyBlockEntry.getValue() instanceof TrellisBlock) {
                     jsonArray.add(resourceKeyBlockEntry.getKey().location().toString());
                 }
             }
@@ -89,7 +89,7 @@ public class ServerModFilePackResources extends AbstractPackResources {
             var loc = TeaStory.rl(base.getNamespace(), resourceType.getPrefix() + "/" + base.getPath() + resourceType.getSuffix());
             resourceOutput.accept(loc, jsonObjectToIoSupplier(jsonObject));
 
-        } else if (namespace.equals(TeaStory.MODID) && path.equals("recipe")) {
+        } else if (namespace.equals(TeaStory.MODID) && path.equals(Registries.elementsDirPath(Registries.RECIPE))) {
             JsonObject jsonObject = new JsonObject();
 
             jsonObject.addProperty("type", "minecraft:crafting_shaped");
@@ -144,7 +144,7 @@ public class ServerModFilePackResources extends AbstractPackResources {
             }
             TeaStory.logger("Build %s recipes".formatted(count));
 
-        } else if (namespace.equals(TeaStory.MODID) && path.equals("advancement")) {
+        } else if (namespace.equals(TeaStory.MODID) && path.equals(Registries.elementsDirPath(Registries.ADVANCEMENT))) {
             JsonObject jsonObject = new JsonObject();
 
             jsonObject.addProperty("parent", "minecraft:recipes/root");
