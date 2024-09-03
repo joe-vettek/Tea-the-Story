@@ -45,6 +45,7 @@ public class ServerConfig
         public static ModConfigSpec.BooleanValue canUseBoneMeal;
         public static ModConfigSpec.BooleanValue useAshAsBoneMeal;
         public static ModConfigSpec.BooleanValue dropRiceGrains;
+        public static ModConfigSpec.BooleanValue betterMelon;
 
         private static void load(ModConfigSpec.Builder builder)
         {
@@ -55,6 +56,8 @@ public class ServerConfig
                     .define("Ash", true);
             dropRiceGrains = builder.comment("Can grass drop rice grains?")
                     .define("DropRiceGrains", true);
+            betterMelon = builder.comment("Let melon vine more interesting.")
+                    .define("BetterMelon", true);
             builder.pop();
         }
     }
