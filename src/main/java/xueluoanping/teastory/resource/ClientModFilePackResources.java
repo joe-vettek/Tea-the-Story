@@ -114,7 +114,7 @@ public class ClientModFilePackResources extends AbstractPackResources {
             });
 
 
-        } else if (namespace.equals(TeaStory.MODID) && path.contains("models")) {
+        } else if (namespace.equals(TeaStory.MODID) && path.equals("models")) {
 
             var list= List.of("bar","center","post","post_up","support");
             Map<String, JsonObject> typeMap = new HashMap<>();

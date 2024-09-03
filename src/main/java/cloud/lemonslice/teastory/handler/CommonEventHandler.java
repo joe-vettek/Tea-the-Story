@@ -1,5 +1,6 @@
 package cloud.lemonslice.teastory.handler;
 
+import cloud.lemonslice.teastory.config.ServerConfig;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.BonemealEvent;
@@ -19,67 +20,58 @@ import static cloud.lemonslice.teastory.handler.event.DrinkEffectEventHandler.*;
 
 
 @Mod.EventBusSubscriber(modid = TeaStory.MODID)
-public final class CommonEventHandler
-{
+public final class CommonEventHandler {
     @SubscribeEvent
-    public static void onLivingHurt(LivingHurtEvent event)
-    {
+    public static void onLivingHurt(LivingHurtEvent event) {
         applyAgilityEffect(event);
         applyDefenceEffect(event);
     }
 
     @SubscribeEvent
-    public static void onLivingAttack(LivingAttackEvent event)
-    {
+    public static void onLivingAttack(LivingAttackEvent event) {
         applyLifeDrainEffect(event);
         applyDefenceEffect(event);
     }
 
     @SubscribeEvent
-    public static void onPlayerSleep(PlayerSleepInBedEvent event)
-    {
+    public static void onPlayerSleep(PlayerSleepInBedEvent event) {
         applyExcitementEffect(event);
     }
 
     @SubscribeEvent
-    public static void onUseBoneMeal(BonemealEvent event)
-    {
+    public static void onUseBoneMeal(BonemealEvent event) {
         boneMealUsingLimit(event);
     }
 
     @SubscribeEvent
-    public static void onNeighborChanged(BlockEvent.NeighborNotifyEvent event)
-    {
+    public static void onNeighborChanged(BlockEvent.NeighborNotifyEvent event) {
         dropAsh(event);
     }
 
     @SubscribeEvent
-    public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event)
-    {
-        plantMelon(event);
+    public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+        if (ServerConfig.Agriculture.betterMelon.get())
+            plantMelon(event);
         cutMelon(event);
     }
 
     @SubscribeEvent
-    public static void onToolUsing(BlockEvent.BlockToolModificationEvent event)
-    {
+    public static void onToolUsing(BlockEvent.BlockToolModificationEvent event) {
 
         onAqueductShovelUsing(event);
     }
 
     @SubscribeEvent
-    public static void onFarmlandTrampled(BlockEvent.FarmlandTrampleEvent event)
-    {
+    public static void onFarmlandTrampled(BlockEvent.FarmlandTrampleEvent event) {
         stopTramplingMelonField(event);
     }
 
     @SubscribeEvent
-    public static void onEntityHurt(LivingHurtEvent event)
-    {
+    public static void onEntityHurt(LivingHurtEvent event) {
         try {
             onShennongChiAttack(event);
         } catch (IOException e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
     }
 }
