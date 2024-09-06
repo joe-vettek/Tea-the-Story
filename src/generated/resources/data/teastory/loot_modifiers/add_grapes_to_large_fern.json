@@ -9,7 +9,7 @@
           "loot_table_id": "minecraft:blocks/large_fern"
         },
         {
-          "chance": 0.1,
+          "chance": 0.005,
           "condition": "minecraft:random_chance"
         }
       ]

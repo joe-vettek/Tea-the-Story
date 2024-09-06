@@ -1,9 +1,9 @@
 package cloud.lemonslice.teastory.block.drink;
 
 
-import cloud.lemonslice.teastory.block.craft.IStoveBlock;
 import cloud.lemonslice.teastory.blockentity.TeapotTileEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -18,17 +18,15 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -45,11 +43,7 @@ import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.block.NormalHorizontalBlock;
 import xueluoanping.teastory.client.SoundEventsRegistry;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.Random;
-
-import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
 public class TeapotBlock extends NormalHorizontalBlock implements EntityBlock {
     private static final VoxelShape SHAPE = Block.box(5F, 0F, 5F, 11F, 8F, 11F);
@@ -108,7 +102,7 @@ public class TeapotBlock extends NormalHorizontalBlock implements EntityBlock {
 
     @Override
     protected InteractionResult useWithoutItem(BlockState pState, Level level, BlockPos pos, Player player, BlockHitResult pHitResult) {
-        ItemHandlerHelper.giveItemToPlayer(player, getDrop(level, pos));
+        ItemHandlerHelper.giveItemToPlayer(player, getSelf(level, pos));
         level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
         return InteractionResult.SUCCESS;
     }
@@ -123,15 +117,7 @@ public class TeapotBlock extends NormalHorizontalBlock implements EntityBlock {
     }
 
 
-    @Override
-    public void onRemove(BlockState pState, Level pLevel, BlockPos pos, BlockState pNewState, boolean isMoving) {
-        if (!pNewState.is(this))
-            popResource(pLevel, pos, getDrop(pLevel, pos));
-        super.onRemove(pState, pLevel, pos, pNewState, isMoving);
-    }
-
-
-    public ItemStack getDrop(Level worldIn, BlockPos pos) {
+    public ItemStack getSelf(BlockGetter worldIn, BlockPos pos) {
         var tileEntity = worldIn.getBlockEntity(pos);
         if (tileEntity instanceof TeapotTileEntity) {
             FluidStack fluidStack = ((TeapotTileEntity) tileEntity).getFluidTank().getFluidInTank(0);
@@ -146,7 +132,18 @@ public class TeapotBlock extends NormalHorizontalBlock implements EntityBlock {
 
     @Override
     public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
-        return getDrop(player.level(),pos);
+        return getSelf(level, pos);
+    }
+
+    @Override
+    public BlockState updateShape(BlockState pState, Direction pDirection, BlockState pNeighborState, LevelAccessor pLevel, BlockPos pPos, BlockPos pNeighborPos) {
+        if (pDirection == Direction.DOWN && pNeighborState.isAir()) {
+            if (pLevel instanceof ServerLevel serverLevel) {
+                popResource(serverLevel, pPos, getSelf(serverLevel, pPos));
+            }
+            return Blocks.AIR.defaultBlockState();
+        }
+        return super.updateShape(pState, pDirection, pNeighborState, pLevel, pPos, pNeighborPos);
     }
 
     @Override

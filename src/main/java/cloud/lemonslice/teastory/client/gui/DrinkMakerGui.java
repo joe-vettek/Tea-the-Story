@@ -21,7 +21,7 @@ import java.util.Optional;
 
 public class DrinkMakerGui extends AbstractContainerScreen<DrinkMakerContainer> {
     private static final String TEXTURE_PATH = "textures/gui/container/gui_drink_maker.png";
-    private static final ResourceLocation TEXTURE = TeaStory.rl( TEXTURE_PATH);
+    private static final ResourceLocation TEXTURE = TeaStory.rl(TEXTURE_PATH);
 
     private static final int QUESTION_X = 83;
     private static final int QUESTION_Y = 16;
@@ -81,8 +81,9 @@ public class DrinkMakerGui extends AbstractContainerScreen<DrinkMakerContainer> 
 
             PoseStack poseStack = guiGraphics.pose();
             poseStack.pushPose();
-            if (!fs.isEmpty())
-                RenderUtil.renderFluidStackInGUI(guiGraphics.pose().last().pose(), fs, 16, 64, offsetX + 128, offsetY + 12 + height);
+            if (!fs.isEmpty()) {
+                RenderUtil.renderFluidStackInGUI(guiGraphics.pose().last().pose(), fs, 16, (int) (64 * (height / 64f)), offsetX + 128, offsetY + 12 + 64);
+            }
             poseStack.popPose();
             // GuiHelper.drawTank(this, new TexturePos(), , height);
 

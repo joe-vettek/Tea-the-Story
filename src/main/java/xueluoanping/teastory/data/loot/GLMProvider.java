@@ -26,7 +26,7 @@ public class GLMProvider extends GlobalLootModifierProvider {
 
         for (Block grass : List.of(Blocks.SHORT_GRASS, Blocks.TALL_GRASS, Blocks.FERN, Blocks.LARGE_FERN)) {
             LootItemCondition lootItemCondition = LootTableIdCondition.builder(grass.getLootTable().location())
-                    .and(LootItemRandomChanceCondition.randomChance(0.1f))
+                    .and(LootItemRandomChanceCondition.randomChance(0.005f))
                     .build();
 
             String id = BuiltInRegistries.BLOCK.getKey(grass).getPath();
