@@ -4,6 +4,7 @@ package cloud.lemonslice.teastory.block.drink;
 import cloud.lemonslice.teastory.block.craft.IStoveBlock;
 import cloud.lemonslice.teastory.blockentity.TeapotTileEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -17,17 +18,17 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
@@ -42,10 +43,6 @@ import xueluoanping.teastory.TileEntityTypeRegistry;
 import xueluoanping.teastory.block.NormalHorizontalBlock;
 import xueluoanping.teastory.client.SoundEventsRegistry;
 
-import java.util.List;
-import java.util.Random;
-
-import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 import static net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack.FLUID_NBT_KEY;
 
 public class TeapotBlock extends NormalHorizontalBlock implements EntityBlock {
@@ -117,7 +114,7 @@ public class TeapotBlock extends NormalHorizontalBlock implements EntityBlock {
     @Override
     public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         if (player.getItemInHand(handIn).isEmpty()) {
-            ItemHandlerHelper.giveItemToPlayer(player, getDrop(worldIn, pos));
+            ItemHandlerHelper.giveItemToPlayer(player, getSelf(worldIn, pos));
             worldIn.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
         } else {
             var te = worldIn.getBlockEntity(pos);
@@ -131,13 +128,28 @@ public class TeapotBlock extends NormalHorizontalBlock implements EntityBlock {
 
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pos, BlockState pNewState, boolean isMoving) {
-        if (!pNewState.is(this))
-            popResource(pLevel, pos, getDrop(pLevel, pos));
+        // if (!pNewState.is(this))
+        //     popResource(pLevel, pos, getSelf(pLevel, pos));
         super.onRemove(pState, pLevel, pos, pNewState, isMoving);
     }
 
+    @Override
+    public BlockState updateShape(BlockState pState, Direction pDirection, BlockState pNeighborState, LevelAccessor pLevel, BlockPos pPos, BlockPos pNeighborPos) {
+        if (pDirection == Direction.DOWN && pNeighborState.isAir()) {
+            if (pLevel instanceof ServerLevel serverLevel) {
+                popResource(serverLevel, pPos, getSelf(serverLevel, pPos));
+            }
+            return Blocks.AIR.defaultBlockState();
+        }
+        return super.updateShape(pState, pDirection, pNeighborState, pLevel, pPos, pNeighborPos);
+    }
 
-    public ItemStack getDrop(Level worldIn, BlockPos pos) {
+    @Override
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
+        return getSelf(level,pos);
+    }
+
+    public ItemStack getSelf(BlockGetter worldIn, BlockPos pos) {
         var tileEntity = worldIn.getBlockEntity(pos);
         if (tileEntity instanceof TeapotTileEntity) {
             FluidStack fluidStack = ((TeapotTileEntity) tileEntity).getFluidTank().getFluidInTank(0);

@@ -80,8 +80,9 @@ public class DrinkMakerGui extends AbstractContainerScreen<DrinkMakerContainer> 
 
             PoseStack poseStack = guiGraphics.pose();
             poseStack.pushPose();
-            if (!fs.isEmpty())
-                RenderUtil.renderFluidStackInGUI(guiGraphics.pose().last().pose(), fs, 16, 64, offsetX + 128, offsetY + 12 + height);
+            if (!fs.isEmpty()) {
+                RenderUtil.renderFluidStackInGUI(guiGraphics.pose().last().pose(), fs, 16, (int) (64*(height/64f)), offsetX + 128, offsetY + 12 + 64);
+            }
             poseStack.popPose();
             // GuiHelper.drawTank(this, new TexturePos(), , height);
 
