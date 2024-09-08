@@ -62,4 +62,5 @@ public class ScarecrowEntity extends ArmorStand {
     public boolean isDeadOrDying() {
         return this.level().isEmptyBlock(this.blockPosition());
     }
+
 }

@@ -33,7 +33,17 @@ public class AqueductShovelItem extends ShovelItem {
         BlockPos blockPos = context.getClickedPos();
         BlockState blockState = world.getBlockState(blockPos);
         Player playerEntity = context.getPlayer();
-        if (blockState.is(Tags.Blocks.COBBLESTONE)) {
+        if (blockState.is(Tags.Blocks.COBBLESTONE_MOSSY)) {
+            if (!world.isClientSide()) {
+                world.setBlock(blockPos, ((AqueductBlock) BlockRegister.mossyCobblestoneAqueduct.get()).getStateForPlacement(world, blockPos), 3);
+                world.scheduleTick(blockPos, BlockRegister.mossyCobblestoneAqueduct.get(), Fluids.WATER.getTickDelay(world));
+                if (playerEntity != null) {
+                    context.getItemInHand().hurtAndBreak(1, playerEntity, player -> player.broadcastBreakEvent(context.getHand()));
+                }
+            }
+            world.playSound(playerEntity, blockPos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 1.0F);
+            return InteractionResult.SUCCESS;
+        } else if (blockState.is(Tags.Blocks.COBBLESTONE)) {
             if (!world.isClientSide()) {
                 world.setBlock(blockPos, ((AqueductBlock) BlockRegister.cobblestoneAqueduct.get()).getStateForPlacement(world, blockPos), 3);
                 world.scheduleTick(blockPos, BlockRegister.cobblestoneAqueduct.get(), Fluids.WATER.getTickDelay(world));
@@ -43,20 +53,11 @@ public class AqueductShovelItem extends ShovelItem {
             }
             world.playSound(playerEntity, blockPos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 1.0F);
             return InteractionResult.SUCCESS;
-        } if (blockState.getBlock() instanceof DirtPathBlock) {
+        }
+        if (blockState.getBlock() instanceof DirtPathBlock) {
             if (!world.isClientSide()) {
                 world.setBlock(blockPos, ((AqueductBlock) BlockRegister.dirtAqueduct.get()).getStateForPlacement(world, blockPos), 3);
                 world.scheduleTick(blockPos, BlockRegister.dirtAqueduct.get(), Fluids.WATER.getTickDelay(world));
-                if (playerEntity != null) {
-                    context.getItemInHand().hurtAndBreak(1, playerEntity, player -> player.broadcastBreakEvent(context.getHand()));
-                }
-            }
-            world.playSound(playerEntity, blockPos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 1.0F);
-            return InteractionResult.SUCCESS;
-        } else if (blockState.getBlock() == Blocks.MOSSY_COBBLESTONE) {
-            if (!world.isClientSide()) {
-                world.setBlock(blockPos, ((AqueductBlock) BlockRegister.mossyCobblestoneAqueduct.get()).getStateForPlacement(world, blockPos), 3);
-                world.scheduleTick(blockPos, BlockRegister.mossyCobblestoneAqueduct.get(), Fluids.WATER.getTickDelay(world));
                 if (playerEntity != null) {
                     context.getItemInHand().hurtAndBreak(1, playerEntity, player -> player.broadcastBreakEvent(context.getHand()));
                 }
