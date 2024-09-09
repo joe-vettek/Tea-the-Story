@@ -1,6 +1,0 @@
-{
-    "parent": "teastory:block/trellis_post_up",
-    "textures": {
-        "texture": "block/acacia_planks"
-    }
-}
