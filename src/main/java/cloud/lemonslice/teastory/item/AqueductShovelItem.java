@@ -34,7 +34,17 @@ public class AqueductShovelItem extends ShovelItem {
         BlockPos blockPos = context.getClickedPos();
         BlockState blockState = world.getBlockState(blockPos);
         Player playerEntity = context.getPlayer();
-        if (blockState.is(Tags.Blocks.COBBLESTONES)) {
+         if (blockState.is(Tags.Blocks.COBBLESTONES_MOSSY)) {
+            if (!world.isClientSide()) {
+                world.setBlock(blockPos, ((AqueductBlock) BlockRegister.mossyCobblestoneAqueduct.get()).getStateForPlacement(world, blockPos), 3);
+                world.scheduleTick(blockPos, BlockRegister.mossyCobblestoneAqueduct.get(), Fluids.WATER.getTickDelay(world));
+                if (playerEntity != null) {
+                    context.getItemInHand().hurtAndBreak(1, playerEntity, LivingEntity.getSlotForHand(context.getHand()));
+                }
+            }
+            world.playSound(playerEntity, blockPos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 1.0F);
+            return InteractionResult.SUCCESS;
+        }else if (blockState.is(Tags.Blocks.COBBLESTONES)) {
             if (!world.isClientSide()) {
                 world.setBlock(blockPos, ((AqueductBlock) BlockRegister.cobblestoneAqueduct.get()).getStateForPlacement(world, blockPos), 3);
                 world.scheduleTick(blockPos, BlockRegister.cobblestoneAqueduct.get(), Fluids.WATER.getTickDelay(world));
@@ -54,17 +64,7 @@ public class AqueductShovelItem extends ShovelItem {
             }
             world.playSound(playerEntity, blockPos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 1.0F);
             return InteractionResult.SUCCESS;
-        } else if (blockState.getBlock() == Blocks.MOSSY_COBBLESTONE) {
-            if (!world.isClientSide()) {
-                world.setBlock(blockPos, ((AqueductBlock) BlockRegister.mossyCobblestoneAqueduct.get()).getStateForPlacement(world, blockPos), 3);
-                world.scheduleTick(blockPos, BlockRegister.mossyCobblestoneAqueduct.get(), Fluids.WATER.getTickDelay(world));
-                if (playerEntity != null) {
-                    context.getItemInHand().hurtAndBreak(1, playerEntity, LivingEntity.getSlotForHand(context.getHand()));
-                }
-            }
-            world.playSound(playerEntity, blockPos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 1.0F);
-            return InteractionResult.SUCCESS;
-        } else if (blockState.getBlock() instanceof FarmBlock) {
+        }  else if (blockState.getBlock() instanceof FarmBlock) {
             if (!world.isClientSide()) {
                 world.setBlock(blockPos, ((PaddyFieldBlock) BlockRegister.paddyField.get()).getStateForPlacement(world, blockPos), 3);
                 if (playerEntity != null) {
