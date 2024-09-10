@@ -44,8 +44,8 @@ public class MelonVineBlock extends BushBlock implements BonemealableBlock {
     private static final VoxelShape SHAPE_MELON = VoxelShapeHelper.createVoxelShape(0, 0, 0, 16, 13, 16);
     private final Block melon;
 
-    public MelonVineBlock(Block melon,Properties copy) {
-        super(copy);
+    public MelonVineBlock(Block melon,Properties properties) {
+        super(properties);
         this.registerDefaultState(defaultBlockState().setValue(AGE, 0));
         this.melon = melon;
     }
@@ -60,6 +60,15 @@ public class MelonVineBlock extends BushBlock implements BonemealableBlock {
         return state.getValue(AGE) == 7 ? SHAPE_MELON : SHAPE;
     }
 
+    @Override
+    public int getFlammability(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
+        return 20;
+    }
+
+    @Override
+    public int getFireSpreadSpeed(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
+        return 5;
+    }
 
     @Override
     protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult pHitResult) {
