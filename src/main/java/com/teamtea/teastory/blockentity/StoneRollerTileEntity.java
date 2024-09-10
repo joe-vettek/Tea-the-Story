@@ -15,8 +15,8 @@ import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import com.teamtea.teastory.RecipeRegister;
-import com.teamtea.teastory.TileEntityTypeRegistry;
-import com.teamtea.teastory.block.entity.NormalContainerTileEntity;
+import com.teamtea.teastory.BlockEntityRegistry;
+import com.teamtea.teastory.blockentity.entity.NormalContainerTileEntity;
 
 public class StoneRollerTileEntity extends NormalContainerTileEntity {
     private int woodenFrameAngel = 0;
@@ -30,7 +30,7 @@ public class StoneRollerTileEntity extends NormalContainerTileEntity {
     private final ItemStackHandler outputInventory;
 
     public StoneRollerTileEntity(BlockPos pos, BlockState state) {
-        super(TileEntityTypeRegistry.STONE_ROLLER_TYPE.get(), pos, state);
+        super(BlockEntityRegistry.STONE_ROLLER_TYPE.get(), pos, state);
         this.inputInventory = new SyncedItemStackHandler();
         this.outputInventory = new SyncedItemStackHandler(3);
     }

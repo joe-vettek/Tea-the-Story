@@ -15,7 +15,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import com.teamtea.teastory.TileEntityTypeRegistry;
+import com.teamtea.teastory.BlockEntityRegistry;
 
 
 public class DrinkMakerItem extends BlockItem {
@@ -57,7 +57,7 @@ public class DrinkMakerItem extends BlockItem {
                 }
                 if (left || right) {
                     BlockState iblockstate1 = worldIn.getBlockState(blockpos);
-                    BlockState iblockstate2 = TileEntityTypeRegistry.DRINK_MAKER.get().defaultBlockState().setValue(DrinkMakerBlock.LEFT, left).setValue(DrinkMakerBlock.FACING, enumfacing);
+                    BlockState iblockstate2 = BlockEntityRegistry.DRINK_MAKER.get().defaultBlockState().setValue(DrinkMakerBlock.LEFT, left).setValue(DrinkMakerBlock.FACING, enumfacing);
                     worldIn.setBlock(pos, iblockstate2, 10);
                     worldIn.setBlock(blockpos, iblockstate2.setValue(DrinkMakerBlock.LEFT, !left), 10);
                     SoundType soundtype = iblockstate2.getBlock().getSoundType(iblockstate2, worldIn, pos, player);

@@ -22,7 +22,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import org.jetbrains.annotations.Nullable;
-import com.teamtea.teastory.TileEntityTypeRegistry;
+import com.teamtea.teastory.BlockEntityRegistry;
 import com.teamtea.teastory.block.NormalHorizontalBlock;
 
 import java.util.Optional;
@@ -124,7 +124,7 @@ public class StoneRollerBlock extends Block implements EntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level worldIn, BlockState state, BlockEntityType<T> blockEntityType) {
-        return NormalHorizontalBlock.createTickerHelper(blockEntityType, TileEntityTypeRegistry.STONE_ROLLER_TYPE.get(), StoneRollerTileEntity::tick);
+        return NormalHorizontalBlock.createTickerHelper(blockEntityType, BlockEntityRegistry.STONE_ROLLER_TYPE.get(), StoneRollerTileEntity::tick);
         // return !worldIn.isClientSide ?
         //         NormalHorizontalBlock.createTickerHelper(blockEntityType, TileEntityTypeRegistry.STONE_ROLLER_TYPE.get(), StoneRollerTileEntity::tick) : null;
     }

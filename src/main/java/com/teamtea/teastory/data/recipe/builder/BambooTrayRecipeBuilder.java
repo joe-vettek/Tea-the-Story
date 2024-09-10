@@ -3,7 +3,6 @@ package com.teamtea.teastory.data.recipe.builder;
 
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import com.teamtea.teastory.recipe.bamboo_tray.BambooTraySingleInRecipe;
-import xueluoanping.teastory.recipe.bamboo_tray.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;

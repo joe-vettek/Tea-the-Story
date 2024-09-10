@@ -32,7 +32,7 @@ import net.neoforged.neoforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.Nullable;
 import com.teamtea.teastory.ItemRegister;
 import com.teamtea.teastory.ModCapabilities;
-import com.teamtea.teastory.TileEntityTypeRegistry;
+import com.teamtea.teastory.BlockEntityRegistry;
 
 
 public class WoodenTrayBlock extends Block implements EntityBlock {
@@ -74,7 +74,7 @@ public class WoodenTrayBlock extends Block implements EntityBlock {
             {
                 int index = pState.getValue(CUP);
                 if (!setCup((TeaCupTileEntity) te, index, pStack, pLevel, pPos, pState)) {
-                    if (pStack.getItem() == TileEntityTypeRegistry.PORCELAIN_TEAPOT.get()) {
+                    if (pStack.getItem() == BlockEntityRegistry.PORCELAIN_TEAPOT.get()) {
                         FluidUtil.getFluidHandler(pStack.copy()).ifPresent(item ->
                         {
                             for (int i = 0; i < 3; i++) {
@@ -173,6 +173,6 @@ public class WoodenTrayBlock extends Block implements EntityBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return TileEntityTypeRegistry.WOODEN_TRAY_TYPE.get().create(blockPos, blockState);
+        return BlockEntityRegistry.WOODEN_TRAY_TYPE.get().create(blockPos, blockState);
     }
 }

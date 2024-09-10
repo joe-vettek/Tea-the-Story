@@ -23,8 +23,8 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import com.teamtea.teastory.RecipeRegister;
-import com.teamtea.teastory.TileEntityTypeRegistry;
-import com.teamtea.teastory.block.entity.NormalContainerTileEntity;
+import com.teamtea.teastory.BlockEntityRegistry;
+import com.teamtea.teastory.blockentity.entity.NormalContainerTileEntity;
 
 import javax.annotation.Nullable;
 
@@ -41,7 +41,7 @@ public class StoneMillTileEntity extends NormalContainerTileEntity {
     private final FluidTank fluidTank;
 
     public StoneMillTileEntity(BlockPos pos, BlockState state) {
-        super(TileEntityTypeRegistry.STONE_MILL_TYPE.get(), pos, state);
+        super(BlockEntityRegistry.STONE_MILL_TYPE.get(), pos, state);
         this.inputInventory = new SyncedItemStackHandler();
         this.outputInventory = new SyncedItemStackHandler(3);
         this.fluidTank = new SyncedFluidTank(2000);

@@ -57,13 +57,13 @@ public class ModContent {
                                     FluidRegistry.ITEMS.getEntries().forEach((reg) -> {
                                         output.accept(new ItemStack(reg.get()));
                                     });
-                                    TileEntityTypeRegistry.ModItems.getEntries().forEach((reg) -> {
+                                    BlockEntityRegistry.ModItems.getEntries().forEach((reg) -> {
                                         output.accept(new ItemStack(reg.get()));
                                     });
                                     ItemRegister.PORCELAIN_CUP_DRINK.get().fillItemGroup(output);
                                     ItemRegister.BOTTLE_DRINK.get().fillItemGroup(output);
-                                    TileEntityTypeRegistry.IRON_KETTLE_ITEM.get().fillItemGroup(output);
-                                    TileEntityTypeRegistry.PORCELAIN_TEAPOT.get().fillItemGroup(output);
+                                    BlockEntityRegistry.IRON_KETTLE_ITEM.get().fillItemGroup(output);
+                                    BlockEntityRegistry.PORCELAIN_TEAPOT.get().fillItemGroup(output);
 
                                     BlockRegister.CHRYSANTHEMUM_ITEM.get().fillItemGroup(output);
                                     BlockRegister.HYACINTH_ITEM.get().fillItemGroup(output);
@@ -123,7 +123,7 @@ public class ModContent {
             Block[] blocks = BuiltInRegistries.BLOCK.stream()
                     .filter(block -> block instanceof TrellisWithVineBlock)
                     .toArray(Block[]::new);
-            TileEntityTypeRegistry.VINE_TYPE = TileEntityTypeRegistry.DRBlockEntities.register("trellis_vine",
+            BlockEntityRegistry.VINE_TYPE = BlockEntityRegistry.DRBlockEntities.register("trellis_vine",
                     () -> BlockEntityType.Builder.of(VineEntity::new, blocks).build(null));
         }
         // ServerLifecycleHooks.getCurrentServer().getResourceManager().getResourceStack(new ResourceLocation("tags/blocks/acacia_logs.json"));
@@ -139,34 +139,34 @@ public class ModContent {
                 ItemRegister.PORCELAIN_CUP.value(),
                 ItemRegister.BOTTLE.value(),
                 ItemRegister.BOTTLE_DRINK.value(),
-                TileEntityTypeRegistry.PORCELAIN_TEAPOT.value(),
-                TileEntityTypeRegistry.IRON_KETTLE_ITEM.value());
+                BlockEntityRegistry.PORCELAIN_TEAPOT.value(),
+                BlockEntityRegistry.IRON_KETTLE_ITEM.value());
 
-        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, TileEntityTypeRegistry.WOODEN_BARREL_TYPE.get(),
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BlockEntityRegistry.WOODEN_BARREL_TYPE.get(),
                 (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getFluidTank());
 
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, TileEntityTypeRegistry.BAMBOO_TRAY_TYPE.get(),
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntityRegistry.BAMBOO_TRAY_TYPE.get(),
                 (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getContainerInventory());
 
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, TileEntityTypeRegistry.DRINK_MAKER_TYPE.get(),
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntityRegistry.DRINK_MAKER_TYPE.get(),
                 (blockEntity, context) -> blockEntity.isRemoved() ? null : (context == Direction.DOWN ? blockEntity.getResiduesInventory() : blockEntity.getIngredientsInventory()));
-        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, TileEntityTypeRegistry.DRINK_MAKER_TYPE.get(),
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BlockEntityRegistry.DRINK_MAKER_TYPE.get(),
                 (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getFluidHandler());
 
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, TileEntityTypeRegistry.STONE_MILL_TYPE.get(),
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntityRegistry.STONE_MILL_TYPE.get(),
                 (blockEntity, context) -> blockEntity.isRemoved() ? null : (context == Direction.DOWN ? blockEntity.getOutputInventory() : blockEntity.getInputInventory()));
-        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, TileEntityTypeRegistry.STONE_MILL_TYPE.get(),
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BlockEntityRegistry.STONE_MILL_TYPE.get(),
                 (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getFluidTank());
 
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, TileEntityTypeRegistry.STONE_ROLLER_TYPE.get(),
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntityRegistry.STONE_ROLLER_TYPE.get(),
                 (blockEntity, context) -> blockEntity.isRemoved() ? null : (context == Direction.DOWN ? blockEntity.getOutputInventory() : blockEntity.getInputInventory()));
 
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, TileEntityTypeRegistry.STOVE_TYPE.get(),
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntityRegistry.STOVE_TYPE.get(),
                 (blockEntity, context) -> blockEntity.isRemoved() ? null : (context == Direction.DOWN ? blockEntity.getAshInventory() : blockEntity.getFuelInventory()));
 
-        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, TileEntityTypeRegistry.IRON_KETTLE_TYPE.get(),
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BlockEntityRegistry.IRON_KETTLE_TYPE.get(),
                 (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getFluidTank());
-        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, TileEntityTypeRegistry.TEAPOT_TYPE.get(),
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BlockEntityRegistry.TEAPOT_TYPE.get(),
                 (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getFluidTank());
     }
 

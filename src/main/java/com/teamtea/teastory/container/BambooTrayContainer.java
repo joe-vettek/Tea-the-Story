@@ -11,7 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.SlotItemHandler;
-import com.teamtea.teastory.TileEntityTypeRegistry;
+import com.teamtea.teastory.BlockEntityRegistry;
 import com.teamtea.teastory.client.container.NormalContainer;
 
 import java.util.Optional;
@@ -25,7 +25,7 @@ public class BambooTrayContainer extends NormalContainer {
     }
 
     public BambooTrayContainer(int windowId, Inventory inv, BlockPos pos, Level world) {
-        super(TileEntityTypeRegistry.BAMBOO_TRAY_CONTAINER.get(), windowId, pos, world);
+        super(BlockEntityRegistry.BAMBOO_TRAY_CONTAINER.get(), windowId, pos, world);
         this.tileEntity = (BambooTrayTileEntity) getTileEntity();
         Optional.ofNullable(world.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.UP)).ifPresent(h ->
                 addSlot(new SlotItemHandler(h, 0, 107, 31)));

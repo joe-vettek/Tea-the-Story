@@ -1,19 +1,21 @@
 package com.teamtea.teastory.data.model;
 
+import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
+import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.loaders.CompositeModelBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import com.teamtea.teastory.BlockRegister;
 import com.teamtea.teastory.TeaStory;
-
-
-import java.util.List;
 
 public class TeaItemModelProvider extends ItemModelProvider {
 
@@ -32,11 +34,24 @@ public class TeaItemModelProvider extends ItemModelProvider {
     @Override
     protected void registerModels() {
 
-        List.of(BlockRegister.stone_campfire_ITEM.value()).forEach(
-                b -> simpleParent(blockName(b))
-        );
-
+        // List.of(BlockRegister.stone_campfire_ITEM.value()).forEach(
+        //         b -> simpleParent(blockName(b))
+        // );
+        // getModel(TeaStory.rl("block/" + "stone_campfire")
+        withExistingParent(itemName(BlockRegister.stone_campfire_ITEM.value()), ResourceLocation.withDefaultNamespace(GENERATED))
+                .parent(new ModelFile.ExistingModelFile(ResourceLocation.withDefaultNamespace("block/block"), existingFileHelper))
+                .guiLight(BlockModel.GuiLight.FRONT)
+                .customLoader(CompositeModelBuilder::begin)
+                .child("layer1",getModel(TeaStory.rl("block/" + "stone_campfire")))
+                .child("layer2",getModel(TeaStory.rl("block/" + "stone_campfire_fire")))
+        ;
     }
+
+    public ItemModelBuilder getModel(ResourceLocation resourceLocation) {
+        return new ItemModelBuilder(resourceLocation,existingFileHelper)
+                .parent(new ModelFile.ExistingModelFile(resourceLocation,existingFileHelper));
+    }
+
 
     private void simpleParent(String s) {
         withExistingParent(s, modLoc("block/" + s));

@@ -13,16 +13,12 @@ import com.teamtea.teastory.client.gui.DrinkMakerGui;
 import com.teamtea.teastory.client.gui.StoneMillGui;
 import com.teamtea.teastory.client.gui.StoneRollerGui;
 import com.teamtea.teastory.client.gui.StoveGui;
-import com.teamtea.teastory.client.render.BambooTrayTESR;
-import com.teamtea.teastory.client.render.DrinkMakerTESR;
-import com.teamtea.teastory.client.render.StoneMillTESR;
-import com.teamtea.teastory.client.render.StoneRollerTESR;
-import com.teamtea.teastory.client.render.StoveTESR;
-import com.teamtea.teastory.client.render.WoodenBarrelTESR;
+import com.teamtea.teastory.client.render.*;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockModelShaper;
+import net.minecraft.client.renderer.blockentity.CampfireRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
@@ -52,7 +48,6 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.fluids.BaseFlowingFluid;
-import xueluoanping.teastory.*;
 import com.teamtea.teastory.fluid.TeaFluidType;
 import com.teamtea.teastory.resource.PathResourcesSupplier;
 import com.teamtea.teastory.variant.Planks;
@@ -86,11 +81,11 @@ public class ClientSetup {
 
     @SubscribeEvent
     public static void onRegisterMenuScreensEvent(RegisterMenuScreensEvent event) {
-        event.register(TileEntityTypeRegistry.BAMBOO_TRAY_CONTAINER.get(), BambooTrayGui::new);
-        event.register(TileEntityTypeRegistry.DRINK_MAKER_CONTAINER.get(), DrinkMakerGui::new);
-        event.register(TileEntityTypeRegistry.STONE_MILL_CONTAINER.get(), StoneMillGui::new);
-        event.register(TileEntityTypeRegistry.STONE_ROLLER_CONTAINER.get(), StoneRollerGui::new);
-        event.register(TileEntityTypeRegistry.STOVE_CONTAINER.get(), StoveGui::new);
+        event.register(BlockEntityRegistry.BAMBOO_TRAY_CONTAINER.get(), BambooTrayGui::new);
+        event.register(BlockEntityRegistry.DRINK_MAKER_CONTAINER.get(), DrinkMakerGui::new);
+        event.register(BlockEntityRegistry.STONE_MILL_CONTAINER.get(), StoneMillGui::new);
+        event.register(BlockEntityRegistry.STONE_ROLLER_CONTAINER.get(), StoneRollerGui::new);
+        event.register(BlockEntityRegistry.STOVE_CONTAINER.get(), StoveGui::new);
     }
 
     @SubscribeEvent
@@ -102,7 +97,7 @@ public class ClientSetup {
             ItemBlockRenderTypes.setRenderLayer(BlockRegister.WET_HAYSTACK.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(BlockRegister.GRASS_BLOCK_WITH_HOLE.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(BlockRegister.BAMBOO_GLASS_DOOR.get(), RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(TileEntityTypeRegistry.DRINK_MAKER.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(BlockEntityRegistry.DRINK_MAKER.get(), RenderType.cutout());
 
             ItemBlockRenderTypes.setRenderLayer(BlockRegister.WILD_GRAPE.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(BlockRegister.GRAPE.get(), RenderType.cutout());
@@ -140,14 +135,14 @@ public class ClientSetup {
                 return null;
             }
         });
-        event.registerBlockEntityRenderer(TileEntityTypeRegistry.BAMBOO_TRAY_TYPE.get(), BambooTrayTESR::new);
-        event.registerBlockEntityRenderer(TileEntityTypeRegistry.DRINK_MAKER_TYPE.get(), DrinkMakerTESR::new);
-        event.registerBlockEntityRenderer(TileEntityTypeRegistry.STONE_MILL_TYPE.get(), StoneMillTESR::new);
-        event.registerBlockEntityRenderer(TileEntityTypeRegistry.STONE_ROLLER_TYPE.get(), StoneRollerTESR::new);
-        event.registerBlockEntityRenderer(TileEntityTypeRegistry.STOVE_TYPE.get(), StoveTESR::new);
-        event.registerBlockEntityRenderer(TileEntityTypeRegistry.WOODEN_BARREL_TYPE.get(), WoodenBarrelTESR::new);
+        event.registerBlockEntityRenderer(BlockEntityRegistry.BAMBOO_TRAY_TYPE.get(), BambooTrayTESR::new);
+        event.registerBlockEntityRenderer(BlockEntityRegistry.DRINK_MAKER_TYPE.get(), DrinkMakerTESR::new);
+        event.registerBlockEntityRenderer(BlockEntityRegistry.STONE_MILL_TYPE.get(), StoneMillTESR::new);
+        event.registerBlockEntityRenderer(BlockEntityRegistry.STONE_ROLLER_TYPE.get(), StoneRollerTESR::new);
+        event.registerBlockEntityRenderer(BlockEntityRegistry.STOVE_TYPE.get(), StoveTESR::new);
+        event.registerBlockEntityRenderer(BlockEntityRegistry.WOODEN_BARREL_TYPE.get(), WoodenBarrelTESR::new);
 
-
+        event.registerBlockEntityRenderer(BlockEntityRegistry.stone_campfire_TYPE.get(), StoneCampfireRenderer::new);
     }
 
     @SubscribeEvent
@@ -243,7 +238,7 @@ public class ClientSetup {
                 event.register(hybridizableFlowerBlockColor, blockHolder.get());
             }
         });
-        event.register(new TeaCupBlockColor(), TileEntityTypeRegistry.WOODEN_TRAY.get());
+        event.register(new TeaCupBlockColor(), BlockEntityRegistry.WOODEN_TRAY.get());
         event.register(new SaucepanBlockColor(), BlockRegister.saucepan.get());
 
 

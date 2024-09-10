@@ -23,8 +23,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import com.teamtea.teastory.RecipeRegister;
-import com.teamtea.teastory.TileEntityTypeRegistry;
-import com.teamtea.teastory.block.entity.NormalContainerTileEntity;
+import com.teamtea.teastory.BlockEntityRegistry;
+import com.teamtea.teastory.blockentity.entity.NormalContainerTileEntity;
 import com.teamtea.teastory.craft.MultiRecipeWrapper;
 
 import javax.annotation.Nonnull;
@@ -49,7 +49,7 @@ public class DrinkMakerTileEntity extends NormalContainerTileEntity {
     private DrinkRecipe currentRecipe;
 
     public DrinkMakerTileEntity(BlockPos pos, BlockState state) {
-        super(TileEntityTypeRegistry.DRINK_MAKER_TYPE.get(), pos, state);
+        super(BlockEntityRegistry.DRINK_MAKER_TYPE.get(), pos, state);
         ingredientsInventory = createItemHandler(4);
         residuesInventory = createItemHandler(4);
         containerInventory = createContainerItemHandler(1);

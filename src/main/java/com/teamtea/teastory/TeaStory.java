@@ -73,10 +73,10 @@ public class TeaStory {
         BlockRegister.ModBlocks.register(modEventBus);
         BlockRegister.ModItems.register(modEventBus);
 
-        TileEntityTypeRegistry.DRBlockEntities.register(modEventBus);
-        TileEntityTypeRegistry.ModBlocks.register(modEventBus);
-        TileEntityTypeRegistry.ModItems.register(modEventBus);
-        TileEntityTypeRegistry.DRMenuType.register(modEventBus);
+        BlockEntityRegistry.DRBlockEntities.register(modEventBus);
+        BlockEntityRegistry.ModBlocks.register(modEventBus);
+        BlockEntityRegistry.ModItems.register(modEventBus);
+        BlockEntityRegistry.DRMenuType.register(modEventBus);
 
 
         ItemRegister.ModItems.register(modEventBus);

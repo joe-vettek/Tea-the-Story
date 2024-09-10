@@ -41,7 +41,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import org.jetbrains.annotations.Nullable;
-import com.teamtea.teastory.TileEntityTypeRegistry;
+import com.teamtea.teastory.BlockEntityRegistry;
 import com.teamtea.teastory.block.NormalHorizontalBlock;
 
 import java.util.Optional;
@@ -109,8 +109,8 @@ public class StoveBlock extends NormalHorizontalBlock implements IStoveBlock, En
         BlockEntity te = worldIn.getBlockEntity(pos);
         InteractionHand handIn = player.getUsedItemHand();
         Item held = player.getItemInHand(handIn).getItem();
-        if (held == TileEntityTypeRegistry.BAMBOO_TRAY_ITEM.get()
-                || held == TileEntityTypeRegistry.IRON_KETTLE_ITEM.get()
+        if (held == BlockEntityRegistry.BAMBOO_TRAY_ITEM.get()
+                || held == BlockEntityRegistry.IRON_KETTLE_ITEM.get()
         ) {
             return InteractionResult.PASS;
         }
@@ -240,6 +240,6 @@ public class StoveBlock extends NormalHorizontalBlock implements IStoveBlock, En
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level worldIn, BlockState state, BlockEntityType<T> blockEntityType) {
         return !worldIn.isClientSide ?
-                NormalHorizontalBlock.createTickerHelper(blockEntityType, TileEntityTypeRegistry.STOVE_TYPE.get(), StoveTileEntity::tick) : null;
+                NormalHorizontalBlock.createTickerHelper(blockEntityType, BlockEntityRegistry.STOVE_TYPE.get(), StoveTileEntity::tick) : null;
     }
 }

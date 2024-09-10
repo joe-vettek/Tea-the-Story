@@ -12,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.SlotItemHandler;
-import com.teamtea.teastory.TileEntityTypeRegistry;
+import com.teamtea.teastory.BlockEntityRegistry;
 import com.teamtea.teastory.client.container.NormalContainer;
 
 import java.util.Optional;
@@ -25,7 +25,7 @@ public class StoveContainer extends NormalContainer {
     }
 
     public StoveContainer(int windowId, Inventory inv, BlockPos pos, Level world) {
-        super(TileEntityTypeRegistry.STOVE_CONTAINER.get(), windowId, pos, world);
+        super(BlockEntityRegistry.STOVE_CONTAINER.get(), windowId, pos, world);
         this.tileEntity = (StoveTileEntity) getTileEntity();
         Optional.ofNullable(world.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.UP)).ifPresent(h ->
         {

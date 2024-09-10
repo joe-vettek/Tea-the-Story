@@ -1,3 +1,17 @@
 {
-  "parent": "teastory:block/stone_campfire"
+  "parent": "minecraft:block/block",
+  "children": {
+    "layer1": {
+      "parent": "teastory:block/stone_campfire"
+    },
+    "layer2": {
+      "parent": "teastory:block/stone_campfire_fire"
+    }
+  },
+  "gui_light": "front",
+  "item_render_order": [
+    "layer1",
+    "layer2"
+  ],
+  "loader": "neoforge:composite"
 }

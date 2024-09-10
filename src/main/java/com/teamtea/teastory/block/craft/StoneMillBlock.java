@@ -22,7 +22,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
-import com.teamtea.teastory.TileEntityTypeRegistry;
+import com.teamtea.teastory.BlockEntityRegistry;
 import com.teamtea.teastory.block.NormalHorizontalBlock;
 
 
@@ -138,7 +138,7 @@ public class StoneMillBlock extends NormalHorizontalBlock implements EntityBlock
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level worldIn, BlockState state, BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, TileEntityTypeRegistry.STONE_MILL_TYPE.get(), StoneMillTileEntity::tick);
+        return createTickerHelper(blockEntityType, BlockEntityRegistry.STONE_MILL_TYPE.get(), StoneMillTileEntity::tick);
         // return !worldIn.isClientSide ?
         //         createTickerHelper(blockEntityType, TileEntityTypeRegistry.STONE_MILL_TYPE.get(), StoneMillTileEntity::tick) : null;
 

@@ -18,7 +18,6 @@ import com.teamtea.teastory.data.tag.TeaStoryBlockTagProvider;
 import com.teamtea.teastory.data.tag.TeaStoryEntityTypeTagsProvider;
 import com.teamtea.teastory.data.tag.TeaStoryFluidTagProvider;
 import com.teamtea.teastory.data.tag.TeaStoryItemTagProvider;
-import xueluoanping.teastory.data.tag.*;
 import com.teamtea.teastory.data.recipe.TeaStoryRecipeProvider;
 
 import java.util.concurrent.CompletableFuture;

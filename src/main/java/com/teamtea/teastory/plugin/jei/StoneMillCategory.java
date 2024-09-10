@@ -11,7 +11,7 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
 import com.teamtea.teastory.TeaStory;
-import com.teamtea.teastory.TileEntityTypeRegistry;
+import com.teamtea.teastory.BlockEntityRegistry;
 
 
 public class StoneMillCategory implements IRecipeCategory<StoneMillRecipe> {
@@ -20,7 +20,7 @@ public class StoneMillCategory implements IRecipeCategory<StoneMillRecipe> {
 
     public StoneMillCategory(IGuiHelper guiHelper) {
         this.guiHelper = guiHelper;
-        icon = guiHelper.createDrawableItemStack(TileEntityTypeRegistry.STONE_MILL_ITEM.get().getDefaultInstance());
+        icon = guiHelper.createDrawableItemStack(BlockEntityRegistry.STONE_MILL_ITEM.get().getDefaultInstance());
     }
 
 

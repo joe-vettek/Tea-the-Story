@@ -28,7 +28,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import com.teamtea.teastory.TileEntityTypeRegistry;
+import com.teamtea.teastory.BlockEntityRegistry;
 import com.teamtea.teastory.block.NormalHorizontalBlock;
 
 public class CatapultBoardBlock extends NormalHorizontalBlock {
@@ -93,9 +93,9 @@ public class CatapultBoardBlock extends NormalHorizontalBlock {
     @Override
     @SuppressWarnings("deprecation")
     public ItemInteractionResult useItemOn(ItemStack pStack, BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
-        if (player.getItemInHand(handIn).getItem() == TileEntityTypeRegistry.BAMBOO_TRAY_ITEM.get()) {
-            worldIn.setBlockAndUpdate(pos, TileEntityTypeRegistry.STONE_CATAPULT_BOARD_WITH_TRAY.get().defaultBlockState().setValue(FACING, state.getValue(FACING)));
-            SoundType soundtype = TileEntityTypeRegistry.BAMBOO_TRAY.get().defaultBlockState().getSoundType(worldIn, pos, player);
+        if (player.getItemInHand(handIn).getItem() == BlockEntityRegistry.BAMBOO_TRAY_ITEM.get()) {
+            worldIn.setBlockAndUpdate(pos, BlockEntityRegistry.STONE_CATAPULT_BOARD_WITH_TRAY.get().defaultBlockState().setValue(FACING, state.getValue(FACING)));
+            SoundType soundtype = BlockEntityRegistry.BAMBOO_TRAY.get().defaultBlockState().getSoundType(worldIn, pos, player);
             worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundSource.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
             return ItemInteractionResult.SUCCESS;
         } else

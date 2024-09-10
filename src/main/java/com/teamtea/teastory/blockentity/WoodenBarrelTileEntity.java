@@ -10,8 +10,8 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
-import com.teamtea.teastory.TileEntityTypeRegistry;
-import com.teamtea.teastory.block.entity.SyncedBlockEntity;
+import com.teamtea.teastory.BlockEntityRegistry;
+import com.teamtea.teastory.blockentity.entity.SyncedBlockEntity;
 
 
 public class WoodenBarrelTileEntity extends SyncedBlockEntity {
@@ -21,7 +21,7 @@ public class WoodenBarrelTileEntity extends SyncedBlockEntity {
     private int heightAmount = 0;
 
     public WoodenBarrelTileEntity(BlockPos pos, BlockState state) {
-        super(TileEntityTypeRegistry.WOODEN_BARREL_TYPE.get(), pos, state);
+        super(BlockEntityRegistry.WOODEN_BARREL_TYPE.get(), pos, state);
         this.capacity = ServerConfig.BlockConfig.woodenBarrelCapacity.getAsInt();
         this.fluidTank = createFluidHandler(this.capacity);
     }

@@ -38,7 +38,7 @@ import net.neoforged.neoforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.Nullable;
 import com.teamtea.teastory.FluidRegistry;
 import com.teamtea.teastory.ModCapabilities;
-import com.teamtea.teastory.TileEntityTypeRegistry;
+import com.teamtea.teastory.BlockEntityRegistry;
 import com.teamtea.teastory.block.NormalHorizontalBlock;
 import com.teamtea.teastory.client.SoundEventsRegistry;
 
@@ -155,6 +155,6 @@ public class TeapotBlock extends NormalHorizontalBlock implements EntityBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return TileEntityTypeRegistry.TEAPOT_TYPE.get().create(blockPos, blockState);
+        return BlockEntityRegistry.TEAPOT_TYPE.get().create(blockPos, blockState);
     }
 }

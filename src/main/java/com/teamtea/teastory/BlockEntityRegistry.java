@@ -28,7 +28,7 @@ import com.teamtea.teastory.blockentity.VineEntity;
 
 import java.util.function.Supplier;
 
-public class TileEntityTypeRegistry {
+public class BlockEntityRegistry {
     public static final DeferredRegister<BlockEntityType<?>> DRBlockEntities = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, TeaStory.MODID);
     public static final DeferredRegister<Item> ModItems = DeferredRegister.create(Registries.ITEM, TeaStory.MODID);
     public static final DeferredRegister<Block> ModBlocks = DeferredRegister.create(Registries.BLOCK, TeaStory.MODID);
@@ -97,5 +97,8 @@ public class TileEntityTypeRegistry {
 
     public static DeferredHolder<BlockEntityType<?>,BlockEntityType<VineEntity>> VINE_TYPE = null;
 
+
+    public static DeferredHolder<BlockEntityType<?>, BlockEntityType<StoneCampfireBlockEntity>> stone_campfire_TYPE = DRBlockEntities.register("stone_campfire",
+            () -> BlockEntityType.Builder.of(StoneCampfireBlockEntity::new, BlockRegister.stone_campfire.get()).build(null));
 
 }

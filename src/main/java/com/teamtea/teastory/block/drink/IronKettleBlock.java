@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
-import com.teamtea.teastory.TileEntityTypeRegistry;
+import com.teamtea.teastory.BlockEntityRegistry;
 import com.teamtea.teastory.block.NormalHorizontalBlock;
 
 public class IronKettleBlock extends TeapotBlock implements EntityBlock {
@@ -65,13 +65,13 @@ public class IronKettleBlock extends TeapotBlock implements EntityBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return TileEntityTypeRegistry.IRON_KETTLE_TYPE.get().create(blockPos, blockState);
+        return BlockEntityRegistry.IRON_KETTLE_TYPE.get().create(blockPos, blockState);
     }
 
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
         return !pLevel.isClientSide ?
-                NormalHorizontalBlock.createTickerHelper(pBlockEntityType, TileEntityTypeRegistry.IRON_KETTLE_TYPE.get(), TeapotTileEntity::tick) : null;
+                NormalHorizontalBlock.createTickerHelper(pBlockEntityType, BlockEntityRegistry.IRON_KETTLE_TYPE.get(), TeapotTileEntity::tick) : null;
 
     }
 }

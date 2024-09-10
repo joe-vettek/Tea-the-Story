@@ -1,4 +1,4 @@
-package com.teamtea.teastory.block.entity;
+package com.teamtea.teastory.blockentity.entity;
 
 
 import net.minecraft.core.BlockPos;

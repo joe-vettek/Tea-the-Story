@@ -33,7 +33,7 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
-import com.teamtea.teastory.TileEntityTypeRegistry;
+import com.teamtea.teastory.BlockEntityRegistry;
 import com.teamtea.teastory.block.NormalHorizontalBlock;
 
 import java.util.Optional;
@@ -172,6 +172,6 @@ public class CatapultBoardBlockWithTray extends NormalHorizontalBlock implements
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return TileEntityTypeRegistry.BAMBOO_TRAY_TYPE.get().create(pPos, pState);
+        return BlockEntityRegistry.BAMBOO_TRAY_TYPE.get().create(pPos, pState);
     }
 }

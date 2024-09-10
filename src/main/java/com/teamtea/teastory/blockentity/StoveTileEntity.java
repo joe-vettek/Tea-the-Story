@@ -17,8 +17,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import com.teamtea.teastory.ItemRegister;
-import com.teamtea.teastory.TileEntityTypeRegistry;
-import com.teamtea.teastory.block.entity.NormalContainerTileEntity;
+import com.teamtea.teastory.BlockEntityRegistry;
+import com.teamtea.teastory.blockentity.entity.NormalContainerTileEntity;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
@@ -36,7 +36,7 @@ public class StoveTileEntity extends NormalContainerTileEntity {
     private final ItemStackHandler ashInventory ;
 
     public StoveTileEntity(BlockPos pos, BlockState state) {
-        super(TileEntityTypeRegistry.STOVE_TYPE.get(), pos, state);
+        super(BlockEntityRegistry.STOVE_TYPE.get(), pos, state);
         this.fuelInventory = createFuelHandler();
         this.ashInventory = createAshHandler();
     }

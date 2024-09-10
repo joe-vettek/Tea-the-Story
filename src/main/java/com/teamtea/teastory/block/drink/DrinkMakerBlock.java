@@ -32,7 +32,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import org.jetbrains.annotations.Nullable;
-import com.teamtea.teastory.TileEntityTypeRegistry;
+import com.teamtea.teastory.BlockEntityRegistry;
 import com.teamtea.teastory.block.NormalHorizontalBlock;
 
 import java.util.Optional;
@@ -232,6 +232,6 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level worldIn, BlockState state, BlockEntityType<T> blockEntityType) {
         // return null;
         return !worldIn.isClientSide && state.getValue(LEFT) ?
-                NormalHorizontalBlock.createTickerHelper(blockEntityType, TileEntityTypeRegistry.DRINK_MAKER_TYPE.get(), DrinkMakerTileEntity::tick) : null;
+                NormalHorizontalBlock.createTickerHelper(blockEntityType, BlockEntityRegistry.DRINK_MAKER_TYPE.get(), DrinkMakerTileEntity::tick) : null;
     }
 }

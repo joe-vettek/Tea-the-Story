@@ -57,6 +57,12 @@ public class BlockStatesDataProvider extends BlockStateProvider {
                 .condition(BlockStateProperties.LIT, true)
                 .end();
 
+        getMultipartBuilder(BlockRegister.stone_campfire.get())
+                .part()
+                .modelFile(models().getExistingFile(resourceBlock("stone_campfire_fire")))
+                .addModel()
+                .condition(BlockStateProperties.LIT, true)
+                .end();
     }
 
 

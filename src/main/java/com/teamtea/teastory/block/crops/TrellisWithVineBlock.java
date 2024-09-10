@@ -25,7 +25,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.common.CommonHooks;
 import org.jetbrains.annotations.Nullable;
-import com.teamtea.teastory.TileEntityTypeRegistry;
+import com.teamtea.teastory.BlockEntityRegistry;
 import com.teamtea.teastory.blockentity.VineEntity;
 
 import java.util.ArrayList;
@@ -260,7 +260,7 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return TileEntityTypeRegistry.VINE_TYPE.get().create(pPos, pState);
+        return BlockEntityRegistry.VINE_TYPE.get().create(pPos, pState);
     }
 
     @Override

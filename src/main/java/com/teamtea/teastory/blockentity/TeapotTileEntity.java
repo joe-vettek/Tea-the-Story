@@ -14,8 +14,8 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.NotNull;
 import com.teamtea.teastory.FluidRegistry;
-import com.teamtea.teastory.TileEntityTypeRegistry;
-import com.teamtea.teastory.block.entity.SyncedBlockEntity;
+import com.teamtea.teastory.BlockEntityRegistry;
+import com.teamtea.teastory.blockentity.entity.SyncedBlockEntity;
 
 
 public class TeapotTileEntity extends SyncedBlockEntity {
@@ -30,9 +30,9 @@ public class TeapotTileEntity extends SyncedBlockEntity {
 
     public static BlockEntityType<?> getTeapotTileEntityType(int capacity) {
         if (capacity == 2000) {
-            return TileEntityTypeRegistry.IRON_KETTLE_TYPE.get();
+            return BlockEntityRegistry.IRON_KETTLE_TYPE.get();
         }
-        return TileEntityTypeRegistry.TEAPOT_TYPE.get();
+        return BlockEntityRegistry.TEAPOT_TYPE.get();
     }
 
 

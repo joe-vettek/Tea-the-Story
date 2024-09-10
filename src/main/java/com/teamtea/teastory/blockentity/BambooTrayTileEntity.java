@@ -20,8 +20,8 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import org.jetbrains.annotations.NotNull;
 import com.teamtea.teastory.RecipeRegister;
-import com.teamtea.teastory.TileEntityTypeRegistry;
-import com.teamtea.teastory.block.entity.NormalContainerTileEntity;
+import com.teamtea.teastory.BlockEntityRegistry;
+import com.teamtea.teastory.blockentity.entity.NormalContainerTileEntity;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -39,7 +39,7 @@ public class BambooTrayTileEntity extends NormalContainerTileEntity {
     private BambooTraySingleInRecipe currentRecipe;
 
     public BambooTrayTileEntity(BlockPos pos, BlockState state) {
-        super(TileEntityTypeRegistry.BAMBOO_TRAY_TYPE.get(), pos, state);
+        super(BlockEntityRegistry.BAMBOO_TRAY_TYPE.get(), pos, state);
     }
 
 

@@ -25,7 +25,7 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import org.jetbrains.annotations.NotNull;
 import com.teamtea.teastory.BlockRegister;
 import com.teamtea.teastory.ItemRegister;
-import com.teamtea.teastory.TileEntityTypeRegistry;
+import com.teamtea.teastory.BlockEntityRegistry;
 
 
 import java.util.Set;
@@ -197,16 +197,16 @@ public class TeaStotryBlockLootSubProvider extends BlockLootSubProvider {
         add(BlockRegister.SCARECROW.get(), this::createDoorTable);
         add(BlockRegister.WET_HAYSTACK.get(), this::createDoorTable);
         add(BlockRegister.DRY_HAYSTACK.get(), this::createDoorTable);
-        add(TileEntityTypeRegistry.DRINK_MAKER.get(), this::createDrinkMakerBlock);
+        add(BlockEntityRegistry.DRINK_MAKER.get(), this::createDrinkMakerBlock);
     }
 
     private void generateSelfDrops() {
-        dropSelf(TileEntityTypeRegistry.BAMBOO_TRAY.get());
-        dropSelf(TileEntityTypeRegistry.STONE_MILL.get());
-        dropSelf(TileEntityTypeRegistry.STONE_ROLLER.get());
-        dropSelf(TileEntityTypeRegistry.DIRT_STOVE.get());
-        dropSelf(TileEntityTypeRegistry.STONE_STOVE.get());
-        dropSelf(TileEntityTypeRegistry.WOODEN_TRAY.get());
+        dropSelf(BlockEntityRegistry.BAMBOO_TRAY.get());
+        dropSelf(BlockEntityRegistry.STONE_MILL.get());
+        dropSelf(BlockEntityRegistry.STONE_ROLLER.get());
+        dropSelf(BlockEntityRegistry.DIRT_STOVE.get());
+        dropSelf(BlockEntityRegistry.STONE_STOVE.get());
+        dropSelf(BlockEntityRegistry.WOODEN_TRAY.get());
 
         dropSelf(BlockRegister.WOODEN_FRAME.get());
         dropSelf(BlockRegister.BAMBOO_LANTERN.get());

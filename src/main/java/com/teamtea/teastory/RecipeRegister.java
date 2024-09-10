@@ -2,7 +2,6 @@ package com.teamtea.teastory;
 
 
 import com.teamtea.teastory.recipe.bamboo_tray.*;
-import xueluoanping.teastory.recipe.bamboo_tray.*;
 import com.teamtea.teastory.recipe.drink.DrinkRecipe;
 import com.teamtea.teastory.recipe.special.FlowerDyeRecipe;
 import com.teamtea.teastory.recipe.stone_mill.StoneMillRecipe;

@@ -29,7 +29,7 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import org.jetbrains.annotations.Nullable;
 import com.teamtea.teastory.ItemRegister;
-import com.teamtea.teastory.TileEntityTypeRegistry;
+import com.teamtea.teastory.BlockEntityRegistry;
 
 import java.util.Optional;
 
@@ -91,6 +91,6 @@ public class WoodenBarrelBlock extends Block implements EntityBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return TileEntityTypeRegistry.WOODEN_BARREL_TYPE.get().create(blockPos, blockState);
+        return BlockEntityRegistry.WOODEN_BARREL_TYPE.get().create(blockPos, blockState);
     }
 }

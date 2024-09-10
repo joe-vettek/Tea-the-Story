@@ -3,7 +3,9 @@ package com.teamtea.teastory;
 
 import com.teamtea.teastory.item.*;
 import com.teamtea.teastory.item.food.NormalFoods;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.registries.DeferredHolder;
