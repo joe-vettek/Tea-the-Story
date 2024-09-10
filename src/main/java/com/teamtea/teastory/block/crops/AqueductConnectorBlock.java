@@ -1,0 +1,37 @@
+package com.teamtea.teastory.block.crops;
+
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
+
+public class AqueductConnectorBlock extends AqueductBlock
+{
+    public AqueductConnectorBlock( Properties properties)
+    {
+        super( properties);
+    }
+
+
+    @Override
+    public boolean canConnect(BlockState state)
+    {
+        return isAqueduct(state) || state.getFluidState().getType() == Fluids.WATER || state.getBlock() instanceof PaddyFieldBlock;
+    }
+
+    @Override
+    public ItemInteractionResult fillAqueduct(Level worldIn, BlockPos pos, Player player, InteractionHand handIn) {
+        if (player.getItemInHand(handIn).getItem() == Items.MOSSY_COBBLESTONE)
+        {
+            worldIn.setBlockAndUpdate(pos, Blocks.MOSSY_COBBLESTONE.defaultBlockState());
+            return ItemInteractionResult.SUCCESS;
+        }
+        else return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+    }
+}

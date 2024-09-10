@@ -1,0 +1,91 @@
+package com.teamtea.teastory.blockentity;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.state.BlockState;
+
+import net.neoforged.neoforge.client.model.data.ModelData;
+import net.neoforged.neoforge.client.model.data.ModelProperty;
+import org.jetbrains.annotations.NotNull;
+import com.teamtea.teastory.TileEntityTypeRegistry;
+import com.teamtea.teastory.block.entity.SyncedBlockEntity;
+
+public class VineEntity extends SyncedBlockEntity {
+    public static final ModelProperty<Integer> AGE_PROPERTY = new ModelProperty<>();
+
+    public static int MAX_AGE = 3;
+    public static int MAX_DISTANCE = 7;
+    private int age = 0;
+    private int distance = 0;
+
+    public VineEntity(BlockPos pos, BlockState state) {
+        super(TileEntityTypeRegistry.VINE_TYPE.get(), pos, state);
+    }
+
+
+    @Override
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider pRegistries) {
+        super.loadAdditional(tag,pRegistries);
+        this.age = tag.getInt("age");
+        this.distance = tag.getInt("distance");
+    }
+
+    @Override
+    public @NotNull ModelData getModelData() {
+        return ModelData.builder().with(AGE_PROPERTY, getAge()).build();
+        // return super.getModelData();
+    }
+
+    @Override
+    public void requestModelDataUpdate() {
+        super.requestModelDataUpdate();
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider pRegistries) {
+        tag.putInt("age", getAge());
+        tag.putInt("distance", getDistance());
+        super.saveAdditional(tag,pRegistries);
+    }
+
+    public static int getMaxAge() {
+        return MAX_AGE;
+    }
+
+    public static int getMaxDistance() {
+        return MAX_DISTANCE;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+
+    public int getDistance() {
+        return level != null ? distance : MAX_DISTANCE;
+    }
+
+
+    public void setAge(int age) {
+        if (this.age != age) {
+            this.age = age;
+            inventoryChanged();
+        }
+    }
+
+    public void setDistance(int distance) {
+        if (this.distance != distance) {
+            this.distance = distance;
+            inventoryChanged();
+        }
+    }
+
+    public void setAgeAndDistance(int age, int distance) {
+        if (this.distance != distance || this.age != age) {
+            this.distance = distance;
+            this.age = age;
+            inventoryChanged();
+        }
+    }
+}

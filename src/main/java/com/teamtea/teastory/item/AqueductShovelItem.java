@@ -1,0 +1,78 @@
+package com.teamtea.teastory.item;
+
+
+import com.teamtea.teastory.block.crops.AqueductBlock;
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ShovelItem;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.DirtPathBlock;
+import net.minecraft.world.level.block.FarmBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
+import net.neoforged.neoforge.common.Tags;
+import com.teamtea.teastory.BlockRegister;
+import com.teamtea.teastory.block.crops.PaddyFieldBlock;
+
+public class AqueductShovelItem extends ShovelItem {
+    public AqueductShovelItem(Tier tier,  Properties builder) {
+        super(tier, builder);
+    }
+
+    // onItemUse
+    @Override
+    public InteractionResult useOn(UseOnContext context) {
+        Level world = context.getLevel();
+        BlockPos blockPos = context.getClickedPos();
+        BlockState blockState = world.getBlockState(blockPos);
+        Player playerEntity = context.getPlayer();
+         if (blockState.is(Tags.Blocks.COBBLESTONES_MOSSY)) {
+            if (!world.isClientSide()) {
+                world.setBlock(blockPos, ((AqueductBlock) BlockRegister.mossyCobblestoneAqueduct.get()).getStateForPlacement(world, blockPos), 3);
+                world.scheduleTick(blockPos, BlockRegister.mossyCobblestoneAqueduct.get(), Fluids.WATER.getTickDelay(world));
+                if (playerEntity != null) {
+                    context.getItemInHand().hurtAndBreak(1, playerEntity, LivingEntity.getSlotForHand(context.getHand()));
+                }
+            }
+            world.playSound(playerEntity, blockPos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 1.0F);
+            return InteractionResult.SUCCESS;
+        }else if (blockState.is(Tags.Blocks.COBBLESTONES)) {
+            if (!world.isClientSide()) {
+                world.setBlock(blockPos, ((AqueductBlock) BlockRegister.cobblestoneAqueduct.get()).getStateForPlacement(world, blockPos), 3);
+                world.scheduleTick(blockPos, BlockRegister.cobblestoneAqueduct.get(), Fluids.WATER.getTickDelay(world));
+                if (playerEntity != null) {
+                    context.getItemInHand().hurtAndBreak(1, playerEntity, LivingEntity.getSlotForHand(context.getHand()));
+                }
+            }
+            world.playSound(playerEntity, blockPos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 1.0F);
+            return InteractionResult.SUCCESS;
+        } if (blockState.getBlock() instanceof DirtPathBlock) {
+            if (!world.isClientSide()) {
+                world.setBlock(blockPos, ((AqueductBlock) BlockRegister.dirtAqueduct.get()).getStateForPlacement(world, blockPos), 3);
+                world.scheduleTick(blockPos, BlockRegister.dirtAqueduct.get(), Fluids.WATER.getTickDelay(world));
+                if (playerEntity != null) {
+                    context.getItemInHand().hurtAndBreak(1, playerEntity, LivingEntity.getSlotForHand(context.getHand()));
+                }
+            }
+            world.playSound(playerEntity, blockPos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 1.0F);
+            return InteractionResult.SUCCESS;
+        }  else if (blockState.getBlock() instanceof FarmBlock) {
+            if (!world.isClientSide()) {
+                world.setBlock(blockPos, ((PaddyFieldBlock) BlockRegister.paddyField.get()).getStateForPlacement(world, blockPos), 3);
+                if (playerEntity != null) {
+                    context.getItemInHand().hurtAndBreak(1, playerEntity, LivingEntity.getSlotForHand(context.getHand()));
+                }
+            }
+            world.playSound(playerEntity, blockPos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 1.0F);
+
+            return InteractionResult.SUCCESS;
+        } else return super.useOn(context);
+    }
+
+}
