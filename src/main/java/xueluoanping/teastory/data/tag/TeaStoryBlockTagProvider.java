@@ -46,7 +46,8 @@ public final class TeaStoryBlockTagProvider extends BlockTagsProvider {
                 BlockRegister.BAMBOO_CATAPULT_BOARD.get(),
                 TileEntityTypeRegistry.WOODEN_TRAY.get(),
                 TileEntityTypeRegistry.WOODEN_BARREL.get(),
-                TileEntityTypeRegistry.BAMBOO_TRAY.get());
+                TileEntityTypeRegistry.BAMBOO_TRAY.get(),
+                BlockRegister.stone_campfire.value());
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE).add(BlockRegister.STONE_TABLE.get(),
                 BlockRegister.STONE_CHAIR.get(),
@@ -56,5 +57,7 @@ public final class TeaStoryBlockTagProvider extends BlockTagsProvider {
                 TileEntityTypeRegistry.STONE_STOVE.get(),
                 TileEntityTypeRegistry.STONE_ROLLER.get(),
                 TileEntityTypeRegistry.STONE_MILL.get());
+
+        tag(BlockTags.CAMPFIRES).add(BlockRegister.stone_campfire.value());
     }
 }

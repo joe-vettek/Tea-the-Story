@@ -19,6 +19,7 @@ public class Lang_ZH extends LangHelper {
     protected void addTranslations() {
         add(EntityTypeRegistry.SCARECROW_TYPE.get(), "稻草人");
 
+        add(BlockRegister.stone_campfire.get(), "石沿营火");
         add(BlockRegister.cobblestoneAqueduct.get(), "石制水渠");
         add(BlockRegister.mossyCobblestoneAqueduct.get(), "苔石渠口");
 

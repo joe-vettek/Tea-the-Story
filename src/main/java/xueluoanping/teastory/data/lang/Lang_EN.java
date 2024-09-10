@@ -18,6 +18,7 @@ public class Lang_EN extends LangHelper {
     protected void addTranslations() {
         add(EntityTypeRegistry.SCARECROW_TYPE.get(), "Scarecrow");
 
+        add(BlockRegister.stone_campfire.get(), "Stone Campfire");
 
         add(BlockRegister.cobblestoneAqueduct.get(), "Cobblestone Aqueduct");
         add(BlockRegister.mossyCobblestoneAqueduct.get(), "Mossy Cobblestone Aqueduct Outlet");

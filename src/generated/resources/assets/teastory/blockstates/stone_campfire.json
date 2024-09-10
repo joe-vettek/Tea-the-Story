@@ -1,0 +1,51 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "teastory:block/stone_campfire"
+      },
+      "when": {
+        "facing": "north",
+        "lit": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "teastory:block/stone_campfire",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "lit": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "teastory:block/stone_campfire",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "lit": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "teastory:block/stone_campfire",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "lit": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "teastory:block/stone_campfire_fire"
+      },
+      "when": {
+        "lit": "false"
+      }
+    }
+  ]
+}

@@ -12,6 +12,8 @@ import xueluoanping.teastory.data.lang.Lang_EN;
 import xueluoanping.teastory.data.lang.Lang_ZH;
 import xueluoanping.teastory.data.loot.GLMProvider;
 import xueluoanping.teastory.data.loot.LFTLootTableProvider;
+import xueluoanping.teastory.data.model.BlockStatesDataProvider;
+import xueluoanping.teastory.data.model.TeaItemModelProvider;
 import xueluoanping.teastory.data.tag.*;
 import xueluoanping.teastory.data.recipe.TeaStoryRecipeProvider;
 
@@ -41,6 +43,9 @@ public final class start {
         }if (event.includeClient()) {
             generator.addProvider(event.includeClient(),new Lang_EN(packOutput, helper));
             generator.addProvider(event.includeClient(),new Lang_ZH(packOutput, helper));
+            generator.addProvider(event.includeClient(), new BlockStatesDataProvider(packOutput, helper));
+            generator.addProvider(event.includeClient(), new TeaItemModelProvider(packOutput, MODID, helper));
+
         }
     }
 }
