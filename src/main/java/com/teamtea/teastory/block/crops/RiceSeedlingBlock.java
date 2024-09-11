@@ -16,7 +16,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.common.CommonHooks;
-import com.teamtea.teastory.BlockRegister;
+import com.teamtea.teastory.registry.BlockRegister;
 
 public class RiceSeedlingBlock extends CropBlock {
     private static final VoxelShape[] SHAPE_BY_AGE = new VoxelShape[]{

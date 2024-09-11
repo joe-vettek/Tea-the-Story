@@ -5,6 +5,7 @@ import com.teamtea.teastory.client.gui.BambooTrayGui;
 import com.teamtea.teastory.client.gui.DrinkMakerGui;
 import com.teamtea.teastory.client.gui.StoneMillGui;
 import com.teamtea.teastory.client.gui.StoneRollerGui;
+import com.teamtea.teastory.registry.*;
 import mezz.jei.api.constants.RecipeTypes;
 import net.minecraft.core.component.DataComponents;
 import com.teamtea.teastory.*;
@@ -73,7 +74,7 @@ public final class JEICompat implements IModPlugin {
         registration.registerSubtypeInterpreter(BlockRegister.ZINNIA_ITEM.get(), (itemStack, uidContext) -> itemStack.get(DataComponents.BLOCK_STATE)+"");
         registration.registerSubtypeInterpreter(ItemRegister.BOTTLE_DRINK.get(), (itemStack, uidContext) -> itemStack.get(ModCapabilities.SIMPLE_FLUID)+"");
         registration.registerSubtypeInterpreter(ItemRegister.PORCELAIN_CUP_DRINK.get(), (itemStack, uidContext) -> itemStack.get(ModCapabilities.SIMPLE_FLUID)+"");
-        registration.registerSubtypeInterpreter(BlockEntityRegistry.PORCELAIN_TEAPOT.get(), (itemStack, uidContext) -> itemStack.get(ModCapabilities.SIMPLE_FLUID)+"");
+        registration.registerSubtypeInterpreter(BlockEntityRegister.PORCELAIN_TEAPOT.get(), (itemStack, uidContext) -> itemStack.get(ModCapabilities.SIMPLE_FLUID)+"");
 
         // registration.useNbtForSubtypes(
         //         BlockRegister.CHRYSANTHEMUM_ITEM.get(),
@@ -87,10 +88,10 @@ public final class JEICompat implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(BlockEntityRegistry.BAMBOO_TRAY_ITEM.get()), IN_RAIN_TYPE, OUTDOORS_TYPE, INDOORS_TYPE, BAKE_TYPE);
-        registration.addRecipeCatalyst(new ItemStack(BlockEntityRegistry.DRINK_MAKER_ITEM.get()), DRINK_MAKER_TYPE);
-        registration.addRecipeCatalyst(new ItemStack(BlockEntityRegistry.STONE_MILL_ITEM.get()), STONE_MILL_TYPE);
-        registration.addRecipeCatalyst(new ItemStack(BlockEntityRegistry.STONE_ROLLER_ITEM.get()), STONE_ROLLER_TYPE);
+        registration.addRecipeCatalyst(new ItemStack(BlockEntityRegister.BAMBOO_TRAY_ITEM.get()), IN_RAIN_TYPE, OUTDOORS_TYPE, INDOORS_TYPE, BAKE_TYPE);
+        registration.addRecipeCatalyst(new ItemStack(BlockEntityRegister.DRINK_MAKER_ITEM.get()), DRINK_MAKER_TYPE);
+        registration.addRecipeCatalyst(new ItemStack(BlockEntityRegister.STONE_MILL_ITEM.get()), STONE_MILL_TYPE);
+        registration.addRecipeCatalyst(new ItemStack(BlockEntityRegister.STONE_ROLLER_ITEM.get()), STONE_ROLLER_TYPE);
 
         registration.addRecipeCatalyst(new ItemStack(BlockRegister.stone_campfire.get()), RecipeTypes.CAMPFIRE_COOKING);
     }

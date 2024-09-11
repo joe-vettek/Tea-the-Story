@@ -1,6 +1,6 @@
 package com.teamtea.teastory.blockentity;
 
-import com.teamtea.teastory.BlockEntityRegistry;
+import com.teamtea.teastory.registry.BlockEntityRegister;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -20,7 +20,7 @@ public class StoneCampfireBlockEntity extends CampfireBlockEntity {
 
     @Override
     public @NotNull BlockEntityType<?> getType() {
-        return BlockEntityRegistry.stone_campfire_TYPE.get();
+        return BlockEntityRegister.stone_campfire_TYPE.get();
     }
 
     public static void particleTick(Level pLevel, BlockPos pPos, BlockState pState, CampfireBlockEntity pBlockEntity) {

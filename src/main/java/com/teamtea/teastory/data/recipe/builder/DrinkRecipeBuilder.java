@@ -9,8 +9,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
 import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
-import com.teamtea.teastory.FluidRegistry;
-import com.teamtea.teastory.RecipeRegister;
+import com.teamtea.teastory.registry.FluidRegister;
+import com.teamtea.teastory.registry.RecipeRegister;
 import com.teamtea.teastory.TeaStory;
 
 import java.util.List;
@@ -32,7 +32,7 @@ public class DrinkRecipeBuilder {
     }
 
     public static DrinkRecipeBuilder boilingRecipe(FluidIngredient resultIn, Ingredient... ingredientsIn) {
-        return new DrinkRecipeBuilder(resultIn, SizedFluidIngredient.of(FluidRegistry.BOILING_WATER_STILL.get(), 500), NonNullList.of(Ingredient.EMPTY, ingredientsIn));
+        return new DrinkRecipeBuilder(resultIn, SizedFluidIngredient.of(FluidRegister.BOILING_WATER_STILL.get(), 500), NonNullList.of(Ingredient.EMPTY, ingredientsIn));
     }
 
     public static DrinkRecipeBuilder boilingRecipe(BaseFlowingFluid.Source source, Ingredient of, Ingredient of1, Ingredient of2, Ingredient of3) {

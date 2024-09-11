@@ -1,6 +1,6 @@
 package com.teamtea.teastory.block.craft;
 
-import com.teamtea.teastory.blockentity.StoneMillTileEntity;
+import com.teamtea.teastory.blockentity.StoneMillBlockEntity;
 import com.teamtea.teastory.helper.VoxelShapeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -22,7 +22,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
-import com.teamtea.teastory.BlockEntityRegistry;
+import com.teamtea.teastory.registry.BlockEntityRegister;
 import com.teamtea.teastory.block.NormalHorizontalBlock;
 
 
@@ -94,7 +94,7 @@ public class StoneMillBlock extends NormalHorizontalBlock implements EntityBlock
                             return InteractionResult.SUCCESS;
                         }).orElse(InteractionResult.FAIL);
             }
-            if (te instanceof StoneMillTileEntity) {
+            if (te instanceof StoneMillBlockEntity) {
                 if (!player.isShiftKeyDown()) {
                     if (!player.getItemInHand(handIn).isEmpty()) {
                         return Optional.ofNullable(worldIn.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.UP)).map(container ->
@@ -114,7 +114,7 @@ public class StoneMillBlock extends NormalHorizontalBlock implements EntityBlock
                         });
                         Optional.ofNullable(worldIn.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.UP)).ifPresent(container ->
                         {
-                            if (((StoneMillTileEntity) te).isCompleted()) {
+                            if (((StoneMillBlockEntity) te).isCompleted()) {
                                 ItemStack itemStack = container.extractItem(0, container.getStackInSlot(0).getCount(), false);
                                 Block.popResource(worldIn, pos, itemStack);
                             }
@@ -133,12 +133,12 @@ public class StoneMillBlock extends NormalHorizontalBlock implements EntityBlock
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new StoneMillTileEntity(pos, state);
+        return new StoneMillBlockEntity(pos, state);
     }
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level worldIn, BlockState state, BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, BlockEntityRegistry.STONE_MILL_TYPE.get(), StoneMillTileEntity::tick);
+        return createTickerHelper(blockEntityType, BlockEntityRegister.STONE_MILL_TYPE.get(), StoneMillBlockEntity::tick);
         // return !worldIn.isClientSide ?
         //         createTickerHelper(blockEntityType, TileEntityTypeRegistry.STONE_MILL_TYPE.get(), StoneMillTileEntity::tick) : null;
 

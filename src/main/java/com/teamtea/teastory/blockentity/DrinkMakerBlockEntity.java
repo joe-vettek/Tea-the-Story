@@ -22,10 +22,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import com.teamtea.teastory.RecipeRegister;
-import com.teamtea.teastory.BlockEntityRegistry;
-import com.teamtea.teastory.blockentity.entity.NormalContainerTileEntity;
-import com.teamtea.teastory.craft.MultiRecipeWrapper;
+import com.teamtea.teastory.registry.RecipeRegister;
+import com.teamtea.teastory.registry.BlockEntityRegister;
+import com.teamtea.teastory.blockentity.base.NormalContainerTileEntity;
+import com.teamtea.teastory.recipe.MultiRecipeWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -34,9 +34,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-// import static net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack.FLUID_NBT_KEY;
-
-public class DrinkMakerTileEntity extends NormalContainerTileEntity {
+public class DrinkMakerBlockEntity extends NormalContainerTileEntity {
     private final ItemStackHandler ingredientsInventory;
     private final ItemStackHandler residuesInventory;
     private final ItemStackHandler containerInventory;
@@ -48,8 +46,8 @@ public class DrinkMakerTileEntity extends NormalContainerTileEntity {
 
     private DrinkRecipe currentRecipe;
 
-    public DrinkMakerTileEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityRegistry.DRINK_MAKER_TYPE.get(), pos, state);
+    public DrinkMakerBlockEntity(BlockPos pos, BlockState state) {
+        super(BlockEntityRegister.DRINK_MAKER_TYPE.get(), pos, state);
         ingredientsInventory = createItemHandler(4);
         residuesInventory = createItemHandler(4);
         containerInventory = createContainerItemHandler(1);
@@ -72,10 +70,10 @@ public class DrinkMakerTileEntity extends NormalContainerTileEntity {
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider pRegistries) {
         tag.put("Ingredients", (ingredientsInventory).serializeNBT(pRegistries));
-        tag.put("Residues", ( residuesInventory).serializeNBT(pRegistries));
-        tag.put("Container", ( containerInventory).serializeNBT(pRegistries));
-        tag.put("Input", ( inputInventory).serializeNBT(pRegistries));
-        tag.put("Output", ( outputInventory).serializeNBT(pRegistries));
+        tag.put("Residues", (residuesInventory).serializeNBT(pRegistries));
+        tag.put("Container", (containerInventory).serializeNBT(pRegistries));
+        tag.put("Input", (inputInventory).serializeNBT(pRegistries));
+        tag.put("Output", (outputInventory).serializeNBT(pRegistries));
 
         tag.putInt("ProcessTicks", processTicks);
         super.saveAdditional(tag, pRegistries);
@@ -103,7 +101,7 @@ public class DrinkMakerTileEntity extends NormalContainerTileEntity {
         return residuesInventory;
     }
 
-    public static void tick(Level worldIn, BlockPos pos, BlockState blockState, DrinkMakerTileEntity tileEntity) {
+    public static void tick(Level worldIn, BlockPos pos, BlockState blockState, DrinkMakerBlockEntity tileEntity) {
         // TeaStory.logger(worldIn.getGameTime());
         if (tileEntity.getFluidAmount() != 0 && !tileEntity.isIngredientsEmpty()) {
             var warp = new MultiRecipeWrapper(tileEntity.ingredientsInventory, tileEntity.residuesInventory, tileEntity.containerInventory);

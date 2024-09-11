@@ -10,7 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.NotNull;
-import com.teamtea.teastory.RecipeRegister;
+import com.teamtea.teastory.registry.RecipeRegister;
 import com.teamtea.teastory.TeaStory;
 
 public class BambooTrayRecipeBuilder {

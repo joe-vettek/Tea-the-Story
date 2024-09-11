@@ -1,7 +1,7 @@
 package com.teamtea.teastory.block.craft;
 
 
-import com.teamtea.teastory.BlockEntityRegistry;
+import com.teamtea.teastory.registry.BlockEntityRegister;
 import com.teamtea.teastory.blockentity.StoneCampfireBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -135,18 +135,18 @@ public class StoneCampfireBlock extends NormalHorizontalBlock implements SimpleW
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return BlockEntityRegistry.stone_campfire_TYPE.get().create(pPos, pState);
+        return BlockEntityRegister.stone_campfire_TYPE.get().create(pPos, pState);
     }
 
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
         if (pLevel.isClientSide) {
-            return pState.getValue(LIT) ? createTickerHelper(pBlockEntityType, BlockEntityRegistry.stone_campfire_TYPE.get(), StoneCampfireBlockEntity::particleTick) : null;
+            return pState.getValue(LIT) ? createTickerHelper(pBlockEntityType, BlockEntityRegister.stone_campfire_TYPE.get(), StoneCampfireBlockEntity::particleTick) : null;
         } else {
             return pState.getValue(LIT)
-                    ? createTickerHelper(pBlockEntityType, BlockEntityRegistry.stone_campfire_TYPE.get(), StoneCampfireBlockEntity::cookTick)
-                    : createTickerHelper(pBlockEntityType, BlockEntityRegistry.stone_campfire_TYPE.get(), StoneCampfireBlockEntity::cooldownTick);
+                    ? createTickerHelper(pBlockEntityType, BlockEntityRegister.stone_campfire_TYPE.get(), StoneCampfireBlockEntity::cookTick)
+                    : createTickerHelper(pBlockEntityType, BlockEntityRegister.stone_campfire_TYPE.get(), StoneCampfireBlockEntity::cooldownTick);
         }
     }
 

@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -20,9 +21,13 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.EntityCollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.capabilities.Capabilities;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,6 +49,16 @@ public class FilterScreenBlock extends Block {
         return SHAPE[pState.getValue(AXIS).ordinal()];
     }
 
+    @Override
+    protected VoxelShape getCollisionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        if (pContext instanceof EntityCollisionContext entitycollisioncontext) {
+            Entity entity = entitycollisioncontext.getEntity();
+            if (entity instanceof ItemEntity) {
+                return Shapes.empty();
+            }
+        }
+        return super.getCollisionShape(pState, pLevel, pPos, pContext);
+    }
 
     @Override
     @SuppressWarnings("deprecation")
@@ -60,19 +75,20 @@ public class FilterScreenBlock extends Block {
         }
     }
 
+
     public static List<Item> getPassableItem(Level worldIn, BlockPos pos) {
         BlockPos blockPos = pos.above();
         while (worldIn.getBlockState(blockPos).getBlock() instanceof FilterScreenBlock) {
             blockPos = blockPos.above();
         }
         if (worldIn.getBlockEntity(blockPos) != null) {
-            return Optional.ofNullable(worldIn.getCapability(Capabilities.ItemHandler.BLOCK, pos, null)).map(h ->
+            return Optional.ofNullable(worldIn.getCapability(Capabilities.ItemHandler.BLOCK, blockPos, null)).map(h ->
             {
                 List<Item> list = Lists.newArrayList();
                 for (int i = 0; i < h.getSlots(); i++) {
                     list.add(h.getStackInSlot(i).getItem());
                 }
-                return list;
+                return new ArrayList<>(new HashSet<>(list));
             }).orElse(Lists.newArrayList());
         }
         return Lists.newArrayList();

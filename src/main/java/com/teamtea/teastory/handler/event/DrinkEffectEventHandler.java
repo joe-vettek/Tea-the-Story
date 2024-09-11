@@ -1,7 +1,7 @@
 package com.teamtea.teastory.handler.event;
 
 
-import com.teamtea.teastory.potion.EffectRegistry;
+import com.teamtea.teastory.registry.EffectRegister;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -16,7 +16,7 @@ public final class DrinkEffectEventHandler
     {
         if (!event.getEntity().level().isClientSide())
         {
-            MobEffectInstance effect = event.getEntity().getEffect(EffectRegistry.getMobEffect(EffectRegistry.AGILITY));
+            MobEffectInstance effect = event.getEntity().getEffect(EffectRegister.getMobEffect(EffectRegister.AGILITY));
             if (effect != null)
             {
                 if (event.getEntity().getRandom().nextFloat() < ((effect.getAmplifier() + 1) * 0.15F + 0.05F))
@@ -32,7 +32,7 @@ public final class DrinkEffectEventHandler
     {
         if (!event.getEntity().level().isClientSide())
         {
-            if (event.getEntity().getEffect(EffectRegistry.getMobEffect(EffectRegistry.DEFENCE)) != null)
+            if (event.getEntity().getEffect(EffectRegister.getMobEffect(EffectRegister.DEFENCE)) != null)
             {
                 if (event instanceof LivingDamageEvent)
                 {
@@ -48,7 +48,7 @@ public final class DrinkEffectEventHandler
     {
         if (!event.getEntity().level().isClientSide())
         {
-            MobEffectInstance effect = event.getEntity().getEffect(EffectRegistry.getMobEffect(EffectRegistry.LIFE_DRAIN));
+            MobEffectInstance effect = event.getEntity().getEffect(EffectRegister.getMobEffect(EffectRegister.LIFE_DRAIN));
             if (effect != null)
             {
                 int level = effect.getAmplifier() + 1;
@@ -66,7 +66,7 @@ public final class DrinkEffectEventHandler
     {
         if (!event.getEntity().level().isClientSide())
         {
-            MobEffectInstance effect = event.getEntity().getEffect(EffectRegistry.getMobEffect(EffectRegistry.EXCITEMENT));
+            MobEffectInstance effect = event.getEntity().getEffect(EffectRegister.getMobEffect(EffectRegister.EXCITEMENT));
             if (effect != null)
             {
                 event.setProblem(Player.BedSleepingProblem.OTHER_PROBLEM);

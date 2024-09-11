@@ -1,5 +1,6 @@
-package com.teamtea.teastory;
+package com.teamtea.teastory.registry;
 
+import com.teamtea.teastory.TeaStory;
 import com.teamtea.teastory.entity.SeatEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.*;
@@ -9,7 +10,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import com.teamtea.teastory.entity.ScarecrowEntity;
 
 
-public final class EntityTypeRegistry {
+public final class EntityRegister {
 
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPE_DEFERRED_REGISTER = DeferredRegister.create(Registries.ENTITY_TYPE, TeaStory.MODID);
     public static DeferredHolder<EntityType<?>, EntityType<Entity>> SEAT_TYPE = ENTITY_TYPE_DEFERRED_REGISTER.register("seat",

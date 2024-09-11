@@ -27,7 +27,7 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import com.teamtea.teastory.BlockRegister;
+import com.teamtea.teastory.registry.BlockRegister;
 
 import javax.annotation.Nullable;
 

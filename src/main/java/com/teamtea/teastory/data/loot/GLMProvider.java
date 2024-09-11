@@ -9,7 +9,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.neoforged.neoforge.common.data.GlobalLootModifierProvider;
 import net.neoforged.neoforge.common.loot.LootTableIdCondition;
-import com.teamtea.teastory.BlockRegister;
+import com.teamtea.teastory.registry.BlockRegister;
 import com.teamtea.teastory.loot.AddItemModifier;
 
 import java.util.List;

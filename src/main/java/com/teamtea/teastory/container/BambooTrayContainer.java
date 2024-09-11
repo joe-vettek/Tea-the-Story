@@ -1,6 +1,6 @@
 package com.teamtea.teastory.container;
 
-import com.teamtea.teastory.blockentity.BambooTrayTileEntity;
+import com.teamtea.teastory.blockentity.BambooTrayBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
@@ -11,22 +11,22 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.SlotItemHandler;
-import com.teamtea.teastory.BlockEntityRegistry;
+import com.teamtea.teastory.registry.BlockEntityRegister;
 import com.teamtea.teastory.client.container.NormalContainer;
 
 import java.util.Optional;
 
 
 public class BambooTrayContainer extends NormalContainer {
-    private final BambooTrayTileEntity tileEntity;
+    private final BambooTrayBlockEntity tileEntity;
 
     public BambooTrayContainer(int windowId, Inventory playerInv, FriendlyByteBuf data) {
         this(windowId, playerInv, data.readBlockPos(), playerInv.player.getCommandSenderWorld());
     }
 
     public BambooTrayContainer(int windowId, Inventory inv, BlockPos pos, Level world) {
-        super(BlockEntityRegistry.BAMBOO_TRAY_CONTAINER.get(), windowId, pos, world);
-        this.tileEntity = (BambooTrayTileEntity) getTileEntity();
+        super(BlockEntityRegister.BAMBOO_TRAY_CONTAINER.get(), windowId, pos, world);
+        this.tileEntity = (BambooTrayBlockEntity) getTileEntity();
         Optional.ofNullable(world.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.UP)).ifPresent(h ->
                 addSlot(new SlotItemHandler(h, 0, 107, 31)));
         for (int i = 0; i < 3; ++i) {

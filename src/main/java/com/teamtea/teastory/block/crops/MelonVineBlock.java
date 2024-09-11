@@ -40,13 +40,14 @@ public class MelonVineBlock extends BushBlock implements BonemealableBlock {
     );
 
     public static final IntegerProperty AGE = BlockStateProperties.AGE_7;
+    public static final IntegerProperty DISTANCE = BlockStateProperties.DISTANCE;
     private static final VoxelShape SHAPE = VoxelShapeHelper.createVoxelShape(0, 0, 0, 16, 5, 16);
     private static final VoxelShape SHAPE_MELON = VoxelShapeHelper.createVoxelShape(0, 0, 0, 16, 13, 16);
     private final Block melon;
 
-    public MelonVineBlock(Block melon,Properties properties) {
+    public MelonVineBlock(Block melon, Properties properties) {
         super(properties);
-        this.registerDefaultState(defaultBlockState().setValue(AGE, 0));
+        this.registerDefaultState(defaultBlockState().setValue(AGE, 0).setValue(DISTANCE, 1));
         this.melon = melon;
     }
 
@@ -94,6 +95,7 @@ public class MelonVineBlock extends BushBlock implements BonemealableBlock {
     @Override
     @SuppressWarnings("deprecation")
     public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random) {
+
         if (!worldIn.isAreaLoaded(pos, 1)) {
             return;
         }
@@ -110,10 +112,12 @@ public class MelonVineBlock extends BushBlock implements BonemealableBlock {
                 if (i + 1 < 7) {
                     worldIn.setBlock(pos, state.setValue(AGE, i + 1), Block.UPDATE_CLIENTS);
 
-                    BlockPos blockPos = pos.relative(Direction.Plane.HORIZONTAL.getRandomDirection(random));
-                    BlockState blockState = worldIn.getBlockState(blockPos);
-                    if (blockState.isAir() && this.mayPlaceOn(worldIn.getBlockState(blockPos.below()), worldIn, blockPos.below())) {
-                        worldIn.setBlockAndUpdate(blockPos, this.defaultBlockState());
+                    if (state.getValue(DISTANCE) < 7) {
+                        BlockPos blockPos = pos.relative(Direction.Plane.HORIZONTAL.getRandomDirection(random));
+                        BlockState blockState = worldIn.getBlockState(blockPos);
+                        if (blockState.isAir() && this.mayPlaceOn(worldIn.getBlockState(blockPos.below()), worldIn, blockPos.below())) {
+                            worldIn.setBlockAndUpdate(blockPos, this.defaultBlockState().setValue(DISTANCE, state.getValue(DISTANCE) + 1));
+                        }
                     }
                 } else {
                     worldIn.setBlock(pos, state.setValue(AGE, 7), Block.UPDATE_CLIENTS);
@@ -157,11 +161,11 @@ public class MelonVineBlock extends BushBlock implements BonemealableBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder.add(AGE));
+        super.createBlockStateDefinition(builder.add(AGE).add(DISTANCE));
     }
 
 
-    protected static float getGrowthChance(BlockState blockIn, ServerLevel worldIn, BlockPos pos) {
+    protected static float getGrowthChance(BlockState blockState, ServerLevel worldIn, BlockPos pos) {
         float f = 1.0F;
         BlockPos blockpos = pos.below();
 
@@ -169,7 +173,7 @@ public class MelonVineBlock extends BushBlock implements BonemealableBlock {
             for (int j = -1; j <= 1; ++j) {
                 float f1 = 0.0F;
                 BlockState blockstate = worldIn.getBlockState(blockpos.offset(i, 0, j));
-                if (blockstate.canSustainPlant(worldIn, blockpos.offset(i, 0, j), Direction.UP, blockIn)!= TriState.FALSE) {
+                if (blockstate.canSustainPlant(worldIn, blockpos.offset(i, 0, j), Direction.UP, blockState) != TriState.FALSE) {
                     f1 = 1.0F;
                     if (blockstate.isFertile(worldIn, pos.offset(i, 0, j))) {
                         f1 = 3.0F;
@@ -188,12 +192,12 @@ public class MelonVineBlock extends BushBlock implements BonemealableBlock {
         BlockPos blockpos2 = pos.south();
         BlockPos blockpos3 = pos.west();
         BlockPos blockpos4 = pos.east();
-        boolean flag = blockIn.getBlock() == worldIn.getBlockState(blockpos3).getBlock() || blockIn.getBlock() == worldIn.getBlockState(blockpos4).getBlock();
-        boolean flag1 = blockIn.getBlock() == worldIn.getBlockState(blockpos1).getBlock() || blockIn.getBlock() == worldIn.getBlockState(blockpos2).getBlock();
+        boolean flag = blockState.getBlock() == worldIn.getBlockState(blockpos3).getBlock() || blockState.getBlock() == worldIn.getBlockState(blockpos4).getBlock();
+        boolean flag1 = blockState.getBlock() == worldIn.getBlockState(blockpos1).getBlock() || blockState.getBlock() == worldIn.getBlockState(blockpos2).getBlock();
         if (flag && flag1) {
             f /= 2.0F;
         } else {
-            boolean flag2 = blockIn.getBlock() == worldIn.getBlockState(blockpos3.north()).getBlock() || blockIn.getBlock() == worldIn.getBlockState(blockpos4.north()).getBlock() || blockIn.getBlock() == worldIn.getBlockState(blockpos4.south()).getBlock() || blockIn.getBlock() == worldIn.getBlockState(blockpos3.south()).getBlock();
+            boolean flag2 = blockState.getBlock() == worldIn.getBlockState(blockpos3.north()).getBlock() || blockState.getBlock() == worldIn.getBlockState(blockpos4.north()).getBlock() || blockState.getBlock() == worldIn.getBlockState(blockpos4.south()).getBlock() || blockState.getBlock() == worldIn.getBlockState(blockpos3.south()).getBlock();
             if (flag2) {
                 f /= 2.0F;
             }

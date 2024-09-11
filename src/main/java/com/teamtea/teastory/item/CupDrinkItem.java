@@ -2,7 +2,7 @@ package com.teamtea.teastory.item;
 
 
 import com.teamtea.teastory.recipe.drink.DrinkEffectManager;
-import com.teamtea.teastory.tag.NormalTags;
+import com.teamtea.teastory.tag.TeaTags;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -19,8 +19,8 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
-import com.teamtea.teastory.FluidRegistry;
-import com.teamtea.teastory.ModCapabilities;
+import com.teamtea.teastory.registry.FluidRegister;
+import com.teamtea.teastory.registry.ModCapabilities;
 
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -53,8 +53,8 @@ public class CupDrinkItem extends Item implements FluidContainerItem {
     // @Override
     public void fillItemGroup(CreativeModeTab.Output group) {
         // for (Fluid fluid : FluidTags.getCollection().getTagByID(new ResourceLocation("teastory:drink")).getAllElements())
-        for (var fluid : FluidRegistry.FLUIDS.getEntries()) {
-            if (fluid.is(NormalTags.Fluids.DRINK))
+        for (var fluid : FluidRegister.FLUIDS.getEntries()) {
+            if (fluid.is(TeaTags.Fluids.DRINK))
                 if (fluid.get() instanceof BaseFlowingFluid.Source) {
                     ItemStack itemStack = new ItemStack(this);
                     itemStack.set(ModCapabilities.SIMPLE_FLUID, SimpleFluidContent.copyOf(new FluidStack(fluid.get(), capacity)));
@@ -98,7 +98,7 @@ public class CupDrinkItem extends Item implements FluidContainerItem {
                 BiConsumer<LivingEntity, Integer> action = DrinkEffectManager.getEffects(handler.getFluid());
                 if (action != null) {
                     action.accept(entityLiving, handler.getAmount());
-                } else if (entityLiving instanceof Player && handler.getFluid() != FluidRegistry.BOILING_WATER_STILL.get()) {
+                } else if (entityLiving instanceof Player && handler.getFluid() != FluidRegister.BOILING_WATER_STILL.get()) {
                     var foodata = ((Player) entityLiving).getFoodData();
                     // TeaStory.logger(foodata.getSaturationLevel());
                     ((Player) entityLiving).getFoodData().setFoodLevel(foodata.getFoodLevel() + (int) (1.2F * this.capacity / 100));
@@ -116,7 +116,7 @@ public class CupDrinkItem extends Item implements FluidContainerItem {
 
 
     public static boolean canDrink(ItemStack stack) {
-        return FluidUtil.getFluidContained(stack).map(f -> f.getFluid().is(NormalTags.Fluids.DRINK)).orElse(false);
+        return FluidUtil.getFluidContained(stack).map(f -> f.getFluid().is(TeaTags.Fluids.DRINK)).orElse(false);
         // return true;
     }
 }

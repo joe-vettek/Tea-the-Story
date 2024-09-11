@@ -25,8 +25,8 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.common.CommonHooks;
 import org.jetbrains.annotations.Nullable;
-import com.teamtea.teastory.BlockEntityRegistry;
-import com.teamtea.teastory.blockentity.VineEntity;
+import com.teamtea.teastory.registry.BlockEntityRegister;
+import com.teamtea.teastory.blockentity.VineBlockEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,13 +56,13 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
         if (!(state.getBlock() instanceof TrellisWithVineBlock)) {
             if (random.nextBoolean()) {
                 level.setBlock(pos, VineInfoManager.getVineTrellis(type, (TrellisBlock) state.getBlock()).getRelevantState(state), 2);
-                if (level.getBlockEntity(pos) instanceof VineEntity vineEntity) {
+                if (level.getBlockEntity(pos) instanceof VineBlockEntity vineEntity) {
                     vineEntity.setDistance(7 - energy);
                 }
             }
             return;
         } else {
-            if (level.getBlockEntity(pos) instanceof VineEntity vineEntity) {
+            if (level.getBlockEntity(pos) instanceof VineBlockEntity vineEntity) {
                 if (vineEntity.getAge() < 3) {
                     vineEntity.setAge(vineEntity.getAge() + 1);
                 } else {
@@ -114,7 +114,7 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
     @SuppressWarnings("deprecation")
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         // Grow vertically. 垂直方向生长。
-        if (!(level.getBlockEntity(pos) instanceof VineEntity vineEntity))
+        if (!(level.getBlockEntity(pos) instanceof VineBlockEntity vineEntity))
             return;
         if (!level.getBlockState(pos.below()).is(BlockTags.DIRT)) {
             return;
@@ -176,7 +176,7 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
         //         && ((TrellisWithVineBlock) blockEntity.getBlock()).type == type) {
         //     return blockEntity.getValue(DISTANCE);
         // }aq
-        if (blockEntity instanceof VineEntity otherVineEntity
+        if (blockEntity instanceof VineBlockEntity otherVineEntity
                 && ((TrellisWithVineBlock) otherVineEntity.getBlockState().getBlock()).type == type) {
             // return blockEntity.getValue(DISTANCE);
             return otherVineEntity.getDistance();
@@ -210,7 +210,7 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
 
         if (level.getBlockState(pos.below()).is(BlockTags.DIRT)) {
             valid = true;
-        } else if (level.getBlockEntity(pos) instanceof VineEntity vineEntity) {
+        } else if (level.getBlockEntity(pos) instanceof VineBlockEntity vineEntity) {
             int nearD = getNearDistance2(level, pos);
             if (nearD < vineEntity.getDistance()) {
                 valid = true;
@@ -260,7 +260,7 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return BlockEntityRegistry.VINE_TYPE.get().create(pPos, pState);
+        return BlockEntityRegister.VINE_TYPE.get().create(pPos, pState);
     }
 
     @Override

@@ -1,5 +1,6 @@
-package com.teamtea.teastory;
+package com.teamtea.teastory.registry;
 
+import com.teamtea.teastory.TeaStory;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;

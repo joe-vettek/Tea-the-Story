@@ -1,6 +1,7 @@
-package com.teamtea.teastory;
+package com.teamtea.teastory.registry;
 
 
+import com.teamtea.teastory.TeaStory;
 import com.teamtea.teastory.recipe.bamboo_tray.*;
 import com.teamtea.teastory.recipe.drink.DrinkRecipe;
 import com.teamtea.teastory.recipe.special.FlowerDyeRecipe;

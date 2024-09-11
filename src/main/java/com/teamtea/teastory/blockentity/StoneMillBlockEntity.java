@@ -8,7 +8,7 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.items.ItemStackHandler;
-import com.teamtea.teastory.craft.BlockEntityRecipeWrapper;
+import com.teamtea.teastory.recipe.BlockEntityRecipeWrapper;
 import com.teamtea.teastory.recipe.stone_mill.StoneMillRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -22,14 +22,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import com.teamtea.teastory.RecipeRegister;
-import com.teamtea.teastory.BlockEntityRegistry;
-import com.teamtea.teastory.blockentity.entity.NormalContainerTileEntity;
+import com.teamtea.teastory.registry.RecipeRegister;
+import com.teamtea.teastory.registry.BlockEntityRegister;
+import com.teamtea.teastory.blockentity.base.NormalContainerTileEntity;
 
 import javax.annotation.Nullable;
 
 
-public class StoneMillTileEntity extends NormalContainerTileEntity {
+public class StoneMillBlockEntity extends NormalContainerTileEntity {
     private int angel = 0;
     private boolean isWorking = false;
 
@@ -40,8 +40,8 @@ public class StoneMillTileEntity extends NormalContainerTileEntity {
     private final ItemStackHandler outputInventory;
     private final FluidTank fluidTank;
 
-    public StoneMillTileEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityRegistry.STONE_MILL_TYPE.get(), pos, state);
+    public StoneMillBlockEntity(BlockPos pos, BlockState state) {
+        super(BlockEntityRegister.STONE_MILL_TYPE.get(), pos, state);
         this.inputInventory = new SyncedItemStackHandler();
         this.outputInventory = new SyncedItemStackHandler(3);
         this.fluidTank = new SyncedFluidTank(2000);
@@ -82,7 +82,7 @@ public class StoneMillTileEntity extends NormalContainerTileEntity {
     }
 
 
-    public static void tick(Level worldIn, BlockPos pos, BlockState blockState, StoneMillTileEntity stoneMillTileEntity) {
+    public static void tick(Level worldIn, BlockPos pos, BlockState blockState, StoneMillBlockEntity stoneMillTileEntity) {
         if (worldIn == null || stoneMillTileEntity.isRemoved()) return;
 
         ItemStack input = stoneMillTileEntity.inputInventory.getStackInSlot(0);

@@ -1,7 +1,7 @@
 package com.teamtea.teastory.recipe.stone_mill;
 
 
-import com.teamtea.teastory.blockentity.StoneMillTileEntity;
+import com.teamtea.teastory.blockentity.StoneMillBlockEntity;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -12,12 +12,12 @@ import net.minecraft.network.codec.StreamCodec;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
-import com.teamtea.teastory.craft.BlockEntityRecipeWrapper;
+import com.teamtea.teastory.recipe.BlockEntityRecipeWrapper;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
-import com.teamtea.teastory.RecipeRegister;
+import com.teamtea.teastory.registry.RecipeRegister;
 
 import java.util.List;
 import java.util.Optional;
@@ -59,7 +59,7 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
     @Override
     public boolean matches(BlockEntityRecipeWrapper inv, Level worldIn) {
         if (this.inputItem.test(inv.getItem(0))) {
-            if (inv.getBlockEntity() instanceof StoneMillTileEntity stoneMillTileEntity) {
+            if (inv.getBlockEntity() instanceof StoneMillBlockEntity stoneMillTileEntity) {
                 FluidStack fluidStack = stoneMillTileEntity.getFluidTank().getFluidInTank(0).copy();
                 // return outputFluid.test(fluidStack);
                 return stoneMillTileEntity.getFluidTank().fill(getOutputFluid(), IFluidHandler.FluidAction.SIMULATE) == getOutputFluid().getAmount();

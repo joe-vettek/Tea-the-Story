@@ -1,7 +1,7 @@
 package com.teamtea.teastory.container;
 
 
-import com.teamtea.teastory.blockentity.StoneMillTileEntity;
+import com.teamtea.teastory.blockentity.StoneMillBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
@@ -12,14 +12,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.SlotItemHandler;
-import com.teamtea.teastory.BlockEntityRegistry;
+import com.teamtea.teastory.registry.BlockEntityRegister;
 import com.teamtea.teastory.client.container.NormalContainer;
 
 import java.util.Optional;
 
 
 public class StoneMillContainer extends NormalContainer {
-    private final StoneMillTileEntity tileEntity;
+    private final StoneMillBlockEntity tileEntity;
 
 
     public StoneMillContainer(int windowId, Inventory playerInv, FriendlyByteBuf data) {
@@ -27,8 +27,8 @@ public class StoneMillContainer extends NormalContainer {
     }
 
     public StoneMillContainer(int windowId, Inventory inv, BlockPos pos, Level world) {
-        super(BlockEntityRegistry.STONE_MILL_CONTAINER.get(), windowId, pos, world);
-        this.tileEntity = (StoneMillTileEntity) getTileEntity();
+        super(BlockEntityRegister.STONE_MILL_CONTAINER.get(), windowId, pos, world);
+        this.tileEntity = (StoneMillBlockEntity) getTileEntity();
 
         Optional.ofNullable(world.getCapability(Capabilities.ItemHandler.BLOCK,pos,Direction.UP)).ifPresent(h ->
         {

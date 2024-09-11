@@ -1,7 +1,7 @@
 package com.teamtea.teastory.client.render;
 
 
-import com.teamtea.teastory.blockentity.DrinkMakerTileEntity;
+import com.teamtea.teastory.blockentity.DrinkMakerBlockEntity;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -16,7 +16,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
-public class DrinkMakerTESR implements BlockEntityRenderer<DrinkMakerTileEntity> {
+public class DrinkMakerTESR implements BlockEntityRenderer<DrinkMakerBlockEntity> {
 
     public DrinkMakerTESR(BlockEntityRendererProvider.Context pContext) {
 
@@ -24,7 +24,7 @@ public class DrinkMakerTESR implements BlockEntityRenderer<DrinkMakerTileEntity>
 
     @Override
     @SuppressWarnings("deprecation")
-    public void render(DrinkMakerTileEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(DrinkMakerBlockEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         Minecraft mc = Minecraft.getInstance();
 
         List<ItemStack> list = tileEntityIn.getContent();

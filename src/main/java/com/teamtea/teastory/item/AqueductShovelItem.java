@@ -17,7 +17,7 @@ import net.minecraft.world.level.block.FarmBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.Tags;
-import com.teamtea.teastory.BlockRegister;
+import com.teamtea.teastory.registry.BlockRegister;
 import com.teamtea.teastory.block.crops.PaddyFieldBlock;
 
 public class AqueductShovelItem extends ShovelItem {

@@ -1,7 +1,7 @@
 package com.teamtea.teastory.client.render;
 
 
-import com.teamtea.teastory.blockentity.WoodenBarrelTileEntity;
+import com.teamtea.teastory.blockentity.WoodenBarrelBlockEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
@@ -16,13 +16,13 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 
-public class WoodenBarrelTESR implements BlockEntityRenderer<WoodenBarrelTileEntity> {
+public class WoodenBarrelTESR implements BlockEntityRenderer<WoodenBarrelBlockEntity> {
     public WoodenBarrelTESR(BlockEntityRendererProvider.Context pContext) {
 
     }
 
     @Override
-    public void render(WoodenBarrelTileEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(WoodenBarrelBlockEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         Minecraft mc = Minecraft.getInstance();
 
         Fluid fluid = tileEntityIn.getRemainFluid();

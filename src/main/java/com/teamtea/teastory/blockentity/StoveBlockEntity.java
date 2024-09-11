@@ -16,15 +16,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.items.ItemStackHandler;
-import com.teamtea.teastory.ItemRegister;
-import com.teamtea.teastory.BlockEntityRegistry;
-import com.teamtea.teastory.blockentity.entity.NormalContainerTileEntity;
+import com.teamtea.teastory.registry.ItemRegister;
+import com.teamtea.teastory.registry.BlockEntityRegister;
+import com.teamtea.teastory.blockentity.base.NormalContainerTileEntity;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
 
 
-public class StoveTileEntity extends NormalContainerTileEntity {
+public class StoveBlockEntity extends NormalContainerTileEntity {
     private int remainTicks = 0;
     private int fuelTicks = 0;
     private int workTicks = 0;
@@ -35,8 +35,8 @@ public class StoveTileEntity extends NormalContainerTileEntity {
     private final ItemStackHandler fuelInventory;
     private final ItemStackHandler ashInventory ;
 
-    public StoveTileEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityRegistry.STOVE_TYPE.get(), pos, state);
+    public StoveBlockEntity(BlockPos pos, BlockState state) {
+        super(BlockEntityRegister.STOVE_TYPE.get(), pos, state);
         this.fuelInventory = createFuelHandler();
         this.ashInventory = createAshHandler();
     }
@@ -74,7 +74,7 @@ public class StoveTileEntity extends NormalContainerTileEntity {
     }
 
 
-    public static void tick(Level worldIn, BlockPos pos, BlockState blockState, StoveTileEntity stoveTileEntity) {
+    public static void tick(Level worldIn, BlockPos pos, BlockState blockState, StoveBlockEntity stoveTileEntity) {
         if (stoveTileEntity.doubleClickTicks > 0) {
             stoveTileEntity.doubleClickTicks--;
         }

@@ -9,17 +9,17 @@ import net.minecraft.world.level.material.Fluid;
 
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
-import com.teamtea.teastory.BlockEntityRegistry;
-import com.teamtea.teastory.blockentity.entity.SyncedBlockEntity;
+import com.teamtea.teastory.registry.BlockEntityRegister;
+import com.teamtea.teastory.blockentity.base.SyncedBlockEntity;
 
 import java.util.List;
 
 
-public class TeaCupTileEntity extends SyncedBlockEntity {
+public class TeaCupBlockEntity extends SyncedBlockEntity {
     private final List<FluidTank> fluidTanks = Lists.newArrayList();
 
-    public TeaCupTileEntity(int capacity, BlockPos pos, BlockState state) {
-        super(BlockEntityRegistry.WOODEN_TRAY_TYPE.get(), pos, state);
+    public TeaCupBlockEntity(int capacity, BlockPos pos, BlockState state) {
+        super(BlockEntityRegister.WOODEN_TRAY_TYPE.get(), pos, state);
         for (int i = 0; i < 3; i++) {
             fluidTanks.add(createFluidHandler(capacity));
         }
@@ -49,7 +49,7 @@ public class TeaCupTileEntity extends SyncedBlockEntity {
                 // TeaCupTileEntity.this.refresh();
                 // TeaCupTileEntity.this.markDirty();
                 // super.onContentsChanged();
-                TeaCupTileEntity.this.inventoryChanged();
+                TeaCupBlockEntity.this.inventoryChanged();
             }
 
             @Override

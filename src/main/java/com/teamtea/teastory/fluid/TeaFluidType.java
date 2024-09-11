@@ -11,7 +11,7 @@ import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtension
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
-import com.teamtea.teastory.FluidRegistry;
+import com.teamtea.teastory.registry.FluidRegister;
 
 public class TeaFluidType extends FluidType {
 
@@ -20,7 +20,7 @@ public class TeaFluidType extends FluidType {
     private int colourTint;
 
     public TeaFluidType(Properties properties) {
-        this(properties, FluidRegistry.WATER_STILL_TEXTURE, FluidRegistry.WATER_FLOW_TEXTURE);
+        this(properties, FluidRegister.WATER_STILL_TEXTURE, FluidRegister.WATER_FLOW_TEXTURE);
     }
 
     public TeaFluidType(Properties properties, ResourceLocation stillTexture, ResourceLocation flowingTexture) {

@@ -9,13 +9,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import com.teamtea.teastory.EntityTypeRegistry;
+import com.teamtea.teastory.registry.EntityRegister;
 
 import java.util.List;
 
 public class SeatEntity extends Entity {
     public SeatEntity(Level worldIn) {
-        super(EntityTypeRegistry.SEAT_TYPE.get(), worldIn);
+        super(EntityRegister.SEAT_TYPE.get(), worldIn);
     }
 
     private SeatEntity(Level world, BlockPos pos, double height, double x, double z) {

@@ -24,7 +24,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.neoforged.neoforge.event.entity.player.BonemealEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
-import com.teamtea.teastory.BlockRegister;
+import com.teamtea.teastory.registry.BlockRegister;
 
 import java.util.List;
 

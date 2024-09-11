@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
-import com.teamtea.teastory.RecipeRegister;
+import com.teamtea.teastory.registry.RecipeRegister;
 import com.teamtea.teastory.TeaStory;
 
 

@@ -3,9 +3,9 @@ package com.teamtea.teastory.data.lang;
 
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import com.teamtea.teastory.BlockRegister;
-import com.teamtea.teastory.EntityTypeRegistry;
-import com.teamtea.teastory.ItemRegister;
+import com.teamtea.teastory.registry.BlockRegister;
+import com.teamtea.teastory.registry.EntityRegister;
+import com.teamtea.teastory.registry.ItemRegister;
 import com.teamtea.teastory.TeaStory;
 
 
@@ -17,7 +17,7 @@ public class Lang_ZH extends LangHelper {
 
     @Override
     protected void addTranslations() {
-        add(EntityTypeRegistry.SCARECROW_TYPE.get(), "稻草人");
+        add(EntityRegister.SCARECROW_TYPE.get(), "稻草人");
 
         add(BlockRegister.stone_campfire.get(), "石沿营火");
         add(BlockRegister.cobblestoneAqueduct.get(), "石制水渠");

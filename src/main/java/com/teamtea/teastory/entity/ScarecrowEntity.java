@@ -6,18 +6,18 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import com.teamtea.teastory.EntityTypeRegistry;
+import com.teamtea.teastory.registry.EntityRegister;
 
 import java.util.List;
 
 public class ScarecrowEntity extends ArmorStand {
     public ScarecrowEntity(Level worldIn) {
-        super(EntityTypeRegistry.SCARECROW_TYPE.get(), worldIn);
+        super(EntityRegister.SCARECROW_TYPE.get(), worldIn);
     }
 
     private ScarecrowEntity(Level world, BlockPos pos, double height, double x, double z) {
         // this(world);
-        this(EntityTypeRegistry.SCARECROW_TYPE.get(), world);
+        this(EntityRegister.SCARECROW_TYPE.get(), world);
         this.setPos(pos.getX() + 0.5 + x, pos.getY() + height, pos.getZ() + 0.5 + z);
     }
 

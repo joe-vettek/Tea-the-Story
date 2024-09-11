@@ -1,7 +1,7 @@
 package com.teamtea.teastory.container;
 
 
-import com.teamtea.teastory.blockentity.StoneRollerTileEntity;
+import com.teamtea.teastory.blockentity.StoneRollerBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
@@ -13,7 +13,7 @@ import net.minecraft.world.level.Level;
 
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.SlotItemHandler;
-import com.teamtea.teastory.BlockEntityRegistry;
+import com.teamtea.teastory.registry.BlockEntityRegister;
 import com.teamtea.teastory.client.container.NormalContainer;
 
 import java.util.Optional;
@@ -21,7 +21,7 @@ import java.util.Optional;
 
 public class StoneRollerContainer extends NormalContainer
 {
-    private final StoneRollerTileEntity tileEntity;
+    private final StoneRollerBlockEntity tileEntity;
 
     public StoneRollerContainer(int windowId, Inventory playerInv, FriendlyByteBuf data) {
         this(windowId, playerInv, data.readBlockPos(), playerInv.player.getCommandSenderWorld());
@@ -29,8 +29,8 @@ public class StoneRollerContainer extends NormalContainer
     
     public StoneRollerContainer(int windowId, Inventory inv, BlockPos pos, Level world)
     {
-        super(BlockEntityRegistry.STONE_ROLLER_CONTAINER.get(), windowId, pos, world);
-        this.tileEntity = (StoneRollerTileEntity) getTileEntity();
+        super(BlockEntityRegister.STONE_ROLLER_CONTAINER.get(), windowId, pos, world);
+        this.tileEntity = (StoneRollerBlockEntity) getTileEntity();
         Optional.ofNullable(world.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.UP)).ifPresent(h ->
         {
             addSlot(new SlotItemHandler(h, 0, 55, 38));

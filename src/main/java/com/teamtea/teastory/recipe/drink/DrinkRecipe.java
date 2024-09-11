@@ -21,7 +21,7 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
 import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
-import com.teamtea.teastory.RecipeRegister;
+import com.teamtea.teastory.registry.RecipeRegister;
 
 import java.util.List;
 

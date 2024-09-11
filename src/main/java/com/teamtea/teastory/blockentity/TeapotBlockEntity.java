@@ -13,16 +13,16 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.NotNull;
-import com.teamtea.teastory.FluidRegistry;
-import com.teamtea.teastory.BlockEntityRegistry;
-import com.teamtea.teastory.blockentity.entity.SyncedBlockEntity;
+import com.teamtea.teastory.registry.FluidRegister;
+import com.teamtea.teastory.registry.BlockEntityRegister;
+import com.teamtea.teastory.blockentity.base.SyncedBlockEntity;
 
 
-public class TeapotTileEntity extends SyncedBlockEntity {
+public class TeapotBlockEntity extends SyncedBlockEntity {
     private final FluidTank fluidTank ;
     private final int capacity;
 
-    public TeapotTileEntity(int capacity, BlockPos pos, BlockState state) {
+    public TeapotBlockEntity(int capacity, BlockPos pos, BlockState state) {
         super(getTeapotTileEntityType(capacity), pos, state);
         this.capacity = capacity;
         this.fluidTank= createFluidHandler(capacity);
@@ -30,9 +30,9 @@ public class TeapotTileEntity extends SyncedBlockEntity {
 
     public static BlockEntityType<?> getTeapotTileEntityType(int capacity) {
         if (capacity == 2000) {
-            return BlockEntityRegistry.IRON_KETTLE_TYPE.get();
+            return BlockEntityRegister.IRON_KETTLE_TYPE.get();
         }
-        return BlockEntityRegistry.TEAPOT_TYPE.get();
+        return BlockEntityRegister.TEAPOT_TYPE.get();
     }
 
 
@@ -86,20 +86,20 @@ public class TeapotTileEntity extends SyncedBlockEntity {
         }
     }
 
-    public static void tick(Level level, BlockPos pos, BlockState state, TeapotTileEntity teapotTileEntity) {
+    public static void tick(Level level, BlockPos pos, BlockState state, TeapotBlockEntity teapotTileEntity) {
         if (teapotTileEntity.getFluidTank().getFluid().isEmpty()) return;
-        if (!(level.getBlockEntity(pos.below()) instanceof StoveTileEntity stoveTileEntity)) return;
+        if (!(level.getBlockEntity(pos.below()) instanceof StoveBlockEntity stoveTileEntity)) return;
         // TeaStory.logger(stoveTileEntity.isBurning());
         if (!stoveTileEntity.isBurning()) return;
 
         if (teapotTileEntity.getFluidTank().getFluid().getFluid() == Fluids.WATER) {
-            toNextFluid(level, teapotTileEntity.getFluidTank(), FluidRegistry.WARM_WATER_STILL.get());
-        } else if (teapotTileEntity.getFluidTank().getFluid().getFluid() == FluidRegistry.WARM_WATER_STILL.get()) {
-            toNextFluid(level, teapotTileEntity.getFluidTank(), FluidRegistry.HOT_WATER_60_STILL.get());
-        } else if (teapotTileEntity.getFluidTank().getFluid().getFluid() == FluidRegistry.HOT_WATER_60_STILL.get()) {
-            toNextFluid(level, teapotTileEntity.getFluidTank(), FluidRegistry.HOT_WATER_80_STILL.get());
-        } else if (teapotTileEntity.getFluidTank().getFluid().getFluid() == FluidRegistry.HOT_WATER_80_STILL.get()) {
-            toNextFluid(level, teapotTileEntity.getFluidTank(), FluidRegistry.BOILING_WATER_STILL.get());
+            toNextFluid(level, teapotTileEntity.getFluidTank(), FluidRegister.WARM_WATER_STILL.get());
+        } else if (teapotTileEntity.getFluidTank().getFluid().getFluid() == FluidRegister.WARM_WATER_STILL.get()) {
+            toNextFluid(level, teapotTileEntity.getFluidTank(), FluidRegister.HOT_WATER_60_STILL.get());
+        } else if (teapotTileEntity.getFluidTank().getFluid().getFluid() == FluidRegister.HOT_WATER_60_STILL.get()) {
+            toNextFluid(level, teapotTileEntity.getFluidTank(), FluidRegister.HOT_WATER_80_STILL.get());
+        } else if (teapotTileEntity.getFluidTank().getFluid().getFluid() == FluidRegister.HOT_WATER_80_STILL.get()) {
+            toNextFluid(level, teapotTileEntity.getFluidTank(), FluidRegister.BOILING_WATER_STILL.get());
         }
     }
 

@@ -1,14 +1,14 @@
 package com.teamtea.teastory.recipe.drink;
 
 
-import com.teamtea.teastory.potion.EffectRegistry;
+import com.teamtea.teastory.registry.EffectRegister;
 import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.material.Fluid;
-import com.teamtea.teastory.FluidRegistry;
+import com.teamtea.teastory.registry.FluidRegister;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -23,19 +23,19 @@ public final class DrinkEffectManager {
     }
 
     private static void registerDrinkEffects() {
-        registerEffects(FluidRegistry.SUGARY_WATER_STILL.get(), createSimpleDrinkEffect(MobEffects.MOVEMENT_SPEED, 2, 0));
+        registerEffects(FluidRegister.SUGARY_WATER_STILL.get(), createSimpleDrinkEffect(MobEffects.MOVEMENT_SPEED, 2, 0));
 
-        registerEffects(FluidRegistry.WEAK_GREEN_TEA_STILL.get(), createSimpleDrinkEffect(EffectRegistry.getMobEffect(EffectRegistry.AGILITY), 2, 0));
-        registerEffects(FluidRegistry.GREEN_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(EffectRegistry.getMobEffect(EffectRegistry.AGILITY), 2, 1), new DrinkEffectAttribute(EffectRegistry.getMobEffect(EffectRegistry.EXCITEMENT), 2, 0)));
-        registerEffects(FluidRegistry.STRONG_GREEN_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(EffectRegistry.getMobEffect(EffectRegistry.AGILITY), 2, 2), new DrinkEffectAttribute(EffectRegistry.getMobEffect(EffectRegistry.EXCITEMENT), 4, 0)));
+        registerEffects(FluidRegister.WEAK_GREEN_TEA_STILL.get(), createSimpleDrinkEffect(EffectRegister.getMobEffect(EffectRegister.AGILITY), 2, 0));
+        registerEffects(FluidRegister.GREEN_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(EffectRegister.getMobEffect(EffectRegister.AGILITY), 2, 1), new DrinkEffectAttribute(EffectRegister.getMobEffect(EffectRegister.EXCITEMENT), 2, 0)));
+        registerEffects(FluidRegister.STRONG_GREEN_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(EffectRegister.getMobEffect(EffectRegister.AGILITY), 2, 2), new DrinkEffectAttribute(EffectRegister.getMobEffect(EffectRegister.EXCITEMENT), 4, 0)));
 
-        registerEffects(FluidRegistry.WEAK_BLACK_TEA_STILL.get(), createSimpleDrinkEffect(MobEffects.HEALTH_BOOST, 4, 0));
-        registerEffects(FluidRegistry.BLACK_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(MobEffects.HEALTH_BOOST, 4, 1), new DrinkEffectAttribute(EffectRegistry.getMobEffect(EffectRegistry.EXCITEMENT), 4, 0)));
-        registerEffects(FluidRegistry.STRONG_BLACK_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(MobEffects.HEALTH_BOOST, 4, 2), new DrinkEffectAttribute(EffectRegistry.getMobEffect(EffectRegistry.EXCITEMENT), 8, 0)));
+        registerEffects(FluidRegister.WEAK_BLACK_TEA_STILL.get(), createSimpleDrinkEffect(MobEffects.HEALTH_BOOST, 4, 0));
+        registerEffects(FluidRegister.BLACK_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(MobEffects.HEALTH_BOOST, 4, 1), new DrinkEffectAttribute(EffectRegister.getMobEffect(EffectRegister.EXCITEMENT), 4, 0)));
+        registerEffects(FluidRegister.STRONG_BLACK_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(MobEffects.HEALTH_BOOST, 4, 2), new DrinkEffectAttribute(EffectRegister.getMobEffect(EffectRegister.EXCITEMENT), 8, 0)));
 
-        registerEffects(FluidRegistry.WEAK_WHITE_TEA_STILL.get(), createSimpleDrinkEffect(MobEffects.DIG_SPEED, 2, 0));
-        registerEffects(FluidRegistry.WHITE_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(MobEffects.DIG_SPEED, 2, 1), new DrinkEffectAttribute(EffectRegistry.getMobEffect(EffectRegistry.EXCITEMENT), 2, 0)));
-        registerEffects(FluidRegistry.STRONG_WHITE_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(MobEffects.DIG_SPEED, 2, 2), new DrinkEffectAttribute(EffectRegistry.getMobEffect(EffectRegistry.EXCITEMENT), 4, 0)));
+        registerEffects(FluidRegister.WEAK_WHITE_TEA_STILL.get(), createSimpleDrinkEffect(MobEffects.DIG_SPEED, 2, 0));
+        registerEffects(FluidRegister.WHITE_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(MobEffects.DIG_SPEED, 2, 1), new DrinkEffectAttribute(EffectRegister.getMobEffect(EffectRegister.EXCITEMENT), 2, 0)));
+        registerEffects(FluidRegister.STRONG_WHITE_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(MobEffects.DIG_SPEED, 2, 2), new DrinkEffectAttribute(EffectRegister.getMobEffect(EffectRegister.EXCITEMENT), 4, 0)));
     }
 
     public static void registerEffects(Fluid fluid, BiConsumer<LivingEntity, Integer> doEffects) {

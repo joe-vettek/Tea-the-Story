@@ -12,7 +12,7 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
-import com.teamtea.teastory.RecipeRegister;
+import com.teamtea.teastory.registry.RecipeRegister;
 
 import java.util.List;
 

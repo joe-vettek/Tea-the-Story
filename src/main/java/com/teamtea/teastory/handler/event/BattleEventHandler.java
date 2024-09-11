@@ -5,7 +5,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
-import com.teamtea.teastory.ItemRegister;
+import com.teamtea.teastory.registry.ItemRegister;
 
 public final class BattleEventHandler
 {

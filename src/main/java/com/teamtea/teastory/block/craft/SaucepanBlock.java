@@ -26,7 +26,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.Nullable;
-import com.teamtea.teastory.ItemRegister;
+import com.teamtea.teastory.registry.ItemRegister;
 import com.teamtea.teastory.block.NormalHorizontalBlock;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.shapes.VoxelShape;

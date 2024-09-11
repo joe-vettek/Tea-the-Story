@@ -2,7 +2,7 @@ package com.teamtea.teastory.recipe.bamboo_tray;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
-import com.teamtea.teastory.RecipeRegister;
+import com.teamtea.teastory.registry.RecipeRegister;
 
 public class BambooTrayOutdoorsRecipe extends BambooTraySingleInRecipe
 {

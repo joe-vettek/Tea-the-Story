@@ -3,7 +3,7 @@ package com.teamtea.teastory.item;
 
 import net.minecraft.world.item.context.UseOnContext;
 import net.neoforged.neoforge.fluids.*;
-import com.teamtea.teastory.tag.NormalTags;
+import com.teamtea.teastory.tag.TeaTags;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -18,8 +18,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import com.teamtea.teastory.FluidRegistry;
-import com.teamtea.teastory.ModCapabilities;
+import com.teamtea.teastory.registry.FluidRegister;
+import com.teamtea.teastory.registry.ModCapabilities;
 
 import java.util.List;
 
@@ -88,8 +88,8 @@ public class TeapotItem extends BlockItem implements FluidContainerItem {
 
     public void fillItemGroup(CreativeModeTab.Output group) {
         // for (Fluid fluid : FluidTags.getCollection().getTagByID(new ResourceLocation("teastory:drink")).getAllElements())
-        for (var fluid : FluidRegistry.FLUIDS.getEntries()) {
-            if (fluid.is(NormalTags.Fluids.DRINK))
+        for (var fluid : FluidRegister.FLUIDS.getEntries()) {
+            if (fluid.is(TeaTags.Fluids.DRINK))
                 if (fluid.get() instanceof BaseFlowingFluid.Source) {
                     ItemStack itemStack = new ItemStack(this);
                     itemStack.set(ModCapabilities.SIMPLE_FLUID, SimpleFluidContent.copyOf(new FluidStack(fluid.get(), capacity)));

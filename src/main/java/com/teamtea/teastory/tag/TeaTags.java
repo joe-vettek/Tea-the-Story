@@ -11,7 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.material.Fluid;
 import com.teamtea.teastory.TeaStory;
 
-public final class NormalTags {
+public final class TeaTags {
     public static class Items {
         public final static TagKey<Item> ARID = ItemTags.create(TeaStory.rl("crops/arid_arid"));
         public final static TagKey<Item> ARID_DRY = ItemTags.create(TeaStory.rl("crops/arid_dry"));

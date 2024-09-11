@@ -7,7 +7,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FireBlock;
 import net.neoforged.neoforge.event.level.BlockEvent;
-import com.teamtea.teastory.ItemRegister;
+import com.teamtea.teastory.registry.ItemRegister;
 
 
 public final class BlockEventHandler

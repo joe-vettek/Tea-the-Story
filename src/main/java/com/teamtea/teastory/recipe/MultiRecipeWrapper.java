@@ -1,4 +1,4 @@
-package com.teamtea.teastory.craft;
+package com.teamtea.teastory.recipe;
 
 
 import net.minecraft.world.item.ItemStack;

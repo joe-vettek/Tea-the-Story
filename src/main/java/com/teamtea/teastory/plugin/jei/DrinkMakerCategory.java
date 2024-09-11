@@ -18,7 +18,7 @@ import net.minecraft.network.chat.Component;
 
 import net.neoforged.neoforge.fluids.FluidStack;
 import com.teamtea.teastory.TeaStory;
-import com.teamtea.teastory.BlockEntityRegistry;
+import com.teamtea.teastory.registry.BlockEntityRegister;
 
 
 public class DrinkMakerCategory implements IRecipeCategory<DrinkRecipe>
@@ -29,7 +29,7 @@ public class DrinkMakerCategory implements IRecipeCategory<DrinkRecipe>
     public DrinkMakerCategory(IGuiHelper guiHelper)
     {
         this.guiHelper = guiHelper;
-        icon = guiHelper.createDrawableItemStack(BlockEntityRegistry.DRINK_MAKER_ITEM.get().getDefaultInstance());
+        icon = guiHelper.createDrawableItemStack(BlockEntityRegister.DRINK_MAKER_ITEM.get().getDefaultInstance());
     }
 
 

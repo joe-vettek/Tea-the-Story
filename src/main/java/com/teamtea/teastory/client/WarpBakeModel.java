@@ -25,7 +25,7 @@ import net.neoforged.neoforge.client.model.data.ModelData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.teamtea.teastory.TeaStory;
-import com.teamtea.teastory.blockentity.VineEntity;
+import com.teamtea.teastory.blockentity.VineBlockEntity;
 
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
@@ -88,7 +88,7 @@ public class WarpBakeModel implements IDynamicBakedModel {
                 if (state.getValue(TrellisBlock.POST)) {
                     int age = 0;
                     try {
-                        age = extraData.get(VineEntity.AGE_PROPERTY);
+                        age = extraData.get(VineBlockEntity.AGE_PROPERTY);
                     } catch (Exception e) {
                     }
 
@@ -136,8 +136,8 @@ public class WarpBakeModel implements IDynamicBakedModel {
 
     @Override
     public @NotNull ModelData getModelData(@NotNull BlockAndTintGetter level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull ModelData modelData) {
-        if (level.getBlockEntity(pos) instanceof VineEntity vineEntity)
-            return modelData.derive().with(VineEntity.AGE_PROPERTY, vineEntity.getAge()).build();
+        if (level.getBlockEntity(pos) instanceof VineBlockEntity vineEntity)
+            return modelData.derive().with(VineBlockEntity.AGE_PROPERTY, vineEntity.getAge()).build();
         return modelData;
     }
 

@@ -1,6 +1,6 @@
 package com.teamtea.teastory.client.gui;
 
-import com.teamtea.teastory.blockentity.StoneMillTileEntity;
+import com.teamtea.teastory.blockentity.StoneMillBlockEntity;
 import com.teamtea.teastory.container.StoneMillContainer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -47,10 +47,10 @@ public class StoneMillGui extends AbstractContainerScreen<StoneMillContainer> {
         matrixStack.blit(TEXTURE, offsetX, offsetY, 0, 0, imageWidth, imageHeight);
 
         int totalTicks = 0;
-        if (((StoneMillTileEntity) this.container.getTileEntity()).getCurrentRecipe() != null) {
-            totalTicks = ((StoneMillTileEntity) this.container.getTileEntity()).getCurrentRecipe().getWorkTime();
+        if (((StoneMillBlockEntity) this.container.getTileEntity()).getCurrentRecipe() != null) {
+            totalTicks = ((StoneMillBlockEntity) this.container.getTileEntity()).getCurrentRecipe().getWorkTime();
         }
-        int processTicks = ((StoneMillTileEntity) this.container.getTileEntity()).getProcessTicks();
+        int processTicks = ((StoneMillBlockEntity) this.container.getTileEntity()).getProcessTicks();
         int textureWidth = 0;
         if (totalTicks != 0) {
             textureWidth = (int) Math.ceil(22.0 * processTicks / totalTicks);
@@ -97,7 +97,7 @@ public class StoneMillGui extends AbstractContainerScreen<StoneMillContainer> {
         int offsetX = (width - imageWidth) / 2, offsetY = (height - imageHeight) / 2;
         if (offsetX + 37 < mouseX && mouseX < offsetX + 37 + 16
                 && offsetY + 20 < mouseY && mouseY < offsetY + 12 + 60)
-            matrixStack.renderComponentTooltip(this.font, List.of(((StoneMillTileEntity) this.container.getTileEntity()).getFluidTank().getFluid().getHoverName()), mouseX, mouseY);
+            matrixStack.renderComponentTooltip(this.font, List.of(((StoneMillBlockEntity) this.container.getTileEntity()).getFluidTank().getFluid().getHoverName()), mouseX, mouseY);
 
     }
 }

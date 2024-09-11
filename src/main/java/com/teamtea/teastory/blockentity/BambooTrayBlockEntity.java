@@ -19,14 +19,14 @@ import net.neoforged.neoforge.common.util.INBTSerializable;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import org.jetbrains.annotations.NotNull;
-import com.teamtea.teastory.RecipeRegister;
-import com.teamtea.teastory.BlockEntityRegistry;
-import com.teamtea.teastory.blockentity.entity.NormalContainerTileEntity;
+import com.teamtea.teastory.registry.RecipeRegister;
+import com.teamtea.teastory.registry.BlockEntityRegister;
+import com.teamtea.teastory.blockentity.base.NormalContainerTileEntity;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class BambooTrayTileEntity extends NormalContainerTileEntity {
+public class BambooTrayBlockEntity extends NormalContainerTileEntity {
     private int processTicks = 0;
     private int totalTicks = 0;
 
@@ -38,8 +38,8 @@ public class BambooTrayTileEntity extends NormalContainerTileEntity {
     private final ItemStackHandler containerInventory = createHandler();
     private BambooTraySingleInRecipe currentRecipe;
 
-    public BambooTrayTileEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityRegistry.BAMBOO_TRAY_TYPE.get(), pos, state);
+    public BambooTrayBlockEntity(BlockPos pos, BlockState state) {
+        super(BlockEntityRegister.BAMBOO_TRAY_TYPE.get(), pos, state);
     }
 
 
@@ -69,7 +69,7 @@ public class BambooTrayTileEntity extends NormalContainerTileEntity {
     }
 
 
-    public static void tick(Level worldIn, BlockPos pos, BlockState blockState, BambooTrayTileEntity tileEntity) {
+    public static void tick(Level worldIn, BlockPos pos, BlockState blockState, BambooTrayBlockEntity tileEntity) {
         if (tileEntity.doubleClickTicks > 0) {
             tileEntity.doubleClickTicks--;
         }

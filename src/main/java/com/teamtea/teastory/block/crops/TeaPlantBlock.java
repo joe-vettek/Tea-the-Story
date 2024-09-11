@@ -30,8 +30,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.EventHooks;
-import com.teamtea.teastory.ItemRegister;
-import com.teamtea.teastory.BlockRegister;
+import com.teamtea.teastory.registry.ItemRegister;
+import com.teamtea.teastory.registry.BlockRegister;
 
 public class TeaPlantBlock extends BushBlock implements BonemealableBlock {
     public static final MapCodec<TeaPlantBlock> CODEC = simpleCodec(TeaPlantBlock::new);

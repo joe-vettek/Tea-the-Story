@@ -1,7 +1,7 @@
 package com.teamtea.teastory.block.drink;
 
 import com.teamtea.teastory.block.BlockHelper;
-import com.teamtea.teastory.blockentity.DrinkMakerTileEntity;
+import com.teamtea.teastory.blockentity.DrinkMakerBlockEntity;
 import com.teamtea.teastory.helper.VoxelShapeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -32,7 +32,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import org.jetbrains.annotations.Nullable;
-import com.teamtea.teastory.BlockEntityRegistry;
+import com.teamtea.teastory.registry.BlockEntityRegister;
 import com.teamtea.teastory.block.NormalHorizontalBlock;
 
 import java.util.Optional;
@@ -168,9 +168,9 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
 
     private void dropItems(Level worldIn, BlockPos pos) {
         BlockEntity te = worldIn.getBlockEntity(pos);
-        if (te instanceof DrinkMakerTileEntity) {
+        if (te instanceof DrinkMakerBlockEntity) {
             for (int i = 0; i < 11; i++) {
-                ItemStack stack = ((DrinkMakerTileEntity) te).decrStackSize(i, Integer.MAX_VALUE);
+                ItemStack stack = ((DrinkMakerBlockEntity) te).decrStackSize(i, Integer.MAX_VALUE);
                 if (stack != ItemStack.EMPTY) {
                     Block.popResource(worldIn, pos, stack);
                 }
@@ -204,7 +204,7 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
                 pos = pos.relative(BlockHelper.getPreviousHorizontal(state.getValue(FACING)));
             }
             BlockEntity te = worldIn.getBlockEntity(pos);
-            if (te instanceof DrinkMakerTileEntity) {
+            if (te instanceof DrinkMakerBlockEntity) {
                 // ((DrinkMakerTileEntity) te).requestModelDataUpdate();
                 pPlayer.openMenu((MenuProvider) te, pos);
             }
@@ -224,7 +224,7 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return state.getValue(LEFT) ? new DrinkMakerTileEntity(pos, state) : null;
+        return state.getValue(LEFT) ? new DrinkMakerBlockEntity(pos, state) : null;
     }
 
     @Nullable
@@ -232,6 +232,6 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level worldIn, BlockState state, BlockEntityType<T> blockEntityType) {
         // return null;
         return !worldIn.isClientSide && state.getValue(LEFT) ?
-                NormalHorizontalBlock.createTickerHelper(blockEntityType, BlockEntityRegistry.DRINK_MAKER_TYPE.get(), DrinkMakerTileEntity::tick) : null;
+                NormalHorizontalBlock.createTickerHelper(blockEntityType, BlockEntityRegister.DRINK_MAKER_TYPE.get(), DrinkMakerBlockEntity::tick) : null;
     }
 }

@@ -1,6 +1,6 @@
 package com.teamtea.teastory.block.drink;
 
-import com.teamtea.teastory.blockentity.TeapotTileEntity;
+import com.teamtea.teastory.blockentity.TeapotBlockEntity;
 import com.teamtea.teastory.fluid.HotWaterFlowingFluidBlock;
 import com.teamtea.teastory.helper.VoxelShapeHelper;
 import net.minecraft.core.BlockPos;
@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
-import com.teamtea.teastory.BlockEntityRegistry;
+import com.teamtea.teastory.registry.BlockEntityRegister;
 import com.teamtea.teastory.block.NormalHorizontalBlock;
 
 public class IronKettleBlock extends TeapotBlock implements EntityBlock {
@@ -37,7 +37,7 @@ public class IronKettleBlock extends TeapotBlock implements EntityBlock {
     @Override
     public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand) {
         var tileentity = worldIn.getBlockEntity(pos);
-        if (tileentity instanceof TeapotTileEntity && ((TeapotTileEntity) tileentity).getFluid().getFluidType().getTemperature() >= 333) {
+        if (tileentity instanceof TeapotBlockEntity && ((TeapotBlockEntity) tileentity).getFluid().getFluidType().getTemperature() >= 333) {
             double d0 = pos.getX() + 0.5D;
             double d1 = pos.getY() + rand.nextDouble() * 6.0D / 16.0D;
             double d2 = pos.getZ() + 0.5D;
@@ -57,7 +57,7 @@ public class IronKettleBlock extends TeapotBlock implements EntityBlock {
     public void entityInside(BlockState p_60495_, Level worldIn, BlockPos pos, Entity entityIn) {
         if (entityIn instanceof LivingEntity) {
             var te = worldIn.getBlockEntity(pos);
-            if (te instanceof TeapotTileEntity && ((TeapotTileEntity) te).getFluid().getFluidType().getTemperature() >= 333) {
+            if (te instanceof TeapotBlockEntity && ((TeapotBlockEntity) te).getFluid().getFluidType().getTemperature() >= 333) {
                 entityIn.hurt(HotWaterFlowingFluidBlock.getBoiling(worldIn), 1.0F);
             }
         }
@@ -65,13 +65,13 @@ public class IronKettleBlock extends TeapotBlock implements EntityBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return BlockEntityRegistry.IRON_KETTLE_TYPE.get().create(blockPos, blockState);
+        return BlockEntityRegister.IRON_KETTLE_TYPE.get().create(blockPos, blockState);
     }
 
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
         return !pLevel.isClientSide ?
-                NormalHorizontalBlock.createTickerHelper(pBlockEntityType, BlockEntityRegistry.IRON_KETTLE_TYPE.get(), TeapotTileEntity::tick) : null;
+                NormalHorizontalBlock.createTickerHelper(pBlockEntityType, BlockEntityRegister.IRON_KETTLE_TYPE.get(), TeapotBlockEntity::tick) : null;
 
     }
 }

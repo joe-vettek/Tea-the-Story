@@ -1,6 +1,7 @@
-package com.teamtea.teastory;
+package com.teamtea.teastory.registry;
 
 import com.mojang.serialization.MapCodec;
+import com.teamtea.teastory.TeaStory;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;

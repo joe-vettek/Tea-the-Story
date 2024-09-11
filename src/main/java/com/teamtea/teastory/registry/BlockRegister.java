@@ -1,6 +1,7 @@
-package com.teamtea.teastory;
+package com.teamtea.teastory.registry;
 
 
+import com.teamtea.teastory.TeaStory;
 import com.teamtea.teastory.block.craft.*;
 import com.teamtea.teastory.block.crops.*;
 import com.teamtea.teastory.block.decorations.*;

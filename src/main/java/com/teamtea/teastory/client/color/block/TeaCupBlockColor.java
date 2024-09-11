@@ -1,6 +1,6 @@
 package com.teamtea.teastory.client.color.block;
 
-import com.teamtea.teastory.blockentity.TeaCupTileEntity;
+import com.teamtea.teastory.blockentity.TeaCupBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.core.BlockPos;
@@ -16,12 +16,12 @@ public class TeaCupBlockColor implements BlockColor {
 
                 var world = Minecraft.getInstance().level;
                 var te = world.getBlockEntity(pos);
-                if (te instanceof TeaCupTileEntity) {
+                if (te instanceof TeaCupBlockEntity) {
                     int drink = 0;
                     int t = tintindex;
                     int color;
                     do {
-                        color = IClientFluidTypeExtensions.of(((TeaCupTileEntity) te).getFluid(drink)).getTintColor();
+                        color = IClientFluidTypeExtensions.of(((TeaCupBlockEntity) te).getFluid(drink)).getTintColor();
                         drink++;
                         if (color != 0) {
                             t--;

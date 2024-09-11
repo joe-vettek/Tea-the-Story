@@ -1,7 +1,7 @@
 package com.teamtea.teastory.client.render;
 
 
-import com.teamtea.teastory.blockentity.StoneRollerTileEntity;
+import com.teamtea.teastory.blockentity.StoneRollerBlockEntity;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -11,15 +11,15 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import com.teamtea.teastory.ItemRegister;
+import com.teamtea.teastory.registry.ItemRegister;
 
 
-public class StoneRollerTESR implements BlockEntityRenderer<StoneRollerTileEntity> {
+public class StoneRollerTESR implements BlockEntityRenderer<StoneRollerBlockEntity> {
     public StoneRollerTESR(BlockEntityRendererProvider.Context pContext) {
     }
 
     @Override
-    public void render(StoneRollerTileEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(StoneRollerBlockEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         Minecraft mc = Minecraft.getInstance();
 
         ItemRenderer renderItem = mc.getItemRenderer();

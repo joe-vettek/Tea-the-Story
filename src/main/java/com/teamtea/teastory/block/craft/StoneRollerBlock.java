@@ -1,6 +1,6 @@
 package com.teamtea.teastory.block.craft;
 
-import com.teamtea.teastory.blockentity.StoneRollerTileEntity;
+import com.teamtea.teastory.blockentity.StoneRollerBlockEntity;
 import com.teamtea.teastory.helper.VoxelShapeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -22,7 +22,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import org.jetbrains.annotations.Nullable;
-import com.teamtea.teastory.BlockEntityRegistry;
+import com.teamtea.teastory.registry.BlockEntityRegister;
 import com.teamtea.teastory.block.NormalHorizontalBlock;
 
 import java.util.Optional;
@@ -79,7 +79,7 @@ public class StoneRollerBlock extends Block implements EntityBlock {
         if (!worldIn.isClientSide()) {
             var te = worldIn.getBlockEntity(pos);
             var handIn = playerIn.getUsedItemHand();
-            if (te instanceof StoneRollerTileEntity) {
+            if (te instanceof StoneRollerBlockEntity) {
                 if (!playerIn.isShiftKeyDown()) {
                     if (!playerIn.getItemInHand(handIn).isEmpty()) {
                         return Optional.ofNullable(worldIn.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.UP)).map(container ->
@@ -99,7 +99,7 @@ public class StoneRollerBlock extends Block implements EntityBlock {
                         });
                         Optional.ofNullable(worldIn.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.UP)).ifPresent(container ->
                         {
-                            if (((StoneRollerTileEntity) te).isCompleted()) {
+                            if (((StoneRollerBlockEntity) te).isCompleted()) {
                                 ItemStack itemStack = container.extractItem(0, container.getStackInSlot(0).getCount(), false);
                                 Block.popResource(worldIn, pos, itemStack);
                             }
@@ -118,13 +118,13 @@ public class StoneRollerBlock extends Block implements EntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos p_153215_, BlockState p_153216_) {
-        return new StoneRollerTileEntity(p_153215_, p_153216_);
+        return new StoneRollerBlockEntity(p_153215_, p_153216_);
     }
 
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level worldIn, BlockState state, BlockEntityType<T> blockEntityType) {
-        return NormalHorizontalBlock.createTickerHelper(blockEntityType, BlockEntityRegistry.STONE_ROLLER_TYPE.get(), StoneRollerTileEntity::tick);
+        return NormalHorizontalBlock.createTickerHelper(blockEntityType, BlockEntityRegister.STONE_ROLLER_TYPE.get(), StoneRollerBlockEntity::tick);
         // return !worldIn.isClientSide ?
         //         NormalHorizontalBlock.createTickerHelper(blockEntityType, TileEntityTypeRegistry.STONE_ROLLER_TYPE.get(), StoneRollerTileEntity::tick) : null;
     }

@@ -1,7 +1,7 @@
 package com.teamtea.teastory.client.render;
 
 
-import com.teamtea.teastory.blockentity.StoveTileEntity;
+import com.teamtea.teastory.blockentity.StoveBlockEntity;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -14,13 +14,13 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
 
-public class StoveTESR implements BlockEntityRenderer<StoveTileEntity> {
+public class StoveTESR implements BlockEntityRenderer<StoveBlockEntity> {
     public StoveTESR(BlockEntityRendererProvider.Context pContext) {
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public void render(StoveTileEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(StoveBlockEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         Minecraft mc = Minecraft.getInstance();
 
         NonNullList<ItemStack> list = tileEntityIn.getContents();

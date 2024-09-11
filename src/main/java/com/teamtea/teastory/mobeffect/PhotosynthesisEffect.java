@@ -1,4 +1,4 @@
-package com.teamtea.teastory.potion;
+package com.teamtea.teastory.mobeffect;
 
 
 import net.minecraft.core.BlockPos;

@@ -14,11 +14,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
-import com.teamtea.teastory.RecipeRegister;
-import com.teamtea.teastory.BlockEntityRegistry;
-import com.teamtea.teastory.blockentity.entity.NormalContainerTileEntity;
+import com.teamtea.teastory.registry.RecipeRegister;
+import com.teamtea.teastory.registry.BlockEntityRegister;
+import com.teamtea.teastory.blockentity.base.NormalContainerTileEntity;
 
-public class StoneRollerTileEntity extends NormalContainerTileEntity {
+public class StoneRollerBlockEntity extends NormalContainerTileEntity {
     private int woodenFrameAngel = 0;
     private int stoneAngel = 0;
     private boolean isWorking = false;
@@ -29,8 +29,8 @@ public class StoneRollerTileEntity extends NormalContainerTileEntity {
     private final ItemStackHandler inputInventory;
     private final ItemStackHandler outputInventory;
 
-    public StoneRollerTileEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityRegistry.STONE_ROLLER_TYPE.get(), pos, state);
+    public StoneRollerBlockEntity(BlockPos pos, BlockState state) {
+        super(BlockEntityRegister.STONE_ROLLER_TYPE.get(), pos, state);
         this.inputInventory = new SyncedItemStackHandler();
         this.outputInventory = new SyncedItemStackHandler(3);
     }
@@ -76,7 +76,7 @@ public class StoneRollerTileEntity extends NormalContainerTileEntity {
     }
 
 
-    public static void tick(Level worldIn, BlockPos pos, BlockState blockState, StoneRollerTileEntity stoneRollerTileEntity) {
+    public static void tick(Level worldIn, BlockPos pos, BlockState blockState, StoneRollerBlockEntity stoneRollerTileEntity) {
         ItemStack input = stoneRollerTileEntity.getStackInSlot(0);
         if (input.isEmpty()) {
             stoneRollerTileEntity.setProcessTicks(0);

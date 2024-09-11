@@ -1,7 +1,7 @@
 package com.teamtea.teastory.block.drink;
 
 
-import com.teamtea.teastory.blockentity.TeaCupTileEntity;
+import com.teamtea.teastory.blockentity.TeaCupBlockEntity;
 import com.teamtea.teastory.helper.VoxelShapeHelper;
 
 import net.minecraft.core.BlockPos;
@@ -30,9 +30,9 @@ import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.Nullable;
-import com.teamtea.teastory.ItemRegister;
-import com.teamtea.teastory.ModCapabilities;
-import com.teamtea.teastory.BlockEntityRegistry;
+import com.teamtea.teastory.registry.ItemRegister;
+import com.teamtea.teastory.registry.ModCapabilities;
+import com.teamtea.teastory.registry.BlockEntityRegister;
 
 
 public class WoodenTrayBlock extends Block implements EntityBlock {
@@ -70,15 +70,15 @@ public class WoodenTrayBlock extends Block implements EntityBlock {
     @Override
     protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
         var te = pLevel.getBlockEntity(pPos);
-        if (te instanceof TeaCupTileEntity) {
+        if (te instanceof TeaCupBlockEntity) {
             {
                 int index = pState.getValue(CUP);
-                if (!setCup((TeaCupTileEntity) te, index, pStack, pLevel, pPos, pState)) {
-                    if (pStack.getItem() == BlockEntityRegistry.PORCELAIN_TEAPOT.get()) {
+                if (!setCup((TeaCupBlockEntity) te, index, pStack, pLevel, pPos, pState)) {
+                    if (pStack.getItem() == BlockEntityRegister.PORCELAIN_TEAPOT.get()) {
                         FluidUtil.getFluidHandler(pStack.copy()).ifPresent(item ->
                         {
                             for (int i = 0; i < 3; i++) {
-                                FluidTank tank = ((TeaCupTileEntity) te).getFluidTank(i);
+                                FluidTank tank = ((TeaCupBlockEntity) te).getFluidTank(i);
                                 if (tank.isEmpty()) {
                                     if (FluidUtil.interactWithFluidHandler(pPlayer, pHand, tank)) {
                                         if (pState.getValue(DRINK) + 1 <= 3) {
@@ -100,10 +100,10 @@ public class WoodenTrayBlock extends Block implements EntityBlock {
     @Override
     protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
         var te = pLevel.getBlockEntity(pPos);
-        if (te instanceof TeaCupTileEntity) {
+        if (te instanceof TeaCupBlockEntity) {
             int index = pState.getValue(CUP) - 1;
             if (index > -1) {
-                ItemStack itemStack = getCup((TeaCupTileEntity) te, index);
+                ItemStack itemStack = getCup((TeaCupBlockEntity) te, index);
                 ItemHandlerHelper.giveItemToPlayer(pPlayer, itemStack);
                 if (itemStack.getItem() == ItemRegister.PORCELAIN_CUP.get()) {
                     pLevel.setBlockAndUpdate(pPos, pState.setValue(CUP, pState.getValue(CUP) - 1));
@@ -117,7 +117,7 @@ public class WoodenTrayBlock extends Block implements EntityBlock {
     }
 
 
-    public boolean setCup(TeaCupTileEntity te, int index, ItemStack itemStack, Level world, BlockPos pos, BlockState state) {
+    public boolean setCup(TeaCupBlockEntity te, int index, ItemStack itemStack, Level world, BlockPos pos, BlockState state) {
         if (index >= 3) {
             return false;
         }
@@ -138,7 +138,7 @@ public class WoodenTrayBlock extends Block implements EntityBlock {
         } else return false;
     }
 
-    public ItemStack getCup(TeaCupTileEntity te, int index) {
+    public ItemStack getCup(TeaCupBlockEntity te, int index) {
         if (index > 3) {
             return ItemStack.EMPTY;
         }
@@ -159,10 +159,10 @@ public class WoodenTrayBlock extends Block implements EntityBlock {
     public void onRemove(BlockState state, Level pLevel, BlockPos pos, BlockState pNewState, boolean pMovedByPiston) {
         if (!pNewState.is(this)) {
             var tileEntity = pLevel.getBlockEntity(pos);
-            if (tileEntity instanceof TeaCupTileEntity) {
+            if (tileEntity instanceof TeaCupBlockEntity) {
                 for (int i = 0; i < 3; i++) {
                     if (!pLevel.isClientSide() && state.getValue(CUP) > i) {
-                        Block.popResource(pLevel, pos, getCup((TeaCupTileEntity) tileEntity, i));
+                        Block.popResource(pLevel, pos, getCup((TeaCupBlockEntity) tileEntity, i));
                     }
                 }
             }
@@ -173,6 +173,6 @@ public class WoodenTrayBlock extends Block implements EntityBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return BlockEntityRegistry.WOODEN_TRAY_TYPE.get().create(blockPos, blockState);
+        return BlockEntityRegister.WOODEN_TRAY_TYPE.get().create(blockPos, blockState);
     }
 }

@@ -4,6 +4,7 @@ package com.teamtea.teastory;
 import com.teamtea.teastory.block.crops.VineInfoManager;
 import com.teamtea.teastory.config.NormalConfigs;
 import com.teamtea.teastory.recipe.drink.DrinkEffectManager;
+import com.teamtea.teastory.registry.*;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -73,23 +74,23 @@ public class TeaStory {
         BlockRegister.ModBlocks.register(modEventBus);
         BlockRegister.ModItems.register(modEventBus);
 
-        BlockEntityRegistry.DRBlockEntities.register(modEventBus);
-        BlockEntityRegistry.ModBlocks.register(modEventBus);
-        BlockEntityRegistry.ModItems.register(modEventBus);
-        BlockEntityRegistry.DRMenuType.register(modEventBus);
+        BlockEntityRegister.DRBlockEntities.register(modEventBus);
+        BlockEntityRegister.ModBlocks.register(modEventBus);
+        BlockEntityRegister.ModItems.register(modEventBus);
+        BlockEntityRegister.DRMenuType.register(modEventBus);
 
 
         ItemRegister.ModItems.register(modEventBus);
 
-        FluidRegistry.BLOCKS.register(modEventBus);
-        FluidRegistry.ITEMS.register(modEventBus);
-        FluidRegistry.FLUIDS.register(modEventBus);
-        FluidRegistry.FLUID_TYPES.register(modEventBus);
+        FluidRegister.BLOCKS.register(modEventBus);
+        FluidRegister.ITEMS.register(modEventBus);
+        FluidRegister.FLUIDS.register(modEventBus);
+        FluidRegister.FLUID_TYPES.register(modEventBus);
 
         RecipeRegister.DRRecipeSerializer.register(modEventBus);
         RecipeRegister.DRRecipeType.register(modEventBus);
 
-        EntityTypeRegistry.ENTITY_TYPE_DEFERRED_REGISTER.register(modEventBus);
+        EntityRegister.ENTITY_TYPE_DEFERRED_REGISTER.register(modEventBus);
 
         LootRegister.LOOT_MODIFIERS.register(modEventBus);
 

@@ -1,6 +1,8 @@
-package com.teamtea.teastory.potion;
+package com.teamtea.teastory.registry;
 
 
+import com.teamtea.teastory.TeaStory;
+import com.teamtea.teastory.mobeffect.PhotosynthesisEffect;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -10,10 +12,9 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.registries.RegisterEvent;
-import com.teamtea.teastory.TeaStory;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
-public final class EffectRegistry {
+public final class EffectRegister {
     public static final MobEffect AGILITY = new MobEffect(MobEffectCategory.BENEFICIAL, 0x828282);
     public static final MobEffect PHOTOSYNTHESIS = new PhotosynthesisEffect(MobEffectCategory.BENEFICIAL, 0x828282);
     public static final MobEffect LIFE_DRAIN = new MobEffect(MobEffectCategory.BENEFICIAL, 0x828282);

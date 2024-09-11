@@ -1,5 +1,6 @@
 package com.teamtea.teastory.resource;
 
+import net.minecraft.server.packs.CompositePackResources;
 import net.minecraft.server.packs.PackLocationInfo;
 import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PathPackResources;
@@ -20,13 +21,13 @@ public  class PathResourcesSupplier implements Pack.ResourcesSupplier {
     }
 
     @Override
-    public ClientModFilePackResources openPrimary(PackLocationInfo pLocation) {
+    public PackResources openPrimary(PackLocationInfo pLocation) {
         return new ClientModFilePackResources(pLocation,this.modFile, this.content.toString());
     }
 
     @Override
-    public ClientModFilePackResources openFull(PackLocationInfo pLocation, Pack.Metadata pMetadata) {
-        ClientModFilePackResources packresources = this.openPrimary(pLocation);
+    public PackResources openFull(PackLocationInfo pLocation, Pack.Metadata pMetadata) {
+        PackResources packresources = this.openPrimary(pLocation);
         List<String> list = pMetadata.overlays();
         if (list.isEmpty()) {
             return packresources;
@@ -36,8 +37,7 @@ public  class PathResourcesSupplier implements Pack.ResourcesSupplier {
                 Path path = this.content.resolve(s);
                 list1.add(new PathPackResources(pLocation, path));
             }
-            // return new CompositePackResources(packresources, list1);
-            return null;
+            return new CompositePackResources(packresources, list1);
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.teamtea.teastory.client.gui;
 
 
-import com.teamtea.teastory.blockentity.StoneRollerTileEntity;
+import com.teamtea.teastory.blockentity.StoneRollerBlockEntity;
 import com.teamtea.teastory.container.StoneRollerContainer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -47,11 +47,11 @@ public class StoneRollerGui extends AbstractContainerScreen<StoneRollerContainer
         matrixStack.blit(TEXTURE, offsetX, offsetY, 0, 0, imageWidth, imageHeight);
 
         int totalTicks = 0;
-        if (((StoneRollerTileEntity)this.container.getTileEntity()).getCurrentRecipe() != null)
+        if (((StoneRollerBlockEntity)this.container.getTileEntity()).getCurrentRecipe() != null)
         {
-            totalTicks = ((StoneRollerTileEntity)this.container.getTileEntity()).getCurrentRecipe().getWorkTime();
+            totalTicks = ((StoneRollerBlockEntity)this.container.getTileEntity()).getCurrentRecipe().getWorkTime();
         }
-        int processTicks =  ((StoneRollerTileEntity)this.container.getTileEntity()).getProcessTicks();
+        int processTicks =  ((StoneRollerBlockEntity)this.container.getTileEntity()).getProcessTicks();
         int textureWidth = 0;
         if (totalTicks != 0)
         {

@@ -1,7 +1,7 @@
 package com.teamtea.teastory.client.render;
 
 
-import com.teamtea.teastory.blockentity.StoneMillTileEntity;
+import com.teamtea.teastory.blockentity.StoneMillBlockEntity;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -20,16 +20,16 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
-import com.teamtea.teastory.ItemRegister;
+import com.teamtea.teastory.registry.ItemRegister;
 import com.teamtea.teastory.block.NormalHorizontalBlock;
 
-public class StoneMillTESR implements BlockEntityRenderer<StoneMillTileEntity> {
+public class StoneMillTESR implements BlockEntityRenderer<StoneMillBlockEntity> {
     public StoneMillTESR(BlockEntityRendererProvider.Context pContext) {
 
     }
 
     @Override
-    public void render(StoneMillTileEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(StoneMillBlockEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         Minecraft mc = Minecraft.getInstance();
 
         ItemRenderer renderItem = mc.getItemRenderer();

@@ -1,6 +1,6 @@
 package com.teamtea.teastory.container;
 
-import com.teamtea.teastory.blockentity.DrinkMakerTileEntity;
+import com.teamtea.teastory.blockentity.DrinkMakerBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
@@ -11,21 +11,21 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.SlotItemHandler;
-import com.teamtea.teastory.BlockEntityRegistry;
+import com.teamtea.teastory.registry.BlockEntityRegister;
 import com.teamtea.teastory.client.container.NormalContainer;
 
 import java.util.Optional;
 
 public class DrinkMakerContainer extends NormalContainer {
-    private final DrinkMakerTileEntity tileEntity;
+    private final DrinkMakerBlockEntity tileEntity;
 
     public DrinkMakerContainer(int windowId, Inventory playerInv, FriendlyByteBuf data) {
         this(windowId, playerInv, data.readBlockPos(), playerInv.player.getCommandSenderWorld());
     }
 
     public DrinkMakerContainer(int windowId, Inventory inv, BlockPos pos, Level world) {
-        super(BlockEntityRegistry.DRINK_MAKER_CONTAINER.get(), windowId, pos, world);
-        this.tileEntity = (DrinkMakerTileEntity) super.getTileEntity();
+        super(BlockEntityRegister.DRINK_MAKER_CONTAINER.get(), windowId, pos, world);
+        this.tileEntity = (DrinkMakerBlockEntity) super.getTileEntity();
         Optional.ofNullable(world.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.UP)).ifPresent(h ->
         {
             addSlot(new SlotItemHandler(h, 0, 21, 24));
@@ -93,7 +93,7 @@ public class DrinkMakerContainer extends NormalContainer {
         return oldStack;
     }
 
-    public DrinkMakerTileEntity getTileEntity() {
+    public DrinkMakerBlockEntity getTileEntity() {
         return this.tileEntity;
     }
 }

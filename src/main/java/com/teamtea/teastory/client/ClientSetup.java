@@ -14,11 +14,11 @@ import com.teamtea.teastory.client.gui.StoneMillGui;
 import com.teamtea.teastory.client.gui.StoneRollerGui;
 import com.teamtea.teastory.client.gui.StoveGui;
 import com.teamtea.teastory.client.render.*;
+import com.teamtea.teastory.registry.*;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockModelShaper;
-import net.minecraft.client.renderer.blockentity.CampfireRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
@@ -70,7 +70,7 @@ public class ClientSetup {
     @SubscribeEvent
     public static void onRegisterClientExtensionsEvent(RegisterClientExtensionsEvent event) {
 
-        FluidRegistry.FLUIDS.getEntries().forEach(holder -> {
+        FluidRegister.FLUIDS.getEntries().forEach(holder -> {
 
             if (holder.get().getFluidType() instanceof TeaFluidType teaFluidType
                     && holder.get() instanceof BaseFlowingFluid.Source baseFlowingFluid)
@@ -81,11 +81,11 @@ public class ClientSetup {
 
     @SubscribeEvent
     public static void onRegisterMenuScreensEvent(RegisterMenuScreensEvent event) {
-        event.register(BlockEntityRegistry.BAMBOO_TRAY_CONTAINER.get(), BambooTrayGui::new);
-        event.register(BlockEntityRegistry.DRINK_MAKER_CONTAINER.get(), DrinkMakerGui::new);
-        event.register(BlockEntityRegistry.STONE_MILL_CONTAINER.get(), StoneMillGui::new);
-        event.register(BlockEntityRegistry.STONE_ROLLER_CONTAINER.get(), StoneRollerGui::new);
-        event.register(BlockEntityRegistry.STOVE_CONTAINER.get(), StoveGui::new);
+        event.register(BlockEntityRegister.BAMBOO_TRAY_CONTAINER.get(), BambooTrayGui::new);
+        event.register(BlockEntityRegister.DRINK_MAKER_CONTAINER.get(), DrinkMakerGui::new);
+        event.register(BlockEntityRegister.STONE_MILL_CONTAINER.get(), StoneMillGui::new);
+        event.register(BlockEntityRegister.STONE_ROLLER_CONTAINER.get(), StoneRollerGui::new);
+        event.register(BlockEntityRegister.STOVE_CONTAINER.get(), StoveGui::new);
     }
 
     @SubscribeEvent
@@ -97,7 +97,7 @@ public class ClientSetup {
             ItemBlockRenderTypes.setRenderLayer(BlockRegister.WET_HAYSTACK.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(BlockRegister.GRASS_BLOCK_WITH_HOLE.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(BlockRegister.BAMBOO_GLASS_DOOR.get(), RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(BlockEntityRegistry.DRINK_MAKER.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(BlockEntityRegister.DRINK_MAKER.get(), RenderType.cutout());
 
             ItemBlockRenderTypes.setRenderLayer(BlockRegister.WILD_GRAPE.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(BlockRegister.GRAPE.get(), RenderType.cutout());
@@ -123,26 +123,26 @@ public class ClientSetup {
     //    注意static是单次，比如启动类，没有比如右击事件
     @SubscribeEvent
     public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(EntityTypeRegistry.SEAT_TYPE.get(), pContext -> new EntityRenderer<Entity>(pContext) {
+        event.registerEntityRenderer(EntityRegister.SEAT_TYPE.get(), pContext -> new EntityRenderer<Entity>(pContext) {
             @Override
             public ResourceLocation getTextureLocation(Entity pEntity) {
                 return null;
             }
         });
-        event.registerEntityRenderer(EntityTypeRegistry.SCARECROW_TYPE.get(), pContext -> new EntityRenderer<Entity>(pContext) {
+        event.registerEntityRenderer(EntityRegister.SCARECROW_TYPE.get(), pContext -> new EntityRenderer<Entity>(pContext) {
             @Override
             public ResourceLocation getTextureLocation(Entity pEntity) {
                 return null;
             }
         });
-        event.registerBlockEntityRenderer(BlockEntityRegistry.BAMBOO_TRAY_TYPE.get(), BambooTrayTESR::new);
-        event.registerBlockEntityRenderer(BlockEntityRegistry.DRINK_MAKER_TYPE.get(), DrinkMakerTESR::new);
-        event.registerBlockEntityRenderer(BlockEntityRegistry.STONE_MILL_TYPE.get(), StoneMillTESR::new);
-        event.registerBlockEntityRenderer(BlockEntityRegistry.STONE_ROLLER_TYPE.get(), StoneRollerTESR::new);
-        event.registerBlockEntityRenderer(BlockEntityRegistry.STOVE_TYPE.get(), StoveTESR::new);
-        event.registerBlockEntityRenderer(BlockEntityRegistry.WOODEN_BARREL_TYPE.get(), WoodenBarrelTESR::new);
+        event.registerBlockEntityRenderer(BlockEntityRegister.BAMBOO_TRAY_TYPE.get(), BambooTrayTESR::new);
+        event.registerBlockEntityRenderer(BlockEntityRegister.DRINK_MAKER_TYPE.get(), DrinkMakerTESR::new);
+        event.registerBlockEntityRenderer(BlockEntityRegister.STONE_MILL_TYPE.get(), StoneMillTESR::new);
+        event.registerBlockEntityRenderer(BlockEntityRegister.STONE_ROLLER_TYPE.get(), StoneRollerTESR::new);
+        event.registerBlockEntityRenderer(BlockEntityRegister.STOVE_TYPE.get(), StoveTESR::new);
+        event.registerBlockEntityRenderer(BlockEntityRegister.WOODEN_BARREL_TYPE.get(), WoodenBarrelTESR::new);
 
-        event.registerBlockEntityRenderer(BlockEntityRegistry.stone_campfire_TYPE.get(), StoneCampfireRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntityRegister.stone_campfire_TYPE.get(), StoneCampfireRenderer::new);
     }
 
     @SubscribeEvent
@@ -238,7 +238,7 @@ public class ClientSetup {
                 event.register(hybridizableFlowerBlockColor, blockHolder.get());
             }
         });
-        event.register(new TeaCupBlockColor(), BlockEntityRegistry.WOODEN_TRAY.get());
+        event.register(new TeaCupBlockColor(), BlockEntityRegister.WOODEN_TRAY.get());
         event.register(new SaucepanBlockColor(), BlockRegister.saucepan.get());
 
 
@@ -247,7 +247,7 @@ public class ClientSetup {
     @SubscribeEvent
     public static void onRegisterColorHandlersEvent_Item(RegisterColorHandlersEvent.Item event) {
         var buckColors = new BucketItemColors();
-        FluidRegistry.ITEMS.getEntries().forEach(itemRegistryObject -> event.register(buckColors, itemRegistryObject.get()));
+        FluidRegister.ITEMS.getEntries().forEach(itemRegistryObject -> event.register(buckColors, itemRegistryObject.get()));
         event.register(new CupItemColors(), ItemRegister.PORCELAIN_CUP_DRINK.get());
         event.register(new BottleItemColors(), ItemRegister.BOTTLE_DRINK.get());
         event.register(new GrassBlockItemColors(), BlockRegister.GRASS_BLOCK_WITH_HOLE.get().asItem());

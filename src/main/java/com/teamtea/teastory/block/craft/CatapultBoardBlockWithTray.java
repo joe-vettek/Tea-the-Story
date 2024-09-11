@@ -1,7 +1,7 @@
 package com.teamtea.teastory.block.craft;
 
 
-import com.teamtea.teastory.blockentity.BambooTrayTileEntity;
+import com.teamtea.teastory.blockentity.BambooTrayBlockEntity;
 import com.teamtea.teastory.helper.VoxelShapeHelper;
 import com.teamtea.teastory.recipe.bamboo_tray.BambooTraySingleInRecipe;
 import net.minecraft.core.BlockPos;
@@ -33,7 +33,7 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
-import com.teamtea.teastory.BlockEntityRegistry;
+import com.teamtea.teastory.registry.BlockEntityRegister;
 import com.teamtea.teastory.block.NormalHorizontalBlock;
 
 import java.util.Optional;
@@ -111,17 +111,17 @@ public class CatapultBoardBlockWithTray extends NormalHorizontalBlock implements
     public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         InteractionHand handIn = player.getUsedItemHand();
         var te = level.getBlockEntity(pos);
-        if (te instanceof BambooTrayTileEntity) {
+        if (te instanceof BambooTrayBlockEntity) {
             if (level.isClientSide()) {
-                ((BambooTrayTileEntity) te).refreshSeed();
+                ((BambooTrayBlockEntity) te).refreshSeed();
                 return InteractionResult.SUCCESS;
             }
             if (!player.isShiftKeyDown()) {
-                if (((BambooTrayTileEntity) te).isDoubleClick()) {
+                if (((BambooTrayBlockEntity) te).isDoubleClick()) {
                     dropItems(level, pos);
                     return InteractionResult.SUCCESS;
                 }
-                if (!((BambooTrayTileEntity) te).isWorking()) {
+                if (!((BambooTrayBlockEntity) te).isWorking()) {
                     dropItems(level, pos);
                     te.setChanged();
                 }
@@ -132,7 +132,7 @@ public class CatapultBoardBlockWithTray extends NormalHorizontalBlock implements
                         BambooTraySingleInRecipe recipe = null;
                         for (var r : level.getRecipeManager().getRecipes()) {
 
-                            if (r.value().getType().equals(((BambooTrayTileEntity) te).getRecipeType()) && ((BambooTraySingleInRecipe) r.value()).getIngredient().test(player.getItemInHand(handIn))) {
+                            if (r.value().getType().equals(((BambooTrayBlockEntity) te).getRecipeType()) && ((BambooTraySingleInRecipe) r.value()).getIngredient().test(player.getItemInHand(handIn))) {
                                 recipe = (BambooTraySingleInRecipe) r.value();
                                 break;
                             }
@@ -140,12 +140,12 @@ public class CatapultBoardBlockWithTray extends NormalHorizontalBlock implements
                         if (recipe != null && !recipe.getRecipeOutput().isEmpty()) {
                             player.setItemInHand(handIn, inv.insertItem(0, player.getItemInHand(handIn), false));
                             te.setChanged();
-                        } else ((BambooTrayTileEntity) te).singleClickStart();
+                        } else ((BambooTrayBlockEntity) te).singleClickStart();
                     });
                     return InteractionResult.SUCCESS;
                 } else {
-                    if (((BambooTrayTileEntity) te).isWorking()) {
-                        ((BambooTrayTileEntity) te).singleClickStart();
+                    if (((BambooTrayBlockEntity) te).isWorking()) {
+                        ((BambooTrayBlockEntity) te).singleClickStart();
                     }
                 }
             } else {
@@ -172,6 +172,6 @@ public class CatapultBoardBlockWithTray extends NormalHorizontalBlock implements
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return BlockEntityRegistry.BAMBOO_TRAY_TYPE.get().create(pPos, pState);
+        return BlockEntityRegister.BAMBOO_TRAY_TYPE.get().create(pPos, pState);
     }
 }

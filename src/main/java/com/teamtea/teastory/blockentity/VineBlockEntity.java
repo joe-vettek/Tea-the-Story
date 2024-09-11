@@ -8,10 +8,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import net.neoforged.neoforge.client.model.data.ModelProperty;
 import org.jetbrains.annotations.NotNull;
-import com.teamtea.teastory.BlockEntityRegistry;
-import com.teamtea.teastory.blockentity.entity.SyncedBlockEntity;
+import com.teamtea.teastory.registry.BlockEntityRegister;
+import com.teamtea.teastory.blockentity.base.SyncedBlockEntity;
 
-public class VineEntity extends SyncedBlockEntity {
+public class VineBlockEntity extends SyncedBlockEntity {
     public static final ModelProperty<Integer> AGE_PROPERTY = new ModelProperty<>();
 
     public static int MAX_AGE = 3;
@@ -19,8 +19,8 @@ public class VineEntity extends SyncedBlockEntity {
     private int age = 0;
     private int distance = 0;
 
-    public VineEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityRegistry.VINE_TYPE.get(), pos, state);
+    public VineBlockEntity(BlockPos pos, BlockState state) {
+        super(BlockEntityRegister.VINE_TYPE.get(), pos, state);
     }
 
 

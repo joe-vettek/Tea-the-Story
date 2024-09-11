@@ -12,8 +12,8 @@ import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import com.teamtea.teastory.BlockRegister;
-import com.teamtea.teastory.FluidRegistry;
+import com.teamtea.teastory.registry.BlockRegister;
+import com.teamtea.teastory.registry.FluidRegister;
 import com.teamtea.teastory.TeaStory;
 
 import javax.annotation.Nullable;
@@ -33,7 +33,7 @@ public class BlockStatesDataProvider extends BlockStateProvider {
     protected void registerStatesAndModels() {
 
 
-        for (DeferredHolder<Block, ? extends Block> entry : FluidRegistry.BLOCKS.getEntries()) {
+        for (DeferredHolder<Block, ? extends Block> entry : FluidRegister.BLOCKS.getEntries()) {
             simpleBlock(entry.value(), ConfiguredModel.builder().modelFile(models().withExistingParent("water", ResourceLocation.withDefaultNamespace("water"))).build());
         }
 

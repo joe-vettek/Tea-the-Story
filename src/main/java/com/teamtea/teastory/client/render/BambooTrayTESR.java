@@ -1,7 +1,7 @@
 package com.teamtea.teastory.client.render;
 
 import com.teamtea.teastory.block.craft.CatapultBoardBlockWithTray;
-import com.teamtea.teastory.blockentity.BambooTrayTileEntity;
+import com.teamtea.teastory.blockentity.BambooTrayBlockEntity;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -12,14 +12,14 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
 
-public class BambooTrayTESR implements BlockEntityRenderer<BambooTrayTileEntity> {
+public class BambooTrayTESR implements BlockEntityRenderer<BambooTrayBlockEntity> {
 
     public BambooTrayTESR(BlockEntityRendererProvider.Context pContext) {
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public void render(BambooTrayTileEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(BambooTrayBlockEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         Minecraft mc = Minecraft.getInstance();
 
         ItemStack itemStack = tileEntityIn.getInput();
