@@ -26,6 +26,7 @@ import com.teamtea.teastory.registry.RecipeRegister;
 import com.teamtea.teastory.registry.BlockEntityRegister;
 import com.teamtea.teastory.blockentity.base.NormalContainerTileEntity;
 import com.teamtea.teastory.recipe.MultiRecipeWrapper;
+import net.neoforged.neoforge.items.wrapper.CombinedInvWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -101,57 +102,56 @@ public class DrinkMakerBlockEntity extends NormalContainerTileEntity {
         return residuesInventory;
     }
 
-    public static void tick(Level worldIn, BlockPos pos, BlockState blockState, DrinkMakerBlockEntity tileEntity) {
+    public static void tick(Level worldIn, BlockPos pos, BlockState blockState, DrinkMakerBlockEntity blockEntity) {
         // TeaStory.logger(worldIn.getGameTime());
-        if (tileEntity.getFluidAmount() != 0 && !tileEntity.isIngredientsEmpty()) {
-            var warp = new MultiRecipeWrapper(tileEntity.ingredientsInventory, tileEntity.residuesInventory, tileEntity.containerInventory);
-            if (tileEntity.currentRecipe == null || !tileEntity.currentRecipe.matches(warp, worldIn)) {
-                worldIn.getRecipeManager().getRecipeFor(RecipeRegister.DRINK_MAKER.get(), warp, worldIn).ifPresent(drinkRecipeRecipeHolder -> tileEntity.currentRecipe = drinkRecipeRecipeHolder.value());
+        if (blockEntity.getFluidAmount() != 0 && !blockEntity.isIngredientsEmpty()) {
+            var warp = new MultiRecipeWrapper(blockEntity.ingredientsInventory, blockEntity.residuesInventory, blockEntity.containerInventory);
+            if (blockEntity.currentRecipe == null || !blockEntity.currentRecipe.matches(warp, worldIn)) {
+                worldIn.getRecipeManager().getRecipeFor(RecipeRegister.DRINK_MAKER.get(), warp, worldIn).ifPresent(drinkRecipeRecipeHolder -> blockEntity.currentRecipe = drinkRecipeRecipeHolder.value());
 
             }
-            if (tileEntity.currentRecipe != null && tileEntity.isEnoughAmount()) {
-                tileEntity.processTicks++;
-                tileEntity.inventoryChanged();
-                if (tileEntity.processTicks >= totalTicks) {
-                    var inv = tileEntity.ingredientsInventory;
-                    if (tileEntity.getFluidHandler() != null) {
-                        var fluid = tileEntity.getFluidHandler();
-                        var h = tileEntity.residuesInventory;
-                        int n = (int) Math.ceil(tileEntity.getFluidAmount() * 1.0F / tileEntity.currentRecipe.getFluidIngredient().getFluids()[0].getAmount());
+            if (blockEntity.currentRecipe != null && blockEntity.isEnoughAmount()) {
+                blockEntity.processTicks++;
+                blockEntity.inventoryChanged();
+                if (blockEntity.processTicks >= totalTicks) {
+                    var inv = blockEntity.ingredientsInventory;
+                    if (blockEntity.getFluidHandler() != null) {
+                        var fluidHandler = blockEntity.getFluidHandler();
+                        int n = (int) Math.ceil(blockEntity.getFluidAmount() * 1.0F / blockEntity.currentRecipe.getFluidIngredient().getFluids()[0].getAmount());
                         for (int i = 0; i < 4; i++) {
                             ItemStack residue = inv.getStackInSlot(i).getCraftingRemainingItem();
                             inv.extractItem(i, n, false);
                             if (!residue.isEmpty()) {
                                 residue.setCount(n);
-                                h.insertItem(i, residue, false);
+                                blockEntity.residuesInventory.insertItem(i, residue, false);
                             }
                         }
-                        if (tileEntity.containerInventory != null) {
-                            var con = tileEntity.containerInventory;
+                        if (blockEntity.containerInventory != null) {
+                            var con = blockEntity.containerInventory;
                             if (con.getStackInSlot(0).getItem().getCraftingRemainingItem() == Items.BUCKET) {
-                                con.setStackInSlot(0, tileEntity.currentRecipe.getFluidResult().getBucket().getDefaultInstance());
+                                con.setStackInSlot(0, blockEntity.currentRecipe.getFluidResult().getBucket().getDefaultInstance());
                             } else {
-                                var f = new FluidStack(tileEntity.currentRecipe.getFluidResult(), tileEntity.getFluidAmount());
-                                var c = fluid.getContainer();
-                                c.getCapability(Capabilities.FluidHandler.ITEM).fill(f, IFluidHandler.FluidAction.EXECUTE);
-                                // fluid.getContainer().getOrCreateTag().put(FLUID_NBT_KEY, nbt);
+                                var f = new FluidStack(blockEntity.currentRecipe.getFluidResult(), blockEntity.getFluidAmount());
+                                fluidHandler.getContainer()
+                                        .getCapability(Capabilities.FluidHandler.ITEM)
+                                        .fill(f, IFluidHandler.FluidAction.EXECUTE);
                             }
                         }
-                        tileEntity.setToZero();
+                        blockEntity.setToZero();
                     }
 
                 }
             } else {
-                tileEntity.setToZero();
+                blockEntity.setToZero();
             }
         } else {
-            tileEntity.currentRecipe = null;
-            tileEntity.setToZero();
+            blockEntity.currentRecipe = null;
+            blockEntity.setToZero();
         }
 
-        Optional.ofNullable(tileEntity.getFluidHandler()).ifPresent(fluid ->
-                Optional.of(tileEntity.inputInventory).ifPresent(in ->
-                        Optional.of(tileEntity.outputInventory).ifPresent(out ->
+        Optional.ofNullable(blockEntity.getFluidHandler()).ifPresent(fluid ->
+                Optional.ofNullable(blockEntity.inputInventory).ifPresent(in ->
+                        Optional.ofNullable(blockEntity.outputInventory).ifPresent(out ->
                         {
                             {
                                 ItemStack inputCup = in.getStackInSlot(0).copy();
@@ -166,7 +166,7 @@ public class DrinkMakerBlockEntity extends NormalContainerTileEntity {
                                         in.getStackInSlot(0).shrink(1);
                                     }
                                     if (fluid.getFluidInTank(0).isEmpty()) {
-                                        Optional.of(tileEntity.containerInventory).ifPresent(container ->
+                                        Optional.ofNullable(blockEntity.containerInventory).ifPresent(container ->
                                         {
                                             if (container.getStackInSlot(0).hasCraftingRemainingItem())
                                                 container.setStackInSlot(0, container.getStackInSlot(0).getCraftingRemainingItem());
@@ -294,32 +294,36 @@ public class DrinkMakerBlockEntity extends NormalContainerTileEntity {
 
 
     public ItemStack getStackInSlot(int index) {
-        if (index < 4) {
-            return Optional.ofNullable(ingredientsInventory).map(h -> h.getStackInSlot(index)).orElse(ItemStack.EMPTY);
-        } else if (index < 8) {
-            return Optional.ofNullable(residuesInventory).map(h -> h.getStackInSlot(index - 4)).orElse(ItemStack.EMPTY);
-        } else if (index == 8) {
-            return Optional.ofNullable(containerInventory).map(h -> h.getStackInSlot(0)).orElse(ItemStack.EMPTY);
-        } else if (index == 9) {
-            return Optional.ofNullable(inputInventory).map(h -> h.getStackInSlot(0)).orElse(ItemStack.EMPTY);
-        } else {
-            return Optional.ofNullable(outputInventory).map(h -> h.getStackInSlot(0)).orElse(ItemStack.EMPTY);
-        }
+        // if (index < 4) {
+        //     return Optional.ofNullable(ingredientsInventory).map(h -> h.getStackInSlot(index)).orElse(ItemStack.EMPTY);
+        // } else if (index < 8) {
+        //     return Optional.ofNullable(residuesInventory).map(h -> h.getStackInSlot(index - 4)).orElse(ItemStack.EMPTY);
+        // } else if (index == 8) {
+        //     return Optional.ofNullable(containerInventory).map(h -> h.getStackInSlot(0)).orElse(ItemStack.EMPTY);
+        // } else if (index == 9) {
+        //     return Optional.ofNullable(inputInventory).map(h -> h.getStackInSlot(0)).orElse(ItemStack.EMPTY);
+        // } else {
+        //     return Optional.ofNullable(outputInventory).map(h -> h.getStackInSlot(0)).orElse(ItemStack.EMPTY);
+        // }
+        return new CombinedInvWrapper(ingredientsInventory, residuesInventory, containerInventory, ingredientsInventory, outputInventory)
+                .getStackInSlot(index);
     }
 
 
     public ItemStack decrStackSize(int index, int count) {
-        if (index < 4) {
-            return Optional.ofNullable(ingredientsInventory).map(h -> h.getStackInSlot(index).split(count)).orElse(ItemStack.EMPTY);
-        } else if (index < 8) {
-            return Optional.ofNullable(residuesInventory).map(h -> h.getStackInSlot(index - 4).split(count)).orElse(ItemStack.EMPTY);
-        } else if (index == 8) {
-            return Optional.ofNullable(containerInventory).map(h -> h.getStackInSlot(0).split(count)).orElse(ItemStack.EMPTY);
-        } else if (index == 9) {
-            return Optional.ofNullable(inputInventory).map(h -> h.getStackInSlot(0).split(count)).orElse(ItemStack.EMPTY);
-        } else {
-            return Optional.ofNullable(outputInventory).map(h -> h.getStackInSlot(0).split(count)).orElse(ItemStack.EMPTY);
-        }
+        // if (index < 4) {
+        //     return Optional.ofNullable(ingredientsInventory).map(h -> h.getStackInSlot(index).split(count)).orElse(ItemStack.EMPTY);
+        // } else if (index < 8) {
+        //     return Optional.ofNullable(residuesInventory).map(h -> h.getStackInSlot(index - 4).split(count)).orElse(ItemStack.EMPTY);
+        // } else if (index == 8) {
+        //     return Optional.ofNullable(containerInventory).map(h -> h.getStackInSlot(0).split(count)).orElse(ItemStack.EMPTY);
+        // } else if (index == 9) {
+        //     return Optional.ofNullable(inputInventory).map(h -> h.getStackInSlot(0).split(count)).orElse(ItemStack.EMPTY);
+        // } else {
+        //     return Optional.ofNullable(outputInventory).map(h -> h.getStackInSlot(0).split(count)).orElse(ItemStack.EMPTY);
+        // }
+        return new CombinedInvWrapper(ingredientsInventory, residuesInventory, containerInventory, ingredientsInventory, outputInventory)
+                .getStackInSlot(index).split(count);
     }
 
 

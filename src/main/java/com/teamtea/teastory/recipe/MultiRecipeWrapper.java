@@ -18,6 +18,11 @@ public class MultiRecipeWrapper extends RecipeWrapper {
     }
 
     @Override
+    public int size() {
+        return slots.stream().mapToInt(ItemStackHandler::getSlots).sum();
+    }
+
+    @Override
     public ItemStack getItem(int slot) {
         for (int i = 0; i < slots.size(); i++) {
             var theSlot = slots.get(i);
