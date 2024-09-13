@@ -95,6 +95,7 @@ public final class TeaStoryRecipeProvider extends RecipeProvider {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemRegister.DRY_STRAW.get(), 7).requires(BlockRegister.DRY_HAYSTACK.get()).group("dry_straw").unlockedBy("has_dry_haystack", has(BlockRegister.DRY_HAYSTACK.get())).save(consumer);
 
         // 食物
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, BlockRegister.WOODEN_BOWL_ITEM.get()).requires(Items.BOWL).unlockedBy("has_plank", has(ItemTags.PLANKS)).save(consumer);
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ItemRegister.RICE_BALL_WITH_KELP.get()).requires(ItemRegister.RICE_BALL.get()).requires(Items.KELP).unlockedBy("has_rice", has(BlockRegister.RICE_GRAINS.get())).save(consumer);
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ItemRegister.RICE_BOWL.get()).requires(ItemRegister.RICE_BALL.get()).requires(BlockRegister.WOODEN_BOWL_ITEM.get()).unlockedBy("has_rice", has(BlockRegister.RICE_GRAINS.get())).save(consumer);
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ItemRegister.NETHER_WART_RICE_BOWL.get()).requires(ItemRegister.RICE_BOWL.get()).requires(Items.NETHER_WART).unlockedBy("has_rice", has(BlockRegister.RICE_GRAINS.get())).save(consumer);
