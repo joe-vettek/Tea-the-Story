@@ -145,9 +145,6 @@ public class BlockRegister {
     public static RegistryObject<Block> WOODEN_FRAME = ModBlocks.register("wooden_frame", () -> new WoodenFrameBlock(Block.Properties.copy(Blocks.OAK_WOOD).strength(0.5F).noOcclusion().pushReaction(PushReaction.IGNORE)));
     public static RegistryObject<Item> WOODEN_FRAME_ITEM = ModItems.register("wooden_frame", () -> new BlockItem(WOODEN_FRAME.get(), new Item.Properties()));
 
-    public static RegistryObject<Block> stone_campfire = ModBlocks.register("stone_campfire", () -> new StoneCampfireBlock(Block.Properties.copy(Blocks.STONE).strength(3.5F).noOcclusion()));
-    public static RegistryObject<Item> stone_campfire_ITEM = ModItems.register("stone_campfire", () -> new BlockItem(stone_campfire.get(), new Item.Properties()));
-
     public static RegistryObject<Block> saucepan = ModBlocks.register("saucepan", () -> new SaucepanBlock(Block.Properties.copy(Blocks.IRON_BLOCK).strength(3.5F).randomTicks()));
     public static RegistryObject<Item> saucepan_ITEM = ModItems.register("saucepan", () -> new BlockItem(saucepan.get(), new Item.Properties()));
 

@@ -77,7 +77,6 @@ public class ClientSetup {
             MenuScreens.register(TileEntityTypeRegistry.STONE_ROLLER_CONTAINER.get(), StoneRollerGui::new);
             MenuScreens.register(TileEntityTypeRegistry.STOVE_CONTAINER.get(), StoveGui::new);
 
-            ItemBlockRenderTypes.setRenderLayer(BlockRegister.stone_campfire.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(BlockRegister.DRY_HAYSTACK.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(BlockRegister.WET_HAYSTACK.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(BlockRegister.GRASS_BLOCK_WITH_HOLE.get(), RenderType.cutout());
