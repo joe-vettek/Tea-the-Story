@@ -30,6 +30,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
@@ -156,17 +157,16 @@ public class CatapultBoardBlockWithTray extends NormalHorizontalBlock implements
     }
 
 
-    public static void shoot(Level worldIn, BlockPos pos) {
-        Direction d = worldIn.getBlockState(pos).getValue(FACING).getOpposite();
-        Optional.ofNullable(worldIn.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.UP)).ifPresent(inv ->
-        {
+    public static void shoot(Level level, BlockPos pos) {
+        Direction d = level.getBlockState(pos).getValue(FACING).getOpposite();
+        if (level.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.UP) instanceof IItemHandler inv) {
             for (int i = inv.getSlots() - 1; i >= 0; --i) {
                 if (inv.getStackInSlot(i) != ItemStack.EMPTY) {
-                    Block.popResource(worldIn, pos.relative(d), inv.getStackInSlot(i));
+                    Block.popResource(level, pos.relative(d), inv.getStackInSlot(i));
                     ((IItemHandlerModifiable) inv).setStackInSlot(i, ItemStack.EMPTY);
                 }
             }
-        });
+        }
     }
 
 

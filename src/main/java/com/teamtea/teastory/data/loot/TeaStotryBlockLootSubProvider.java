@@ -22,6 +22,7 @@ import net.minecraft.world.level.storage.loot.functions.CopyBlockState;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import org.jetbrains.annotations.NotNull;
 import com.teamtea.teastory.registry.BlockRegister;
 import com.teamtea.teastory.registry.ItemRegister;
@@ -165,7 +166,7 @@ public class TeaStotryBlockLootSubProvider extends BlockLootSubProvider {
             lootPool= lootPool.withPool(
                     this.applyExplosionCondition(block.asItem(),
                             LootPool.lootPool().when(createStateBuilder(block, RicePlantBlock.AGE, 7))
-                                    .setRolls(ConstantValue.exactly(1.0F))
+                                    .setRolls(UniformGenerator.between(2, 4))
                                     .setBonusRolls(ConstantValue.exactly(3.0f))
                                     .add(LootItem.lootTableItem(BlockRegister.RICE_GRAINS.get()))));
             return lootPool;

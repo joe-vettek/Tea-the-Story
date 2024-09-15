@@ -6,6 +6,7 @@ import com.teamtea.teastory.block.crops.TrellisWithVineBlock;
 import com.teamtea.teastory.block.crops.VineInfoManager;
 import com.teamtea.teastory.block.crops.VineType;
 import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -18,6 +19,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.EventPriority;
@@ -27,6 +29,8 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import com.teamtea.teastory.blockentity.VineBlockEntity;
 import com.teamtea.teastory.item.Citem;
@@ -142,6 +146,24 @@ public class ModContent {
                 ItemRegister.BOTTLE_DRINK.value(),
                 BlockEntityRegister.PORCELAIN_TEAPOT.value(),
                 BlockEntityRegister.IRON_KETTLE_ITEM.value());
+
+        // event.registerBlock(Capabilities.ItemHandler.BLOCK,
+        //         (level, pos, state, blockEntity, context) -> {
+        //             var stack = new ItemStack(Items.SNOW_BLOCK);
+        //             // stack.setCount(state.getValue(SnowLayerBlock.LAYERS));
+        //             return new ItemStackHandler(NonNullList.of(
+        //                     new ItemStack(Items.SNOW_BLOCK), stack
+        //             )) {
+        //                 @Override
+        //                 public ItemStack extractItem(int slot, int amount, boolean simulate) {
+        //                     var stack = super.extractItem(slot, amount, simulate);
+        //                     if (!simulate && !stack.isEmpty()) {
+        //                         level.removeBlock(pos, false);
+        //                     }
+        //                     return stack;
+        //                 }
+        //             };
+        //         }, Blocks.SNOW_BLOCK);
 
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BlockEntityRegister.WOODEN_BARREL_TYPE.get(),
                 (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getFluidTank());
