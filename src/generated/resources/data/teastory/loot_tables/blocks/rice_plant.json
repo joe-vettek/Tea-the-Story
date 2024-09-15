@@ -178,7 +178,7 @@
       "rolls": 1.0
     },
     {
-      "bonus_rolls": 3.0,
+      "bonus_rolls": 1.0,
       "conditions": [
         {
           "block": "teastory:rice_plant",
@@ -197,7 +197,11 @@
           "name": "teastory:rice_grains"
         }
       ],
-      "rolls": 1.0
+      "rolls": {
+        "type": "minecraft:uniform",
+        "max": 4.0,
+        "min": 2.0
+      }
     }
   ],
   "random_sequence": "teastory:blocks/rice_plant"
