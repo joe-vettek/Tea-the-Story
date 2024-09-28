@@ -100,7 +100,7 @@ public final class JEICompat implements IModPlugin {
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
         registration.addRecipeClickArea(BambooTrayGui.class, 77, 32, 22, 17, IN_RAIN_TYPE, OUTDOORS_TYPE, INDOORS_TYPE, BAKE_TYPE);
         registration.addRecipeClickArea(DrinkMakerGui.class, 98, 37, 24, 17, DRINK_MAKER_TYPE);
-        registration.addRecipeClickArea(StoneMillGui.class, 95, 37, 22, 17, STONE_MILL_TYPE);
+        registration.addRecipeClickArea(StoneMillGui.class, 77, 37, 22, 17, STONE_MILL_TYPE);
         registration.addRecipeClickArea(StoneRollerGui.class, 77, 37, 22, 17, STONE_ROLLER_TYPE);
     }
 

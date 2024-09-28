@@ -32,13 +32,13 @@ public class StoneMillContainer extends NormalContainer {
 
         Optional.ofNullable(world.getCapability(Capabilities.ItemHandler.BLOCK,pos,Direction.UP)).ifPresent(h ->
         {
-            addSlot(new SlotItemHandler(h, 0, 73, 38));
+            addSlot(new SlotItemHandler(h, 0, 55, 38));
         });
         Optional.ofNullable(world.getCapability(Capabilities.ItemHandler.BLOCK,pos,Direction.DOWN)).ifPresent(h ->
         {
-            addSlot(new SlotItemHandler(h, 0, 123, 20));
-            addSlot(new SlotItemHandler(h, 1, 123, 38));
-            addSlot(new SlotItemHandler(h, 2, 123, 56));
+            addSlot(new SlotItemHandler(h, 0, 105, 20));
+            addSlot(new SlotItemHandler(h, 1, 105, 38));
+            addSlot(new SlotItemHandler(h, 2, 105, 56));
         });
         addPlayerInventory(inv);
     }

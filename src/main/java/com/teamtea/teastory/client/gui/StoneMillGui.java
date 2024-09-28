@@ -4,6 +4,7 @@ import com.teamtea.teastory.blockentity.StoneMillBlockEntity;
 import com.teamtea.teastory.container.StoneMillContainer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -56,7 +57,7 @@ public class StoneMillGui extends AbstractContainerScreen<StoneMillContainer> {
             textureWidth = (int) Math.ceil(22.0 * processTicks / totalTicks);
         }
         // blit(matrixStack, offsetX + 95, offsetY + 37, 176, 0, textureWidth, 16);
-        matrixStack.blit(TEXTURE, offsetX + 95, offsetY + 38, 176, 0, textureWidth, 16);
+        matrixStack.blit(TEXTURE, offsetX + 77, offsetY + 38, 176, 0, textureWidth, 16);
         // matrixStack.blit(TeaStory.rl( "textures/gui/container/gui_drink_maker.png"), offsetX + 95, offsetY + 37, 176, 0, textureWidth, 16);
 
         Optional.ofNullable(container.getTileEntity().getLevel().getCapability(Capabilities.FluidHandler.BLOCK, container.getTileEntity().getBlockPos(), null)).ifPresent(fluidHandler ->
@@ -71,11 +72,11 @@ public class StoneMillGui extends AbstractContainerScreen<StoneMillContainer> {
             poseStack.pushPose();
             var fs = fluidHandler.getFluidInTank(0);
             if (!fs.isEmpty()) {
-                RenderUtil.renderFluidStackInGUI(matrixStack.pose().last().pose(), fs, 16, height, offsetX + 37, offsetY + 48 + 22);
-                if (offsetX + 37 < mouseX && mouseX < offsetX + 37 + 16
+                RenderUtil.renderFluidStackInGUI(matrixStack.pose().last().pose(), fs, 16, height, offsetX + 132, offsetY + 48 + 22);
+                if (offsetX + 132 < mouseX && mouseX < offsetX + 132 + 16
                         && offsetY + 20 < mouseY && mouseY < offsetY + 12 + 60) {
 
-                    matrixStack.fill(offsetX + 37, offsetY + 21, offsetX + 37 + 16, offsetY + 11 + 60, 0, 0x88FFFFFF);
+                    matrixStack.fill(offsetX + 132, offsetY + 21, offsetX + 132 + 16, offsetY + 11 + 60, 0, 0x88FFFFFF);
                 }
             }
             poseStack.popPose();
@@ -87,17 +88,22 @@ public class StoneMillGui extends AbstractContainerScreen<StoneMillContainer> {
 
     @Override
     protected void renderLabels(GuiGraphics matrixStack, int mouseX, int mouseY) {
-        matrixStack.drawString(this.font, this.title.getString(), (int) ((this.imageWidth - this.font.width(this.title.getString())) / 2.0F), (int) 8.0F, 0x262626,false);
-        matrixStack.drawString(this.font, this.playerInventoryTitle.getString(), (int) 8.0F, (int) (this.imageHeight - 95+ 2), 0x262626,false);
+        matrixStack.drawString(this.font, this.title.getString(), (int) ((this.imageWidth - this.font.width(this.title.getString())) / 2.0F), (int) 8.0F, 0x262626, false);
+        matrixStack.drawString(this.font, this.playerInventoryTitle.getString(), (int) 8.0F, (int) (this.imageHeight - 95 + 2), 0x262626, false);
     }
 
     @Override
     protected void renderTooltip(GuiGraphics matrixStack, int mouseX, int mouseY) {
         super.renderTooltip(matrixStack, mouseX, mouseY);
-        int offsetX = (width - imageWidth) / 2, offsetY = (height - imageHeight) / 2;
-        if (offsetX + 37 < mouseX && mouseX < offsetX + 37 + 16
-                && offsetY + 20 < mouseY && mouseY < offsetY + 12 + 60)
-            matrixStack.renderComponentTooltip(this.font, List.of(((StoneMillBlockEntity) this.container.getTileEntity()).getFluidTank().getFluid().getHoverName()), mouseX, mouseY);
+        var fluid = ((StoneMillBlockEntity) this.container.getTileEntity()).getFluidTank().getFluid();
+        if (!fluid.isEmpty()) {
+            int offsetX = (width - imageWidth) / 2, offsetY = (height - imageHeight) / 2;
+            if (offsetX + 132 < mouseX && mouseX < offsetX + 132 + 16
+                    && offsetY + 20 < mouseY && mouseY < offsetY + 12 + 60)
+                matrixStack.renderComponentTooltip(this.font, List.of(fluid.getHoverName(),
+                        Component.literal("%smB".formatted(fluid.getAmount())).withStyle(ChatFormatting.GRAY))
+                        , mouseX, mouseY);
+        }
 
     }
 }
