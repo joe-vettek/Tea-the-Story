@@ -1,7 +1,6 @@
-package com.teamtea.teastory.container;
+package com.teamtea.teastory.client.container;
 
-
-import com.teamtea.teastory.blockentity.StoveBlockEntity;
+import com.teamtea.teastory.blockentity.BambooTrayBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
@@ -13,33 +12,22 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.SlotItemHandler;
 import com.teamtea.teastory.registry.BlockEntityRegister;
-import com.teamtea.teastory.client.container.NormalContainer;
 
 import java.util.Optional;
 
-public class StoveContainer extends NormalContainer {
-    private final StoveBlockEntity tileEntity;
 
-    public StoveContainer(int windowId, Inventory playerInv, FriendlyByteBuf data) {
+public class BambooTrayContainer extends NormalContainer {
+    private final BambooTrayBlockEntity tileEntity;
+
+    public BambooTrayContainer(int windowId, Inventory playerInv, FriendlyByteBuf data) {
         this(windowId, playerInv, data.readBlockPos(), playerInv.player.getCommandSenderWorld());
     }
 
-    public StoveContainer(int windowId, Inventory inv, BlockPos pos, Level world) {
-        super(BlockEntityRegister.STOVE_CONTAINER.get(), windowId, pos, world);
-        this.tileEntity = (StoveBlockEntity) getTileEntity();
+    public BambooTrayContainer(int windowId, Inventory inv, BlockPos pos, Level world) {
+        super(BlockEntityRegister.BAMBOO_TRAY_CONTAINER.get(), windowId, pos, world);
+        this.tileEntity = (BambooTrayBlockEntity) getTileEntity();
         Optional.ofNullable(world.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.UP)).ifPresent(h ->
-        {
-            addSlot(new SlotItemHandler(h, 0, 80, 33));
-        });
-        Optional.ofNullable(world.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.DOWN)).ifPresent(h ->
-        {
-            addSlot(new SlotItemHandler(h, 0, 80, 61) {
-                @Override
-                public boolean mayPlace(ItemStack stack) {
-                    return false;
-                }
-            });
-        });
+                addSlot(new SlotItemHandler(h, 0, 107, 31)));
         for (int i = 0; i < 3; ++i) {
 
             for (int j = 0; j < 9; ++j) {
@@ -65,17 +53,16 @@ public class StoveContainer extends NormalContainer {
 
         boolean isMerged;
 
-        // 0~1: Fuel; 1~2: Ash 2~29: Player Backpack; 29~38: Hot Bar.
+        // 0~1: Input; 1~28: Player Backpack; 28~37: Hot Bar.
 
-        if (index < 2) {
-            isMerged = moveItemStackTo(newStack, 29, 38, true)
-                    || moveItemStackTo(newStack, 2, 29, false);
-        } else if (index < 29) {
+        if (index == 0) {
+            isMerged = moveItemStackTo(newStack, 28, 37, true)
+                    || moveItemStackTo(newStack, 1, 28, false);
+        } else if (index < 28) {
             isMerged = moveItemStackTo(newStack, 0, 1, false)
-                    || moveItemStackTo(newStack, 29, 38, true);
+                    || moveItemStackTo(newStack, 28, 37, true);
         } else {
-            isMerged = moveItemStackTo(newStack, 0, 1, false)
-                    || moveItemStackTo(newStack, 2, 29, false);
+            isMerged = moveItemStackTo(newStack, 0, 28, false);
         }
 
         if (!isMerged) {

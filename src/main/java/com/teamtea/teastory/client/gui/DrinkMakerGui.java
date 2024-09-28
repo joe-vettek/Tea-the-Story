@@ -1,7 +1,7 @@
 package com.teamtea.teastory.client.gui;
 
 
-import com.teamtea.teastory.container.DrinkMakerContainer;
+import com.teamtea.teastory.client.container.DrinkMakerContainer;
 import com.teamtea.teastory.recipe.drink.DrinkRecipe;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;

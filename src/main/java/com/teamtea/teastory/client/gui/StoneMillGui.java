@@ -1,7 +1,7 @@
 package com.teamtea.teastory.client.gui;
 
 import com.teamtea.teastory.blockentity.StoneMillBlockEntity;
-import com.teamtea.teastory.container.StoneMillContainer;
+import com.teamtea.teastory.client.container.StoneMillContainer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;

@@ -2,7 +2,7 @@ package com.teamtea.teastory.client.gui;
 
 
 import com.teamtea.teastory.blockentity.BambooTrayBlockEntity;
-import com.teamtea.teastory.container.BambooTrayContainer;
+import com.teamtea.teastory.client.container.BambooTrayContainer;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;

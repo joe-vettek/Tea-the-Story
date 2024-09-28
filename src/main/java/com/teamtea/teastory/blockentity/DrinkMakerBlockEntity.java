@@ -1,6 +1,6 @@
 package com.teamtea.teastory.blockentity;
 
-import com.teamtea.teastory.container.DrinkMakerContainer;
+import com.teamtea.teastory.client.container.DrinkMakerContainer;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.capabilities.Capabilities;

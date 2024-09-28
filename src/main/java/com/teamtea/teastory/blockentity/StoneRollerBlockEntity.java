@@ -1,6 +1,6 @@
 package com.teamtea.teastory.blockentity;
 
-import com.teamtea.teastory.container.StoneRollerContainer;
+import com.teamtea.teastory.client.container.StoneRollerContainer;
 import com.teamtea.teastory.recipe.stone_mill.StoneRollerRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;

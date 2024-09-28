@@ -1,7 +1,7 @@
 package com.teamtea.teastory.blockentity;
 
 import com.teamtea.teastory.block.craft.StoveBlock;
-import com.teamtea.teastory.container.StoveContainer;
+import com.teamtea.teastory.client.container.StoveContainer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;

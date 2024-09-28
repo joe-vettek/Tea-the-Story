@@ -1,4 +1,4 @@
-package com.teamtea.teastory.container;
+package com.teamtea.teastory.client.container;
 
 import com.teamtea.teastory.blockentity.DrinkMakerBlockEntity;
 import net.minecraft.core.BlockPos;
@@ -12,7 +12,6 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.SlotItemHandler;
 import com.teamtea.teastory.registry.BlockEntityRegister;
-import com.teamtea.teastory.client.container.NormalContainer;
 
 import java.util.Optional;
 

@@ -7,7 +7,7 @@ import com.teamtea.teastory.block.drink.IronKettleBlock;
 import com.teamtea.teastory.block.drink.TeapotBlock;
 import com.teamtea.teastory.block.drink.WoodenTrayBlock;
 import com.teamtea.teastory.blockentity.*;
-import com.teamtea.teastory.container.*;
+import com.teamtea.teastory.client.container.*;
 import com.teamtea.teastory.item.DrinkMakerItem;
 import com.teamtea.teastory.item.IronKettleItem;
 import com.teamtea.teastory.item.TeapotItem;

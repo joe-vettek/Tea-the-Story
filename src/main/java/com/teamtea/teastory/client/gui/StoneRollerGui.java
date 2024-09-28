@@ -2,7 +2,7 @@ package com.teamtea.teastory.client.gui;
 
 
 import com.teamtea.teastory.blockentity.StoneRollerBlockEntity;
-import com.teamtea.teastory.container.StoneRollerContainer;
+import com.teamtea.teastory.client.container.StoneRollerContainer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;

@@ -1,7 +1,7 @@
 package com.teamtea.teastory.blockentity;
 
 
-import com.teamtea.teastory.container.StoneMillContainer;
+import com.teamtea.teastory.client.container.StoneMillContainer;
 import net.minecraft.core.HolderLookup;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;

@@ -3,7 +3,7 @@ package com.teamtea.teastory.blockentity;
 import com.teamtea.teastory.block.craft.BambooTrayMode;
 import com.teamtea.teastory.block.craft.CatapultBoardBlockWithTray;
 import com.teamtea.teastory.block.craft.IStoveBlock;
-import com.teamtea.teastory.container.BambooTrayContainer;
+import com.teamtea.teastory.client.container.BambooTrayContainer;
 import com.teamtea.teastory.recipe.bamboo_tray.BambooTraySingleInRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;

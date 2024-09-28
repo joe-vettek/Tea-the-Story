@@ -2,7 +2,7 @@ package com.teamtea.teastory.client.gui;
 
 
 import com.teamtea.teastory.blockentity.StoveBlockEntity;
-import com.teamtea.teastory.container.StoveContainer;
+import com.teamtea.teastory.client.container.StoveContainer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
