@@ -3,6 +3,7 @@ package com.teamtea.teastory.client;
 import com.teamtea.teastory.block.crops.HybridizableFlowerBlock;
 import com.teamtea.teastory.*;
 import com.teamtea.teastory.block.crops.TrellisWithVineBlock;
+import com.teamtea.teastory.block.crops.WildCropBlock;
 import com.teamtea.teastory.client.color.block.GrassBlockColor;
 import com.teamtea.teastory.client.color.block.HybridizableFlowerBlockColor;
 import com.teamtea.teastory.client.color.block.SaucepanBlockColor;
@@ -51,6 +52,7 @@ import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 import com.teamtea.teastory.fluid.TeaFluidType;
 import com.teamtea.teastory.resource.PathResourcesSupplier;
 import com.teamtea.teastory.variant.Planks;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -116,6 +118,11 @@ public class ClientSetup {
                 if (block instanceof TrellisWithVineBlock) {
                     ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutout());
                 }
+            }
+
+            for (DeferredHolder<Block, WildCropBlock> blockWildCropBlockDeferredHolder : List.of(BlockRegister.WILD_CUCUMBER, BlockRegister.WILD_BITTER_GOURD, BlockRegister.WILD_RICE, BlockRegister.WILD_CHILI, BlockRegister.WILD_CHINESE_CABBAGE)) {
+                ItemBlockRenderTypes.setRenderLayer(blockWildCropBlockDeferredHolder.value(), RenderType.cutout());
+
             }
         });
     }

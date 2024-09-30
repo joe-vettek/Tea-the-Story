@@ -54,7 +54,7 @@ public class BlockRegister {
     public static DeferredHolder<Item, BlockItem> riceSeedlings = ModItems.register("rice_seedlings", () -> new BlockItem(ricePlant.get(), new Item.Properties()));
 
     public static DeferredHolder<Block, TeaPlantBlock> tea_plant = ModBlocks.register("tea_plant", () -> new TeaPlantBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
-    public static DeferredHolder<Block, WildTeaPlantBlock> wild_tea_plant = ModBlocks.register("wild_tea_plant", () -> new WildTeaPlantBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
+    public static DeferredHolder<Block, WildCropBlock> wild_tea_plant = ModBlocks.register("wild_tea_plant", () -> new WildCropBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY),false,false));
 
     // public static RegistryObject<Item> tea_plant_item = ModItems.register("tea_plant", () -> new BlockItem(tea_plant.get(), new Item.Properties()));
     public static DeferredHolder<Item, BlockItem> wild_tea_plant_item = ModItems.register("wild_tea_plant", () -> new BlockItem(wild_tea_plant.get(), new Item.Properties()));
@@ -62,8 +62,24 @@ public class BlockRegister {
 
     public static DeferredHolder<Block, MelonVineBlock> WATERMELON_VINE = ModBlocks.register("watermelon_vine", () -> new MelonVineBlock(Blocks.MELON, Block.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
 
-    public static DeferredHolder<Block, WildGrapeBlock> WILD_GRAPE = ModBlocks.register("wild_grape", () -> new WildGrapeBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
+    public static DeferredHolder<Block, WildCropBlock> WILD_GRAPE = ModBlocks.register("wild_grape", () -> new WildCropBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY).offsetType(BlockBehaviour.OffsetType.XZ),true,false));
     public static DeferredHolder<Item, BlockItem> WILD_GRAPE_ITEM = ModItems.register("wild_grape", () -> new BlockItem(WILD_GRAPE.get(), new Item.Properties()));
+
+    public static DeferredHolder<Block, WildCropBlock> WILD_CUCUMBER = ModBlocks.register("wild_cucumber", () -> new WildCropBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY).offsetType(BlockBehaviour.OffsetType.XZ),true,true));
+    public static DeferredHolder<Item, BlockItem> WILD_CUCUMBER_ITEM = ModItems.register("wild_cucumber", () -> new BlockItem(WILD_CUCUMBER.get(), new Item.Properties()));
+
+    public static DeferredHolder<Block, WildCropBlock> WILD_BITTER_GOURD = ModBlocks.register("wild_bitter_gourd", () -> new WildCropBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY).offsetType(BlockBehaviour.OffsetType.XZ),true,true));
+    public static DeferredHolder<Item, BlockItem> WILD_BITTER_GOURD_ITEM = ModItems.register("wild_bitter_gourd", () -> new BlockItem(WILD_BITTER_GOURD.get(), new Item.Properties()));
+
+    public static DeferredHolder<Block, WildCropBlock> WILD_RICE = ModBlocks.register("wild_rice", () -> new WildCropBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY).offsetType(BlockBehaviour.OffsetType.XZ),false,false));
+    public static DeferredHolder<Item, BlockItem> WILD_RICE_ITEM = ModItems.register("wild_rice", () -> new BlockItem(WILD_RICE.get(), new Item.Properties()));
+
+    public static DeferredHolder<Block, WildCropBlock> WILD_CHILI = ModBlocks.register("wild_chili", () -> new WildCropBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY).offsetType(BlockBehaviour.OffsetType.XZ),false,false));
+    public static DeferredHolder<Item, BlockItem> WILD_CHILI_ITEM = ModItems.register("wild_chili", () -> new BlockItem(WILD_CHILI.get(), new Item.Properties()));
+
+    public static DeferredHolder<Block, WildCropBlock> WILD_CHINESE_CABBAGE = ModBlocks.register("wild_chinese_cabbage", () -> new WildCropBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY).offsetType(BlockBehaviour.OffsetType.XZ),false,false));
+    public static DeferredHolder<Item, BlockItem> WILD_CHINESE_CABBAGE_ITEM = ModItems.register("wild_chinese_cabbage", () -> new BlockItem(WILD_CHINESE_CABBAGE.get(), new Item.Properties()));
+
 
     public static DeferredHolder<Block, ChiliBlock> CHILI_PLANT = ModBlocks.register("chili_plant", () -> new ChiliBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
     public static DeferredHolder<Item, Item> CHILI = ModItems.register("chili", () -> new Item(new Item.Properties()));
@@ -104,7 +120,7 @@ public class BlockRegister {
     public static DeferredHolder<Block, GrassBlock> GRASS_BLOCK_WITH_HOLE = ModBlocks.register("grass_block_with_hole", () -> new GrassBlock(Block.Properties.ofFullCopy(Blocks.GRASS_BLOCK).strength(0.6F).randomTicks()));
     public static DeferredHolder<Item, BlockItem> GRASS_BLOCK_WITH_HOLE_ITEM = ModItems.register("grass_block_with_hole", () -> new BlockItem(GRASS_BLOCK_WITH_HOLE.get(), new Item.Properties()));
     // public static RegistryObject<Block> WOODEN_BOWL = ModBlocks.register("wooden_bowl", () -> new BowlBlock(Block.Properties.ofFullCopy(Blocks.GRASS_BLOCK).strength(0.4F).noOcclusion()));
-    public static DeferredHolder<Item, Item> WOODEN_BOWL_ITEM = ModItems.register("wooden_bowl", () -> new Item( new Item.Properties()));
+    public static DeferredHolder<Item, Item> WOODEN_BOWL_ITEM = ModItems.register("wooden_bowl", () -> new Item(new Item.Properties()));
 
 
     private static boolean predFalse(BlockState p_235436_0_, BlockGetter p_235436_1_, BlockPos p_235436_2_) {

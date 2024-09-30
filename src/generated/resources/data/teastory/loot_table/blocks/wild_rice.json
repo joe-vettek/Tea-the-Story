@@ -37,7 +37,7 @@
                   ]
                 }
               ],
-              "name": "teastory:wild_grape"
+              "name": "teastory:wild_rice"
             },
             {
               "type": "minecraft:item",
@@ -55,7 +55,7 @@
                   "function": "minecraft:explosion_decay"
                 }
               ],
-              "name": "teastory:grapes"
+              "name": "teastory:rice_grains"
             }
           ]
         }
@@ -63,5 +63,5 @@
       "rolls": 1.0
     }
   ],
-  "random_sequence": "teastory:blocks/wild_grape"
+  "random_sequence": "teastory:blocks/wild_rice"
 }

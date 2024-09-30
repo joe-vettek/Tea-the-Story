@@ -37,7 +37,7 @@
                   ]
                 }
               ],
-              "name": "teastory:wild_grape"
+              "name": "teastory:wild_bitter_gourd"
             },
             {
               "type": "minecraft:item",
@@ -55,7 +55,7 @@
                   "function": "minecraft:explosion_decay"
                 }
               ],
-              "name": "teastory:grapes"
+              "name": "teastory:bitter_gourd"
             }
           ]
         }
@@ -63,5 +63,5 @@
       "rolls": 1.0
     }
   ],
-  "random_sequence": "teastory:blocks/wild_grape"
+  "random_sequence": "teastory:blocks/wild_bitter_gourd"
 }

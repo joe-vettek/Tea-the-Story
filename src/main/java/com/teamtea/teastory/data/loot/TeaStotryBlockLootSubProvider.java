@@ -7,20 +7,29 @@ import com.teamtea.teastory.block.drink.DrinkMakerBlock;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.AlternativesEntry;
+import net.minecraft.world.level.storage.loot.entries.EntryGroup;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
 import net.minecraft.world.level.storage.loot.functions.CopyBlockState;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.predicates.BonusLevelTableCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import org.jetbrains.annotations.NotNull;
@@ -41,7 +50,7 @@ public class TeaStotryBlockLootSubProvider extends BlockLootSubProvider {
 
 
     public TeaStotryBlockLootSubProvider(HolderLookup.Provider provider) {
-        super(Set.of(), FeatureFlags.REGISTRY.allFlags(),provider);
+        super(Set.of(), FeatureFlags.REGISTRY.allFlags(), provider);
     }
 
 
@@ -78,8 +87,14 @@ public class TeaStotryBlockLootSubProvider extends BlockLootSubProvider {
         dropCropBlock(BlockRegister.CHILI_PLANT.get(), BlockRegister.CHILI.get(), BlockRegister.CHILI_SEEDS.get(), ChiliBlock.AGE, 6);
         dropCropBlock(BlockRegister.CHINESE_CABBAGE_PLANT.get(), BlockRegister.CHINESE_CABBAGE.get(), BlockRegister.CHINESE_CABBAGE_SEEDS.get(), ChineseCabbageBlock.AGE, 6);
 
-        add(BlockRegister.wild_tea_plant.get(), this::createMangroveLeavesDrops);
-        add(BlockRegister.WILD_GRAPE.get(), this::createMangroveLeavesDrops);
+        add(BlockRegister.wild_tea_plant.get(), (b) -> createWildCropDrops(b, BlockRegister.TEA_SEEDS.get(), ItemRegister.TEA_LEAVES.get()));
+        add(BlockRegister.WILD_GRAPE.get(), (b) -> createWildCropDrops(b, BlockRegister.GRAPES.get()));
+        add(BlockRegister.WILD_BITTER_GOURD.get(), (b) -> createWildCropDrops(b, BlockRegister.BITTER_GOURDS.get()));
+        add(BlockRegister.WILD_CUCUMBER.get(), (b) -> createWildCropDrops(b, BlockRegister.CUCUMBERS.get()));
+
+        add(BlockRegister.WILD_RICE.get(), (b) -> createWildCropDrops(b, BlockRegister.RICE_GRAINS.get()));
+        add(BlockRegister.WILD_CHINESE_CABBAGE.get(), (b) -> createWildCropDrops(b, BlockRegister.CHINESE_CABBAGE_SEEDS.get()));
+        add(BlockRegister.WILD_CHILI.get(), (b) -> createWildCropDrops(b, BlockRegister.CHILI_SEEDS.get()));
 
         dropRice();
         dropTeaPlant();
@@ -87,32 +102,32 @@ public class TeaStotryBlockLootSubProvider extends BlockLootSubProvider {
 
     private void dropTeaPlant() {
         add(BlockRegister.tea_plant.get(), (block -> {
-            var lootPool=LootTable.lootTable().withPool(
+            var lootPool = LootTable.lootTable().withPool(
                     this.applyExplosionCondition(block.asItem(),
                             LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                                     .add(LootItem.lootTableItem(BlockRegister.TEA_SEEDS.get()))));
             for (int i = 2; i <= 11; i++) {
-                lootPool= lootPool.withPool(
+                lootPool = lootPool.withPool(
                         this.applyExplosionCondition(block.asItem(),
                                 LootPool.lootPool().setRolls(ConstantValue.exactly(2.0F))
                                         .when(createStateBuilder(block, RicePlantBlock.AGE, i))
                                         .add(LootItem.lootTableItem(Items.STICK))));
             }
             for (int i = 6; i <= 10; i++) {
-                lootPool= lootPool.withPool(
+                lootPool = lootPool.withPool(
                         this.applyExplosionCondition(block.asItem(),
                                 LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                                         .setBonusRolls(ConstantValue.exactly(2.0f))
                                         .when(createStateBuilder(block, RicePlantBlock.AGE, i))
                                         .add(LootItem.lootTableItem(ItemRegister.TEA_LEAVES.get()))));
             }
-            lootPool= lootPool.withPool(
+            lootPool = lootPool.withPool(
                     this.applyExplosionCondition(block.asItem(),
                             LootPool.lootPool().when(createStateBuilder(block, RicePlantBlock.AGE, 11))
                                     .setRolls(ConstantValue.exactly(2.0F))
                                     .setBonusRolls(ConstantValue.exactly(2.0f))
                                     .add(LootItem.lootTableItem(BlockRegister.TEA_SEEDS.get()))));
-            lootPool= lootPool.withPool(
+            lootPool = lootPool.withPool(
                     this.applyExplosionCondition(block.asItem(),
                             LootPool.lootPool().when(createStateBuilder(block, RicePlantBlock.AGE, 11))
                                     .setRolls(ConstantValue.exactly(1.0F))
@@ -126,7 +141,7 @@ public class TeaStotryBlockLootSubProvider extends BlockLootSubProvider {
 
         add(BlockRegister.RiceSeedlingBlock.get(), (block -> {
 
-            var lootPool=LootTable.lootTable().withPool(
+            var lootPool = LootTable.lootTable().withPool(
                     this.applyExplosionCondition(block.asItem(),
                             LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                                     .when(createStateBuilder(block, RiceSeedlingBlock.AGE, 7))
@@ -134,7 +149,7 @@ public class TeaStotryBlockLootSubProvider extends BlockLootSubProvider {
 
             );
             for (int i = 0; i < 7; i++) {
-                lootPool= lootPool.withPool(
+                lootPool = lootPool.withPool(
                         this.applyExplosionCondition(block.asItem(),
                                 LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                                         .when(createStateBuilder(block, RiceSeedlingBlock.AGE, i))
@@ -148,22 +163,22 @@ public class TeaStotryBlockLootSubProvider extends BlockLootSubProvider {
 
         add(BlockRegister.ricePlant.get(), (block -> {
 
-            var lootPool=LootTable.lootTable();
+            var lootPool = LootTable.lootTable();
             for (int i = 0; i < 3; i++) {
-                lootPool= lootPool.withPool(
+                lootPool = lootPool.withPool(
                         this.applyExplosionCondition(block.asItem(),
                                 LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                                         .when(createStateBuilder(block, RicePlantBlock.AGE, i))
                                         .add(LootItem.lootTableItem(BlockRegister.riceSeedlings.get()))));
             }
             for (int i = 3; i <= 7; i++) {
-                lootPool= lootPool.withPool(
+                lootPool = lootPool.withPool(
                         this.applyExplosionCondition(block.asItem(),
                                 LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                                         .when(createStateBuilder(block, RicePlantBlock.AGE, i))
                                         .add(LootItem.lootTableItem(ItemRegister.DRY_STRAW.get()))));
             }
-            lootPool= lootPool.withPool(
+            lootPool = lootPool.withPool(
                     this.applyExplosionCondition(block.asItem(),
                             LootPool.lootPool().when(createStateBuilder(block, RicePlantBlock.AGE, 7))
                                     .setRolls(UniformGenerator.between(2, 4))
@@ -294,5 +309,29 @@ public class TeaStotryBlockLootSubProvider extends BlockLootSubProvider {
                         .hasProperty(pProperty, value.toString()));
     }
 
+    protected LootTable.Builder createWildCropDrops(Block pBlock, Item seed) {
+        return this.createSilkTouchOrShearsDispatchTable(
+                pBlock,
+                this.applyExplosionDecay(
+                        pBlock.asItem(), LootItem.lootTableItem(seed).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F)))
+                )
+        );
+    }
 
+    private LootItemCondition.Builder hasShearsOrSilkTouch() {
+        return HAS_SHEARS.or(this.hasSilkTouch());
+    }
+
+    protected LootTable.Builder createWildCropDrops(Block pBlock, Item seed, Item extra) {
+        // AlternativesEntry
+        return LootTable.lootTable()
+                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(pBlock).when(this.hasShearsOrSilkTouch())
+                        .otherwise( LootItem.lootTableItem(seed).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 1.0F))))))
+                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(EntryGroup.list(
+                                LootItem.lootTableItem(seed).apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 2.0F))),
+                                LootItem.lootTableItem(extra).apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 3.0F)))
+                        )).when(this.hasShearsOrSilkTouch().invert())
+                );
+
+    }
 }

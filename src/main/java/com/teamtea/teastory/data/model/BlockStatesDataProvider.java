@@ -1,5 +1,6 @@
 package com.teamtea.teastory.data.model;
 
+import com.teamtea.teastory.block.crops.WildCropBlock;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
@@ -38,15 +39,13 @@ public class BlockStatesDataProvider extends BlockStateProvider {
         }
 
 
-
-
         for (Direction direction : Direction.Plane.HORIZONTAL) {
             getMultipartBuilder(BlockRegister.stone_campfire.get())
                     .part()
                     .modelFile(models().getExistingFile(resourceBlock("stone_campfire")))
                     .rotationY(getRotateYByFacing(direction))
                     .addModel()
-                    .condition(BlockStateProperties.HORIZONTAL_FACING,direction)
+                    .condition(BlockStateProperties.HORIZONTAL_FACING, direction)
                     .end();
         }
 
@@ -63,6 +62,14 @@ public class BlockStatesDataProvider extends BlockStateProvider {
                 .addModel()
                 .condition(BlockStateProperties.LIT, true)
                 .end();
+
+        for (DeferredHolder<Block, WildCropBlock> holder : List.of(BlockRegister.WILD_CUCUMBER, BlockRegister.WILD_BITTER_GOURD, BlockRegister.WILD_RICE, BlockRegister.WILD_CHILI, BlockRegister.WILD_CHINESE_CABBAGE)) {
+            simpleBlock(holder.value(), ConfiguredModel.builder().modelFile(models().withExistingParent(blockName(holder.value()), ResourceLocation.withDefaultNamespace("cross"))
+                    .texture("cross",resourceBlock(blockName(holder.value())))
+            ).build());
+
+        }
+
     }
 
 
