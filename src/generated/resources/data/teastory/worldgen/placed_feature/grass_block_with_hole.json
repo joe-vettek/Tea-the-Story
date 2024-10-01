@@ -1,13 +1,13 @@
 {
-  "feature": "teastory:wild_tea_plant",
+  "feature": "teastory:grass_block_with_hole",
   "placement": [
     {
       "type": "minecraft:count",
-      "count": 5
+      "count": 3
     },
     {
       "type": "minecraft:rarity_filter",
-      "chance": 24
+      "chance": 20
     },
     {
       "type": "minecraft:in_square"

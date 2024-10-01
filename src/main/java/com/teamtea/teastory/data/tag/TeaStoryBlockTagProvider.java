@@ -59,5 +59,8 @@ public final class TeaStoryBlockTagProvider extends BlockTagsProvider {
                 BlockEntityRegister.STONE_MILL.get());
 
         tag(BlockTags.CAMPFIRES).add(BlockRegister.stone_campfire.value());
+
+        tag(BlockTags.DIRT).add(BlockRegister.GRASS_BLOCK_WITH_HOLE.value());
+
     }
 }

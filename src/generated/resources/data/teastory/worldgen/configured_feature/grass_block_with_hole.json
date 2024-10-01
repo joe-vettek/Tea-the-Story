@@ -1,0 +1,57 @@
+{
+  "type": "minecraft:random_patch",
+  "config": {
+    "feature": {
+      "feature": {
+        "type": "minecraft:replace_single_block",
+        "config": {
+          "targets": [
+            {
+              "state": {
+                "Name": "teastory:grass_block_with_hole",
+                "Properties": {
+                  "moisture": "0"
+                }
+              },
+              "target": {
+                "block_state": {
+                  "Name": "minecraft:grass_block",
+                  "Properties": {
+                    "snowy": "false"
+                  }
+                },
+                "predicate_type": "minecraft:blockstate_match"
+              }
+            }
+          ]
+        }
+      },
+      "placement": [
+        {
+          "type": "minecraft:block_predicate_filter",
+          "predicate": {
+            "type": "minecraft:all_of",
+            "predicates": [
+              {
+                "type": "minecraft:matching_blocks",
+                "blocks": "minecraft:air",
+                "offset": [
+                  0,
+                  1,
+                  0
+                ]
+              },
+              {
+                "type": "minecraft:matching_blocks",
+                "blocks": "minecraft:grass_block"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "tries": 4,
+    "xz_spread": 4,
+    "y_spread": 3
+  }
+}

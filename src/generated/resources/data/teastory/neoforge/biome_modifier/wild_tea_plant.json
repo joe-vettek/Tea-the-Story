@@ -1,12 +1,6 @@
 {
   "type": "teastory:add_features_by_filter",
-  "allowed_biomes": {
-    "type": "neoforge:and",
-    "values": [
-      "#c:is_hill",
-      "#c:is_wet/overworld"
-    ]
-  },
+  "allowed_biomes": "#c:is_mountain/slope",
   "features": "teastory:wild_tea_plant",
   "max_downfall": 0.9,
   "min_downfall": 0.45,

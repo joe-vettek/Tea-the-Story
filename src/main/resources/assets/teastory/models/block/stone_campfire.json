@@ -4,7 +4,7 @@
 	"texture_size": [64, 64],
 	"textures": {
 		"0": "teastory:block/stone_campfire",
-		"particle": "teastory:block/stone_campfire"
+		"particle": "block/cobblestone"
 	},
 	"elements": [
 		{

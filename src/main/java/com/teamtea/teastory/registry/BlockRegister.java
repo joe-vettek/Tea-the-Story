@@ -117,7 +117,7 @@ public class BlockRegister {
     // RegistryObject<Item> itemBlock = DREntityBlockItems.register(path, () -> new ItemFluidDrawer(fluiddrawer.get(), new Item.Properties()));
     // RegistryObject<BlockEntityType<BlockEntityFluidDrawer>> tankTileEntityType = DRBlockEntities.register(path,
     //         () -> BlockEntityType.Builder.of((pos, state) -> new BlockEntityFluidDrawer(count, pos, state), fluiddrawer.get()).build(null));
-    public static DeferredHolder<Block, GrassBlock> GRASS_BLOCK_WITH_HOLE = ModBlocks.register("grass_block_with_hole", () -> new GrassBlock(Block.Properties.ofFullCopy(Blocks.GRASS_BLOCK).strength(0.6F).randomTicks()));
+    public static DeferredHolder<Block, GrassBlockWithHole> GRASS_BLOCK_WITH_HOLE = ModBlocks.register("grass_block_with_hole", () -> new GrassBlockWithHole(Block.Properties.ofFullCopy(Blocks.GRASS_BLOCK).strength(0.6F).randomTicks()));
     public static DeferredHolder<Item, BlockItem> GRASS_BLOCK_WITH_HOLE_ITEM = ModItems.register("grass_block_with_hole", () -> new BlockItem(GRASS_BLOCK_WITH_HOLE.get(), new Item.Properties()));
     // public static RegistryObject<Block> WOODEN_BOWL = ModBlocks.register("wooden_bowl", () -> new BowlBlock(Block.Properties.ofFullCopy(Blocks.GRASS_BLOCK).strength(0.4F).noOcclusion()));
     public static DeferredHolder<Item, Item> WOODEN_BOWL_ITEM = ModItems.register("wooden_bowl", () -> new Item(new Item.Properties()));
