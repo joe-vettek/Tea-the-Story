@@ -1,0 +1,8 @@
+{
+  "type": "teastory:add_features_by_filter",
+  "allowed_biomes": "#c:is_cold/overworld",
+  "features": "teastory:wild_chinese_cabbage",
+  "max_temperature": 0.55,
+  "min_temperature": 0.0,
+  "step": "vegetal_decoration"
+}

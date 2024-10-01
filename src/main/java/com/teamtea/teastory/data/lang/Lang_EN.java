@@ -53,7 +53,7 @@ public class Lang_EN extends LangHelper {
         add(ItemRegister.BEEF_BURGER.get(), "Beef Burger");
         add(ItemRegister.CHICKEN_BURGER.get(), "Chicken Burger");
 
-        add("itemGroup.teastory.core", "Tea the Story: Core");
+        add("itemGroup.teastory.core", "Tea the Story: Recount");
         add("itemGroup.teastory.drink", "Tea the Story: Drink");
         add("item.teastory.ash", "Ash");
         add("item.teastory.dried_beetroot", "Dried Beetroot");

@@ -1,6 +1,7 @@
 package com.teamtea.teastory.fluid;
 
 
+import com.teamtea.teastory.registry.ModDamageType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
@@ -28,18 +29,10 @@ import com.teamtea.teastory.TeaStory;
 import java.util.function.Supplier;
 
 public class HotWaterFlowingFluidBlock extends LiquidBlock {
-    // public static final DamageSource BOILING = new DamageSource(new DamageType("boiling",1.0f)).setFireDamage();
-
-    public static final ResourceKey<DamageType> BOILING = register("boiling");
-
-    private static ResourceKey<DamageType> register(String name) {
-        return ResourceKey.create(Registries.DAMAGE_TYPE, TeaStory.rl(name));
-    }
 
     public static DamageSource getBoiling(Level level) {
-        return new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(BOILING));
+        return new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageType.BOILING));
     }
-
 
     public HotWaterFlowingFluidBlock(Supplier<? extends FlowingFluid> supplier, Properties copy) {
         super(supplier.get(), copy);

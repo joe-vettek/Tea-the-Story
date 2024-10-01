@@ -2,12 +2,14 @@ package com.teamtea.teastory.tag;
 
 
 import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.material.Fluid;
 import com.teamtea.teastory.TeaStory;
 
@@ -159,5 +161,16 @@ public final class TeaTags {
 
     public static class Entities {
         public final static TagKey<EntityType<?>> BIRDS = TagKey.create(Registries.ENTITY_TYPE, TeaStory.rl("minecraft", "birds"));
+    }
+
+    public static class Biomes {
+        // public final static TagKey<Biome> SPAWN_WILD_RICE = TagKey.create(Registries.BIOME, TeaStory.rl("spawn/wild_rice"));
+        // public final static TagKey<Biome> SPAWN_WILD_CHILI = TagKey.create(Registries.BIOME, TeaStory.rl("spawn/wild_chili"));
+        // public final static TagKey<Biome> SPAWN_WILD_CHINESE_CABBAGE = TagKey.create(Registries.BIOME, TeaStory.rl("spawn/wild_chinese_cabbage"));
+        //
+        // public final static TagKey<Biome> SPAWN_WILD_GRAPE = TagKey.create(Registries.BIOME, TeaStory.rl("spawn/wild_grape"));
+        // public final static TagKey<Biome> SPAWN_WILD_CUCUMBER = TagKey.create(Registries.BIOME, TeaStory.rl("spawn/wild_cucumber"));
+        // public final static TagKey<Biome> SPAWN_WILD_BITTER_GOURD = TagKey.create(Registries.BIOME, TeaStory.rl("spawn/wild_bitter_gourd"));
+
     }
 }

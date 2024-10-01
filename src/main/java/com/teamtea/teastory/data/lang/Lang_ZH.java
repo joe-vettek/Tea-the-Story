@@ -35,11 +35,11 @@ public class Lang_ZH extends LangHelper {
         add(BlockRegister.BITTER_GOURD.get(), "苦瓜");
         add(BlockRegister.WOODEN_BOWL_ITEM.get(), "木碗");
 
-        add(BlockRegister.WILD_RICE.get(), "野生水稻");
-        add(BlockRegister.WILD_CHINESE_CABBAGE.get(), "野生白菜");
+        add(BlockRegister.WILD_RICE.get(), "野生稻");
+        add(BlockRegister.WILD_CHINESE_CABBAGE.get(), "野白菜");
         add(BlockRegister.WILD_CHILI.get(), "野生辣椒");
-        add(BlockRegister.WILD_CUCUMBER.get(), "野生黄瓜");
-        add(BlockRegister.WILD_BITTER_GOURD.get(), "野生苦瓜");
+        add(BlockRegister.WILD_CUCUMBER.get(), "野黄瓜");
+        add(BlockRegister.WILD_BITTER_GOURD.get(), "野苦瓜");
 
         add(ItemRegister.NETHER_WART_RICE_BOWL.get(), "地狱疣饭");
         add(ItemRegister.SPICY_BEEF_RICE_BOWL.get(), "香辣牛肉饭");
@@ -53,7 +53,7 @@ public class Lang_ZH extends LangHelper {
         add(ItemRegister.BEEF_BURGER.get(), "牛肉堡");
         add(ItemRegister.CHICKEN_BURGER.get(), "鸡肉堡");
 
-        add("itemGroup.teastory.core", "茶风·纪事·核心");
+        add("itemGroup.teastory.core", "茶风·纪事·追叙");
         add("itemGroup.teastory.drink", "茶风·纪事·茶饮");
         add("item.teastory.ash", "灰烬");
         add("item.teastory.dried_beetroot", "甜菜根干");

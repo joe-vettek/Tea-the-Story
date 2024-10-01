@@ -95,6 +95,11 @@ public class TeaStory {
         LootRegister.LOOT_MODIFIERS.register(modEventBus);
 
         ModCapabilities.ATTACHMENT_TYPES.register(modEventBus);
+
+        ModBiomeFeatures.FEATURES.register(modEventBus);
+        ModBiomeModifiers.BIOME_MODIFIER_SERIALIZERS.register(modEventBus);
+        ModPlacementModifiers.PLACEMENT_MODIFIERS.register(modEventBus);
+
         // ModContents.DRMenuType.register(modEventBus);
 
         // ModContents.init();

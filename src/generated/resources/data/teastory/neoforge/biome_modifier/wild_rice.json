@@ -1,0 +1,14 @@
+{
+  "type": "teastory:add_features_by_filter",
+  "allowed_biomes": {
+    "type": "neoforge:or",
+    "values": [
+      "#c:is_river",
+      "#c:is_swamp"
+    ]
+  },
+  "features": "teastory:wild_rice",
+  "min_downfall": 0.5,
+  "min_temperature": 0.3,
+  "step": "vegetal_decoration"
+}

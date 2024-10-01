@@ -1,0 +1,26 @@
+{
+  "type": "teastory:add_features_by_filter",
+  "allowed_biomes": {
+    "type": "neoforge:and",
+    "values": [
+      {
+        "type": "neoforge:or",
+        "values": [
+          "#c:is_wet/overworld"
+        ]
+      },
+      {
+        "type": "neoforge:or",
+        "values": [
+          "#c:is_forest",
+          "#c:is_plains"
+        ]
+      }
+    ]
+  },
+  "features": "teastory:wild_chili",
+  "max_downfall": 0.9,
+  "min_downfall": 0.4,
+  "min_temperature": 0.35,
+  "step": "vegetal_decoration"
+}

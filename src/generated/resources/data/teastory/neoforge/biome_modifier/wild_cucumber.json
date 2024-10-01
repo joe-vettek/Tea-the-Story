@@ -1,0 +1,16 @@
+{
+  "type": "teastory:add_features_by_filter",
+  "allowed_biomes": {
+    "type": "neoforge:or",
+    "values": [
+      "#c:is_plains",
+      "#c:is_forest"
+    ]
+  },
+  "features": "teastory:wild_cucumber",
+  "max_downfall": 0.9,
+  "max_temperature": 0.95,
+  "min_downfall": 0.4,
+  "min_temperature": 0.15,
+  "step": "vegetal_decoration"
+}

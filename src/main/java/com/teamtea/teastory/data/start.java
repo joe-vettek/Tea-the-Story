@@ -1,6 +1,8 @@
 package com.teamtea.teastory.data;
 
 
+import com.teamtea.teastory.data.datapack.RegistryDataGenerator;
+import com.teamtea.teastory.data.tag.*;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -14,10 +16,6 @@ import com.teamtea.teastory.data.loot.GLMProvider;
 import com.teamtea.teastory.data.loot.LFTLootTableProvider;
 import com.teamtea.teastory.data.model.BlockStatesDataProvider;
 import com.teamtea.teastory.data.model.TeaItemModelProvider;
-import com.teamtea.teastory.data.tag.TeaStoryBlockTagProvider;
-import com.teamtea.teastory.data.tag.TeaStoryEntityTypeTagsProvider;
-import com.teamtea.teastory.data.tag.TeaStoryFluidTagProvider;
-import com.teamtea.teastory.data.tag.TeaStoryItemTagProvider;
 import com.teamtea.teastory.data.recipe.TeaStoryRecipeProvider;
 
 import java.util.concurrent.CompletableFuture;
@@ -38,11 +36,14 @@ public final class start {
             generator.addProvider(event.includeServer(),new TeaStoryItemTagProvider(packOutput, lookupProvider, blockTags.contentsGetter()));
             generator.addProvider(event.includeServer(),new TeaStoryFluidTagProvider(packOutput,lookupProvider, MODID, helper));
             generator.addProvider(event.includeServer(),new TeaStoryEntityTypeTagsProvider(packOutput,lookupProvider, MODID, helper));
+            generator.addProvider(event.includeServer(),new TeaStoryBiomeTagProvider(packOutput,lookupProvider, MODID, helper));
 
             generator.addProvider(event.includeServer(),new TeaStoryRecipeProvider(packOutput,lookupProvider));
             generator.addProvider(event.includeServer(),new GLMProvider(packOutput,lookupProvider, MODID));
 
             generator.addProvider(event.includeServer(),new LFTLootTableProvider(packOutput,lookupProvider));
+            generator.addProvider(event.includeServer(),new RegistryDataGenerator(packOutput,lookupProvider));
+
         }if (event.includeClient()) {
             generator.addProvider(event.includeClient(),new Lang_EN(packOutput, helper));
             generator.addProvider(event.includeClient(),new Lang_ZH(packOutput, helper));

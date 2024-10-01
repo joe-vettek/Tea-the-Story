@@ -1,0 +1,14 @@
+{
+  "type": "teastory:add_features_by_filter",
+  "allowed_biomes": {
+    "type": "neoforge:or",
+    "values": [
+      "#c:is_dry/overworld",
+      "#c:is_floral"
+    ]
+  },
+  "features": "teastory:wild_grape",
+  "max_temperature": 0.85,
+  "min_temperature": 0.1,
+  "step": "vegetal_decoration"
+}
