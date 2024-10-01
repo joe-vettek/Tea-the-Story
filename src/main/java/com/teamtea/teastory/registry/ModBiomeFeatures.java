@@ -3,7 +3,6 @@ package com.teamtea.teastory.registry;
 import com.teamtea.teastory.TeaStory;
 import com.teamtea.teastory.world.configuration.WildCropConfiguration;
 import com.teamtea.teastory.world.feature.WildCropFeature;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
@@ -11,7 +10,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
-import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
@@ -40,6 +38,7 @@ public class ModBiomeFeatures {
         public static final ResourceKey<ConfiguredFeature<?, ?>> WILD_GRAPE = createKey("wild_grape");
         public static final ResourceKey<ConfiguredFeature<?, ?>> WILD_CUCUMBER = createKey("wild_cucumber");
         public static final ResourceKey<ConfiguredFeature<?, ?>> WILD_BITTER_GOURD = createKey("wild_bitter_gourd");
+        public static final ResourceKey<ConfiguredFeature<?, ?>> WILD_TEA_PLANT = createKey("wild_tea_plant");
 
         private static ResourceKey<ConfiguredFeature<?, ?>> createKey(String name) {
             return ResourceKey.create(Registries.CONFIGURED_FEATURE, TeaStory.rl(name));
@@ -72,6 +71,7 @@ public class ModBiomeFeatures {
             FeatureUtils.register(context, WILD_GRAPE, Feature.RANDOM_PATCH, grassLikePatch(BlockStateProvider.simple(BlockRegister.WILD_GRAPE.get()), 42));
             FeatureUtils.register(context, WILD_CUCUMBER, Feature.RANDOM_PATCH, grassLikePatch(BlockStateProvider.simple(BlockRegister.WILD_CUCUMBER.get()), 68));
             FeatureUtils.register(context, WILD_BITTER_GOURD, Feature.RANDOM_PATCH, grassLikePatch(BlockStateProvider.simple(BlockRegister.WILD_BITTER_GOURD.get()), 72));
+            FeatureUtils.register(context, WILD_TEA_PLANT, Feature.RANDOM_PATCH, grassLikePatch(BlockStateProvider.simple(BlockRegister.wild_tea_plant.get()), 2));
 
         }
     }
@@ -83,6 +83,7 @@ public class ModBiomeFeatures {
         public static final ResourceKey<PlacedFeature> WILD_GRAPE = createKey("wild_grape");
         public static final ResourceKey<PlacedFeature> WILD_CUCUMBER = createKey("wild_cucumber");
         public static final ResourceKey<PlacedFeature> WILD_BITTER_GOURD = createKey("wild_bitter_gourd");
+        public static final ResourceKey<PlacedFeature> WILD_TEA_PLANT = createKey("wild_tea_plant");
 
         private static ResourceKey<PlacedFeature> createKey(String name) {
             return ResourceKey.create(Registries.PLACED_FEATURE, TeaStory.rl(name));
@@ -100,6 +101,8 @@ public class ModBiomeFeatures {
             PlacementUtils.register(context, WILD_GRAPE, holdergetter.getOrThrow(TeaConfiguredFeature.WILD_GRAPE), worldSurfaceSquaredWithCount(3,32));
             PlacementUtils.register(context, WILD_CUCUMBER, holdergetter.getOrThrow(TeaConfiguredFeature.WILD_CUCUMBER), worldSurfaceSquaredWithCount(2,42));
             PlacementUtils.register(context, WILD_BITTER_GOURD, holdergetter.getOrThrow(TeaConfiguredFeature.WILD_BITTER_GOURD), worldSurfaceSquaredWithCount(3,32));
+            PlacementUtils.register(context, WILD_TEA_PLANT, holdergetter.getOrThrow(TeaConfiguredFeature.WILD_TEA_PLANT), worldSurfaceSquaredWithCount(1,28));
+
         }
     }
 

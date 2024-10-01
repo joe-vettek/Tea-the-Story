@@ -47,6 +47,7 @@ public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> WILD_GRAPE = createKey("wild_grape");
     public static final ResourceKey<BiomeModifier> WILD_CUCUMBER = createKey("wild_cucumber");
     public static final ResourceKey<BiomeModifier> WILD_BITTER_GOURD = createKey("wild_bitter_gourd");
+    public static final ResourceKey<BiomeModifier> WILD_TEA_PLANT = createKey("wild_tea_plant");
 
     private static ResourceKey<BiomeModifier> createKey(String name) {
         return ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, TeaStory.rl(name));
@@ -109,7 +110,15 @@ public class ModBiomeModifiers {
                 Optional.of(0.9f),
                 HolderSet.direct(placedFeatureHolderGetter.getOrThrow(ModBiomeFeatures.TeaPlacedFeature.WILD_BITTER_GOURD)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
-
+        context.register(WILD_TEA_PLANT, new AddFeaturesByFilterBiomeModifier(
+                new AndHolderSet<>(holderGetter.getOrThrow(Tags.Biomes.IS_HILL),holderGetter.getOrThrow(Tags.Biomes.IS_WET_OVERWORLD)),
+                Optional.empty(),
+                Optional.of(0.1f),
+                Optional.empty(),
+                Optional.of(0.45f),
+                Optional.of(0.9f),
+                HolderSet.direct(placedFeatureHolderGetter.getOrThrow(ModBiomeFeatures.TeaPlacedFeature.WILD_TEA_PLANT)),
+                GenerationStep.Decoration.VEGETAL_DECORATION));
 
     }
 }

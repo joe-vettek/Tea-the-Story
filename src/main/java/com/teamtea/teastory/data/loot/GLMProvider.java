@@ -36,30 +36,37 @@ public class GLMProvider extends GlobalLootModifierProvider {
             LootItemCondition lootItemCondition = LootTableIdCondition.builder(tableResourceKey.location())
                     .and(LootItemRandomChanceCondition.randomChance(0.5f))
                     .build();
-            add(tableResourceKey.location().getPath()+"/add_" + BlockRegister.GRAPES.getId().getPath(), new AddItemModifier(new LootItemCondition[]{lootItemCondition}, BlockRegister.GRAPES.get(), 2));
+            add(tableResourceKey.location().getPath() + "/add_" + BlockRegister.GRAPES.getId().getPath(), new AddItemModifier(new LootItemCondition[]{lootItemCondition}, BlockRegister.GRAPES.get(), 2));
         }
 
         for (var tableResourceKey : List.of(BuiltInLootTables.VILLAGE_SNOWY_HOUSE, BuiltInLootTables.VILLAGE_TAIGA_HOUSE)) {
             LootItemCondition lootItemCondition = LootTableIdCondition.builder(tableResourceKey.location())
                     .and(LootItemRandomChanceCondition.randomChance(0.5f))
                     .build();
-            add(tableResourceKey.location().getPath()+"/add_" + BlockRegister.CHINESE_CABBAGE_SEEDS.getId().getPath(), new AddItemModifier(new LootItemCondition[]{lootItemCondition}, BlockRegister.CHINESE_CABBAGE_SEEDS.get(), 1));
+            add(tableResourceKey.location().getPath() + "/add_" + BlockRegister.CHINESE_CABBAGE_SEEDS.getId().getPath(), new AddItemModifier(new LootItemCondition[]{lootItemCondition}, BlockRegister.CHINESE_CABBAGE_SEEDS.get(), 1));
         }
 
         for (var tableResourceKey : List.of(BuiltInLootTables.VILLAGE_SAVANNA_HOUSE)) {
             LootItemCondition lootItemCondition = LootTableIdCondition.builder(tableResourceKey.location())
                     .and(LootItemRandomChanceCondition.randomChance(0.5f))
                     .build();
-            add(tableResourceKey.location().getPath()+"/add_" + BlockRegister.CHILI_SEEDS.getId().getPath(), new AddItemModifier(new LootItemCondition[]{lootItemCondition}, BlockRegister.CHILI_SEEDS.get(), 2));
+            add(tableResourceKey.location().getPath() + "/add_" + BlockRegister.CHILI_SEEDS.getId().getPath(), new AddItemModifier(new LootItemCondition[]{lootItemCondition}, BlockRegister.CHILI_SEEDS.get(), 2));
         }
 
         for (var tableResourceKey : List.of(BuiltInLootTables.VILLAGE_PLAINS_HOUSE)) {
             LootItemCondition lootItemCondition = LootTableIdCondition.builder(tableResourceKey.location())
                     .and(LootItemRandomChanceCondition.randomChance(0.5f))
                     .build();
-            add(tableResourceKey.location().getPath()+"/add_" + BlockRegister.RICE_GRAINS.getId().getPath(), new AddItemModifier(new LootItemCondition[]{lootItemCondition}, BlockRegister.RICE_GRAINS.get(), 2));
-            add(tableResourceKey.location().getPath()+"/add_" + BlockRegister.BITTER_GOURDS.getId().getPath(), new AddItemModifier(new LootItemCondition[]{lootItemCondition}, BlockRegister.BITTER_GOURDS.get(), 2));
+            add(tableResourceKey.location().getPath() + "/add_" + BlockRegister.RICE_GRAINS.getId().getPath(), new AddItemModifier(new LootItemCondition[]{lootItemCondition}, BlockRegister.RICE_GRAINS.get(), 2));
+            add(tableResourceKey.location().getPath() + "/add_" + BlockRegister.BITTER_GOURDS.getId().getPath(), new AddItemModifier(new LootItemCondition[]{lootItemCondition}, BlockRegister.BITTER_GOURDS.get(), 2));
             add(tableResourceKey.location().getPath() + "/add_" + BlockRegister.CUCUMBERS.getId().getPath(), new AddItemModifier(new LootItemCondition[]{lootItemCondition}, BlockRegister.CUCUMBERS.get(), 2));
+        }
+
+        for (var tableResourceKey : List.of(BuiltInLootTables.VILLAGE_PLAINS_HOUSE,BuiltInLootTables.JUNGLE_TEMPLE)) {
+            LootItemCondition lootItemCondition = LootTableIdCondition.builder(tableResourceKey.location())
+                    .and(LootItemRandomChanceCondition.randomChance(0.6f))
+                    .build();
+            add(tableResourceKey.location().getPath() + "/add_" + BlockRegister.TEA_SEEDS.getId().getPath(), new AddItemModifier(new LootItemCondition[]{lootItemCondition}, BlockRegister.TEA_SEEDS.get(), 2));
         }
 
 
