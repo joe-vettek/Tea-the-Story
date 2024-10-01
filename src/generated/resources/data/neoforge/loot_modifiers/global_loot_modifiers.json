@@ -1,25 +1,12 @@
 {
   "entries": [
-    "teastory:add_bitter_gourd_to_tall_grass",
-    "teastory:add_rice_grains_to_tall_grass",
-    "teastory:add_grapes_to_tall_grass",
-    "teastory:add_bitter_gourd_to_short_grass",
-    "teastory:add_tea_seeds_to_large_fern",
-    "teastory:add_tea_seeds_to_short_grass",
-    "teastory:add_grapes_to_short_grass",
-    "teastory:add_tea_seeds_to_tall_grass",
-    "teastory:add_bitter_gourd_to_fern",
-    "teastory:add_bitter_gourd_to_large_fern",
-    "teastory:add_rice_grains_to_fern",
-    "teastory:add_rice_grains_to_short_grass",
-    "teastory:add_grapes_to_fern",
-    "teastory:add_rice_grains_to_large_fern",
-    "teastory:add_tea_seeds_to_fern",
-    "teastory:add_cucumber_to_fern",
-    "teastory:add_cucumber_to_large_fern",
-    "teastory:add_cucumber_to_tall_grass",
-    "teastory:add_cucumber_to_short_grass",
-    "teastory:add_grapes_to_large_fern"
+    "teastory:chests/village/village_plains_house/add_cucumber",
+    "teastory:chests/village/village_plains_house/add_rice_grains",
+    "teastory:chests/village/village_plains_house/add_bitter_gourd",
+    "teastory:chests/village/village_taiga_house/add_chinese_cabbage_seeds",
+    "teastory:chests/village/village_savanna_house/add_chili_seeds",
+    "teastory:chests/village/village_desert_house/add_grapes",
+    "teastory:chests/village/village_snowy_house/add_chinese_cabbage_seeds"
   ],
   "replace": false
 }

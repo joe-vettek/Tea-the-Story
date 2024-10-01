@@ -6,14 +6,15 @@
       "terms": [
         {
           "condition": "neoforge:loot_table_id",
-          "loot_table_id": "minecraft:blocks/short_grass"
+          "loot_table_id": "minecraft:chests/village/village_plains_house"
         },
         {
-          "chance": 0.005,
+          "chance": 0.5,
           "condition": "minecraft:random_chance"
         }
       ]
     }
   ],
-  "item": "teastory:rice_grains"
+  "count": 2,
+  "item": "teastory:bitter_gourd"
 }

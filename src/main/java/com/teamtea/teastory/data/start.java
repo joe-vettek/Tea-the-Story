@@ -1,7 +1,7 @@
 package com.teamtea.teastory.data;
 
 
-import com.teamtea.teastory.data.datapack.RegistryDataGenerator;
+import com.teamtea.teastory.data.datapack.DatapackRegistryGenerator;
 import com.teamtea.teastory.data.tag.*;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
@@ -42,7 +42,7 @@ public final class start {
             generator.addProvider(event.includeServer(),new GLMProvider(packOutput,lookupProvider, MODID));
 
             generator.addProvider(event.includeServer(),new LFTLootTableProvider(packOutput,lookupProvider));
-            generator.addProvider(event.includeServer(),new RegistryDataGenerator(packOutput,lookupProvider));
+            generator.addProvider(event.includeServer(),new DatapackRegistryGenerator(packOutput,lookupProvider));
 
         }if (event.includeClient()) {
             generator.addProvider(event.includeClient(),new Lang_EN(packOutput, helper));

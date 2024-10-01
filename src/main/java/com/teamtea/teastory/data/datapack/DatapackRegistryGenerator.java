@@ -16,17 +16,17 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
-public class RegistryDataGenerator extends DatapackBuiltinEntriesProvider {
+public class DatapackRegistryGenerator extends DatapackBuiltinEntriesProvider {
 
-    public static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
+    public static final RegistrySetBuilder REGISTRY_SET_BUILDER = new RegistrySetBuilder()
             .add(Registries.CONFIGURED_FEATURE, ModBiomeFeatures.TeaConfiguredFeature::bootstrap)
             .add(Registries.PLACED_FEATURE, ModBiomeFeatures.TeaPlacedFeature::bootstrap)
             .add(Registries.DAMAGE_TYPE, ModDamageType::bootstrap)
             .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ModBiomeModifiers::bootstrap)
             ;
 
-    public RegistryDataGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
-        super(output, registries, BUILDER, Set.of(TeaStory.MODID));
+    public DatapackRegistryGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
+        super(output, registries, REGISTRY_SET_BUILDER, Set.of(TeaStory.MODID));
     }
 
 }

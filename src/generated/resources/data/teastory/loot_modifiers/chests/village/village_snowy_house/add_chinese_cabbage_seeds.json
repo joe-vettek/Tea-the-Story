@@ -6,14 +6,14 @@
       "terms": [
         {
           "condition": "neoforge:loot_table_id",
-          "loot_table_id": "minecraft:blocks/fern"
+          "loot_table_id": "minecraft:chests/village/village_snowy_house"
         },
         {
-          "chance": 0.005,
+          "chance": 0.5,
           "condition": "minecraft:random_chance"
         }
       ]
     }
   ],
-  "item": "teastory:grapes"
+  "item": "teastory:chinese_cabbage_seeds"
 }
