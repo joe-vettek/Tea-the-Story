@@ -44,7 +44,7 @@ public class ServerConfig
     {
         public static ModConfigSpec.BooleanValue canUseBoneMeal;
         public static ModConfigSpec.BooleanValue useAshAsBoneMeal;
-        public static ModConfigSpec.BooleanValue dropRiceGrains;
+        public static ModConfigSpec.BooleanValue addSeedToHouseChest;
         public static ModConfigSpec.BooleanValue betterMelon;
 
         private static void load(ModConfigSpec.Builder builder)
@@ -54,8 +54,8 @@ public class ServerConfig
                     .define("BoneMeal", true);
             useAshAsBoneMeal = builder.comment("Can ash be used as bone meal?")
                     .define("Ash", true);
-            dropRiceGrains = builder.comment("Can grass drop rice grains?")
-                    .define("DropRiceGrains", true);
+            addSeedToHouseChest = builder.comment("Can players find seeds in the chest of village?")
+                    .define("AddSeedToHouseChest", true);
             betterMelon = builder.comment("Let melon vine more interesting.")
                     .define("BetterMelon", true);
             builder.pop();
