@@ -1,6 +1,8 @@
 package com.teamtea.teastory.registry;
 
 import com.teamtea.teastory.TeaStory;
+import com.teamtea.teastory.block.crops.HybridizableFlowerBlock;
+import com.teamtea.teastory.item.HybridizableFlowerBlockItem;
 import com.teamtea.teastory.world.configuration.WildCropConfiguration;
 import com.teamtea.teastory.world.feature.WildCropFeature;
 import net.minecraft.core.Direction;
@@ -23,14 +25,18 @@ import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConf
 import net.minecraft.world.level.levelgen.feature.configurations.ReplaceBlockConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
+import net.minecraft.world.level.levelgen.feature.stateproviders.NoiseProvider;
 import net.minecraft.world.level.levelgen.heightproviders.ConstantHeight;
 import net.minecraft.world.level.levelgen.placement.*;
+import net.minecraft.world.level.levelgen.synth.NormalNoise;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 public class ModBiomeFeatures {
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(Registries.FEATURE, TeaStory.MODID);
@@ -47,6 +53,7 @@ public class ModBiomeFeatures {
         public static final ResourceKey<ConfiguredFeature<?, ?>> WILD_BITTER_GOURD = createKey("wild_bitter_gourd");
         public static final ResourceKey<ConfiguredFeature<?, ?>> WILD_TEA_PLANT = createKey("wild_tea_plant");
         public static final ResourceKey<ConfiguredFeature<?, ?>> GRASS_BLOCK_WITH_HOLE = createKey("grass_block_with_hole");
+        public static final ResourceKey<ConfiguredFeature<?, ?>> FLOWER_PATCH = createKey("flower_patch");
 
         private static ResourceKey<ConfiguredFeature<?, ?>> createKey(String name) {
             return ResourceKey.create(Registries.CONFIGURED_FEATURE, TeaStory.rl(name));
@@ -92,6 +99,36 @@ public class ModBiomeFeatures {
             FeatureUtils.register(context, WILD_BITTER_GOURD, Feature.RANDOM_PATCH, grassLikePatch(BlockStateProvider.simple(BlockRegister.WILD_BITTER_GOURD.get()), 72));
             FeatureUtils.register(context, WILD_TEA_PLANT, Feature.RANDOM_PATCH, grassLikePatch(BlockStateProvider.simple(BlockRegister.wild_tea_plant.get()), 6));
             FeatureUtils.register(context, GRASS_BLOCK_WITH_HOLE, Feature.RANDOM_PATCH, onDirtReplace(BlockRegister.GRASS_BLOCK_WITH_HOLE.get().defaultBlockState(), 4));
+            FeatureUtils.register(
+                    context,
+                    FLOWER_PATCH,
+                    Feature.FLOWER,
+                    new RandomPatchConfiguration(
+                            96,
+                            6,
+                            2,
+                            PlacementUtils.onlyWhenEmpty(
+                                    Feature.SIMPLE_BLOCK,
+                                    new SimpleBlockConfiguration(
+                                            new NoiseProvider(
+                                                    2345L,
+                                                    new NormalNoise.NoiseParameters(0, 1.0),
+                                                    0.020833334F,
+                                                    Stream.of(BlockRegister.CHRYSANTHEMUM, BlockRegister.HYACINTH, BlockRegister.ZINNIA)
+                                                            .map(o -> {
+                                                                var state = o.get().defaultBlockState();
+                                                                var list = new ArrayList<BlockState>();
+                                                                HybridizableFlowerBlock.FLOWER_COLOR.getPossibleValues().forEach(
+                                                                        flowerColor -> list.add(state.setValue(HybridizableFlowerBlock.FLOWER_COLOR, flowerColor)));
+                                                                return list;
+                                                            })
+                                                            .flatMap(ArrayList::stream)
+                                                            .toList()
+                                            )
+                                    )
+                            )
+                    )
+            );
         }
     }
 
@@ -104,6 +141,7 @@ public class ModBiomeFeatures {
         public static final ResourceKey<PlacedFeature> WILD_BITTER_GOURD = createKey("wild_bitter_gourd");
         public static final ResourceKey<PlacedFeature> WILD_TEA_PLANT = createKey("wild_tea_plant");
         public static final ResourceKey<PlacedFeature> GRASS_BLOCK_WITH_HOLE = createKey("grass_block_with_hole");
+        public static final ResourceKey<PlacedFeature> FLOWER_PATCH = createKey("flower_patch");
 
         private static ResourceKey<PlacedFeature> createKey(String name) {
             return ResourceKey.create(Registries.PLACED_FEATURE, TeaStory.rl(name));
@@ -123,6 +161,7 @@ public class ModBiomeFeatures {
             PlacementUtils.register(context, WILD_BITTER_GOURD, holdergetter.getOrThrow(TeaConfiguredFeature.WILD_BITTER_GOURD), worldSurfaceSquaredWithCount(3, 32));
             PlacementUtils.register(context, WILD_TEA_PLANT, holdergetter.getOrThrow(TeaConfiguredFeature.WILD_TEA_PLANT), worldSurfaceSquaredWithCount(5, 24));
             PlacementUtils.register(context, GRASS_BLOCK_WITH_HOLE, holdergetter.getOrThrow(TeaConfiguredFeature.GRASS_BLOCK_WITH_HOLE), worldSurfaceSquaredWithCount(3, 20));
+            PlacementUtils.register(context, FLOWER_PATCH, holdergetter.getOrThrow(TeaConfiguredFeature.FLOWER_PATCH), worldSurfaceSquaredWithCount(2, 5));
 
         }
     }

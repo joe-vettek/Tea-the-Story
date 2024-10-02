@@ -1,0 +1,13 @@
+{
+  "type": "teastory:add_features_by_filter",
+  "allowed_biomes": {
+    "type": "neoforge:and",
+    "values": [
+      "#c:is_floral",
+      "minecraft:meadow"
+    ]
+  },
+  "features": "teastory:flower_patch",
+  "min_temperature": 0.0,
+  "step": "vegetal_decoration"
+}

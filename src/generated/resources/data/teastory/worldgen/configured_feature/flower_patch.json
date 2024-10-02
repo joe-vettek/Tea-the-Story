@@ -1,0 +1,325 @@
+{
+  "type": "minecraft:flower",
+  "config": {
+    "feature": {
+      "feature": {
+        "type": "minecraft:simple_block",
+        "config": {
+          "to_place": {
+            "type": "minecraft:noise_provider",
+            "noise": {
+              "amplitudes": [
+                1.0
+              ],
+              "firstOctave": 0
+            },
+            "scale": 0.020833334,
+            "seed": 2345,
+            "states": [
+              {
+                "Name": "teastory:chrysanthemum",
+                "Properties": {
+                  "color": "white"
+                }
+              },
+              {
+                "Name": "teastory:chrysanthemum",
+                "Properties": {
+                  "color": "red"
+                }
+              },
+              {
+                "Name": "teastory:chrysanthemum",
+                "Properties": {
+                  "color": "yellow"
+                }
+              },
+              {
+                "Name": "teastory:chrysanthemum",
+                "Properties": {
+                  "color": "blue"
+                }
+              },
+              {
+                "Name": "teastory:chrysanthemum",
+                "Properties": {
+                  "color": "orange"
+                }
+              },
+              {
+                "Name": "teastory:chrysanthemum",
+                "Properties": {
+                  "color": "pink"
+                }
+              },
+              {
+                "Name": "teastory:chrysanthemum",
+                "Properties": {
+                  "color": "magenta"
+                }
+              },
+              {
+                "Name": "teastory:chrysanthemum",
+                "Properties": {
+                  "color": "light_blue"
+                }
+              },
+              {
+                "Name": "teastory:chrysanthemum",
+                "Properties": {
+                  "color": "lime"
+                }
+              },
+              {
+                "Name": "teastory:chrysanthemum",
+                "Properties": {
+                  "color": "gray"
+                }
+              },
+              {
+                "Name": "teastory:chrysanthemum",
+                "Properties": {
+                  "color": "light_gray"
+                }
+              },
+              {
+                "Name": "teastory:chrysanthemum",
+                "Properties": {
+                  "color": "cyan"
+                }
+              },
+              {
+                "Name": "teastory:chrysanthemum",
+                "Properties": {
+                  "color": "purple"
+                }
+              },
+              {
+                "Name": "teastory:chrysanthemum",
+                "Properties": {
+                  "color": "brown"
+                }
+              },
+              {
+                "Name": "teastory:chrysanthemum",
+                "Properties": {
+                  "color": "green"
+                }
+              },
+              {
+                "Name": "teastory:chrysanthemum",
+                "Properties": {
+                  "color": "black"
+                }
+              },
+              {
+                "Name": "teastory:hyacinth",
+                "Properties": {
+                  "color": "white"
+                }
+              },
+              {
+                "Name": "teastory:hyacinth",
+                "Properties": {
+                  "color": "red"
+                }
+              },
+              {
+                "Name": "teastory:hyacinth",
+                "Properties": {
+                  "color": "yellow"
+                }
+              },
+              {
+                "Name": "teastory:hyacinth",
+                "Properties": {
+                  "color": "blue"
+                }
+              },
+              {
+                "Name": "teastory:hyacinth",
+                "Properties": {
+                  "color": "orange"
+                }
+              },
+              {
+                "Name": "teastory:hyacinth",
+                "Properties": {
+                  "color": "pink"
+                }
+              },
+              {
+                "Name": "teastory:hyacinth",
+                "Properties": {
+                  "color": "magenta"
+                }
+              },
+              {
+                "Name": "teastory:hyacinth",
+                "Properties": {
+                  "color": "light_blue"
+                }
+              },
+              {
+                "Name": "teastory:hyacinth",
+                "Properties": {
+                  "color": "lime"
+                }
+              },
+              {
+                "Name": "teastory:hyacinth",
+                "Properties": {
+                  "color": "gray"
+                }
+              },
+              {
+                "Name": "teastory:hyacinth",
+                "Properties": {
+                  "color": "light_gray"
+                }
+              },
+              {
+                "Name": "teastory:hyacinth",
+                "Properties": {
+                  "color": "cyan"
+                }
+              },
+              {
+                "Name": "teastory:hyacinth",
+                "Properties": {
+                  "color": "purple"
+                }
+              },
+              {
+                "Name": "teastory:hyacinth",
+                "Properties": {
+                  "color": "brown"
+                }
+              },
+              {
+                "Name": "teastory:hyacinth",
+                "Properties": {
+                  "color": "green"
+                }
+              },
+              {
+                "Name": "teastory:hyacinth",
+                "Properties": {
+                  "color": "black"
+                }
+              },
+              {
+                "Name": "teastory:zinnia",
+                "Properties": {
+                  "color": "white"
+                }
+              },
+              {
+                "Name": "teastory:zinnia",
+                "Properties": {
+                  "color": "red"
+                }
+              },
+              {
+                "Name": "teastory:zinnia",
+                "Properties": {
+                  "color": "yellow"
+                }
+              },
+              {
+                "Name": "teastory:zinnia",
+                "Properties": {
+                  "color": "blue"
+                }
+              },
+              {
+                "Name": "teastory:zinnia",
+                "Properties": {
+                  "color": "orange"
+                }
+              },
+              {
+                "Name": "teastory:zinnia",
+                "Properties": {
+                  "color": "pink"
+                }
+              },
+              {
+                "Name": "teastory:zinnia",
+                "Properties": {
+                  "color": "magenta"
+                }
+              },
+              {
+                "Name": "teastory:zinnia",
+                "Properties": {
+                  "color": "light_blue"
+                }
+              },
+              {
+                "Name": "teastory:zinnia",
+                "Properties": {
+                  "color": "lime"
+                }
+              },
+              {
+                "Name": "teastory:zinnia",
+                "Properties": {
+                  "color": "gray"
+                }
+              },
+              {
+                "Name": "teastory:zinnia",
+                "Properties": {
+                  "color": "light_gray"
+                }
+              },
+              {
+                "Name": "teastory:zinnia",
+                "Properties": {
+                  "color": "cyan"
+                }
+              },
+              {
+                "Name": "teastory:zinnia",
+                "Properties": {
+                  "color": "purple"
+                }
+              },
+              {
+                "Name": "teastory:zinnia",
+                "Properties": {
+                  "color": "brown"
+                }
+              },
+              {
+                "Name": "teastory:zinnia",
+                "Properties": {
+                  "color": "green"
+                }
+              },
+              {
+                "Name": "teastory:zinnia",
+                "Properties": {
+                  "color": "black"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "placement": [
+        {
+          "type": "minecraft:block_predicate_filter",
+          "predicate": {
+            "type": "minecraft:matching_blocks",
+            "blocks": "minecraft:air"
+          }
+        }
+      ]
+    },
+    "tries": 96,
+    "xz_spread": 6,
+    "y_spread": 2
+  }
+}

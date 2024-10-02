@@ -11,6 +11,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.neoforged.neoforge.common.Tags;
@@ -49,6 +50,7 @@ public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> WILD_BITTER_GOURD = createKey("wild_bitter_gourd");
     public static final ResourceKey<BiomeModifier> WILD_TEA_PLANT = createKey("wild_tea_plant");
     public static final ResourceKey<BiomeModifier> GRASS_BLOCK_WITH_HOLE = createKey("grass_block_with_hole");
+    public static final ResourceKey<BiomeModifier> FLOWER_PATCH = createKey("flower_patch");
 
     private static ResourceKey<BiomeModifier> createKey(String name) {
         return ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, TeaStory.rl(name));
@@ -128,6 +130,15 @@ public class ModBiomeModifiers {
                 Optional.of(0.4f),
                 Optional.empty(),
                 HolderSet.direct(placedFeatureHolderGetter.getOrThrow(ModBiomeFeatures.TeaPlacedFeature.GRASS_BLOCK_WITH_HOLE)),
+                GenerationStep.Decoration.VEGETAL_DECORATION));
+        context.register(FLOWER_PATCH, new AddFeaturesByFilterBiomeModifier(
+                new AndHolderSet<>(holderGetter.getOrThrow(Tags.Biomes.IS_FLORAL),HolderSet.direct(holderGetter.getOrThrow(Biomes.MEADOW))),
+                Optional.empty(),
+                Optional.of(0.0f),
+                Optional.empty(),
+                Optional.empty(),
+                Optional.empty(),
+                HolderSet.direct(placedFeatureHolderGetter.getOrThrow(ModBiomeFeatures.TeaPlacedFeature.FLOWER_PATCH)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
     }
 }
