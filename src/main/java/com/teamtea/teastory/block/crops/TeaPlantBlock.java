@@ -100,6 +100,11 @@ public class TeaPlantBlock extends BushBlock implements BonemealableBlock {
         }
     }
 
+    @Override
+    protected void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
+        super.randomTick(pState, pLevel, pPos, pRandom);
+        tick(pState, pLevel, pPos, pRandom);
+    }
 
     protected int getBonemealAgeIncrease(ServerLevel worldIn) {
         return 2;

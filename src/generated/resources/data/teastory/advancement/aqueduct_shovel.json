@@ -1,0 +1,36 @@
+{
+  "parent": "teastory:root",
+  "criteria": {
+    "require": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:aqueduct_shovel"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:textures/block/bricks.png",
+    "description": {
+      "translate": "advancement.teastory.aqueduct_shovel.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "teastory:wooden_aqueduct_shovel"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancement.teastory.aqueduct_shovel"
+    }
+  },
+  "requirements": [
+    [
+      "require"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -50,7 +50,11 @@ public class RiceSeedlingBlock extends CropBlock {
             }
         }
     }
-
+    @Override
+    protected void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
+        super.randomTick(pState, pLevel, pPos, pRandom);
+        tick(pState, pLevel, pPos, pRandom);
+    }
 
     // getSeedsItem
     @Override

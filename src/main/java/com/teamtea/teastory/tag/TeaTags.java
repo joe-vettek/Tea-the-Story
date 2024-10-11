@@ -149,6 +149,9 @@ public final class TeaTags {
 
         public final static TagKey<Item> DIRT = ItemTags.DIRT;
         public final static TagKey<Item> DUSTS_ASH = ItemTags.create(TeaStory.rl("c", "dusts/ash"));
+
+        public final static TagKey<Item> AQUEDUCT_SHOVEL = ItemTags.create(TeaStory.rl("c", "aqueduct_shovel"));
+
     }
 
     public static class Blocks {

@@ -1,0 +1,28 @@
+{
+  "criteria": {
+    "any": {
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:textures/block/bricks.png",
+    "description": {
+      "translate": "advancement.teastory.root.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "teastory:tea_leaves"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancement.teastory.root"
+    }
+  },
+  "requirements": [
+    [
+      "any"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

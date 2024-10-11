@@ -1,0 +1,29 @@
+{
+  "parent": "teastory:rice_seedlings",
+  "criteria": {
+    "require": {
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:textures/block/bricks.png",
+    "description": {
+      "translate": "advancement.teastory.paddy_field.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "teastory:paddy_field"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancement.teastory.paddy_field"
+    }
+  },
+  "requirements": [
+    [
+      "require"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

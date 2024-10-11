@@ -1,6 +1,7 @@
 package com.teamtea.teastory.data;
 
 
+import com.teamtea.teastory.data.advancement.Advancements;
 import com.teamtea.teastory.data.datapack.DatapackRegistryGenerator;
 import com.teamtea.teastory.data.tag.*;
 import net.minecraft.core.HolderLookup;
@@ -43,6 +44,7 @@ public final class start {
 
             generator.addProvider(event.includeServer(),new LFTLootTableProvider(packOutput,lookupProvider));
             generator.addProvider(event.includeServer(),new DatapackRegistryGenerator(packOutput,lookupProvider));
+            generator.addProvider(event.includeServer(),new Advancements(packOutput,lookupProvider,helper));
 
         }if (event.includeClient()) {
             generator.addProvider(event.includeClient(),new Lang_EN(packOutput, helper));

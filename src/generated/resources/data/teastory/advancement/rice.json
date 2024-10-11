@@ -1,0 +1,36 @@
+{
+  "parent": "teastory:paddy_field",
+  "criteria": {
+    "require": {
+      "conditions": {
+        "items": [
+          {
+            "items": "teastory:rice_grains"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:textures/block/bricks.png",
+    "description": {
+      "translate": "advancement.teastory.rice.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "teastory:rice_grains"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancement.teastory.rice"
+    }
+  },
+  "requirements": [
+    [
+      "require"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

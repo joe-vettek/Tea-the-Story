@@ -5,6 +5,7 @@ import com.teamtea.teastory.block.crops.TrellisBlock;
 import com.teamtea.teastory.block.crops.TrellisWithVineBlock;
 import com.teamtea.teastory.block.crops.VineInfoManager;
 import com.teamtea.teastory.block.crops.VineType;
+import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -27,6 +28,8 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.client.event.ScreenEvent;
+import net.neoforged.neoforge.client.gui.CreativeTabsScreenPage;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -43,6 +46,16 @@ import java.util.*;
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 public class ModContent {
 
+    /**
+     * 我们需要的是改变一下{@link CreativeModeTab#getDisplayItems()}的输出。
+     * 做法如下，监听{@link ScreenEvent#getScreen()}获取到点击事件和当前的Screen。
+     * 我们需要{@link CreativeModeInventoryScreen#getCurrentPage()}，随后获取当前可见Tab是不是我们的Tab,
+     * 即检查{@link CreativeTabsScreenPage#getVisibleTabs()}。
+     * 拿到状态之后切换输出即可。
+     * <p>
+     *
+     *
+     */
     @SubscribeEvent
     public static void creativeModeTabRegister(RegisterEvent event) {
         // TeaStory.logger(event.getRegistryKey(),BuiltInRegistries.BLOCK.entrySet().stream().toList().size());

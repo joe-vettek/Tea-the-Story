@@ -1,6 +1,7 @@
 package com.teamtea.teastory.data.lang;
 
 
+import com.teamtea.teastory.data.advancement.TeaAdvancementGenerator;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import com.teamtea.teastory.registry.BlockRegister;
@@ -53,6 +54,7 @@ public class Lang_ZH extends LangHelper {
         add(ItemRegister.BEEF_BURGER.get(), "牛肉堡");
         add(ItemRegister.CHICKEN_BURGER.get(), "鸡肉堡");
 
+        addAdvancements();
         add("itemGroup.teastory.core", "茶风·纪事·追叙");
         add("itemGroup.teastory.drink", "茶风·纪事·茶饮");
         add("item.teastory.ash", "灰烬");
@@ -235,6 +237,33 @@ public class Lang_ZH extends LangHelper {
         add("commands.teastory.solar.set", "已将节气天数设置为第%s天");
         add("death.attack.boiling", "%1$s被开水烫伤了");
         add("misc.block.teastory.trellis_suffix", "棚架");
+    }
+
+    private void addAdvancements() {
+
+        addTittle(TeaAdvancementGenerator.ROOT,"茶");
+        addDescription(TeaAdvancementGenerator.ROOT,"一片树叶的故事");
+
+        addTittle(TeaAdvancementGenerator.AQUEDUCT_SHOVEL,"引水");
+        addDescription(TeaAdvancementGenerator.AQUEDUCT_SHOVEL,"可以用沟渠铲挖掘水渠，需要对土径或者原石使用");
+
+        addTittle(TeaAdvancementGenerator.AQUEDUCT,"水渠");
+        addDescription(TeaAdvancementGenerator.AQUEDUCT,"虽然都可以灌溉，石渠比土渠更加耐用");
+
+        addTittle(TeaAdvancementGenerator.MOSSY_COBBLESTONE_AQUEDUCT,"挖掘渠口");
+        addDescription(TeaAdvancementGenerator.MOSSY_COBBLESTONE_AQUEDUCT,"稻田需要苔石渠口与石渠相连");
+
+        addTittle(TeaAdvancementGenerator.RICESeedlings,"育苗");
+        addDescription(TeaAdvancementGenerator.RICESeedlings,"稻谷需要先在旱地里长成秧苗");
+
+        addTittle(TeaAdvancementGenerator.PaddyField,"插秧");
+        addDescription(TeaAdvancementGenerator.PaddyField,"对耕地使用沟渠铲可以挖掘稻田，稻田有水时可以插秧");
+
+        addTittle(TeaAdvancementGenerator.RICE,"春种一粒稻");
+        addDescription(TeaAdvancementGenerator.RICE,"收获稻谷");
+
+        addTittle(TeaAdvancementGenerator.TEA_LEAVES,"剪茶");
+        addDescription(TeaAdvancementGenerator.TEA_LEAVES,"剪刀可以从茶树上剪下茶叶");
     }
 
 

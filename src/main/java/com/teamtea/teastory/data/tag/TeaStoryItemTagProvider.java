@@ -57,5 +57,9 @@ public final class TeaStoryItemTagProvider extends ItemTagsProvider {
         tag(TeaTags.Items.CROPS_RICE).add(ItemRegister.RICE.get());
         tag(TeaTags.Items.CROPS_APPLE).add(Items.APPLE);
         tag(TeaTags.Items.CROPS_SUGAR_CANE).add(Items.SUGAR_CANE);
+
+        tag(TeaTags.Items.AQUEDUCT_SHOVEL).add(ItemRegister.WOODEN_AQUEDUCT_SHOVEL.get(),
+                ItemRegister.STONE_AQUEDUCT_SHOVEL.get(), ItemRegister.IRON_AQUEDUCT_SHOVEL.get(),
+                ItemRegister.GOLD_AQUEDUCT_SHOVEL.get(), ItemRegister.DIAMOND_AQUEDUCT_SHOVEL.get());
     }
 }
