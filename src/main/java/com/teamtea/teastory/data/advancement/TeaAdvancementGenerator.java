@@ -2,6 +2,7 @@ package com.teamtea.teastory.data.advancement;
 
 
 import com.teamtea.teastory.TeaStory;
+import com.teamtea.teastory.registry.BlockEntityRegister;
 import com.teamtea.teastory.registry.BlockRegister;
 import com.teamtea.teastory.registry.ItemRegister;
 import com.teamtea.teastory.tag.TeaTags;
@@ -33,8 +34,11 @@ public class TeaAdvancementGenerator implements AdvancementProvider.AdvancementG
     public static String AQUEDUCT = "aqueduct";
 
     public static String RICESeedlings = "rice_seedlings";
-    public static String RICE = "rice";
     public static String PaddyField = "paddy_field";
+    public static String RICE = "rice";
+    public static String WASH_RICE = "wash_rice";
+    public static String COOK_RICE = "cook_rice";
+
 
     public static String TEA_LEAVES = "tea_leaves";
 
@@ -80,6 +84,14 @@ public class TeaAdvancementGenerator implements AdvancementProvider.AdvancementG
 
         AdvancementHolder getRice = build(
                 paddyField, BlockRegister.RICE_GRAINS.get(), RICE, new ItemLike[]{BlockRegister.RICE_GRAINS.get()}, consumer
+        );
+
+        AdvancementHolder washRice = build(
+                getRice, BlockEntityRegister.WOODEN_BARREL_ITEM.get(), WASH_RICE, new ItemLike[]{BlockEntityRegister.WOODEN_BARREL_ITEM.get()}, consumer
+        );
+
+        AdvancementHolder cookRice = build(
+                washRice, BlockRegister.saucepan_ITEM.get(), COOK_RICE, new ItemLike[]{BlockRegister.saucepan_ITEM.get()}, consumer
         );
 
         AdvancementHolder teaLeaves = build(
