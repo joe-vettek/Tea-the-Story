@@ -1,5 +1,6 @@
 package com.teamtea.teastory.data.lang;
 
+import com.teamtea.teastory.data.advancement.TeaAdvancementGenerator;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
@@ -235,5 +236,42 @@ public class Lang_EN extends LangHelper {
         add("commands.teastory.solar.set", "Set the solar day to %s");
         add("death.attack.boiling", "%1$s was scalded by boiling water");
         add("misc.block.teastory.trellis_suffix", " Trellis");
+
+        addAdvancements();
+    }
+
+
+    private void addAdvancements() {
+
+        addTittle(TeaAdvancementGenerator.ROOT,"Tea");
+        addDescription(TeaAdvancementGenerator.ROOT,"A story about the leaves");
+
+        addTittle(TeaAdvancementGenerator.AQUEDUCT_SHOVEL, "Water diversion");
+        addDescription(TeaAdvancementGenerator.AQUEDUCT_SHOVEL, "Use the aqueduct shovel to dig a water channel, which needs to be used on dirt paths or cobblestone.");
+
+        addTittle(TeaAdvancementGenerator.AQUEDUCT, "Aqueduct");
+        addDescription(TeaAdvancementGenerator.AQUEDUCT, "Although both can irrigate, stone aqueducts are more durable than dirt aqueducts.");
+
+        addTittle(TeaAdvancementGenerator.MOSSY_COBBLESTONE_AQUEDUCT, "Digging the Aqueduct Mouth");
+        addDescription(TeaAdvancementGenerator.MOSSY_COBBLESTONE_AQUEDUCT, "Rice fields need a mossy stone aqueduct mouth to be connected to a stone aqueduct.");
+
+        addTittle(TeaAdvancementGenerator.RICESeedlings, "Seedling Cultivation");
+        addDescription(TeaAdvancementGenerator.RICESeedlings, "Rice needs to grow into seedlings first in dry land.");
+
+        addTittle(TeaAdvancementGenerator.PaddyField, "Rice Transplanting");
+        addDescription(TeaAdvancementGenerator.PaddyField, "Using the aqueduct shovel on farmland can dig a paddy field. Rice seedlings can be transplanted when the field has water.");
+
+        addTittle(TeaAdvancementGenerator.RICE, "Sowing a Single Grain of Rice");
+        addDescription(TeaAdvancementGenerator.RICE, "Harvest rice grains.");
+
+        addTittle(TeaAdvancementGenerator.WASH_RICE, "Washing Rice");
+        addDescription(TeaAdvancementGenerator.WASH_RICE, "Place the husked rice into a wooden bucket filled with clean water for washing.");
+
+        addTittle(TeaAdvancementGenerator.COOK_RICE, "Cooking Rice");
+        addDescription(TeaAdvancementGenerator.COOK_RICE, "The cooking pot needs to be heated on a stove. First, add water, then rice, and finally cover it again.");
+
+        addTittle(TeaAdvancementGenerator.TEA_LEAVES, "Tea Leaf Picking");
+        addDescription(TeaAdvancementGenerator.TEA_LEAVES, "Scissors can be used to cut tea leaves from the tea tree.");
+
     }
 }
