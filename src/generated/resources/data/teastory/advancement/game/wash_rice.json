@@ -1,11 +1,11 @@
 {
-  "parent": "teastory:root",
+  "parent": "teastory:game/rice",
   "criteria": {
     "require": {
       "conditions": {
         "items": [
           {
-            "items": "#c:aqueduct_shovel"
+            "items": "teastory:wooden_barrel"
           }
         ]
       },
@@ -16,15 +16,15 @@
     "announce_to_chat": false,
     "background": "minecraft:textures/block/bricks.png",
     "description": {
-      "translate": "advancement.teastory.aqueduct_shovel.desc"
+      "translate": "advancement.teastory.wash_rice.desc"
     },
     "icon": {
       "count": 1,
-      "id": "teastory:wooden_aqueduct_shovel"
+      "id": "teastory:wooden_barrel"
     },
     "show_toast": false,
     "title": {
-      "translate": "advancement.teastory.aqueduct_shovel"
+      "translate": "advancement.teastory.wash_rice"
     }
   },
   "requirements": [

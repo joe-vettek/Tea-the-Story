@@ -1,11 +1,11 @@
 {
-  "parent": "teastory:rice",
+  "parent": "teastory:game/aqueduct",
   "criteria": {
     "require": {
       "conditions": {
         "items": [
           {
-            "items": "teastory:wooden_barrel"
+            "items": "#c:cobblestones/mossy"
           }
         ]
       },
@@ -16,15 +16,15 @@
     "announce_to_chat": false,
     "background": "minecraft:textures/block/bricks.png",
     "description": {
-      "translate": "advancement.teastory.wash_rice.desc"
+      "translate": "advancement.teastory.mossy_cobblestone_aqueduct.desc"
     },
     "icon": {
       "count": 1,
-      "id": "teastory:wooden_barrel"
+      "id": "teastory:mossy_cobblestone_aqueduct"
     },
     "show_toast": false,
     "title": {
-      "translate": "advancement.teastory.wash_rice"
+      "translate": "advancement.teastory.mossy_cobblestone_aqueduct"
     }
   },
   "requirements": [

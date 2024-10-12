@@ -1,11 +1,11 @@
 {
-  "parent": "teastory:aqueduct",
+  "parent": "teastory:game/root",
   "criteria": {
     "require": {
       "conditions": {
         "items": [
           {
-            "items": "#c:cobblestones/mossy"
+            "items": "#c:tools/shear"
           }
         ]
       },
@@ -16,15 +16,15 @@
     "announce_to_chat": false,
     "background": "minecraft:textures/block/bricks.png",
     "description": {
-      "translate": "advancement.teastory.mossy_cobblestone_aqueduct.desc"
+      "translate": "advancement.teastory.tea_leaves.desc"
     },
     "icon": {
       "count": 1,
-      "id": "teastory:mossy_cobblestone_aqueduct"
+      "id": "minecraft:shears"
     },
     "show_toast": false,
     "title": {
-      "translate": "advancement.teastory.mossy_cobblestone_aqueduct"
+      "translate": "advancement.teastory.tea_leaves"
     }
   },
   "requirements": [

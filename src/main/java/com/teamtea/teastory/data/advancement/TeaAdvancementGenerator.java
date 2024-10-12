@@ -145,6 +145,6 @@ public class TeaAdvancementGenerator implements AdvancementProvider.AdvancementG
 
 
     private String getNameId(String id) {
-        return TeaStory.MODID + ":" + id;
+        return TeaStory.MODID + ":game/" + id;
     }
 }

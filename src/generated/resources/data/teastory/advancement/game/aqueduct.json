@@ -1,11 +1,11 @@
 {
-  "parent": "teastory:paddy_field",
+  "parent": "teastory:game/aqueduct_shovel",
   "criteria": {
     "require": {
       "conditions": {
         "items": [
           {
-            "items": "teastory:rice_grains"
+            "items": "#c:cobblestones"
           }
         ]
       },
@@ -16,15 +16,15 @@
     "announce_to_chat": false,
     "background": "minecraft:textures/block/bricks.png",
     "description": {
-      "translate": "advancement.teastory.rice.desc"
+      "translate": "advancement.teastory.aqueduct.desc"
     },
     "icon": {
       "count": 1,
-      "id": "teastory:rice_grains"
+      "id": "teastory:cobblestone_aqueduct"
     },
     "show_toast": false,
     "title": {
-      "translate": "advancement.teastory.rice"
+      "translate": "advancement.teastory.aqueduct"
     }
   },
   "requirements": [

@@ -1,11 +1,11 @@
 {
-  "parent": "teastory:aqueduct_shovel",
+  "parent": "teastory:game/root",
   "criteria": {
     "require": {
       "conditions": {
         "items": [
           {
-            "items": "#c:cobblestones"
+            "items": "teastory:rice_grains"
           }
         ]
       },
@@ -16,15 +16,15 @@
     "announce_to_chat": false,
     "background": "minecraft:textures/block/bricks.png",
     "description": {
-      "translate": "advancement.teastory.aqueduct.desc"
+      "translate": "advancement.teastory.rice_seedlings.desc"
     },
     "icon": {
       "count": 1,
-      "id": "teastory:cobblestone_aqueduct"
+      "id": "teastory:rice_seedlings"
     },
     "show_toast": false,
     "title": {
-      "translate": "advancement.teastory.aqueduct"
+      "translate": "advancement.teastory.rice_seedlings"
     }
   },
   "requirements": [

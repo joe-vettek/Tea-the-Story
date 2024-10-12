@@ -1,5 +1,5 @@
 {
-  "parent": "teastory:rice_seedlings",
+  "parent": "teastory:game/rice_seedlings",
   "criteria": {
     "require": {
       "trigger": "minecraft:inventory_changed"
