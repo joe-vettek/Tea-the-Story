@@ -1,0 +1,33 @@
+package xueluoanping.teastory.data.datapack;
+
+
+
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistrySetBuilder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.PackOutput;
+import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
+import net.minecraftforge.registries.ForgeRegistries;
+import xueluoanping.teastory.TeaStory;
+import xueluoanping.teastory.registry.ModBiomeFeatures;
+import xueluoanping.teastory.registry.ModBiomeModifiers;
+import xueluoanping.teastory.registry.ModDamageType;
+
+
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+
+public class DatapackRegistryGenerator extends DatapackBuiltinEntriesProvider {
+
+    public static final RegistrySetBuilder REGISTRY_SET_BUILDER = new RegistrySetBuilder()
+            .add(Registries.CONFIGURED_FEATURE, ModBiomeFeatures.TeaConfiguredFeature::bootstrap)
+            .add(Registries.PLACED_FEATURE, ModBiomeFeatures.TeaPlacedFeature::bootstrap)
+            .add(Registries.DAMAGE_TYPE, ModDamageType::bootstrap)
+            .add(ForgeRegistries.Keys.BIOME_MODIFIERS, ModBiomeModifiers::bootstrap)
+            ;
+
+    public DatapackRegistryGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
+        super(output, registries, REGISTRY_SET_BUILDER, Set.of(TeaStory.MODID));
+    }
+
+}

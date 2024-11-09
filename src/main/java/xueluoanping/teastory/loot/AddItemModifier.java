@@ -1,5 +1,6 @@
 package xueluoanping.teastory.loot;
 
+import cloud.lemonslice.teastory.config.ServerConfig;
 import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -42,18 +43,20 @@ public class AddItemModifier extends LootModifier
 	@Nonnull
 	@Override
 	protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
-		ItemStack addedStack = new ItemStack(addedItem, count);
+		if (ServerConfig.Agriculture.addSeedToHouseChest.get()){
+			ItemStack addedStack = new ItemStack(addedItem, count);
 
-		if (addedStack.getCount() < addedStack.getMaxStackSize()) {
-			generatedLoot.add(addedStack);
-		} else {
-			int i = addedStack.getCount();
+			if (addedStack.getCount() < addedStack.getMaxStackSize()) {
+				generatedLoot.add(addedStack);
+			} else {
+				int i = addedStack.getCount();
 
-			while (i > 0) {
-				ItemStack subStack = addedStack.copy();
-				subStack.setCount(Math.min(addedStack.getMaxStackSize(), i));
-				i -= subStack.getCount();
-				generatedLoot.add(subStack);
+				while (i > 0) {
+					ItemStack subStack = addedStack.copy();
+					subStack.setCount(Math.min(addedStack.getMaxStackSize(), i));
+					i -= subStack.getCount();
+					generatedLoot.add(subStack);
+				}
 			}
 		}
 

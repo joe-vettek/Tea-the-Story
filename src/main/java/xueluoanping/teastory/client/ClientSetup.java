@@ -2,6 +2,7 @@ package xueluoanping.teastory.client;
 
 import cloud.lemonslice.teastory.block.crops.HybridizableFlowerBlock;
 import cloud.lemonslice.teastory.block.crops.TrellisWithVineBlock;
+import cloud.lemonslice.teastory.block.crops.WildCropBlock;
 import cloud.lemonslice.teastory.client.color.block.GrassBlockColor;
 import cloud.lemonslice.teastory.client.color.block.HybridizableFlowerBlockColor;
 import cloud.lemonslice.teastory.client.color.block.SaucepanBlockColor;
@@ -99,7 +100,12 @@ public class ClientSetup {
                 if (block instanceof TrellisWithVineBlock) {
                     ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutout());
                 }
+
+                if (block instanceof WildCropBlock) {
+                    ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutout());
+                }
             }
+
         });
     }
 

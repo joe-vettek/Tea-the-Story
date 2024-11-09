@@ -1,0 +1,19 @@
+{
+  "type": "teastory:add_item",
+  "conditions": [
+    {
+      "condition": "minecraft:all_of",
+      "terms": [
+        {
+          "condition": "forge:loot_table_id",
+          "loot_table_id": "minecraft:chests/village/village_taiga_house"
+        },
+        {
+          "chance": 0.5,
+          "condition": "minecraft:random_chance"
+        }
+      ]
+    }
+  ],
+  "item": "teastory:chinese_cabbage_seeds"
+}

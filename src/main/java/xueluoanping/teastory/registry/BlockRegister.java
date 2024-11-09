@@ -54,7 +54,7 @@ public class BlockRegister {
     public static RegistryObject<Item> riceSeedlings = ModItems.register("rice_seedlings", () -> new BlockItem(ricePlant.get(), new Item.Properties()));
 
     public static RegistryObject<Block> tea_plant = ModBlocks.register("tea_plant", () -> new TeaPlantBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
-    public static RegistryObject<Block> wild_tea_plant = ModBlocks.register("wild_tea_plant", () -> new WildTeaPlantBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
+    public static RegistryObject<Block> wild_tea_plant = ModBlocks.register("wild_tea_plant", () -> new WildCropBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY),false,false));
 
     // public static RegistryObject<Item> tea_plant_item = ModItems.register("tea_plant", () -> new BlockItem(tea_plant.get(), new Item.Properties()));
     public static RegistryObject<Item> wild_tea_plant_item = ModItems.register("wild_tea_plant", () -> new BlockItem(wild_tea_plant.get(), new Item.Properties()));
@@ -62,8 +62,23 @@ public class BlockRegister {
 
     public static RegistryObject<Block> WATERMELON_VINE = ModBlocks.register("watermelon_vine", () -> new MelonVineBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY), Blocks.MELON));
 
-    public static RegistryObject<Block> WILD_GRAPE = ModBlocks.register("wild_grape", () -> new WildGrapeBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
+    public static RegistryObject<Block> WILD_GRAPE = ModBlocks.register("wild_grape", () -> new WildCropBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY),true,false));
     public static RegistryObject<Item> WILD_GRAPE_ITEM = ModItems.register("wild_grape", () -> new BlockItem(WILD_GRAPE.get(), new Item.Properties()));
+    
+    public static RegistryObject<Block> WILD_CUCUMBER = ModBlocks.register("wild_cucumber", () -> new WildCropBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY).offsetType(BlockBehaviour.OffsetType.XZ),true,true));
+    public static RegistryObject<BlockItem> WILD_CUCUMBER_ITEM = ModItems.register("wild_cucumber", () -> new BlockItem(WILD_CUCUMBER.get(), new Item.Properties()));
+
+    public static RegistryObject<Block> WILD_BITTER_GOURD = ModBlocks.register("wild_bitter_gourd", () -> new WildCropBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY).offsetType(BlockBehaviour.OffsetType.XZ),true,true));
+    public static RegistryObject<BlockItem> WILD_BITTER_GOURD_ITEM = ModItems.register("wild_bitter_gourd", () -> new BlockItem(WILD_BITTER_GOURD.get(), new Item.Properties()));
+
+    public static RegistryObject<Block> WILD_RICE = ModBlocks.register("wild_rice", () -> new WildCropBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY).offsetType(BlockBehaviour.OffsetType.XZ),false,false));
+    public static RegistryObject<BlockItem> WILD_RICE_ITEM = ModItems.register("wild_rice", () -> new BlockItem(WILD_RICE.get(), new Item.Properties()));
+
+    public static RegistryObject<Block> WILD_CHILI = ModBlocks.register("wild_chili", () -> new WildCropBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY).offsetType(BlockBehaviour.OffsetType.XZ),false,false));
+    public static RegistryObject<BlockItem> WILD_CHILI_ITEM = ModItems.register("wild_chili", () -> new BlockItem(WILD_CHILI.get(), new Item.Properties()));
+
+    public static RegistryObject<Block> WILD_CHINESE_CABBAGE = ModBlocks.register("wild_chinese_cabbage", () -> new WildCropBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY).offsetType(BlockBehaviour.OffsetType.XZ),false,false));
+    public static RegistryObject<BlockItem> WILD_CHINESE_CABBAGE_ITEM = ModItems.register("wild_chinese_cabbage", () -> new BlockItem(WILD_CHINESE_CABBAGE.get(), new Item.Properties()));
 
     public static RegistryObject<Block> CHILI_PLANT = ModBlocks.register("chili_plant", () -> new ChiliBlock(Block.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
     public static RegistryObject<Item> CHILI = ModItems.register("chili", () -> new Item(new Item.Properties()));

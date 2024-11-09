@@ -8,10 +8,13 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.data.advancement.Advancements;
+import xueluoanping.teastory.data.datapack.DatapackRegistryGenerator;
 import xueluoanping.teastory.data.lang.Lang_EN;
 import xueluoanping.teastory.data.lang.Lang_ZH;
 import xueluoanping.teastory.data.loot.GLMProvider;
 import xueluoanping.teastory.data.loot.LFTLootTableProvider;
+import xueluoanping.teastory.data.model.BlockStatesDataProvider;
+import xueluoanping.teastory.data.model.TeaItemModelProvider;
 import xueluoanping.teastory.data.tag.*;
 import xueluoanping.teastory.data.recipe.TeaStoryRecipeProvider;
 
@@ -38,12 +41,15 @@ public final class start {
             generator.addProvider(event.includeServer(),new GLMProvider(packOutput, MODID));
 
             generator.addProvider(event.includeServer(),new LFTLootTableProvider(packOutput));
-
+            generator.addProvider(event.includeServer(),new DatapackRegistryGenerator(packOutput,lookupProvider));
             generator.addProvider(event.includeServer(),new Advancements(packOutput,lookupProvider));
 
         }if (event.includeClient()) {
             generator.addProvider(event.includeClient(),new Lang_EN(packOutput, helper));
             generator.addProvider(event.includeClient(),new Lang_ZH(packOutput, helper));
+            generator.addProvider(event.includeClient(), new BlockStatesDataProvider(packOutput, helper));
+            generator.addProvider(event.includeClient(), new TeaItemModelProvider(packOutput, MODID, helper));
+
         }
     }
 }

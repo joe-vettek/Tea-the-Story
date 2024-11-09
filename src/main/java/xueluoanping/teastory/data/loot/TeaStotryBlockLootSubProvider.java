@@ -16,8 +16,10 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.EntryGroup;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.CopyBlockState;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
@@ -77,8 +79,15 @@ public class TeaStotryBlockLootSubProvider extends BlockLootSubProvider {
         dropCropBlock(BlockRegister.CHILI_PLANT.get(), BlockRegister.CHILI.get(), BlockRegister.CHILI_SEEDS.get(), ChiliBlock.AGE, 6);
         dropCropBlock(BlockRegister.CHINESE_CABBAGE_PLANT.get(), BlockRegister.CHINESE_CABBAGE.get(), BlockRegister.CHINESE_CABBAGE_SEEDS.get(), ChineseCabbageBlock.AGE, 6);
 
-        add(BlockRegister.wild_tea_plant.get(), this::createMangroveLeavesDrops);
-        add(BlockRegister.WILD_GRAPE.get(), this::createMangroveLeavesDrops);
+        add(BlockRegister.wild_tea_plant.get(), (b) -> createWildCropDrops(b, BlockRegister.TEA_SEEDS.get(), ItemRegister.TEA_LEAVES.get()));
+        add(BlockRegister.WILD_GRAPE.get(), (b) -> createWildCropDrops(b, BlockRegister.GRAPES.get()));
+        add(BlockRegister.WILD_BITTER_GOURD.get(), (b) -> createWildCropDrops(b, BlockRegister.BITTER_GOURDS.get()));
+        add(BlockRegister.WILD_CUCUMBER.get(), (b) -> createWildCropDrops(b, BlockRegister.CUCUMBERS.get()));
+
+        add(BlockRegister.WILD_RICE.get(), (b) -> createWildCropDrops(b, BlockRegister.RICE_GRAINS.get()));
+        add(BlockRegister.WILD_CHINESE_CABBAGE.get(), (b) -> createWildCropDrops(b, BlockRegister.CHINESE_CABBAGE_SEEDS.get()));
+        add(BlockRegister.WILD_CHILI.get(), (b) -> createWildCropDrops(b, BlockRegister.CHILI_SEEDS.get()));
+
 
         dropRice();
         dropTeaPlant();
@@ -247,6 +256,31 @@ public class TeaStotryBlockLootSubProvider extends BlockLootSubProvider {
         return LootTable.lootTable().withPool(this.applyExplosionCondition(pBlock, LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(pBlock).when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(pBlock).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(DrinkMakerBlock.LEFT, true))))));
     }
 
+    protected LootTable.Builder createWildCropDrops(Block pBlock, Item seed) {
+        return createSilkTouchOrShearsDispatchTable(
+                pBlock,
+                this.applyExplosionDecay(
+                        pBlock.asItem(), LootItem.lootTableItem(seed).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F)))
+                )
+        );
+    }
+
+    private LootItemCondition.Builder hasShearsOrSilkTouch() {
+        return HAS_SILK_TOUCH;
+    }
+
+    protected LootTable.Builder createWildCropDrops(Block pBlock, Item seed, Item extra) {
+        // AlternativesEntry
+        return LootTable.lootTable()
+                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(pBlock).when(this.hasShearsOrSilkTouch())
+                        .otherwise(LootItem.lootTableItem(seed).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 1.0F))))))
+                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(EntryGroup.list(
+                                LootItem.lootTableItem(seed).apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 2.0F))),
+                                LootItem.lootTableItem(extra).apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 3.0F)))
+                        )).when(hasShearsOrSilkTouch().invert())
+                );
+
+    }
 
     public LootTable.Builder createSinglePropertyBlock(Block item, Property<?> pProperty) {
         return LootTable.lootTable()

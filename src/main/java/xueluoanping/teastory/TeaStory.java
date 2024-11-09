@@ -79,6 +79,8 @@ public class TeaStory {
         BlockEntityRegister.ModItems.register(FMLJavaModLoadingContext.get().getModEventBus());
         BlockEntityRegister.DRMenuType.register(FMLJavaModLoadingContext.get().getModEventBus());
 
+        ModBiomeFeatures.FEATURES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        ModBiomeModifiers.BIOME_MODIFIER_SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
 
         ItemRegister.ModItems.register(FMLJavaModLoadingContext.get().getModEventBus());
 
