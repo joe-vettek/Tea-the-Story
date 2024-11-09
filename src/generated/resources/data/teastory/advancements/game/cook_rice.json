@@ -1,0 +1,39 @@
+{
+  "parent": "teastory:game/wash_rice",
+  "criteria": {
+    "require": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "teastory:saucepan"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:textures/block/bricks.png",
+    "description": {
+      "translate": "advancement.teastory.cook_rice.desc"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "teastory:saucepan"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancement.teastory.cook_rice"
+    }
+  },
+  "requirements": [
+    [
+      "require"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

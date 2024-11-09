@@ -1,0 +1,39 @@
+{
+  "parent": "teastory:game/root",
+  "criteria": {
+    "require": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "teastory:rice_grains"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:textures/block/bricks.png",
+    "description": {
+      "translate": "advancement.teastory.rice_seedlings.desc"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "teastory:rice_seedlings"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancement.teastory.rice_seedlings"
+    }
+  },
+  "requirements": [
+    [
+      "require"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

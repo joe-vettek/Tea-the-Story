@@ -30,10 +30,12 @@ public class VineSeedsItem extends BlockItem {
         BlockPos pos = context.getClickedPos();
         BlockState state = world.getBlockState(pos);
         if (state.getBlock() instanceof TrellisBlock && !(state.getBlock() instanceof TrellisWithVineBlock)) {
-            if (world.getBlockState(pos.below()).is(BlockTags.DIRT)) {
-                world.setBlockAndUpdate(pos, VineInfoManager.getVineTrellis(type, (TrellisBlock) state.getBlock()).getRelevantState(state));
-                context.getItemInHand().shrink(1);
-                return InteractionResult.SUCCESS;
+            if (!state.getValue(TrellisBlock.WATERLOGGED)) {
+                if (world.getBlockState(pos.below()).is(BlockTags.DIRT)) {
+                    world.setBlockAndUpdate(pos, VineInfoManager.getVineTrellis(type, (TrellisBlock) state.getBlock()).getRelevantState(state));
+                    context.getItemInHand().shrink(1);
+                    return InteractionResult.SUCCESS;
+                }
             }
         }
         return this.use(context.getLevel(), context.getPlayer(), context.getHand()).getResult();

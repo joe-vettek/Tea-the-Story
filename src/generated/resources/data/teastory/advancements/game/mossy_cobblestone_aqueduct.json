@@ -1,0 +1,37 @@
+{
+  "parent": "teastory:game/aqueduct",
+  "criteria": {
+    "require": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:cobblestone/mossy"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:textures/block/bricks.png",
+    "description": {
+      "translate": "advancement.teastory.mossy_cobblestone_aqueduct.desc"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "teastory:mossy_cobblestone_aqueduct"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancement.teastory.mossy_cobblestone_aqueduct"
+    }
+  },
+  "requirements": [
+    [
+      "require"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

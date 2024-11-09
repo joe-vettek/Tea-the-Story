@@ -1,0 +1,37 @@
+{
+  "parent": "teastory:game/aqueduct_shovel",
+  "criteria": {
+    "require": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:cobblestone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:textures/block/bricks.png",
+    "description": {
+      "translate": "advancement.teastory.aqueduct.desc"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "teastory:cobblestone_aqueduct"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancement.teastory.aqueduct"
+    }
+  },
+  "requirements": [
+    [
+      "require"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

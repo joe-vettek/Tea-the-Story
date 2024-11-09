@@ -1,0 +1,39 @@
+{
+  "parent": "teastory:game/rice",
+  "criteria": {
+    "require": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "teastory:wooden_barrel"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:textures/block/bricks.png",
+    "description": {
+      "translate": "advancement.teastory.wash_rice.desc"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "teastory:wooden_barrel"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancement.teastory.wash_rice"
+    }
+  },
+  "requirements": [
+    [
+      "require"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
