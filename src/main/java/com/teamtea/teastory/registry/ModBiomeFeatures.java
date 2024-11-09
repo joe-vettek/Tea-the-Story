@@ -104,7 +104,7 @@ public class ModBiomeFeatures {
                     FLOWER_PATCH,
                     Feature.FLOWER,
                     new RandomPatchConfiguration(
-                            96,
+                            48,
                             6,
                             2,
                             PlacementUtils.onlyWhenEmpty(
