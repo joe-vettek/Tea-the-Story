@@ -236,6 +236,27 @@ public class Lang_ZH extends LangHelper {
         add("info.teastory.record", "您还未安装唱片资源包");
         add("death.attack.boiling", "%1$s被开水烫伤了");
         add("misc.block.teastory.trellis_suffix", "棚架");
+
+        add("block.teastory.boiling_water", "开水");
+        add("block.teastory.hot_water_80", "热水（80℃）");
+        add("block.teastory.hot_water_60", "热水（60℃）");
+        add("block.teastory.warm_water", "温水");
+        add("block.teastory.sugary_water", "糖水");
+        add("block.teastory.weak_green_tea", "淡绿茶");
+        add("block.teastory.weak_black_tea", "淡红茶");
+        add("block.teastory.weak_white_tea", "淡白茶");
+        add("block.teastory.green_tea", "绿茶");
+        add("block.teastory.black_tea", "红茶");
+        add("block.teastory.white_tea", "白茶");
+        add("block.teastory.strong_green_tea", "浓绿茶");
+        add("block.teastory.strong_black_tea", "浓红茶");
+        add("block.teastory.strong_white_tea", "浓白茶");
+        add("block.teastory.apple_juice", "苹果汁");
+        add("block.teastory.sugar_cane_juice", "甘蔗汁");
+        add("block.teastory.carrot_juice", "胡萝卜汁");
+        add("block.teastory.grape_juice", "葡萄汁");
+        add("block.teastory.cucumber_juice", "黄瓜汁");
+
     }
 
     private void addAdvancements() {

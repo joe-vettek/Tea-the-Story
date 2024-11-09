@@ -132,7 +132,7 @@ public class ModBiomeModifiers {
                 HolderSet.direct(placedFeatureHolderGetter.getOrThrow(ModBiomeFeatures.TeaPlacedFeature.GRASS_BLOCK_WITH_HOLE)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
         context.register(FLOWER_PATCH, new AddFeaturesByFilterBiomeModifier(
-                new AndHolderSet<>(holderGetter.getOrThrow(Tags.Biomes.IS_FLORAL),HolderSet.direct(holderGetter.getOrThrow(Biomes.MEADOW))),
+                new OrHolderSet<>(holderGetter.getOrThrow(Tags.Biomes.IS_FLORAL),HolderSet.direct(holderGetter.getOrThrow(Biomes.MEADOW))),
                 Optional.empty(),
                 Optional.of(0.0f),
                 Optional.empty(),

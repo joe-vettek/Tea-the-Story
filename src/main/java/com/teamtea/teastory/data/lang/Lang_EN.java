@@ -236,6 +236,26 @@ public class Lang_EN extends LangHelper {
         add("death.attack.boiling", "%1$s was scalded by boiling water");
         add("misc.block.teastory.trellis_suffix", " Trellis");
 
+        add("block.teastory.boiling_water", "Boiling Water");
+        add("block.teastory.hot_water_80", "Hot Water (80℃)");
+        add("block.teastory.hot_water_60", "Hot Water (60℃)");
+        add("block.teastory.warm_water", "Warm Water");
+        add("block.teastory.sugary_water", "Syrup");
+        add("block.teastory.weak_green_tea", "Weak Green Tea");
+        add("block.teastory.weak_black_tea", "Weak Black Tea");
+        add("block.teastory.weak_white_tea", "Weak White Tea");
+        add("block.teastory.green_tea", "Green Tea");
+        add("block.teastory.black_tea", "Black Tea");
+        add("block.teastory.white_tea", "White Tea");
+        add("block.teastory.strong_green_tea", "Strong Green Tea");
+        add("block.teastory.strong_black_tea", "Strong Black Tea");
+        add("block.teastory.strong_white_tea", "Strong White Tea");
+        add("block.teastory.apple_juice", "Apple Juice");
+        add("block.teastory.sugar_cane_juice", "Sugar Cane Juice");
+        add("block.teastory.carrot_juice", "Carrot Juice");
+        add("block.teastory.grape_juice", "Grape Juice");
+        add("block.teastory.cucumber_juice", "Cucumber Juice");
+
         addAdvancements();
     }
 

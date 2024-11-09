@@ -1,7 +1,7 @@
 {
   "type": "teastory:add_features_by_filter",
   "allowed_biomes": {
-    "type": "neoforge:and",
+    "type": "neoforge:or",
     "values": [
       "#c:is_floral",
       "minecraft:meadow"
