@@ -14,8 +14,8 @@ import net.minecraft.world.item.ItemStack;
 import xueluoanping.teastory.registry.ItemRegister;
 
 
-public class StoneRollerTESR implements BlockEntityRenderer<StoneRollerBlockEntity> {
-    public StoneRollerTESR(BlockEntityRendererProvider.Context pContext) {
+public class StoneRollerRenderer implements BlockEntityRenderer<StoneRollerBlockEntity> {
+    public StoneRollerRenderer(BlockEntityRendererProvider.Context pContext) {
     }
 
     @Override

@@ -12,9 +12,9 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
 
-public class BambooTrayTESR implements BlockEntityRenderer<BambooTrayBlockEntity> {
+public class BambooTrayRenderer implements BlockEntityRenderer<BambooTrayBlockEntity> {
 
-    public BambooTrayTESR(BlockEntityRendererProvider.Context pContext) {
+    public BambooTrayRenderer(BlockEntityRendererProvider.Context pContext) {
     }
 
     @Override

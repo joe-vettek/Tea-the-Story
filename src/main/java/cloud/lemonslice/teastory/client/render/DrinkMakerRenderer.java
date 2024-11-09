@@ -16,9 +16,9 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
-public class DrinkMakerTESR implements BlockEntityRenderer<DrinkMakerBlockEntity> {
+public class DrinkMakerRenderer implements BlockEntityRenderer<DrinkMakerBlockEntity> {
 
-    public DrinkMakerTESR(BlockEntityRendererProvider.Context pContext) {
+    public DrinkMakerRenderer(BlockEntityRendererProvider.Context pContext) {
 
     }
 

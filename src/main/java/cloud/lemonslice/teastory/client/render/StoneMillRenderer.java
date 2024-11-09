@@ -23,8 +23,8 @@ import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import xueluoanping.teastory.registry.ItemRegister;
 import xueluoanping.teastory.block.NormalHorizontalBlock;
 
-public class StoneMillTESR implements BlockEntityRenderer<StoneMillBlockEntity> {
-    public StoneMillTESR(BlockEntityRendererProvider.Context pContext) {
+public class StoneMillRenderer implements BlockEntityRenderer<StoneMillBlockEntity> {
+    public StoneMillRenderer(BlockEntityRendererProvider.Context pContext) {
 
     }
 

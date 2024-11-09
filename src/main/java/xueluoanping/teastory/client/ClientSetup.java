@@ -12,12 +12,12 @@ import cloud.lemonslice.teastory.client.gui.DrinkMakerGui;
 import cloud.lemonslice.teastory.client.gui.StoneMillGui;
 import cloud.lemonslice.teastory.client.gui.StoneRollerGui;
 import cloud.lemonslice.teastory.client.gui.StoveGui;
-import cloud.lemonslice.teastory.client.render.BambooTrayTESR;
-import cloud.lemonslice.teastory.client.render.DrinkMakerTESR;
-import cloud.lemonslice.teastory.client.render.StoneMillTESR;
-import cloud.lemonslice.teastory.client.render.StoneRollerTESR;
-import cloud.lemonslice.teastory.client.render.StoveTESR;
-import cloud.lemonslice.teastory.client.render.WoodenBarrelTESR;
+import cloud.lemonslice.teastory.client.render.BambooTrayRenderer;
+import cloud.lemonslice.teastory.client.render.DrinkMakerRenderer;
+import cloud.lemonslice.teastory.client.render.StoneMillRenderer;
+import cloud.lemonslice.teastory.client.render.StoneRollerRenderer;
+import cloud.lemonslice.teastory.client.render.StoveRenderer;
+import cloud.lemonslice.teastory.client.render.WoodenBarrelRenderer;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -118,12 +118,12 @@ public class ClientSetup {
                 return null;
             }
         });
-        event.registerBlockEntityRenderer(BlockEntityRegister.BAMBOO_TRAY_TYPE.get(), BambooTrayTESR::new);
-        event.registerBlockEntityRenderer(BlockEntityRegister.DRINK_MAKER_TYPE.get(), DrinkMakerTESR::new);
-        event.registerBlockEntityRenderer(BlockEntityRegister.STONE_MILL_TYPE.get(), StoneMillTESR::new);
-        event.registerBlockEntityRenderer(BlockEntityRegister.STONE_ROLLER_TYPE.get(), StoneRollerTESR::new);
-        event.registerBlockEntityRenderer(BlockEntityRegister.STOVE_TYPE.get(), StoveTESR::new);
-        event.registerBlockEntityRenderer(BlockEntityRegister.WOODEN_BARREL_TYPE.get(), WoodenBarrelTESR::new);
+        event.registerBlockEntityRenderer(BlockEntityRegister.BAMBOO_TRAY_TYPE.get(), BambooTrayRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntityRegister.DRINK_MAKER_TYPE.get(), DrinkMakerRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntityRegister.STONE_MILL_TYPE.get(), StoneMillRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntityRegister.STONE_ROLLER_TYPE.get(), StoneRollerRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntityRegister.STOVE_TYPE.get(), StoveRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntityRegister.WOODEN_BARREL_TYPE.get(), WoodenBarrelRenderer::new);
 
 
     }

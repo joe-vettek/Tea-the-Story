@@ -14,8 +14,8 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
 
-public class StoveTESR implements BlockEntityRenderer<StoveBlockEntity> {
-    public StoveTESR(BlockEntityRendererProvider.Context pContext) {
+public class StoveRenderer implements BlockEntityRenderer<StoveBlockEntity> {
+    public StoveRenderer(BlockEntityRendererProvider.Context pContext) {
     }
 
     @Override
