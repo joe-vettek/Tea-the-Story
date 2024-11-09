@@ -208,7 +208,11 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
 
         boolean valid = false;
 
-        if (level.getBlockState(pos.below()).is(BlockTags.DIRT)) {
+        // valid |= stateIn.getValue(WATERLOGGED);
+        if (stateIn.getValue(WATERLOGGED)) {
+            getType().getFruit()
+            valid = false;
+        } else if (level.getBlockState(pos.below()).is(BlockTags.DIRT)) {
             valid = true;
         } else if (level.getBlockEntity(pos) instanceof VineBlockEntity vineEntity) {
             int nearD = getNearDistance2(level, pos);
