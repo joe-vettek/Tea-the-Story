@@ -210,7 +210,6 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
 
         // valid |= stateIn.getValue(WATERLOGGED);
         if (stateIn.getValue(WATERLOGGED)) {
-            getType().getFruit()
             valid = false;
         } else if (level.getBlockState(pos.below()).is(BlockTags.DIRT)) {
             valid = true;
