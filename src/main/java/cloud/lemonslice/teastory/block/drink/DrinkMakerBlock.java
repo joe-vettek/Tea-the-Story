@@ -1,7 +1,7 @@
 package cloud.lemonslice.teastory.block.drink;
 
 import xueluoanping.teastory.block.BlockHelper;
-import cloud.lemonslice.teastory.blockentity.DrinkMakerTileEntity;
+import cloud.lemonslice.teastory.blockentity.DrinkMakerBlockEntity;
 import cloud.lemonslice.teastory.helper.VoxelShapeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -31,7 +31,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
-import xueluoanping.teastory.TileEntityTypeRegistry;
+import xueluoanping.teastory.registry.BlockEntityRegister;
 import xueluoanping.teastory.block.NormalHorizontalBlock;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -166,9 +166,9 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
 
     private void dropItems(Level worldIn, BlockPos pos) {
         BlockEntity te = worldIn.getBlockEntity(pos);
-        if (te instanceof DrinkMakerTileEntity) {
+        if (te instanceof DrinkMakerBlockEntity) {
             for (int i = 0; i < 11; i++) {
-                ItemStack stack = ((DrinkMakerTileEntity) te).decrStackSize(i, Integer.MAX_VALUE);
+                ItemStack stack = ((DrinkMakerBlockEntity) te).decrStackSize(i, Integer.MAX_VALUE);
                 if (stack != ItemStack.EMPTY) {
                     Block.popResource(worldIn, pos, stack);
                 }
@@ -190,7 +190,7 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
                             flag = FluidUtil.interactWithFluidHandler(player, handIn, fluid)));
             if (flag)
                 return InteractionResult.SUCCESS;
-            if (te instanceof DrinkMakerTileEntity) {
+            if (te instanceof DrinkMakerBlockEntity) {
                 // ((DrinkMakerTileEntity) te).requestModelDataUpdate();
                 NetworkHooks.openScreen((ServerPlayer) player, (MenuProvider) te, te.getBlockPos());
             }
@@ -210,7 +210,7 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return state.getValue(LEFT) ? new DrinkMakerTileEntity(pos, state) : null;
+        return state.getValue(LEFT) ? new DrinkMakerBlockEntity(pos, state) : null;
     }
 
     @Nullable
@@ -218,6 +218,6 @@ public class DrinkMakerBlock extends NormalHorizontalBlock implements EntityBloc
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level worldIn, BlockState state, BlockEntityType<T> blockEntityType) {
         // return null;
         return !worldIn.isClientSide && state.getValue(LEFT) ?
-                NormalHorizontalBlock.createTickerHelper(blockEntityType, TileEntityTypeRegistry.DRINK_MAKER_TYPE.get(), DrinkMakerTileEntity::tick) : null;
+                NormalHorizontalBlock.createTickerHelper(blockEntityType, BlockEntityRegister.DRINK_MAKER_TYPE.get(), DrinkMakerBlockEntity::tick) : null;
     }
 }

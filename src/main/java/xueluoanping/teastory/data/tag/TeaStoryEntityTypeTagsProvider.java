@@ -1,11 +1,10 @@
 package xueluoanping.teastory.data.tag;
 
-import cloud.lemonslice.teastory.tag.NormalTags;
+import cloud.lemonslice.teastory.tag.TeaTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.EntityTypeTagsProvider;
 import net.minecraft.world.entity.EntityType;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,6 +17,6 @@ public class TeaStoryEntityTypeTagsProvider extends EntityTypeTagsProvider {
 
     @Override
     public void addTags(HolderLookup.Provider lookupProvider) {
-        tag(NormalTags.Entities.BIRDS).add(EntityType.PARROT);
+        tag(TeaTags.Entities.BIRDS).add(EntityType.PARROT);
     }
 }

@@ -1,19 +1,13 @@
 package xueluoanping.teastory.handler;
 
-import cloud.lemonslice.teastory.tag.NormalTags;
-import net.minecraft.network.chat.Component;
+import cloud.lemonslice.teastory.tag.TeaTags;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.world.entity.decoration.ArmorStand;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.MobSpawnEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.RegisterEvent;
-import xueluoanping.teastory.ItemRegister;
-import xueluoanping.teastory.TeaStory;
+import xueluoanping.teastory.registry.ItemRegister;
 import xueluoanping.teastory.entity.ScarecrowEntity;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -29,7 +23,7 @@ public class EventsHandlers {
     @SubscribeEvent
     public static void onMobSpawnEvent(MobSpawnEvent.FinalizeSpawn event) {
         if (
-                event.getEntity().getType().is(NormalTags.Entities.BIRDS)
+                event.getEntity().getType().is(TeaTags.Entities.BIRDS)
                 && event.getEntity() instanceof PathfinderMob pathfinderMob) {
 
             // TeaStory.logger(event.getEntity());

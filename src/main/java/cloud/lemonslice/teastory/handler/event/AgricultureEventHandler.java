@@ -25,7 +25,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 
 import net.minecraftforge.eventbus.api.Event;
-import xueluoanping.teastory.BlockRegister;
+import xueluoanping.teastory.registry.BlockRegister;
 
 import java.util.List;
 

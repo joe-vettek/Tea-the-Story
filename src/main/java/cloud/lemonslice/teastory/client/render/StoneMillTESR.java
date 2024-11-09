@@ -1,8 +1,7 @@
 package cloud.lemonslice.teastory.client.render;
 
 
-import cloud.lemonslice.teastory.block.HorizontalConnectedBlock;
-import cloud.lemonslice.teastory.blockentity.StoneMillTileEntity;
+import cloud.lemonslice.teastory.blockentity.StoneMillBlockEntity;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -18,20 +17,19 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
-import xueluoanping.teastory.ItemRegister;
+import xueluoanping.teastory.registry.ItemRegister;
 import xueluoanping.teastory.block.NormalHorizontalBlock;
 
-public class StoneMillTESR implements BlockEntityRenderer<StoneMillTileEntity> {
+public class StoneMillTESR implements BlockEntityRenderer<StoneMillBlockEntity> {
     public StoneMillTESR(BlockEntityRendererProvider.Context pContext) {
 
     }
 
     @Override
-    public void render(StoneMillTileEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(StoneMillBlockEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         Minecraft mc = Minecraft.getInstance();
 
         ItemRenderer renderItem = mc.getItemRenderer();

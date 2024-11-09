@@ -10,7 +10,7 @@ import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
-import xueluoanping.teastory.FluidRegistry;
+import xueluoanping.teastory.registry.FluidRegistry;
 
 import java.util.function.Consumer;
 

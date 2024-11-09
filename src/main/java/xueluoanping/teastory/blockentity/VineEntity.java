@@ -7,8 +7,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.client.model.data.ModelProperty;
 import org.jetbrains.annotations.NotNull;
-import xueluoanping.teastory.TeaStory;
-import xueluoanping.teastory.TileEntityTypeRegistry;
+import xueluoanping.teastory.registry.BlockEntityRegister;
 import xueluoanping.teastory.block.entity.SyncedBlockEntity;
 
 public class VineEntity extends SyncedBlockEntity {
@@ -20,7 +19,7 @@ public class VineEntity extends SyncedBlockEntity {
     private int distance = 0;
 
     public VineEntity(BlockPos pos, BlockState state) {
-        super(TileEntityTypeRegistry.VINE_TYPE.get(), pos, state);
+        super(BlockEntityRegister.VINE_TYPE.get(), pos, state);
     }
 
     public VineEntity(BlockEntityType<?> tileEntityTypeIn, BlockPos pos, BlockState state) {

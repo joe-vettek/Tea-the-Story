@@ -11,7 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.ForgeRegistries;
-import xueluoanping.teastory.RecipeRegister;
+import xueluoanping.teastory.registry.RecipeRegister;
 import net.minecraftforge.fluids.FluidStack;
 import xueluoanping.teastory.TeaStory;
 

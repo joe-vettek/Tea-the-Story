@@ -1,11 +1,10 @@
 package cloud.lemonslice.teastory.client.render;
 
 
-import cloud.lemonslice.teastory.blockentity.WoodenBarrelTileEntity;
+import cloud.lemonslice.teastory.blockentity.WoodenBarrelBlockEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -13,19 +12,18 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.inventory.InventoryMenu;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 
-public class WoodenBarrelTESR implements BlockEntityRenderer<WoodenBarrelTileEntity> {
+public class WoodenBarrelTESR implements BlockEntityRenderer<WoodenBarrelBlockEntity> {
     public WoodenBarrelTESR(BlockEntityRendererProvider.Context pContext )
     {
 
     }
 
     @Override
-    public void render(WoodenBarrelTileEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn)
+    public void render(WoodenBarrelBlockEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn)
     {
         Minecraft mc = Minecraft.getInstance();
 

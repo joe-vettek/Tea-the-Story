@@ -1,29 +1,25 @@
 package cloud.lemonslice.teastory.client.render;
 
 
-import cloud.lemonslice.teastory.blockentity.StoneRollerTileEntity;
+import cloud.lemonslice.teastory.blockentity.StoneRollerBlockEntity;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.inventory.SignEditScreen;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import xueluoanping.teastory.ItemRegister;
-import xueluoanping.teastory.TeaStory;
+import xueluoanping.teastory.registry.ItemRegister;
 
 
-public class StoneRollerTESR implements BlockEntityRenderer<StoneRollerTileEntity> {
+public class StoneRollerTESR implements BlockEntityRenderer<StoneRollerBlockEntity> {
     public StoneRollerTESR(BlockEntityRendererProvider.Context pContext) {
     }
 
     @Override
-    public void render(StoneRollerTileEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(StoneRollerBlockEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         Minecraft mc = Minecraft.getInstance();
 
         ItemRenderer renderItem = mc.getItemRenderer();

@@ -1,8 +1,8 @@
 package cloud.lemonslice.teastory.client.gui;
 
 
-import cloud.lemonslice.teastory.blockentity.StoneRollerTileEntity;
-import cloud.lemonslice.teastory.container.StoneRollerContainer;
+import cloud.lemonslice.teastory.blockentity.StoneRollerBlockEntity;
+import cloud.lemonslice.teastory.client.container.StoneRollerContainer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -10,7 +10,6 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.StonecutterMenu;
 import xueluoanping.teastory.TeaStory;
 
 
@@ -48,11 +47,11 @@ public class StoneRollerGui extends AbstractContainerScreen<StoneRollerContainer
         matrixStack.blit(TEXTURE, offsetX, offsetY, 0, 0, imageWidth, imageHeight);
 
         int totalTicks = 0;
-        if (((StoneRollerTileEntity)this.container.getTileEntity()).getCurrentRecipe() != null)
+        if (((StoneRollerBlockEntity)this.container.getTileEntity()).getCurrentRecipe() != null)
         {
-            totalTicks = ((StoneRollerTileEntity)this.container.getTileEntity()).getCurrentRecipe().getWorkTime();
+            totalTicks = ((StoneRollerBlockEntity)this.container.getTileEntity()).getCurrentRecipe().getWorkTime();
         }
-        int processTicks =  ((StoneRollerTileEntity)this.container.getTileEntity()).getProcessTicks();
+        int processTicks =  ((StoneRollerBlockEntity)this.container.getTileEntity()).getProcessTicks();
         int textureWidth = 0;
         if (totalTicks != 0)
         {

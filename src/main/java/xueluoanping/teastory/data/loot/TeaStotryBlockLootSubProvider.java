@@ -7,7 +7,6 @@ import cloud.lemonslice.teastory.block.drink.DrinkMakerBlock;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.BlockLootSubProvider;
-import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -24,10 +23,9 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import org.jetbrains.annotations.NotNull;
-import xueluoanping.teastory.BlockRegister;
-import xueluoanping.teastory.ItemRegister;
-import xueluoanping.teastory.TileEntityTypeRegistry;
-import xueluoanping.teastory.variant.Planks;
+import xueluoanping.teastory.registry.BlockRegister;
+import xueluoanping.teastory.registry.ItemRegister;
+import xueluoanping.teastory.registry.BlockEntityRegister;
 
 
 import java.util.Set;
@@ -199,16 +197,16 @@ public class TeaStotryBlockLootSubProvider extends BlockLootSubProvider {
         add(BlockRegister.SCARECROW.get(), this::createDoorTable);
         add(BlockRegister.WET_HAYSTACK.get(), this::createDoorTable);
         add(BlockRegister.DRY_HAYSTACK.get(), this::createDoorTable);
-        add(TileEntityTypeRegistry.DRINK_MAKER.get(), this::createDrinkMakerBlock);
+        add(BlockEntityRegister.DRINK_MAKER.get(), this::createDrinkMakerBlock);
     }
 
     private void generateSelfDrops() {
-        dropSelf(TileEntityTypeRegistry.BAMBOO_TRAY.get());
-        dropSelf(TileEntityTypeRegistry.STONE_MILL.get());
-        dropSelf(TileEntityTypeRegistry.STONE_ROLLER.get());
-        dropSelf(TileEntityTypeRegistry.DIRT_STOVE.get());
-        dropSelf(TileEntityTypeRegistry.STONE_STOVE.get());
-        dropSelf(TileEntityTypeRegistry.WOODEN_TRAY.get());
+        dropSelf(BlockEntityRegister.BAMBOO_TRAY.get());
+        dropSelf(BlockEntityRegister.STONE_MILL.get());
+        dropSelf(BlockEntityRegister.STONE_ROLLER.get());
+        dropSelf(BlockEntityRegister.DIRT_STOVE.get());
+        dropSelf(BlockEntityRegister.STONE_STOVE.get());
+        dropSelf(BlockEntityRegister.WOODEN_TRAY.get());
 
         dropSelf(BlockRegister.WOODEN_FRAME.get());
         dropSelf(BlockRegister.BAMBOO_LANTERN.get());

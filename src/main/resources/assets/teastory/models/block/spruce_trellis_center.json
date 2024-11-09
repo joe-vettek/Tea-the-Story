@@ -1,6 +1,0 @@
-{
-    "parent": "teastory:block/trellis_center",
-    "textures": {
-        "texture": "block/spruce_planks"
-    }
-}

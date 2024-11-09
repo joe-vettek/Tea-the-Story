@@ -3,7 +3,7 @@ package cloud.lemonslice.teastory.recipe.bamboo_tray;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
-import xueluoanping.teastory.RecipeRegister;
+import xueluoanping.teastory.registry.RecipeRegister;
 
 public class BambooTrayOutdoorsRecipe extends BambooTraySingleInRecipe
 {

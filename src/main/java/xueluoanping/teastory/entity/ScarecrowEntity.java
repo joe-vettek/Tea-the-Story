@@ -2,19 +2,12 @@ package xueluoanping.teastory.entity;
 
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.decoration.ArmorStand;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import xueluoanping.teastory.EntityTypeRegistry;
+import xueluoanping.teastory.registry.EntityTypeRegistry;
 
-import java.util.Collections;
 import java.util.List;
 
 public class ScarecrowEntity extends ArmorStand {

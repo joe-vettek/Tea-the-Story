@@ -5,20 +5,18 @@ import cloud.lemonslice.teastory.block.crops.AqueductBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DirtPathBlock;
 import net.minecraft.world.level.block.FarmBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.Tags;
-import xueluoanping.teastory.BlockRegister;
+import xueluoanping.teastory.registry.BlockRegister;
 import cloud.lemonslice.teastory.block.crops.PaddyFieldBlock;
 
 public class AqueductShovelItem extends ShovelItem {

@@ -11,8 +11,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.registries.ForgeRegistries;
-import xueluoanping.teastory.FluidRegistry;
-import xueluoanping.teastory.RecipeRegister;
+import xueluoanping.teastory.registry.FluidRegistry;
+import xueluoanping.teastory.registry.RecipeRegister;
 import xueluoanping.teastory.TeaStory;
 
 import java.util.function.Consumer;

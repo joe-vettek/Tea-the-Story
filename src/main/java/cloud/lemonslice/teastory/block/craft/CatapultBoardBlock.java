@@ -2,7 +2,6 @@ package cloud.lemonslice.teastory.block.craft;
 
 
 import cloud.lemonslice.teastory.helper.VoxelShapeHelper;
-import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -13,7 +12,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -25,19 +23,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.joml.Vector3d;
-import xueluoanping.teastory.TileEntityTypeRegistry;
+import xueluoanping.teastory.registry.BlockEntityRegister;
 import xueluoanping.teastory.block.NormalHorizontalBlock;
-
-import java.util.List;
-import java.util.Random;
 
 public class CatapultBoardBlock extends NormalHorizontalBlock
 {
@@ -105,10 +98,10 @@ public class CatapultBoardBlock extends NormalHorizontalBlock
     @SuppressWarnings("deprecation")
     public InteractionResult use(BlockState state, Level worldIn, BlockPos pos,  Player player, InteractionHand handIn, BlockHitResult hit)
     {
-        if (player.getItemInHand(handIn).getItem() == TileEntityTypeRegistry.BAMBOO_TRAY_ITEM.get())
+        if (player.getItemInHand(handIn).getItem() == BlockEntityRegister.BAMBOO_TRAY_ITEM.get())
         {
-            worldIn.setBlockAndUpdate(pos, TileEntityTypeRegistry.STONE_CATAPULT_BOARD_WITH_TRAY.get().defaultBlockState().setValue(FACING, state.getValue(FACING)));
-            SoundType soundtype = TileEntityTypeRegistry.BAMBOO_TRAY.get().defaultBlockState().getSoundType(worldIn, pos, player);
+            worldIn.setBlockAndUpdate(pos, BlockEntityRegister.STONE_CATAPULT_BOARD_WITH_TRAY.get().defaultBlockState().setValue(FACING, state.getValue(FACING)));
+            SoundType soundtype = BlockEntityRegister.BAMBOO_TRAY.get().defaultBlockState().getSoundType(worldIn, pos, player);
             worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundSource.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
             return InteractionResult.SUCCESS;
         }

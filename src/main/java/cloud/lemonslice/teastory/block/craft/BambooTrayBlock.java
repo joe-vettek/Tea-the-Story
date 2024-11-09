@@ -1,9 +1,8 @@
 package cloud.lemonslice.teastory.block.craft;
 
-import cloud.lemonslice.teastory.blockentity.BambooTrayTileEntity;
+import cloud.lemonslice.teastory.blockentity.BambooTrayBlockEntity;
 import cloud.lemonslice.teastory.helper.VoxelShapeHelper;
 import cloud.lemonslice.teastory.recipe.bamboo_tray.BambooTraySingleInRecipe;
-import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -24,7 +23,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -33,11 +31,8 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
-import xueluoanping.teastory.TileEntityTypeRegistry;
+import xueluoanping.teastory.registry.BlockEntityRegister;
 import xueluoanping.teastory.block.NormalHorizontalBlock;
-import xueluoanping.teastory.block.entity.NormalContainerTileEntity;
-
-import java.util.List;
 
 public class BambooTrayBlock extends Block implements EntityBlock {
     protected static final VoxelShape SHAPE;
@@ -103,17 +98,17 @@ public class BambooTrayBlock extends Block implements EntityBlock {
     @Override
     public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         var te = worldIn.getBlockEntity(pos);
-        if (te instanceof BambooTrayTileEntity) {
+        if (te instanceof BambooTrayBlockEntity) {
             if (worldIn.isClientSide()) {
-                ((BambooTrayTileEntity) te).refreshSeed();
+                ((BambooTrayBlockEntity) te).refreshSeed();
                 return InteractionResult.SUCCESS;
             }
             if (!player.isShiftKeyDown()) {
-                if (((BambooTrayTileEntity) te).isDoubleClick()) {
+                if (((BambooTrayBlockEntity) te).isDoubleClick()) {
                     dropItems(worldIn, pos);
                     return InteractionResult.SUCCESS;
                 }
-                if (!((BambooTrayTileEntity) te).isWorking()) {
+                if (!((BambooTrayBlockEntity) te).isWorking()) {
                     dropItems(worldIn, pos);
                     te.setChanged();
                 }
@@ -122,7 +117,7 @@ public class BambooTrayBlock extends Block implements EntityBlock {
                     {
                         BambooTraySingleInRecipe recipe = null;
                         for (Recipe<?> r : worldIn.getRecipeManager().getRecipes()) {
-                            if (r.getType().equals(((BambooTrayTileEntity) te).getRecipeType()) && ((BambooTraySingleInRecipe) r).getIngredient().test(player.getItemInHand(handIn))) {
+                            if (r.getType().equals(((BambooTrayBlockEntity) te).getRecipeType()) && ((BambooTraySingleInRecipe) r).getIngredient().test(player.getItemInHand(handIn))) {
                                 recipe = (BambooTraySingleInRecipe) r;
                                 break;
                             }
@@ -130,12 +125,12 @@ public class BambooTrayBlock extends Block implements EntityBlock {
                         if (recipe != null && !recipe.getRecipeOutput().isEmpty()) {
                             player.setItemInHand(handIn, inv.insertItem(0, player.getItemInHand(handIn), false));
                             te.setChanged();
-                        } else ((BambooTrayTileEntity) te).singleClickStart();
+                        } else ((BambooTrayBlockEntity) te).singleClickStart();
                     });
                     return InteractionResult.SUCCESS;
                 } else {
-                    if (((BambooTrayTileEntity) te).isWorking()) {
-                        ((BambooTrayTileEntity) te).singleClickStart();
+                    if (((BambooTrayBlockEntity) te).isWorking()) {
+                        ((BambooTrayBlockEntity) te).singleClickStart();
                     }
                 }
             } else {
@@ -159,14 +154,14 @@ public class BambooTrayBlock extends Block implements EntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos p_153215_, BlockState p_153216_) {
-        return new BambooTrayTileEntity(p_153215_, p_153216_);
+        return new BambooTrayBlockEntity(p_153215_, p_153216_);
     }
 
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level worldIn, BlockState state, BlockEntityType<T> blockEntityType) {
         // return !worldIn.isClientSide ?
-           return      NormalHorizontalBlock.createTickerHelper(blockEntityType, TileEntityTypeRegistry.BAMBOO_TRAY_TYPE.get(), BambooTrayTileEntity::tick) ;
+           return      NormalHorizontalBlock.createTickerHelper(blockEntityType, BlockEntityRegister.BAMBOO_TRAY_TYPE.get(), BambooTrayBlockEntity::tick) ;
     }
 
 }

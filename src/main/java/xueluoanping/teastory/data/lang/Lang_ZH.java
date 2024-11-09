@@ -3,9 +3,10 @@ package xueluoanping.teastory.data.lang;
 
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import xueluoanping.teastory.BlockRegister;
-import xueluoanping.teastory.EntityTypeRegistry;
-import xueluoanping.teastory.ItemRegister;
+import xueluoanping.teastory.data.advancement.TeaAdvancementGenerator;
+import xueluoanping.teastory.registry.BlockRegister;
+import xueluoanping.teastory.registry.EntityTypeRegistry;
+import xueluoanping.teastory.registry.ItemRegister;
 import xueluoanping.teastory.TeaStory;
 
 
@@ -225,9 +226,44 @@ public class Lang_ZH extends LangHelper {
         add("info.teastory.tooltip.iron_kettle.to_fill", "右击水面装水");
         add("info.teastory.tooltip.iron_kettle.to_boil", "放置于炉灶上加热");
         add("info.teastory.record", "您还未安装唱片资源包");
-        add("commands.teastory.solar.set", "已将节气天数设置为第%s天");
         add("death.attack.boiling", "%1$s被开水烫伤了");
         add("misc.block.teastory.trellis_suffix", "棚架");
+
+
+        addAdvancements();
+    }
+
+    private void addAdvancements() {
+
+        addTittle(TeaAdvancementGenerator.ROOT,"茶");
+        addDescription(TeaAdvancementGenerator.ROOT,"一片树叶的故事");
+
+        addTittle(TeaAdvancementGenerator.AQUEDUCT_SHOVEL,"引水");
+        addDescription(TeaAdvancementGenerator.AQUEDUCT_SHOVEL,"可以用沟渠铲挖掘水渠，需要对土径或者原石使用");
+
+        addTittle(TeaAdvancementGenerator.AQUEDUCT,"水渠");
+        addDescription(TeaAdvancementGenerator.AQUEDUCT,"虽然都可以灌溉，石渠比土渠更加耐用");
+
+        addTittle(TeaAdvancementGenerator.MOSSY_COBBLESTONE_AQUEDUCT,"挖掘渠口");
+        addDescription(TeaAdvancementGenerator.MOSSY_COBBLESTONE_AQUEDUCT,"稻田需要苔石渠口与石渠相连");
+
+        addTittle(TeaAdvancementGenerator.RICESeedlings,"育苗");
+        addDescription(TeaAdvancementGenerator.RICESeedlings,"稻谷需要先在旱地里长成秧苗");
+
+        addTittle(TeaAdvancementGenerator.PaddyField,"插秧");
+        addDescription(TeaAdvancementGenerator.PaddyField,"对耕地使用沟渠铲可以挖掘稻田，稻田有水时可以插秧");
+
+        addTittle(TeaAdvancementGenerator.RICE,"春种一粒稻");
+        addDescription(TeaAdvancementGenerator.RICE,"收获稻谷");
+
+        addTittle(TeaAdvancementGenerator.WASH_RICE,"清洗大米");
+        addDescription(TeaAdvancementGenerator.WASH_RICE,"将褪去谷壳的大米丢入装了清水的木桶中进行清洗");
+
+        addTittle(TeaAdvancementGenerator.COOK_RICE,"煮饭");
+        addDescription(TeaAdvancementGenerator.COOK_RICE,"煮锅需要下有炉子加热，然后先加水，后加米，最后重新盖上");
+
+        addTittle(TeaAdvancementGenerator.TEA_LEAVES,"剪茶");
+        addDescription(TeaAdvancementGenerator.TEA_LEAVES,"剪刀可以从茶树上剪下茶叶");
     }
 
 

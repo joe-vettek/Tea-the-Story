@@ -1,7 +1,7 @@
 package cloud.lemonslice.teastory.recipe.stone_mill;
 
 
-import cloud.lemonslice.teastory.blockentity.StoneMillTileEntity;
+import cloud.lemonslice.teastory.blockentity.StoneMillBlockEntity;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import xueluoanping.teastory.craft.BlockEntityRecipeWrapper;
 import com.google.gson.JsonArray;
@@ -20,7 +20,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.NewRegistryEvent;
-import xueluoanping.teastory.RecipeRegister;
+import xueluoanping.teastory.registry.RecipeRegister;
 
 
 public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
@@ -45,7 +45,7 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
     @Override
     public boolean matches(BlockEntityRecipeWrapper inv, Level worldIn) {
         if (this.inputItem.test(inv.getItem(0))) {
-            if (inv.getBlockEntity() instanceof StoneMillTileEntity stoneMillTileEntity) {
+            if (inv.getBlockEntity() instanceof StoneMillBlockEntity stoneMillTileEntity) {
                 FluidStack fluidStack = stoneMillTileEntity.getFluidTank().getFluidInTank(0).copy();
                 // return outputFluid.test(fluidStack);
                 return stoneMillTileEntity.getFluidTank().fill(getOutputFluid(), IFluidHandler.FluidAction.SIMULATE)==getOutputFluid().getAmount();

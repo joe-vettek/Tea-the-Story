@@ -1,9 +1,8 @@
 package cloud.lemonslice.teastory.client.gui;
 
 
-import cloud.lemonslice.teastory.blockentity.BambooTrayTileEntity;
-import cloud.lemonslice.teastory.blockentity.StoneMillTileEntity;
-import cloud.lemonslice.teastory.container.BambooTrayContainer;
+import cloud.lemonslice.teastory.blockentity.BambooTrayBlockEntity;
+import cloud.lemonslice.teastory.client.container.BambooTrayContainer;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -53,8 +52,8 @@ public class BambooTrayGui extends AbstractContainerScreen<BambooTrayContainer>
         // blit(matrixStack, offsetX + 51, offsetY + 29, 176, 107, 20, 20);
         matrixStack.blit(TEXTURE, offsetX + 51, offsetY + 29, 176, 107, 20, 20);
 
-        int totalTicks = ((BambooTrayTileEntity)container.getTileEntity()).getTotalTicks();
-        int processTicks =((BambooTrayTileEntity)container.getTileEntity()).getProcessTicks();
+        int totalTicks = ((BambooTrayBlockEntity)container.getTileEntity()).getTotalTicks();
+        int processTicks =((BambooTrayBlockEntity)container.getTileEntity()).getProcessTicks();
         int textureWidth = 0;
         if (totalTicks != 0)
         {
@@ -63,7 +62,7 @@ public class BambooTrayGui extends AbstractContainerScreen<BambooTrayContainer>
         // blit(matrixStack, offsetX + 76, offsetY + 31, 176, 0, textureWidth, 17);
         matrixStack.blit(TEXTURE, offsetX + 76, offsetY + 31, 176, 0, textureWidth, 17);
 
-        int id = ((BambooTrayTileEntity)container.getTileEntity()).getMode().ordinal();
+        int id = ((BambooTrayBlockEntity)container.getTileEntity()).getMode().ordinal();
         // blit(matrixStack, offsetX + 52, offsetY + 30, 176, 17 + id * 18, 18, 18);
         matrixStack.blit(TEXTURE, offsetX + 52, offsetY + 30, 176, 17 + id * 18, 18, 18);
 
@@ -85,7 +84,7 @@ public class BambooTrayGui extends AbstractContainerScreen<BambooTrayContainer>
         int offsetX = (width - imageWidth) / 2, offsetY = (height - imageHeight) / 2;
         if (offsetX + 52 < mouseX && mouseX < offsetX + 70 && offsetY + 30 < mouseY && mouseY < offsetY + 48)
         {
-            matrixStack.renderComponentTooltip(this.font, List.of(((BambooTrayTileEntity)container.getTileEntity()).getMode().getTranslationKey()), mouseX, mouseY);
+            matrixStack.renderComponentTooltip(this.font, List.of(((BambooTrayBlockEntity)container.getTileEntity()).getMode().getTranslationKey()), mouseX, mouseY);
         }
     }
 }

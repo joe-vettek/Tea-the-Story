@@ -1,7 +1,7 @@
 package cloud.lemonslice.teastory.client.gui;
 
 
-import cloud.lemonslice.teastory.container.DrinkMakerContainer;
+import cloud.lemonslice.teastory.client.container.DrinkMakerContainer;
 import cloud.lemonslice.teastory.recipe.drink.DrinkRecipe;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;

@@ -6,8 +6,8 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import xueluoanping.teastory.BlockRegister;
-import xueluoanping.teastory.TileEntityTypeRegistry;
+import xueluoanping.teastory.registry.BlockRegister;
+import xueluoanping.teastory.registry.BlockEntityRegister;
 
 import javax.annotation.Nullable;
 import java.util.concurrent.CompletableFuture;
@@ -43,17 +43,17 @@ public final class TeaStoryBlockTagProvider extends BlockTagsProvider {
                 BlockRegister.BAMBOO_TABLE.get(),
                 BlockRegister.BAMBOO_CHAIR.get(),
                 BlockRegister.BAMBOO_CATAPULT_BOARD.get(),
-                TileEntityTypeRegistry.WOODEN_TRAY.get(),
-                TileEntityTypeRegistry.WOODEN_BARREL.get(),
-                TileEntityTypeRegistry.BAMBOO_TRAY.get());
+                BlockEntityRegister.WOODEN_TRAY.get(),
+                BlockEntityRegister.WOODEN_BARREL.get(),
+                BlockEntityRegister.BAMBOO_TRAY.get());
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE).add(BlockRegister.STONE_TABLE.get(),
                 BlockRegister.STONE_CHAIR.get(),
                 BlockRegister.STONE_CATAPULT_BOARD.get(),
                 BlockRegister.IRON_CATAPULT_BOARD.get(),
                 BlockRegister.saucepan.get(),
-                TileEntityTypeRegistry.STONE_STOVE.get(),
-                TileEntityTypeRegistry.STONE_ROLLER.get(),
-                TileEntityTypeRegistry.STONE_MILL.get());
+                BlockEntityRegister.STONE_STOVE.get(),
+                BlockEntityRegister.STONE_ROLLER.get(),
+                BlockEntityRegister.STONE_MILL.get());
     }
 }

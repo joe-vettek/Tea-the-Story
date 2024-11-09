@@ -1,8 +1,6 @@
 package xueluoanping.teastory.plugin.jei;
 
 import cloud.lemonslice.teastory.recipe.stone_mill.StoneMillRecipe;
-import com.google.common.collect.Lists;
-import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -11,18 +9,9 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import xueluoanping.teastory.RecipeRegister;
 import xueluoanping.teastory.TeaStory;
-import net.minecraftforge.fluids.FluidStack;
-import xueluoanping.teastory.TileEntityTypeRegistry;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import xueluoanping.teastory.registry.BlockEntityRegister;
 
 
 public class StoneMillCategory implements IRecipeCategory<StoneMillRecipe> {
@@ -31,7 +20,7 @@ public class StoneMillCategory implements IRecipeCategory<StoneMillRecipe> {
 
     public StoneMillCategory(IGuiHelper guiHelper) {
         this.guiHelper = guiHelper;
-        icon = guiHelper.createDrawableItemStack(TileEntityTypeRegistry.STONE_MILL_ITEM.get().getDefaultInstance());
+        icon = guiHelper.createDrawableItemStack(BlockEntityRegister.STONE_MILL_ITEM.get().getDefaultInstance());
     }
 
 

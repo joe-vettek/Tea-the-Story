@@ -2,13 +2,12 @@ package cloud.lemonslice.teastory.item;
 
 
 import cloud.lemonslice.teastory.recipe.drink.DrinkEffectManager;
-import cloud.lemonslice.teastory.tag.NormalTags;
+import cloud.lemonslice.teastory.tag.TeaTags;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -16,9 +15,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
@@ -27,11 +23,9 @@ import net.minecraftforge.fluids.capability.ItemFluidContainer;
 import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.NotNull;
-import xueluoanping.teastory.FluidRegistry;
-import xueluoanping.teastory.TeaStory;
+import xueluoanping.teastory.registry.FluidRegistry;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.BiConsumer;
 
@@ -56,7 +50,7 @@ public class CupDrinkItem extends ItemFluidContainer {
 
             @Override
             public boolean isFluidValid(int tank, @Nonnull FluidStack stack) {
-                return stack.getFluid().is(NormalTags.Fluids.DRINK);
+                return stack.getFluid().is(TeaTags.Fluids.DRINK);
                 // return true;
             }
         };
@@ -151,7 +145,7 @@ public class CupDrinkItem extends ItemFluidContainer {
     public static boolean canDrink(ItemStack stack) {
         if (stack.getOrCreateTag().contains(FLUID_NBT_KEY))
         {
-            return FluidUtil.getFluidContained(stack).map(f -> f.getFluid().is(NormalTags.Fluids.DRINK)).orElse(false);
+            return FluidUtil.getFluidContained(stack).map(f -> f.getFluid().is(TeaTags.Fluids.DRINK)).orElse(false);
         }
         return false;
         // return true;

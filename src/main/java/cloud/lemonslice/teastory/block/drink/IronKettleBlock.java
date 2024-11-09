@@ -1,8 +1,7 @@
 package cloud.lemonslice.teastory.block.drink;
 
-import cloud.lemonslice.teastory.blockentity.StoveTileEntity;
-import cloud.lemonslice.teastory.blockentity.TeapotTileEntity;
-import cloud.lemonslice.teastory.fluid.HotWaterFlowingFluidBlock;
+import cloud.lemonslice.teastory.blockentity.TeapotBlockEntity;
+import xueluoanping.teastory.fluid.HotWaterFlowingFluidBlock;
 import cloud.lemonslice.teastory.helper.VoxelShapeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -20,12 +19,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.property.Properties;
 import org.jetbrains.annotations.Nullable;
-import xueluoanping.teastory.TileEntityTypeRegistry;
+import xueluoanping.teastory.registry.BlockEntityRegister;
 import xueluoanping.teastory.block.NormalHorizontalBlock;
-
-import java.util.Random;
 
 public class IronKettleBlock extends TeapotBlock implements EntityBlock {
     private static final VoxelShape SHAPE = VoxelShapeHelper.createVoxelShape(2, 0, 2, 12, 11, 12);
@@ -45,7 +41,7 @@ public class IronKettleBlock extends TeapotBlock implements EntityBlock {
     @OnlyIn(Dist.CLIENT)
     public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand) {
         var tileentity = worldIn.getBlockEntity(pos);
-        if (tileentity instanceof TeapotTileEntity && ((TeapotTileEntity) tileentity).getFluid().getFluidType().getTemperature() >= 333) {
+        if (tileentity instanceof TeapotBlockEntity && ((TeapotBlockEntity) tileentity).getFluid().getFluidType().getTemperature() >= 333) {
             double d0 = pos.getX() + 0.5D;
             double d1 = pos.getY() + rand.nextDouble() * 6.0D / 16.0D;
             double d2 = pos.getZ() + 0.5D;
@@ -65,7 +61,7 @@ public class IronKettleBlock extends TeapotBlock implements EntityBlock {
     public void entityInside(BlockState p_60495_,Level worldIn, BlockPos pos, Entity entityIn) {
         if (entityIn instanceof LivingEntity) {
             var te = worldIn.getBlockEntity(pos);
-            if (te instanceof TeapotTileEntity && ((TeapotTileEntity) te).getFluid().getFluidType().getTemperature() >= 333) {
+            if (te instanceof TeapotBlockEntity && ((TeapotBlockEntity) te).getFluid().getFluidType().getTemperature() >= 333) {
                 entityIn.hurt(HotWaterFlowingFluidBlock.getBoiling(worldIn), 1.0F);
             }
         }
@@ -73,13 +69,13 @@ public class IronKettleBlock extends TeapotBlock implements EntityBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return TileEntityTypeRegistry.IRON_KETTLE_TYPE.get().create(blockPos, blockState);
+        return BlockEntityRegister.IRON_KETTLE_TYPE.get().create(blockPos, blockState);
     }
 
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
            return !pLevel.isClientSide ?
-                NormalHorizontalBlock.createTickerHelper(pBlockEntityType, TileEntityTypeRegistry.IRON_KETTLE_TYPE.get(), TeapotTileEntity::tick) : null;
+                NormalHorizontalBlock.createTickerHelper(pBlockEntityType, BlockEntityRegister.IRON_KETTLE_TYPE.get(), TeapotBlockEntity::tick) : null;
 
     }
 }

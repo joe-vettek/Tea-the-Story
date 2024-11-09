@@ -17,13 +17,15 @@ public abstract class LangHelper extends LanguageProvider {
 		this.locale = locale;
 	}
 
-	public void addDebugKey(String key, String value) {
-		// add(ModConstant.DebugKey.getRealKey(key), value);
+
+	public void addTittle(String name, String s) {
+		add("advancement.%s.%s".formatted(modid, name), s);
 	}
 
-	public void addSpecie(String specieName, String hint) {
-		add("species." + modid + '.'+specieName, hint);
+	public void addDescription(String name, String s) {
+		add("advancement.%s.%s.desc".formatted(modid, name), s);
 	}
+
 
 	// There is a lot of code here that is redundant, but indispensable. In order to make corrections
 	protected abstract void addTranslations();

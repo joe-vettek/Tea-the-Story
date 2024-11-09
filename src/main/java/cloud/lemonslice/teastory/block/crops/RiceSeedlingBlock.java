@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import xueluoanping.teastory.BlockRegister;
+import xueluoanping.teastory.registry.BlockRegister;
 
 public class RiceSeedlingBlock extends CropBlock
 {

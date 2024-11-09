@@ -3,7 +3,7 @@ package cloud.lemonslice.teastory.block.crops;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import xueluoanping.teastory.BlockRegister;
+import xueluoanping.teastory.registry.BlockRegister;
 
 public enum VineType
 {

@@ -1,8 +1,7 @@
 package cloud.lemonslice.teastory.block.craft;
 
 
-import cloud.lemonslice.teastory.blockentity.BambooTrayTileEntity;
-import cloud.lemonslice.teastory.blockentity.StoveTileEntity;
+import cloud.lemonslice.teastory.blockentity.StoveBlockEntity;
 import cloud.lemonslice.teastory.helper.VoxelShapeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -44,9 +43,8 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
-import xueluoanping.teastory.TileEntityTypeRegistry;
+import xueluoanping.teastory.registry.BlockEntityRegister;
 import xueluoanping.teastory.block.NormalHorizontalBlock;
-import xueluoanping.teastory.block.entity.NormalContainerTileEntity;
 
 
 public class StoveBlock extends NormalHorizontalBlock implements IStoveBlock, EntityBlock
@@ -120,13 +118,13 @@ public class StoveBlock extends NormalHorizontalBlock implements IStoveBlock, En
     public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         BlockEntity te = worldIn.getBlockEntity (pos);
         Item held = player.getItemInHand(handIn).getItem();
-        if (held == TileEntityTypeRegistry.BAMBOO_TRAY_ITEM.get()
-                || held == TileEntityTypeRegistry.IRON_KETTLE_ITEM.get()
+        if (held == BlockEntityRegister.BAMBOO_TRAY_ITEM.get()
+                || held == BlockEntityRegister.IRON_KETTLE_ITEM.get()
         )
         {
             return InteractionResult.PASS;
         }
-        if (te instanceof StoveTileEntity)
+        if (te instanceof StoveBlockEntity)
         {
             if (player.isShiftKeyDown())
             {
@@ -141,14 +139,14 @@ public class StoveBlock extends NormalHorizontalBlock implements IStoveBlock, En
             {
                 if (held.equals(Items.FLINT_AND_STEEL))
                 {
-                    ((StoveTileEntity) te).setToLit();
+                    ((StoveBlockEntity) te).setToLit();
                     player.getItemInHand(handIn).hurtAndBreak(1, player, onBroken -> onBroken.broadcastBreakEvent(handIn));
                     worldIn.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, worldIn.getRandom().nextFloat() * 0.4F + 0.8F);
                     return InteractionResult.SUCCESS;
                 }
                 else if (held.equals(Items.FIRE_CHARGE))
                 {
-                    ((StoveTileEntity) te).setToLit();
+                    ((StoveBlockEntity) te).setToLit();
                     player.getItemInHand(handIn).shrink(1);
                     return InteractionResult.SUCCESS;
                 }
@@ -161,7 +159,7 @@ public class StoveBlock extends NormalHorizontalBlock implements IStoveBlock, En
                     });
                     return InteractionResult.SUCCESS;
                 }
-                else if (((StoveTileEntity) te).isDoubleClick())
+                else if (((StoveBlockEntity) te).isDoubleClick())
                 {
                     dropFuel(worldIn, pos);
                     return InteractionResult.SUCCESS;
@@ -170,7 +168,7 @@ public class StoveBlock extends NormalHorizontalBlock implements IStoveBlock, En
                 {
                     dropAsh(worldIn, pos);
                     if (!worldIn.isClientSide())
-                        ((StoveTileEntity) te).singleClickStart();
+                        ((StoveBlockEntity) te).singleClickStart();
                     return InteractionResult.SUCCESS;
                 }
             }
@@ -276,13 +274,13 @@ public class StoveBlock extends NormalHorizontalBlock implements IStoveBlock, En
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos p_153215_, BlockState p_153216_) {
-        return new StoveTileEntity(p_153215_, p_153216_);
+        return new StoveBlockEntity(p_153215_, p_153216_);
     }
 
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level worldIn, BlockState state, BlockEntityType<T> blockEntityType) {
         return !worldIn.isClientSide ?
-                NormalHorizontalBlock.createTickerHelper(blockEntityType, TileEntityTypeRegistry.STOVE_TYPE.get(), StoveTileEntity::tick) : null;
+                NormalHorizontalBlock.createTickerHelper(blockEntityType, BlockEntityRegister.STOVE_TYPE.get(), StoveBlockEntity::tick) : null;
     }
 }

@@ -24,8 +24,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.ForgeHooks;
 import org.jetbrains.annotations.Nullable;
-import xueluoanping.teastory.TeaStory;
-import xueluoanping.teastory.TileEntityTypeRegistry;
+import xueluoanping.teastory.registry.BlockEntityRegister;
 import xueluoanping.teastory.blockentity.VineEntity;
 
 import java.util.ArrayList;
@@ -95,7 +94,7 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
                                     if (level.getBlockState(pos.below()).isAir() && !hasNearFruit(level, pos.below(), type.getFruit())) {
                                         // level.setBlockAndUpdate(pos, state.setValue(AGE, (i + 1) % 4));
                                         vineEntity.setAge(((i + 1) % 4));
-                                        level.setBlock(pos.below(), type.getFruit().defaultBlockState(),Block.UPDATE_CLIENTS);
+                                        level.setBlock(pos.below(), type.getFruit().defaultBlockState(), Block.UPDATE_CLIENTS);
                                         ForgeHooks.onCropsGrowPost(level, pos, state);
                                         return;
                                     }
@@ -283,14 +282,15 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
 
 
         boolean valid = false;
-
-        if (level.getBlockState(pos.below()).is(BlockTags.DIRT)) {
+        if (stateIn.getValue(WATERLOGGED)) {
+            valid = false;
+        } else if (level.getBlockState(pos.below()).is(BlockTags.DIRT)) {
             valid = true;
         } else if (level.getBlockEntity(pos) instanceof VineEntity vineEntity) {
-            int nearD=getNearDistance2(level, pos);
+            int nearD = getNearDistance2(level, pos);
             if (nearD < vineEntity.getDistance()) {
                 valid = true;
-                if (nearD+1<vineEntity.getDistance()){
+                if (nearD + 1 < vineEntity.getDistance()) {
                     // TeaStory.logger(nearD,vineEntity.getDistance());
                 }
                 // if (nearD+1<vineEntity.getDistance()){
@@ -375,7 +375,7 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return TileEntityTypeRegistry.VINE_TYPE.get().create(pPos, pState);
+        return BlockEntityRegister.VINE_TYPE.get().create(pPos, pState);
     }
 
     @Override

@@ -16,27 +16,34 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import xueluoanping.teastory.variant.Planks;
 
 import java.util.List;
 
-public class TrellisBlock extends HorizontalConnectedBlock {
+public class TrellisBlock extends HorizontalConnectedBlock  implements SimpleWaterloggedBlock {
     public static final BooleanProperty POST = BooleanProperty.create("post");
     public static final BooleanProperty UP = BlockStateProperties.UP;
     // public static final BooleanProperty HORIZONTAL = BooleanProperty.create("horizontal");
     private static final VoxelShape[] SHAPES;
+    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     public TrellisBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.defaultBlockState().setValue(POST, false).setValue(UP, false).setValue(NORTH, false).setValue(EAST, false).setValue(SOUTH, false).setValue(WEST, false));
+        this.registerDefaultState(this.defaultBlockState()
+                .setValue(WATERLOGGED, false)
+                .setValue(POST, false).setValue(UP, false).setValue(NORTH, false).setValue(EAST, false).setValue(SOUTH, false).setValue(WEST, false));
     }
 
     @Override
@@ -99,7 +106,7 @@ public class TrellisBlock extends HorizontalConnectedBlock {
                 state = state.setValue(FACING_TO_PROPERTY_MAP.get(facing), true);
             }
         }
-        return state;
+        return state.setValue(WATERLOGGED, world.getFluidState(pos).getType() == Fluids.WATER);
     }
 
     @Override
@@ -117,6 +124,9 @@ public class TrellisBlock extends HorizontalConnectedBlock {
     @Override
     @SuppressWarnings("deprecation")
     public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos) {
+        if (stateIn.getValue(WATERLOGGED)) {
+            worldIn.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(worldIn));
+        }
         // Update the connecting state of trellis. 更新棚架方块的连接状态。
         if (facing.getAxis().getPlane() == Direction.Plane.HORIZONTAL) {
             stateIn = stateIn.setValue(FACING_TO_PROPERTY_MAP.get(facing), this.canConnect(facingState, facingState.isFaceSturdy(worldIn, facingPos, facing.getOpposite())));
@@ -131,7 +141,10 @@ public class TrellisBlock extends HorizontalConnectedBlock {
         }
         return stateIn;
     }
-
+    @Override
+    public @NotNull FluidState getFluidState(BlockState state) {
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+    }
     @Override
     public boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos) {
         return true;
@@ -139,13 +152,15 @@ public class TrellisBlock extends HorizontalConnectedBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder.add(POST, UP));
+        super.createBlockStateDefinition(builder.add(POST, UP,WATERLOGGED));
     }
 
 
     public BlockState getRelevantState(BlockState old) {
         BlockState newState = this.defaultBlockState();
-        return newState.setValue(NORTH, old.getValue(NORTH)).setValue(SOUTH, old.getValue(SOUTH)).setValue(WEST, old.getValue(WEST)).setValue(EAST, old.getValue(EAST)).setValue(POST, old.getValue(POST)).setValue(UP, old.getValue(UP));
+        return newState
+                .setValue(WATERLOGGED, old.getValue(WATERLOGGED))
+                .setValue(NORTH, old.getValue(NORTH)).setValue(SOUTH, old.getValue(SOUTH)).setValue(WEST, old.getValue(WEST)).setValue(EAST, old.getValue(EAST)).setValue(POST, old.getValue(POST)).setValue(UP, old.getValue(UP));
     }
 
     @Override

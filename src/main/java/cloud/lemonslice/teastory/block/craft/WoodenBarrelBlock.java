@@ -1,9 +1,9 @@
 package cloud.lemonslice.teastory.block.craft;
 
 
-import cloud.lemonslice.teastory.blockentity.WoodenBarrelTileEntity;
+import cloud.lemonslice.teastory.blockentity.WoodenBarrelBlockEntity;
 import cloud.lemonslice.teastory.helper.VoxelShapeHelper;
-import cloud.lemonslice.teastory.tag.NormalTags;
+import cloud.lemonslice.teastory.tag.TeaTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionHand;
@@ -29,8 +29,8 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.Nullable;
-import xueluoanping.teastory.ItemRegister;
-import xueluoanping.teastory.TileEntityTypeRegistry;
+import xueluoanping.teastory.registry.ItemRegister;
+import xueluoanping.teastory.registry.BlockEntityRegister;
 
 public class WoodenBarrelBlock extends Block implements EntityBlock {
     private static final VoxelShape SHAPE;
@@ -66,17 +66,17 @@ public class WoodenBarrelBlock extends Block implements EntityBlock {
     @Override
     public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn) {
         var te = worldIn.getBlockEntity(pos);
-        if (te instanceof WoodenBarrelTileEntity) {
-            int i = ((WoodenBarrelTileEntity) te).getFluidAmount();
+        if (te instanceof WoodenBarrelBlockEntity) {
+            int i = ((WoodenBarrelBlockEntity) te).getFluidAmount();
             float f = pos.getY() + 0.0625F + 0.875F * i / 2000;
             if (!worldIn.isClientSide()) {
                 if (entityIn.fireImmune()) {
-                    if (((WoodenBarrelTileEntity) te).getFluid().is(FluidTags.WATER) && i > 250 && entityIn.getBlockY() <= f) {
+                    if (((WoodenBarrelBlockEntity) te).getFluid().is(FluidTags.WATER) && i > 250 && entityIn.getBlockY() <= f) {
                         entityIn.extinguishFire();
                     }
-                } else if (entityIn instanceof ItemEntity && ((WoodenBarrelTileEntity) te).getFluid() == Fluids.WATER) {
+                } else if (entityIn instanceof ItemEntity && ((WoodenBarrelBlockEntity) te).getFluid() == Fluids.WATER) {
                     ItemStack item = ((ItemEntity) entityIn).getItem();
-                    if (item.is(NormalTags.Items.CROPS_RICE)) {
+                    if (item.is(TeaTags.Items.CROPS_RICE)) {
                         ((ItemEntity) entityIn).setItem(new ItemStack(ItemRegister.WASHED_RICE.get(), item.getCount()));
                     }
                 }
@@ -92,6 +92,6 @@ public class WoodenBarrelBlock extends Block implements EntityBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return TileEntityTypeRegistry.WOODEN_BARREL_TYPE.get().create(blockPos, blockState);
+        return BlockEntityRegister.WOODEN_BARREL_TYPE.get().create(blockPos, blockState);
     }
 }

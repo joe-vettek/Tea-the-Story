@@ -5,7 +5,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import xueluoanping.teastory.ItemRegister;
+import xueluoanping.teastory.registry.ItemRegister;
 
 import java.io.IOException;
 

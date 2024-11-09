@@ -1,7 +1,7 @@
 package cloud.lemonslice.teastory.block.craft;
 
 
-import cloud.lemonslice.teastory.blockentity.BambooTrayTileEntity;
+import cloud.lemonslice.teastory.blockentity.BambooTrayBlockEntity;
 import cloud.lemonslice.teastory.helper.VoxelShapeHelper;
 import cloud.lemonslice.teastory.recipe.bamboo_tray.BambooTraySingleInRecipe;
 import net.minecraft.core.BlockPos;
@@ -33,11 +33,8 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
-import xueluoanping.teastory.TileEntityTypeRegistry;
+import xueluoanping.teastory.registry.BlockEntityRegister;
 import xueluoanping.teastory.block.NormalHorizontalBlock;
-import xueluoanping.teastory.block.entity.NormalContainerTileEntity;
-
-import java.util.Random;
 
 public class CatapultBoardBlockWithTray extends NormalHorizontalBlock implements EntityBlock {
     private static final VoxelShape SHAPE = VoxelShapeHelper.createVoxelShape(0, 0, 0, 16, 5, 16);
@@ -113,17 +110,17 @@ public class CatapultBoardBlockWithTray extends NormalHorizontalBlock implements
     @Override
     public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         var te = worldIn.getBlockEntity(pos);
-        if (te instanceof BambooTrayTileEntity) {
+        if (te instanceof BambooTrayBlockEntity) {
             if (worldIn.isClientSide()) {
-                ((BambooTrayTileEntity) te).refreshSeed();
+                ((BambooTrayBlockEntity) te).refreshSeed();
                 return InteractionResult.SUCCESS;
             }
             if (!player.isShiftKeyDown()) {
-                if (((BambooTrayTileEntity) te).isDoubleClick()) {
+                if (((BambooTrayBlockEntity) te).isDoubleClick()) {
                     dropItems(worldIn, pos);
                     return InteractionResult.SUCCESS;
                 }
-                if (!((BambooTrayTileEntity) te).isWorking()) {
+                if (!((BambooTrayBlockEntity) te).isWorking()) {
                     dropItems(worldIn, pos);
                     te.setChanged();
                 }
@@ -132,7 +129,7 @@ public class CatapultBoardBlockWithTray extends NormalHorizontalBlock implements
                     {
                         BambooTraySingleInRecipe recipe = null;
                         for (var r : worldIn.getRecipeManager().getRecipes()) {
-                            if (r.getType().equals(((BambooTrayTileEntity) te).getRecipeType()) && ((BambooTraySingleInRecipe) r).getIngredient().test(player.getItemInHand(handIn))) {
+                            if (r.getType().equals(((BambooTrayBlockEntity) te).getRecipeType()) && ((BambooTraySingleInRecipe) r).getIngredient().test(player.getItemInHand(handIn))) {
                                 recipe = (BambooTraySingleInRecipe) r;
                                 break;
                             }
@@ -140,12 +137,12 @@ public class CatapultBoardBlockWithTray extends NormalHorizontalBlock implements
                         if (recipe != null && !recipe.getRecipeOutput().isEmpty()) {
                             player.setItemInHand(handIn, inv.insertItem(0, player.getItemInHand(handIn), false));
                             te.setChanged();
-                        } else ((BambooTrayTileEntity) te).singleClickStart();
+                        } else ((BambooTrayBlockEntity) te).singleClickStart();
                     });
                     return InteractionResult.SUCCESS;
                 } else {
-                    if (((BambooTrayTileEntity) te).isWorking()) {
-                        ((BambooTrayTileEntity) te).singleClickStart();
+                    if (((BambooTrayBlockEntity) te).isWorking()) {
+                        ((BambooTrayBlockEntity) te).singleClickStart();
                     }
                 }
             } else {
@@ -175,6 +172,6 @@ public class CatapultBoardBlockWithTray extends NormalHorizontalBlock implements
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return TileEntityTypeRegistry.BAMBOO_TRAY_TYPE.get().create(pPos, pState);
+        return BlockEntityRegister.BAMBOO_TRAY_TYPE.get().create(pPos, pState);
     }
 }

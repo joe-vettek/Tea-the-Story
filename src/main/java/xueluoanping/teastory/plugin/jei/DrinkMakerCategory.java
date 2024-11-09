@@ -2,7 +2,6 @@ package xueluoanping.teastory.plugin.jei;
 
 
 import cloud.lemonslice.teastory.recipe.drink.DrinkRecipe;
-import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -15,13 +14,9 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import xueluoanping.teastory.TeaStory;
-import xueluoanping.teastory.TileEntityTypeRegistry;
-
-import java.util.Arrays;
-import java.util.List;
+import xueluoanping.teastory.registry.BlockEntityRegister;
 
 
 public class DrinkMakerCategory implements IRecipeCategory<DrinkRecipe>
@@ -32,7 +27,7 @@ public class DrinkMakerCategory implements IRecipeCategory<DrinkRecipe>
     public DrinkMakerCategory(IGuiHelper guiHelper)
     {
         this.guiHelper = guiHelper;
-        icon = guiHelper.createDrawableItemStack(TileEntityTypeRegistry.DRINK_MAKER_ITEM.get().getDefaultInstance());
+        icon = guiHelper.createDrawableItemStack(BlockEntityRegister.DRINK_MAKER_ITEM.get().getDefaultInstance());
     }
 
 

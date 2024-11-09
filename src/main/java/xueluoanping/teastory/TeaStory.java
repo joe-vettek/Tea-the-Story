@@ -12,10 +12,10 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xueluoanping.teastory.data.start;
+import xueluoanping.teastory.registry.*;
 
 import java.util.List;
 // import xueluoanping.fluiddrawerslegacy.handler.ControllerFluidCapabilityHandler;
@@ -74,10 +74,10 @@ public class TeaStory {
         BlockRegister.ModBlocks.register(FMLJavaModLoadingContext.get().getModEventBus());
         BlockRegister.ModItems.register(FMLJavaModLoadingContext.get().getModEventBus());
 
-        TileEntityTypeRegistry.DRBlockEntities.register(FMLJavaModLoadingContext.get().getModEventBus());
-        TileEntityTypeRegistry.ModBlocks.register(FMLJavaModLoadingContext.get().getModEventBus());
-        TileEntityTypeRegistry.ModItems.register(FMLJavaModLoadingContext.get().getModEventBus());
-        TileEntityTypeRegistry.DRMenuType.register(FMLJavaModLoadingContext.get().getModEventBus());
+        BlockEntityRegister.DRBlockEntities.register(FMLJavaModLoadingContext.get().getModEventBus());
+        BlockEntityRegister.ModBlocks.register(FMLJavaModLoadingContext.get().getModEventBus());
+        BlockEntityRegister.ModItems.register(FMLJavaModLoadingContext.get().getModEventBus());
+        BlockEntityRegister.DRMenuType.register(FMLJavaModLoadingContext.get().getModEventBus());
 
 
         ItemRegister.ModItems.register(FMLJavaModLoadingContext.get().getModEventBus());

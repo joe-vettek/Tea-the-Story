@@ -1,7 +1,7 @@
 package cloud.lemonslice.teastory.client.gui;
 
-import cloud.lemonslice.teastory.blockentity.StoneMillTileEntity;
-import cloud.lemonslice.teastory.container.StoneMillContainer;
+import cloud.lemonslice.teastory.blockentity.StoneMillBlockEntity;
+import cloud.lemonslice.teastory.client.container.StoneMillContainer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -11,6 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import org.jetbrains.annotations.NotNull;
 import xueluoanping.teastory.TeaStory;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class StoneMillGui extends AbstractContainerScreen<StoneMillContainer> {
     }
 
     @Override
-    public void render(GuiGraphics matrixStack, int mouseX, int mouseY, float partialTick) {
+    public void render(@NotNull GuiGraphics matrixStack, int mouseX, int mouseY, float partialTick) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTick);
         renderTooltip(matrixStack, mouseX, mouseY);
@@ -46,16 +47,16 @@ public class StoneMillGui extends AbstractContainerScreen<StoneMillContainer> {
         matrixStack.blit(TEXTURE, offsetX, offsetY, 0, 0, imageWidth, imageHeight);
 
         int totalTicks = 0;
-        if (((StoneMillTileEntity) this.container.getTileEntity()).getCurrentRecipe() != null) {
-            totalTicks = ((StoneMillTileEntity) this.container.getTileEntity()).getCurrentRecipe().getWorkTime();
+        if (((StoneMillBlockEntity) this.container.getTileEntity()).getCurrentRecipe() != null) {
+            totalTicks = ((StoneMillBlockEntity) this.container.getTileEntity()).getCurrentRecipe().getWorkTime();
         }
-        int processTicks = ((StoneMillTileEntity) this.container.getTileEntity()).getProcessTicks();
+        int processTicks = ((StoneMillBlockEntity) this.container.getTileEntity()).getProcessTicks();
         int textureWidth = 0;
         if (totalTicks != 0) {
             textureWidth = (int) Math.ceil(22.0 * processTicks / totalTicks);
         }
         // blit(matrixStack, offsetX + 95, offsetY + 37, 176, 0, textureWidth, 16);
-        matrixStack.blit(TEXTURE, offsetX + 95, offsetY + 38, 176, 0, textureWidth, 16);
+        matrixStack.blit(TEXTURE, offsetX + 77, offsetY + 38, 176, 0, textureWidth, 16);
         // matrixStack.blit(TeaStory.rl( "textures/gui/container/gui_drink_maker.png"), offsetX + 95, offsetY + 37, 176, 0, textureWidth, 16);
 
         container.getTileEntity().getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(fluidHandler ->
@@ -70,11 +71,11 @@ public class StoneMillGui extends AbstractContainerScreen<StoneMillContainer> {
             poseStack.pushPose();
             var fs = fluidHandler.getFluidInTank(0);
             if (!fs.isEmpty()) {
-                RenderUtil.renderFluidStackInGUI(matrixStack.pose().last().pose(), fs, 16, height, offsetX + 37, offsetY + 48 + 22);
-                if (offsetX + 37 < mouseX && mouseX < offsetX + 37 + 16
+                RenderUtil.renderFluidStackInGUI(matrixStack.pose().last().pose(), fs, 16, height, offsetX + 132, offsetY + 48 + 22);
+                if (offsetX + 132 < mouseX && mouseX < offsetX + 132 + 16
                         && offsetY + 20 < mouseY && mouseY < offsetY + 12 + 60){
 
-                    matrixStack.fill(offsetX + 37,  offsetY +21, offsetX + 37 + 16, offsetY + 11 + 60, 0, 0x88FFFFFF);
+                    matrixStack.fill(offsetX + 132, offsetY + 21, offsetX + 132 + 16, offsetY + 10 + 60, 0, 0x88FFFFFF);
                 }
             }
             poseStack.popPose();
@@ -86,17 +87,17 @@ public class StoneMillGui extends AbstractContainerScreen<StoneMillContainer> {
 
     @Override
     protected void renderLabels(GuiGraphics matrixStack, int mouseX, int mouseY) {
-        matrixStack.drawString(this.font, this.title.getString(), (int) ((this.imageWidth - this.font.width(this.title.getString())) / 2.0F), (int) 8.0F, 0x262626);
-        matrixStack.drawString(this.font, this.playerInventoryTitle.getString(), (int) 8.0F, (int) (this.imageHeight - 95), 0x262626);
+        matrixStack.drawString(this.font, this.title.getString(), (int) ((this.imageWidth - this.font.width(this.title.getString())) / 2.0F), (int) 6.0F, 0x262626,false);
+        matrixStack.drawString(this.font, this.playerInventoryTitle.getString(), (int) 8.0F, (int) (this.imageHeight - 93), 0x262626,false);
     }
 
     @Override
-    protected void renderTooltip(GuiGraphics matrixStack, int mouseX, int mouseY) {
+    protected void renderTooltip(@NotNull GuiGraphics matrixStack, int mouseX, int mouseY) {
         super.renderTooltip(matrixStack, mouseX, mouseY);
         int offsetX = (width - imageWidth) / 2, offsetY = (height - imageHeight) / 2;
-        if (offsetX + 37 < mouseX && mouseX < offsetX + 37 + 16
+        if (offsetX + 132 < mouseX && mouseX < offsetX + 132 + 16
                 && offsetY + 20 < mouseY && mouseY < offsetY + 12 + 60)
-            matrixStack.renderComponentTooltip(this.font, List.of(((StoneMillTileEntity) this.container.getTileEntity()).getFluidTank().getFluid().getDisplayName()), mouseX, mouseY);
+            matrixStack.renderComponentTooltip(this.font, List.of(((StoneMillBlockEntity) this.container.getTileEntity()).getFluidTank().getFluid().getDisplayName()), mouseX, mouseY);
 
     }
 }

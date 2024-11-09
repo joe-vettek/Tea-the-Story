@@ -19,7 +19,7 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.NewRegistryEvent;
-import xueluoanping.teastory.RecipeRegister;
+import xueluoanping.teastory.registry.RecipeRegister;
 
 import java.util.List;
 
