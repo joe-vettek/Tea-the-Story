@@ -28,6 +28,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import com.teamtea.teastory.variant.Planks;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -148,10 +149,10 @@ public class TrellisBlock extends HorizontalConnectedBlock implements SimpleWate
 
 
     @Override
-    @SuppressWarnings("deprecation")
-    public FluidState getFluidState(BlockState state) {
+    public @NotNull FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
+
     @Override
     public boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos) {
         return true;
@@ -159,7 +160,7 @@ public class TrellisBlock extends HorizontalConnectedBlock implements SimpleWate
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder.add(POST, UP,WATERLOGGED));
+        super.createBlockStateDefinition(builder.add(POST, UP, WATERLOGGED));
     }
 
 

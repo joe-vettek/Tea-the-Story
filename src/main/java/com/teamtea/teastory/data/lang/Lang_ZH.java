@@ -234,7 +234,6 @@ public class Lang_ZH extends LangHelper {
         add("info.teastory.tooltip.iron_kettle.to_fill", "右击水面装水");
         add("info.teastory.tooltip.iron_kettle.to_boil", "放置于炉灶上加热");
         add("info.teastory.record", "您还未安装唱片资源包");
-        add("commands.teastory.solar.set", "已将节气天数设置为第%s天");
         add("death.attack.boiling", "%1$s被开水烫伤了");
         add("misc.block.teastory.trellis_suffix", "棚架");
     }

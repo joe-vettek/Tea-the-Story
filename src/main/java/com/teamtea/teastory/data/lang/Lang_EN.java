@@ -233,7 +233,6 @@ public class Lang_EN extends LangHelper {
         add("info.teastory.tooltip.iron_kettle.to_fill", "Right click water to fill");
         add("info.teastory.tooltip.iron_kettle.to_boil", "Heat it on a stove");
         add("info.teastory.record", "You haven't installed Record Resources Pack");
-        add("commands.teastory.solar.set", "Set the solar day to %s");
         add("death.attack.boiling", "%1$s was scalded by boiling water");
         add("misc.block.teastory.trellis_suffix", " Trellis");
 

@@ -134,6 +134,7 @@ dependencies {
     onlyMainRuntimeOnly "maven.modrinth:sodium:mc1.21-0.6.0-beta.1-neoforge"
     onlyMainRuntimeOnly("curse.maven:journeymap-32274:5541925")
 
+    
 //    runtimeOnly ("curse.maven:spark-361579:5434153")
 
     // Example optional mod dependency with JEI
