@@ -130,6 +130,9 @@ dependencies {
     implementation("curse.maven:jei-238222:5606861")
     implementation("curse.maven:jade-324717:5591256-deobf-sources-api")
 
+    implementation("curse.maven:ecliptic-seasons-1118306:5828120")
+
+
     onlyMainRuntimeOnly("curse.maven:irisshaders-455508:5654735")
     onlyMainRuntimeOnly "maven.modrinth:sodium:mc1.21-0.6.0-beta.1-neoforge"
     onlyMainRuntimeOnly("curse.maven:journeymap-32274:5541925")
