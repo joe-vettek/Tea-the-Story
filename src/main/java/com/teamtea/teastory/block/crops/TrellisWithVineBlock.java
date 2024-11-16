@@ -14,6 +14,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -31,7 +32,7 @@ import com.teamtea.teastory.blockentity.VineBlockEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
+public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock, BonemealableBlock {
     // public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
     // public static final IntegerProperty DISTANCE = IntegerProperty.create("distance", 0, 7);
     private static final VoxelShape[] SHAPES;
@@ -249,7 +250,26 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
     }
 
 
-    public VineType getType() {
+    @Override
+    public boolean isValidBonemealTarget(LevelReader pLevel, BlockPos pPos, BlockState pState) {
+        if (!(pLevel.getBlockEntity(pPos) instanceof VineBlockEntity))
+            return false;
+        return pLevel.getBlockState(pPos.below()).is(BlockTags.DIRT);
+    }
+
+    @Override
+    public boolean isBonemealSuccess(Level pLevel, RandomSource pRandom, BlockPos pPos, BlockState pState) {
+        if (!(pLevel.getBlockEntity(pPos) instanceof VineBlockEntity))
+            return false;
+        return pLevel.getBlockState(pPos.below()).is(BlockTags.DIRT);
+    }
+
+    @Override
+    public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState pState) {
+        randomTick(pState,level,pos,random);
+    }
+
+    public VineType getVineType() {
         return type;
     }
 

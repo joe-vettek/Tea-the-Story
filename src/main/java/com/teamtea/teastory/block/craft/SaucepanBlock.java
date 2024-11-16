@@ -71,6 +71,7 @@ public class SaucepanBlock extends NormalHorizontalBlock {
     }
 
 
+    // TODO： 加上一些屏幕字提示玩家缺少东西
     @Override
     public InteractionResult useWithoutItem(BlockState state, Level worldIn, BlockPos pos, Player player, BlockHitResult hit) {
         if (!worldIn.isClientSide()) {

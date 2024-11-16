@@ -41,7 +41,7 @@ public class StemFruitBlock extends Block implements BonemealableBlock {
     public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
         BlockPos blockpos = pos.above();
         BlockState up = worldIn.getBlockState(blockpos);
-        if (state.getBlock() == this && up.getBlock() instanceof TrellisWithVineBlock && ((TrellisWithVineBlock) up.getBlock()).getType() == type)
+        if (state.getBlock() == this && up.getBlock() instanceof TrellisWithVineBlock && ((TrellisWithVineBlock) up.getBlock()).getVineType() == type)
             return true;
         else return false;
     }
@@ -79,7 +79,7 @@ public class StemFruitBlock extends Block implements BonemealableBlock {
             for (int j = -1; j <= 1; ++j) {
                 float f1 = 0.0F;
                 BlockState blockstate = worldIn.getBlockState(blockpos.offset(i, 0, j));
-                if (blockstate.getBlock() instanceof TrellisWithVineBlock && ((TrellisWithVineBlock) blockstate.getBlock()).getType() == type) {
+                if (blockstate.getBlock() instanceof TrellisWithVineBlock && ((TrellisWithVineBlock) blockstate.getBlock()).getVineType() == type) {
                     f1 = 1.0F;
                 }
 
