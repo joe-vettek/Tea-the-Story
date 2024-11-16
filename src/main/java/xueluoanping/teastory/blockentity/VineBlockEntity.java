@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import xueluoanping.teastory.registry.BlockEntityRegister;
 import xueluoanping.teastory.block.entity.SyncedBlockEntity;
 
-public class VineEntity extends SyncedBlockEntity {
+public class VineBlockEntity extends SyncedBlockEntity {
     public static final ModelProperty<Integer> AGE_PROPERTY = new ModelProperty<>();
 
     public static int MAX_AGE = 3;
@@ -18,11 +18,11 @@ public class VineEntity extends SyncedBlockEntity {
     private int age = 0;
     private int distance = 0;
 
-    public VineEntity(BlockPos pos, BlockState state) {
+    public VineBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegister.VINE_TYPE.get(), pos, state);
     }
 
-    public VineEntity(BlockEntityType<?> tileEntityTypeIn, BlockPos pos, BlockState state) {
+    public VineBlockEntity(BlockEntityType<?> tileEntityTypeIn, BlockPos pos, BlockState state) {
         super(tileEntityTypeIn, pos, state);
     }
 

@@ -24,7 +24,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.RegisterEvent;
 import xueluoanping.teastory.TeaStory;
-import xueluoanping.teastory.blockentity.VineEntity;
+import xueluoanping.teastory.blockentity.VineBlockEntity;
 import xueluoanping.teastory.item.Citem;
 import xueluoanping.teastory.resource.ServerModFilePackResources;
 import xueluoanping.teastory.variant.Planks;
@@ -92,7 +92,7 @@ public class ModContent {
                     .filter(block -> block instanceof TrellisWithVineBlock)
                     .toArray(Block[]::new);
             BlockEntityRegister.VINE_TYPE = BlockEntityRegister.DRBlockEntities.register("trellis_vine",
-                    () -> BlockEntityType.Builder.of(VineEntity::new, blocks).build(null));
+                    () -> BlockEntityType.Builder.of(VineBlockEntity::new, blocks).build(null));
         }
 
         if (event.getRegistryKey() == Registries.CREATIVE_MODE_TAB)

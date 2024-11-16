@@ -12,7 +12,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -25,12 +27,12 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.ForgeHooks;
 import org.jetbrains.annotations.Nullable;
 import xueluoanping.teastory.registry.BlockEntityRegister;
-import xueluoanping.teastory.blockentity.VineEntity;
+import xueluoanping.teastory.blockentity.VineBlockEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
+public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock, BonemealableBlock {
     // public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
     // public static final IntegerProperty DISTANCE = IntegerProperty.create("distance", 0, 7);
     private static final VoxelShape[] SHAPES;
@@ -55,15 +57,15 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
         if (!(state.getBlock() instanceof TrellisWithVineBlock)) {
             if (random.nextBoolean()) {
                 level.setBlock(pos, VineInfoManager.getVineTrellis(type, (TrellisBlock) state.getBlock()).getRelevantState(state), 2);
-                if (level.getBlockEntity(pos) instanceof VineEntity vineEntity) {
-                    vineEntity.setDistance(7 - energy);
+                if (level.getBlockEntity(pos) instanceof VineBlockEntity vineBlockEntity) {
+                    vineBlockEntity.setDistance(7 - energy);
                 }
             }
             return;
         } else {
-            if (level.getBlockEntity(pos) instanceof VineEntity vineEntity) {
-                if (vineEntity.getAge() < 3) {
-                    vineEntity.setAge(vineEntity.getAge() + 1);
+            if (level.getBlockEntity(pos) instanceof VineBlockEntity vineBlockEntity) {
+                if (vineBlockEntity.getAge() < 3) {
+                    vineBlockEntity.setAge(vineBlockEntity.getAge() + 1);
                 } else {
                     var a = new ArrayList<>(List.of(Direction.EAST, Direction.NORTH, Direction.WEST, Direction.SOUTH, Direction.UP));
                     a.remove(from);
@@ -79,7 +81,7 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
                     }
                     if (hasHorizontalBar(state)) {
                         // int i = state.getValue(AGE);
-                        int i = vineEntity.getAge();
+                        int i = vineBlockEntity.getAge();
                         float f = 5.0F; // TODO Connected setValue humidity.
                         if (ForgeHooks.onCropsGrowPre(level, pos, state, random.nextInt((int) (25.0F / f) + 1) == 0)) {
                             if (!hasPost(state)) {
@@ -87,13 +89,13 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
                                 {
                                     if (level.getBlockState(pos.below()).getBlock() != type.getFruit()) {
                                         // level.setBlock(pos, state.setValue(AGE, (i + 1) % 4), 2);
-                                        vineEntity.setAge(((i + 1) % 4));
+                                        vineBlockEntity.setAge(((i + 1) % 4));
                                     }
                                 } else // Bear fruit.
                                 {
                                     if (level.getBlockState(pos.below()).isAir() && !hasNearFruit(level, pos.below(), type.getFruit())) {
                                         // level.setBlockAndUpdate(pos, state.setValue(AGE, (i + 1) % 4));
-                                        vineEntity.setAge(((i + 1) % 4));
+                                        vineBlockEntity.setAge(((i + 1) % 4));
                                         level.setBlock(pos.below(), type.getFruit().defaultBlockState(), Block.UPDATE_CLIENTS);
                                         ForgeHooks.onCropsGrowPost(level, pos, state);
                                         return;
@@ -113,21 +115,21 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
     @SuppressWarnings("deprecation")
     public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         // Grow vertically. 垂直方向生长。
-        if (!(level.getBlockEntity(pos) instanceof VineEntity vineEntity))
+        if (!(level.getBlockEntity(pos) instanceof VineBlockEntity vineBlockEntity))
             return;
         if (!level.getBlockState(pos.below()).is(BlockTags.DIRT)) {
             return;
         }
-        vineEntity.setDistance(0);
+        vineBlockEntity.setDistance(0);
         int energy = 7;
-        if (vineEntity.getAge() == 3) {
+        if (vineBlockEntity.getAge() == 3) {
             for (Direction direction : List.of(Direction.EAST, Direction.NORTH, Direction.WEST, Direction.SOUTH, Direction.UP)) {
                 var nextState = level.getBlockState(pos.relative(direction));
                 if (nextState.getBlock() instanceof TrellisBlock) {
                     onSignal(level, pos.relative(direction), nextState, energy, direction.getOpposite(), random);
                 }
             }
-        } else vineEntity.setAge(vineEntity.getAge() + 1);
+        } else vineBlockEntity.setAge(vineBlockEntity.getAge() + 1);
         // if (true) return;
         //
         // if (hasPost(state)) {
@@ -251,10 +253,10 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
         //         && ((TrellisWithVineBlock) blockEntity.getBlock()).type == type) {
         //     return blockEntity.getValue(DISTANCE);
         // }aq
-        if (blockEntity instanceof VineEntity otherVineEntity
-                && ((TrellisWithVineBlock) otherVineEntity.getBlockState().getBlock()).type == type) {
+        if (blockEntity instanceof VineBlockEntity otherVineBlockEntity
+                && ((TrellisWithVineBlock) otherVineBlockEntity.getBlockState().getBlock()).type == type) {
             // return blockEntity.getValue(DISTANCE);
-            return otherVineEntity.getDistance();
+            return otherVineBlockEntity.getDistance();
         }
         return 7;
     }
@@ -286,11 +288,11 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
             valid = false;
         } else if (level.getBlockState(pos.below()).is(BlockTags.DIRT)) {
             valid = true;
-        } else if (level.getBlockEntity(pos) instanceof VineEntity vineEntity) {
+        } else if (level.getBlockEntity(pos) instanceof VineBlockEntity vineBlockEntity) {
             int nearD = getNearDistance2(level, pos);
-            if (nearD < vineEntity.getDistance()) {
+            if (nearD < vineBlockEntity.getDistance()) {
                 valid = true;
-                if (nearD + 1 < vineEntity.getDistance()) {
+                if (nearD + 1 < vineBlockEntity.getDistance()) {
                     // TeaStory.logger(nearD,vineEntity.getDistance());
                 }
                 // if (nearD+1<vineEntity.getDistance()){
@@ -388,4 +390,23 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock {
     public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
         return Lists.newArrayList(new ItemStack(getEmptyTrellis(state)));
     }
+
+
+    @Override
+    public boolean isValidBonemealTarget(LevelReader pLevel, BlockPos pPos, BlockState pState, boolean pIsClient) {
+        return true;
+    }
+
+    @Override
+    public boolean isBonemealSuccess(Level pLevel, RandomSource pRandom, BlockPos pPos, BlockState pState) {
+        if (!(pLevel.getBlockEntity(pPos) instanceof VineBlockEntity))
+            return false;
+        return pLevel.getBlockState(pPos.below()).is(BlockTags.DIRT);
+    }
+
+    @Override
+    public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState pState) {
+        randomTick(pState,level,pos,random);
+    }
+
 }

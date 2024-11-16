@@ -2,19 +2,14 @@ package xueluoanping.teastory.client;
 
 import cloud.lemonslice.teastory.block.crops.TrellisBlock;
 import cloud.lemonslice.teastory.block.crops.TrellisWithVineBlock;
-import cloud.lemonslice.teastory.client.gui.RenderUtil;
-import cloud.lemonslice.teastory.client.render.XYZ;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.SimpleBakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -23,16 +18,13 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.shapes.IdenticalMerger;
 import net.minecraftforge.client.model.IDynamicBakedModel;
 import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.common.util.ConcatenatedListView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xueluoanping.teastory.TeaStory;
-import xueluoanping.teastory.blockentity.VineEntity;
+import xueluoanping.teastory.blockentity.VineBlockEntity;
 
 import java.util.*;
 
@@ -88,7 +80,7 @@ public class WarpBakeModel implements IDynamicBakedModel {
                 if (state.getValue(TrellisBlock.POST)) {
                     int age = 0;
                     try {
-                        age = extraData.get(VineEntity.AGE_PROPERTY);
+                        age = extraData.get(VineBlockEntity.AGE_PROPERTY);
                     } catch (Exception e) {
                     }
                     bakedQuads.addAll(grapes.get(age).getQuads(null, null, rand));
@@ -132,8 +124,8 @@ public class WarpBakeModel implements IDynamicBakedModel {
 
     @Override
     public @NotNull ModelData getModelData(@NotNull BlockAndTintGetter level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull ModelData modelData) {
-        if (level.getBlockEntity(pos) instanceof VineEntity vineEntity)
-            return modelData.derive().with(VineEntity.AGE_PROPERTY, vineEntity.getAge()).build();
+        if (level.getBlockEntity(pos) instanceof VineBlockEntity vineBlockEntity)
+            return modelData.derive().with(VineBlockEntity.AGE_PROPERTY, vineBlockEntity.getAge()).build();
         return modelData;
     }
 
