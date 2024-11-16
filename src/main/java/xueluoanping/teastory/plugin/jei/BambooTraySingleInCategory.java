@@ -13,6 +13,8 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.common.Constants;
+import mezz.jei.common.Internal;
+import mezz.jei.common.gui.textures.Textures;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import xueluoanping.teastory.TeaStory;
@@ -30,8 +32,8 @@ public class BambooTraySingleInCategory<T extends BambooTraySingleInRecipe> impl
         this.guiHelper = guiHelper;
         this.uid = uid;
         icon = guiHelper.createDrawable(TeaStory.rl("textures/gui/jei/bamboo_tray.png"), i * 20, 0, 20, 20);
-        this.arrow = guiHelper.drawableBuilder(Constants.RECIPE_GUI_VANILLA, 82, 128, 24, 17).build();
-        this.slot = guiHelper.drawableBuilder(Constants.RECIPE_GUI_VANILLA, 0, 227, 18, 19).build();
+        this.arrow = Internal.getTextures().getRecipeArrow();
+        this.slot = Internal.getTextures().getSlot();
     }
 
 
@@ -70,6 +72,8 @@ public class BambooTraySingleInCategory<T extends BambooTraySingleInRecipe> impl
     @Override
     public void draw(BambooTraySingleInRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         this.arrow.draw(guiGraphics, 28, 2);
+
+        Internal.getTextures().getRecipeArrowFilled().draw(guiGraphics,28,3,0,0,0, 21-(int) (System.currentTimeMillis()%6600/300));
     }
 
 
