@@ -394,7 +394,9 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock, B
 
     @Override
     public boolean isValidBonemealTarget(LevelReader pLevel, BlockPos pPos, BlockState pState, boolean pIsClient) {
-        return true;
+        if (!(pLevel.getBlockEntity(pPos) instanceof VineBlockEntity))
+            return false;
+        return pLevel.getBlockState(pPos.below()).is(BlockTags.DIRT);
     }
 
     @Override
