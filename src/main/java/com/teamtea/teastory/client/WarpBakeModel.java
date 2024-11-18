@@ -103,9 +103,10 @@ public class WarpBakeModel implements IDynamicBakedModel {
         return bakedQuads;
     }
 
+    // 环境光遮蔽
     @Override
     public boolean useAmbientOcclusion() {
-        return bakedModel.useAmbientOcclusion();
+        return true;
     }
 
     @Override
