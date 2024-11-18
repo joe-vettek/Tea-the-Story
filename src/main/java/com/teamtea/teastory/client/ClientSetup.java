@@ -108,6 +108,8 @@ public class ClientSetup {
             ItemBlockRenderTypes.setRenderLayer(BlockRegister.CHILI_PLANT.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(BlockRegister.CHINESE_CABBAGE_PLANT.get(), RenderType.cutout());
 
+            ItemBlockRenderTypes.setRenderLayer(BlockRegister.BAMBOO_GLASS_DOOR.get(), RenderType.translucent());
+
             BlockRegister.ModBlocks.getEntries().forEach(blockHolder -> {
                 if (blockHolder.get() instanceof HybridizableFlowerBlock) {
                     ItemBlockRenderTypes.setRenderLayer(blockHolder.get(), RenderType.cutout());
