@@ -103,7 +103,7 @@ public class WarpBakeModel implements IDynamicBakedModel {
         return bakedQuads;
     }
 
-    // 环境光遮蔽
+    // 环境光遮蔽，小技巧是也可以，用发光等级为1的面
     @Override
     public boolean useAmbientOcclusion() {
         return true;
