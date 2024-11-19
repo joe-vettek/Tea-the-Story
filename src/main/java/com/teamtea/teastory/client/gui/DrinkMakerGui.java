@@ -141,8 +141,9 @@ public class DrinkMakerGui extends AbstractContainerScreen<DrinkMakerContainer> 
         int offsetX = (width - imageWidth) / 2, offsetY = (height - imageHeight) / 2;
 
         if (offsetX + 128 < mouseX && mouseX < offsetX + 128 + 16
-                && offsetY + 12 < mouseY && mouseY < offsetY + 12 + 64)
-            matrixStack.renderComponentTooltip(this.font, List.of(this.container.getTileEntity().getFluidTranslation()), mouseX, mouseY);
+                && offsetY + 12 < mouseY && mouseY < offsetY + 12 + 64
+                && this.container.getTileEntity().getFluidTranslation() instanceof Component component)
+            matrixStack.renderComponentTooltip(this.font, List.of(component), mouseX, mouseY);
 
 
         // GuiHelper.drawFluidTooltip(matrixStack, mouseX, mouseY, offsetX + 128, offsetY + 12, 16, 64, this.container.getTileEntity().getFluidTranslation(), this.container.getTileEntity().getFluidAmount());

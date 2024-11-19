@@ -117,4 +117,10 @@ public class TeapotItem extends BlockItem implements FluidContainerItem {
     public int getCapacity() {
         return capacity;
     }
+
+    @Override
+    public Item getRemainingCraftingItem() {
+        return this;
+    }
+
 }

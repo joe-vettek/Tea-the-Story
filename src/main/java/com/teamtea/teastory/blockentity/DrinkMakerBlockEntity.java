@@ -132,9 +132,16 @@ public class DrinkMakerBlockEntity extends NormalContainerTileEntity {
                                 con.setStackInSlot(0, blockEntity.currentRecipe.getFluidResult().getBucket().getDefaultInstance());
                             } else {
                                 var f = new FluidStack(blockEntity.currentRecipe.getFluidResult(), blockEntity.getFluidAmount());
-                                fluidHandler.getContainer()
-                                        .getCapability(Capabilities.FluidHandler.ITEM)
+                                ItemStack container = fluidHandler.getContainer();
+                                container
+                                        .getCapability(Capabilities.FluidHandler.ITEM).drain(
+                                                container
+                                                        .getCapability(Capabilities.FluidHandler.ITEM).getTankCapacity(0), IFluidHandler.FluidAction.EXECUTE
+                                        );
+
+                                container.getCapability(Capabilities.FluidHandler.ITEM)
                                         .fill(f, IFluidHandler.FluidAction.EXECUTE);
+                                blockEntity.containerInventory.setStackInSlot(0,container);
                             }
                         }
                         blockEntity.setToZero();

@@ -15,7 +15,7 @@ public interface FluidContainerItem {
 
     int getCapacity();
 
-    Item getCraftingRemainingItem();
+    Item getRemainingCraftingItem();
 
     default boolean isFluidValid(int tank, @Nonnull FluidStack stack) {
         return stack.getFluid().is(TeaTags.Fluids.DRINK);
@@ -26,7 +26,7 @@ public interface FluidContainerItem {
 
             @Override
             public @NotNull ItemStack getContainer() {
-                return getFluid().isEmpty() ? new ItemStack(FluidContainerItem.this.getCraftingRemainingItem()) : this.container;
+                return getFluid().isEmpty() ? new ItemStack(getRemainingCraftingItem()) : this.container;
             }
 
             @Override

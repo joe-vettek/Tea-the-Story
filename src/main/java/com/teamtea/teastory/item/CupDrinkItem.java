@@ -41,6 +41,11 @@ public class CupDrinkItem extends Item implements FluidContainerItem {
         return this.capacity;
     }
 
+    @Override
+    public Item getRemainingCraftingItem() {
+        return this;
+    }
+
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext worldIn, List<Component> tooltip, TooltipFlag flagIn) {
