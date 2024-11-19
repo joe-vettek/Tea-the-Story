@@ -93,7 +93,7 @@ public class WarpBakeModel implements IDynamicBakedModel {
 
     @Override
     public boolean useAmbientOcclusion() {
-        return bakedModel.useAmbientOcclusion();
+        return true;
     }
 
     @Override
