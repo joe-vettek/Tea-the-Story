@@ -87,7 +87,7 @@ public class StoneMillBlock extends NormalHorizontalBlock implements EntityBlock
         if (!worldIn.isClientSide()) {
             var te = worldIn.getBlockEntity(pos);
             if (FluidUtil.getFluidHandler(ItemHandlerHelper.copyStackWithSize(player.getItemInHand(handIn), 1)).isPresent()) {
-                return te.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM, hit.getDirection()).map(fluidTank ->
+                return te.getCapability(ForgeCapabilities.FLUID_HANDLER, hit.getDirection()).map(fluidTank ->
                 {
                     FluidUtil.interactWithFluidHandler(player, handIn, fluidTank);
                     return InteractionResult.SUCCESS;
