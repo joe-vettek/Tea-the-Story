@@ -15,7 +15,13 @@ public interface FluidContainerItem {
 
     int getCapacity();
 
-    Item getRemainingCraftingItem();
+    default Item getRemainingItem(){
+        return (Item) this;
+    }
+
+    default ItemStack getHolderItem(ItemStack stack){
+        return stack;
+    };
 
     default boolean isFluidValid(int tank, @Nonnull FluidStack stack) {
         return stack.getFluid().is(TeaTags.Fluids.DRINK);
@@ -25,8 +31,15 @@ public interface FluidContainerItem {
         return new FluidHandlerItemStack(ModCapabilities.SIMPLE_FLUID, stack, getCapacity()) {
 
             @Override
+            public int fill(FluidStack resource, FluidAction doFill) {
+                return super.fill(resource, doFill);
+            }
+
+            @Override
             public @NotNull ItemStack getContainer() {
-                return getFluid().isEmpty() ? new ItemStack(getRemainingCraftingItem()) : this.container;
+                return getFluid().isEmpty() ?
+                        new ItemStack(getRemainingItem()) :
+                        getHolderItem(this.container);
             }
 
             @Override

@@ -7,6 +7,7 @@ import com.teamtea.teastory.item.food.NormalFoods;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.Nullable;
@@ -56,20 +57,43 @@ public class ItemRegister {
     public static DeferredHolder<Item, Item> CLAY_TEAPOT = ModItems.register("clay_teapot", () -> new Item(new Item.Properties()));
     public static DeferredHolder<Item, Item> PORCELAIN_CUP = ModItems.register("porcelain_cup", () -> new CupDrinkItem(250, new Item.Properties()){
         @Override
-        public ItemStack getCraftingRemainingItem(ItemStack itemStack) {
-            return new ItemStack(PORCELAIN_CUP_DRINK.get());
+        public ItemStack getHolderItem(ItemStack stack) {
+            SimpleFluidContent simpleFluidContent = stack.get(ModCapabilities.SIMPLE_FLUID);
+            if(simpleFluidContent!=null){
+                ItemStack itemStack = PORCELAIN_CUP_DRINK.get().getDefaultInstance();
+                itemStack.set(ModCapabilities.SIMPLE_FLUID,simpleFluidContent);
+                return itemStack;
+            }
+            return super.getHolderItem(stack);
         }
     });
     public static DeferredHolder<Item, Item> BOTTLE = ModItems.register("bottle", () -> new CupDrinkItem(500, new Item.Properties()) {
+
         @Override
-        public ItemStack getCraftingRemainingItem(ItemStack itemStack) {
-            return new ItemStack(BOTTLE_DRINK.get());
+        public ItemStack getHolderItem(ItemStack stack) {
+            SimpleFluidContent simpleFluidContent = stack.get(ModCapabilities.SIMPLE_FLUID);
+            if(simpleFluidContent!=null){
+                ItemStack itemStack = BOTTLE_DRINK.get().getDefaultInstance();
+                itemStack.set(ModCapabilities.SIMPLE_FLUID,simpleFluidContent);
+                return itemStack;
+            }
+            return super.getHolderItem(stack);
         }
     });
 
 
-    public static  DeferredHolder<Item,CupDrinkItem> PORCELAIN_CUP_DRINK = ModItems.register("porcelain_cup_drink", () -> new CupDrinkItem(250, new Item.Properties().craftRemainder(PORCELAIN_CUP.get()).stacksTo(1)));
-    public static  DeferredHolder<Item,CupDrinkItem> BOTTLE_DRINK = ModItems.register("bottle_drink", () -> new CupDrinkItem(500, new Item.Properties().craftRemainder(BOTTLE.get()).stacksTo(1)));
+    public static  DeferredHolder<Item,CupDrinkItem> PORCELAIN_CUP_DRINK = ModItems.register("porcelain_cup_drink", () -> new CupDrinkItem(250, new Item.Properties().craftRemainder(PORCELAIN_CUP.get()).stacksTo(1)){
+        @Override
+        public Item getRemainingItem() {
+            return PORCELAIN_CUP.get();
+        }
+    });
+    public static  DeferredHolder<Item,CupDrinkItem> BOTTLE_DRINK = ModItems.register("bottle_drink", () -> new CupDrinkItem(500, new Item.Properties().craftRemainder(BOTTLE.get()).stacksTo(1)){
+        @Override
+        public Item getRemainingItem() {
+            return BOTTLE.get();
+        }
+    });
 
 
     public static DeferredHolder<Item, Item> STONE_MILL_TOP = ModItems.register("stone_mill_top", () -> new Item(new Item.Properties()));
