@@ -61,7 +61,7 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
         if (this.inputItem.test(inv.getItem(0))) {
             if (inv.getBlockEntity() instanceof StoneMillBlockEntity stoneMillTileEntity) {
                 boolean match = getOutputFluid().isEmpty() || stoneMillTileEntity.getFluidTank().fill(getOutputFluid(), IFluidHandler.FluidAction.SIMULATE) == getOutputFluid().getAmount();
-                match |= getInputFluid().isEmpty() || stoneMillTileEntity.getInputFluidTank().fill(getOutputFluid(), IFluidHandler.FluidAction.SIMULATE) == getInputFluid().getAmount();
+                match |= getInputFluid().isEmpty() || stoneMillTileEntity.getInputFluidTank().drain(getInputFluid(), IFluidHandler.FluidAction.SIMULATE).getAmount() == getInputFluid().getAmount();
                 return match;
             }
         }
