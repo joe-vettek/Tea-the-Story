@@ -4,6 +4,7 @@ import cloud.lemonslice.teastory.blockentity.StoneMillBlockEntity;
 import cloud.lemonslice.teastory.client.container.StoneMillContainer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -11,6 +12,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.NotNull;
 import xueluoanping.teastory.TeaStory;
 
@@ -59,27 +61,12 @@ public class StoneMillGui extends AbstractContainerScreen<StoneMillContainer> {
         matrixStack.blit(TEXTURE, offsetX + 77, offsetY + 38, 176, 0, textureWidth, 16);
         // matrixStack.blit(TeaStory.rl( "textures/gui/container/gui_drink_maker.png"), offsetX + 95, offsetY + 37, 176, 0, textureWidth, 16);
 
-        container.getTileEntity().getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(fluidHandler ->
-        {
-            int capacity = fluidHandler.getTankCapacity(0);
-            int height = 0;
-            if (capacity != 0) {
-                height = (int) Math.ceil(48.0 * fluidHandler.getFluidInTank(0).getAmount() / capacity);
-            }
-            // GuiHelper.drawTank(this, new TexturePos(offsetX + 37, offsetY + 22, 16, 48), fluidHandler.getFluidInTank(0), height);
-            PoseStack poseStack = matrixStack.pose();
-            poseStack.pushPose();
-            var fs = fluidHandler.getFluidInTank(0);
-            if (!fs.isEmpty()) {
-                RenderUtil.renderFluidStackInGUI(matrixStack.pose().last().pose(), fs, 16, height, offsetX + 132, offsetY + 48 + 22);
-                if (offsetX + 132 < mouseX && mouseX < offsetX + 132 + 16
-                        && offsetY + 20 < mouseY && mouseY < offsetY + 12 + 60){
+        FluidTank fluidTank = ((StoneMillBlockEntity) this.container.getTileEntity()).getFluidTank();
+        RenderUtil.renderFluidStackInGUI(matrixStack, mouseX, mouseY, fluidTank.getCapacity(), fluidTank.getFluid(), offsetX + 132, offsetY + 22, 48);
 
-                    matrixStack.fill(offsetX + 132, offsetY + 21, offsetX + 132 + 16, offsetY + 10 + 60, 0, 0x88FFFFFF);
-                }
-            }
-            poseStack.popPose();
-        });
+        FluidTank inputFluidTank = ((StoneMillBlockEntity) this.container.getTileEntity()).getInputFluidTank();
+        RenderUtil.renderFluidStackInGUI(matrixStack, mouseX, mouseY, inputFluidTank.getCapacity(), inputFluidTank.getFluid(), offsetX + 26, offsetY + 22, 48);
+
         // RenderSystem.disableAlphaTest();
         RenderSystem.disableBlend();
         this.container.broadcastChanges();
@@ -95,9 +82,23 @@ public class StoneMillGui extends AbstractContainerScreen<StoneMillContainer> {
     protected void renderTooltip(@NotNull GuiGraphics matrixStack, int mouseX, int mouseY) {
         super.renderTooltip(matrixStack, mouseX, mouseY);
         int offsetX = (width - imageWidth) / 2, offsetY = (height - imageHeight) / 2;
-        if (offsetX + 132 < mouseX && mouseX < offsetX + 132 + 16
-                && offsetY + 20 < mouseY && mouseY < offsetY + 12 + 60)
-            matrixStack.renderComponentTooltip(this.font, List.of(((StoneMillBlockEntity) this.container.getTileEntity()).getFluidTank().getFluid().getDisplayName()), mouseX, mouseY);
 
+        if (offsetX + 132 < mouseX && mouseX < offsetX + 132 + 16
+                && offsetY + 20 < mouseY && mouseY < offsetY + 12 + 60) {
+            var fluid = ((StoneMillBlockEntity) this.container.getTileEntity()).getFluidTank().getFluid();
+            if (!fluid.isEmpty()) {
+                matrixStack.renderComponentTooltip(this.font, List.of(fluid.getDisplayName(),
+                                Component.literal("%smB".formatted(fluid.getAmount())).withStyle(ChatFormatting.GRAY))
+                        , mouseX, mouseY);
+            }
+        } else if (offsetX + 26 < mouseX && mouseX < offsetX + 26 + 16
+                && offsetY + 20 < mouseY && mouseY < offsetY + 12 + 60) {
+            var fluid = ((StoneMillBlockEntity) this.container.getTileEntity()).getInputFluidTank().getFluid();
+            if (!fluid.isEmpty()) {
+                matrixStack.renderComponentTooltip(this.font, List.of(fluid.getDisplayName(),
+                                Component.literal("%smB".formatted(fluid.getAmount())).withStyle(ChatFormatting.GRAY))
+                        , mouseX, mouseY);
+            }
+        }
     }
 }

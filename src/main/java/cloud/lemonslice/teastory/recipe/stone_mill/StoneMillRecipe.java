@@ -46,9 +46,10 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
     public boolean matches(BlockEntityRecipeWrapper inv, Level worldIn) {
         if (this.inputItem.test(inv.getItem(0))) {
             if (inv.getBlockEntity() instanceof StoneMillBlockEntity stoneMillTileEntity) {
-                FluidStack fluidStack = stoneMillTileEntity.getFluidTank().getFluidInTank(0).copy();
-                // return outputFluid.test(fluidStack);
-                return stoneMillTileEntity.getFluidTank().fill(getOutputFluid(), IFluidHandler.FluidAction.SIMULATE)==getOutputFluid().getAmount();
+
+                boolean match = getOutputFluid().isEmpty() || stoneMillTileEntity.getFluidTank().fill(getOutputFluid(), IFluidHandler.FluidAction.SIMULATE) == getOutputFluid().getAmount();
+                match |= getInputFluid().getRequiredAmount()==0 || stoneMillTileEntity.getInputFluidTank().drain(getInputFluidStack(), IFluidHandler.FluidAction.SIMULATE).getAmount() == getInputFluid().getRequiredAmount();
+                return match;
             }
         }
         return false;
@@ -113,6 +114,11 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
     @Override
     public RecipeType<?> getType() {
         return RecipeRegister.STONE_MILL.get();
+    }
+
+    public FluidStack getInputFluidStack() {
+        return !inputFluid.getMatchingFluidStacks().isEmpty() ?
+                inputFluid.getMatchingFluidStacks().get(0) : FluidStack.EMPTY;
     }
 
 
@@ -209,7 +215,7 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
                 buffer.writeItemStack(ingredient, false);
             }
 
-            FluidIngredient fluidIngredient=FluidIngredient.EMPTY;
+            FluidIngredient fluidIngredient = FluidIngredient.EMPTY;
             buffer.writeFluidStack(recipe.getOutputFluid());
 
             buffer.writeVarInt(recipe.getWorkTime());

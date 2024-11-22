@@ -43,6 +43,7 @@ public class StoneMillBlockEntity extends NormalContainerBlockEntity {
     private final ItemStackHandler inputInventory = new SyncedItemStackHandler();
     private final ItemStackHandler outputInventory = new SyncedItemStackHandler(3);
     private final FluidTank fluidTank = new SyncedFluidTank(2000);
+    private final FluidTank inFluidTank = new SyncedFluidTank(2000);
 
     public StoneMillBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegister.STONE_MILL_TYPE.get(), pos, state);
@@ -56,6 +57,7 @@ public class StoneMillBlockEntity extends NormalContainerBlockEntity {
         this.inputInventory.deserializeNBT(nbt.getCompound("InputInventory"));
         this.outputInventory.deserializeNBT(nbt.getCompound("OutputInventory"));
         this.fluidTank.readFromNBT(nbt.getCompound("FluidTank"));
+        this.inFluidTank.readFromNBT(nbt.getCompound("InputFluidTank"));
         // this.processTicks = nbt.getInt("ProcessTicks");
     }
 
@@ -65,6 +67,7 @@ public class StoneMillBlockEntity extends NormalContainerBlockEntity {
         compound.put("InputInventory", this.inputInventory.serializeNBT());
         compound.put("OutputInventory", this.outputInventory.serializeNBT());
         compound.put("FluidTank", this.fluidTank.writeToNBT(new CompoundTag()));
+        compound.put("InputFluidTank", this.inFluidTank.writeToNBT(new CompoundTag()));
         compound.putInt("ProcessTicks", this.processTicks);
         super.saveAdditional(compound);
     }
@@ -79,7 +82,10 @@ public class StoneMillBlockEntity extends NormalContainerBlockEntity {
                 else
                     return LazyOptional.of(() -> inputInventory).cast();
             } else if (ForgeCapabilities.FLUID_HANDLER.equals(cap)) {
-                return LazyOptional.of(this::getFluidTank).cast();
+                if (side == Direction.UP)
+                    return LazyOptional.of(() -> inFluidTank).cast();
+                else
+                    return LazyOptional.of(this::getFluidTank).cast();
             }
         }
         return super.getCapability(cap, side);
@@ -90,6 +96,9 @@ public class StoneMillBlockEntity extends NormalContainerBlockEntity {
         return fluidTank;
     }
 
+    public FluidTank getInputFluidTank() {
+        return inFluidTank;
+    }
 
     public static void tick(Level worldIn, BlockPos pos, BlockState blockState, StoneMillBlockEntity stoneMillTileEntity) {
         if (worldIn == null || stoneMillTileEntity.isRemoved()) return;
@@ -128,6 +137,7 @@ public class StoneMillBlockEntity extends NormalContainerBlockEntity {
                         // for (FluidStack fluidStack : fluidStacks)
                         {
                             stoneMillTileEntity.fluidTank.fill(fluidStacks, IFluidHandler.FluidAction.EXECUTE);
+                            stoneMillTileEntity.inFluidTank.drain(stoneMillTileEntity.currentRecipe.getInputFluidStack(), IFluidHandler.FluidAction.EXECUTE);
                         }
                     }
 
