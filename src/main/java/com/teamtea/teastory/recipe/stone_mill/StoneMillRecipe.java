@@ -60,9 +60,9 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
     public boolean matches(BlockEntityRecipeWrapper inv, Level worldIn) {
         if (this.inputItem.test(inv.getItem(0))) {
             if (inv.getBlockEntity() instanceof StoneMillBlockEntity stoneMillTileEntity) {
-                FluidStack fluidStack = stoneMillTileEntity.getFluidTank().getFluidInTank(0).copy();
-                // return outputFluid.test(fluidStack);
-                return stoneMillTileEntity.getFluidTank().fill(getOutputFluid(), IFluidHandler.FluidAction.SIMULATE) == getOutputFluid().getAmount();
+                boolean match = getOutputFluid().isEmpty() || stoneMillTileEntity.getFluidTank().fill(getOutputFluid(), IFluidHandler.FluidAction.SIMULATE) == getOutputFluid().getAmount();
+                match |= getInputFluid().isEmpty() || stoneMillTileEntity.getInputFluidTank().fill(getOutputFluid(), IFluidHandler.FluidAction.SIMULATE) == getInputFluid().getAmount();
+                return match;
             }
         }
         return false;
@@ -95,13 +95,13 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
     }
 
     public FluidStack getOutputFluid() {
-        return outputFluid==null||outputFluid.getFluids().length==0?
-                FluidStack.EMPTY:outputFluid.getFluids()[0];
+        return outputFluid == null || outputFluid.getFluids().length == 0 ?
+                FluidStack.EMPTY : outputFluid.getFluids()[0];
     }
 
     public FluidStack getInputFluid() {
-        return inputFluid==null||inputFluid.getFluids().length==0?
-                FluidStack.EMPTY:inputFluid.getFluids()[0];
+        return inputFluid == null || inputFluid.getFluids().length == 0 ?
+                FluidStack.EMPTY : inputFluid.getFluids()[0];
 
     }
 
@@ -173,7 +173,7 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
             String groupIn = buffer.readUtf(32767);
             Ingredient inputItem = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
 
-            var inputFluid =buffer.readBoolean()? SizedFluidIngredient.STREAM_CODEC.decode(buffer):null;
+            var inputFluid = buffer.readBoolean() ? SizedFluidIngredient.STREAM_CODEC.decode(buffer) : null;
 
             int i = buffer.readVarInt();
             NonNullList<Ingredient> outputItems = NonNullList.withSize(i, Ingredient.EMPTY);
@@ -181,7 +181,7 @@ public class StoneMillRecipe implements Recipe<BlockEntityRecipeWrapper> {
                 outputItems.set(j, Ingredient.CONTENTS_STREAM_CODEC.decode(buffer));
             }
 
-            var outputFluid = buffer.readBoolean()?SizedFluidIngredient.STREAM_CODEC.decode(buffer):null;
+            var outputFluid = buffer.readBoolean() ? SizedFluidIngredient.STREAM_CODEC.decode(buffer) : null;
 
             int workTime = buffer.readVarInt();
 

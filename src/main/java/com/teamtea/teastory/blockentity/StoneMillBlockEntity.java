@@ -39,12 +39,14 @@ public class StoneMillBlockEntity extends NormalContainerTileEntity {
     private final ItemStackHandler inputInventory;
     private final ItemStackHandler outputInventory;
     private final FluidTank fluidTank;
+    private final FluidTank inFluidTank;
 
     public StoneMillBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegister.STONE_MILL_TYPE.get(), pos, state);
         this.inputInventory = new SyncedItemStackHandler();
         this.outputInventory = new SyncedItemStackHandler(3);
         this.fluidTank = new SyncedFluidTank(2000);
+        this.inFluidTank = new SyncedFluidTank(2000);
     }
 
 
@@ -55,6 +57,7 @@ public class StoneMillBlockEntity extends NormalContainerTileEntity {
         this.inputInventory.deserializeNBT(pRegistries, nbt.getCompound("InputInventory"));
         this.outputInventory.deserializeNBT(pRegistries, nbt.getCompound("OutputInventory"));
         this.fluidTank.readFromNBT(pRegistries, nbt.getCompound("FluidTank"));
+        this.inFluidTank.readFromNBT(pRegistries, nbt.getCompound("InputFluidTank"));
         // this.processTicks = nbt.getInt("ProcessTicks");
     }
 
@@ -64,6 +67,7 @@ public class StoneMillBlockEntity extends NormalContainerTileEntity {
         compound.put("InputInventory", this.inputInventory.serializeNBT(pRegistries));
         compound.put("OutputInventory", this.outputInventory.serializeNBT(pRegistries));
         compound.put("FluidTank", this.fluidTank.writeToNBT(pRegistries, new CompoundTag()));
+        compound.put("InputFluidTank", this.inFluidTank.writeToNBT(pRegistries, new CompoundTag()));
         compound.putInt("ProcessTicks", this.processTicks);
         super.saveAdditional(compound, pRegistries);
     }
@@ -79,6 +83,10 @@ public class StoneMillBlockEntity extends NormalContainerTileEntity {
 
     public FluidTank getFluidTank() {
         return fluidTank;
+    }
+
+    public FluidTank getInputFluidTank() {
+        return inFluidTank;
     }
 
 
@@ -120,6 +128,7 @@ public class StoneMillBlockEntity extends NormalContainerTileEntity {
                         // for (FluidStack fluidStack : fluidStacks)
                         {
                             stoneMillTileEntity.fluidTank.fill(fluidStacks, IFluidHandler.FluidAction.EXECUTE);
+                            stoneMillTileEntity.inFluidTank.drain(stoneMillTileEntity.currentRecipe.getInputFluid(), IFluidHandler.FluidAction.EXECUTE);
                         }
                     }
 

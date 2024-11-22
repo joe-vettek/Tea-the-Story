@@ -190,6 +190,7 @@ public class TrellisBlock extends HorizontalConnectedBlock implements SimpleWate
         return Component.translatable(ss.plank().getDescriptionId()).append(Component.translatable("misc.block.teastory.trellis_suffix"));
     }
 
+    // TODO: 检查是否能支持灯
     static {
         VoxelShape CENTER = VoxelShapeHelper.createVoxelShape(7.0D, 7.0D, 7.0D, 2.0D, 3.0D, 2.0D);
         VoxelShape TOP_NORTH = VoxelShapeHelper.createVoxelShape(7.0D, 7.0D, 0.0D, 2.0D, 3.0D, 14.0D);

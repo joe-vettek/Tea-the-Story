@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import com.teamtea.teastory.TeaStory;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 
 import java.util.List;
 import java.util.Optional;
@@ -60,27 +61,39 @@ public class StoneMillGui extends AbstractContainerScreen<StoneMillContainer> {
         matrixStack.blit(TEXTURE, offsetX + 77, offsetY + 38, 176, 0, textureWidth, 16);
         // matrixStack.blit(TeaStory.rl( "textures/gui/container/gui_drink_maker.png"), offsetX + 95, offsetY + 37, 176, 0, textureWidth, 16);
 
-        Optional.ofNullable(container.getTileEntity().getLevel().getCapability(Capabilities.FluidHandler.BLOCK, container.getTileEntity().getBlockPos(), null)).ifPresent(fluidHandler ->
-        {
-            int capacity = fluidHandler.getTankCapacity(0);
-            int height = 0;
-            if (capacity != 0) {
-                height = (int) Math.ceil(48.0 * fluidHandler.getFluidInTank(0).getAmount() / capacity);
-            }
-            // GuiHelper.drawTank(this, new TexturePos(offsetX + 37, offsetY + 22, 16, 48), fluidHandler.getFluidInTank(0), height);
-            PoseStack poseStack = matrixStack.pose();
-            poseStack.pushPose();
-            var fs = fluidHandler.getFluidInTank(0);
-            if (!fs.isEmpty()) {
-                RenderUtil.renderFluidStackInGUI(matrixStack.pose().last().pose(), fs, 16, height, offsetX + 132, offsetY + 48 + 22);
-                if (offsetX + 132 < mouseX && mouseX < offsetX + 132 + 16
-                        && offsetY + 20 < mouseY && mouseY < offsetY + 12 + 60) {
+        // Optional.ofNullable(container.getTileEntity().getLevel().getCapability(Capabilities.FluidHandler.BLOCK, container.getTileEntity().getBlockPos(), null)).ifPresent(fluidHandler ->
+        // {
+        //     int capacity = fluidHandler.getTankCapacity(0);
+        //     int height = 0;
+        //     if (capacity != 0) {
+        //         height = (int) Math.ceil(48.0 * fluidHandler.getFluidInTank(0).getAmount() / capacity);
+        //     }
+        //     // GuiHelper.drawTank(this, new TexturePos(offsetX + 37, offsetY + 22, 16, 48), fluidHandler.getFluidInTank(0), height);
+        //     PoseStack poseStack = matrixStack.pose();
+        //     poseStack.pushPose();
+        //     var fs = fluidHandler.getFluidInTank(0);
+        //     if (!fs.isEmpty()) {
+        //         RenderUtil.renderFluidStackInGUI(matrixStack.pose().last().pose(), fs, 16, height, offsetX + 132, offsetY + 48 + 22);
+        //         if (offsetX + 132 < mouseX && mouseX < offsetX + 132 + 16
+        //                 && offsetY + 20 < mouseY && mouseY < offsetY + 12 + 60) {
+        //
+        //             matrixStack.fill(offsetX + 132, offsetY + 21, offsetX + 132 + 16, offsetY + 11 + 60, 0, 0x88FFFFFF);
+        //         } else if (offsetX + 26 < mouseX && mouseX < offsetX + 26 + 16
+        //                 && offsetY + 20 < mouseY && mouseY < offsetY + 12 + 60) {
+        //
+        //             matrixStack.fill(offsetX + 26, offsetY + 21, offsetX + 26 + 16, offsetY + 11 + 60, 0, 0x88FFFFFF);
+        //         }
+        //     }
+        //     poseStack.popPose();
+        // });
 
-                    matrixStack.fill(offsetX + 132, offsetY + 21, offsetX + 132 + 16, offsetY + 11 + 60, 0, 0x88FFFFFF);
-                }
-            }
-            poseStack.popPose();
-        });
+        FluidTank fluidTank = ((StoneMillBlockEntity) this.container.getTileEntity()).getFluidTank();
+        RenderUtil.renderFluidStackInGUI(matrixStack, mouseX, mouseY, fluidTank.getCapacity(), fluidTank.getFluid(), offsetX + 132, offsetY + 22, 48);
+
+        FluidTank inputFluidTank = ((StoneMillBlockEntity) this.container.getTileEntity()).getInputFluidTank();
+        RenderUtil.renderFluidStackInGUI(matrixStack, mouseX, mouseY, inputFluidTank.getCapacity(), inputFluidTank.getFluid(), offsetX + 26, offsetY + 22, 48);
+
+
         // RenderSystem.disableAlphaTest();
         RenderSystem.disableBlend();
         this.container.broadcastChanges();
@@ -95,14 +108,25 @@ public class StoneMillGui extends AbstractContainerScreen<StoneMillContainer> {
     @Override
     protected void renderTooltip(GuiGraphics matrixStack, int mouseX, int mouseY) {
         super.renderTooltip(matrixStack, mouseX, mouseY);
-        var fluid = ((StoneMillBlockEntity) this.container.getTileEntity()).getFluidTank().getFluid();
-        if (!fluid.isEmpty()) {
+        {
             int offsetX = (width - imageWidth) / 2, offsetY = (height - imageHeight) / 2;
             if (offsetX + 132 < mouseX && mouseX < offsetX + 132 + 16
-                    && offsetY + 20 < mouseY && mouseY < offsetY + 12 + 60)
-                matrixStack.renderComponentTooltip(this.font, List.of(fluid.getHoverName(),
-                        Component.literal("%smB".formatted(fluid.getAmount())).withStyle(ChatFormatting.GRAY))
-                        , mouseX, mouseY);
+                    && offsetY + 20 < mouseY && mouseY < offsetY + 12 + 60) {
+                var fluid = ((StoneMillBlockEntity) this.container.getTileEntity()).getFluidTank().getFluid();
+                if (!fluid.isEmpty()) {
+                    matrixStack.renderComponentTooltip(this.font, List.of(fluid.getHoverName(),
+                                    Component.literal("%smB".formatted(fluid.getAmount())).withStyle(ChatFormatting.GRAY))
+                            , mouseX, mouseY);
+                }
+            } else if (offsetX + 26 < mouseX && mouseX < offsetX + 26 + 16
+                    && offsetY + 20 < mouseY && mouseY < offsetY + 12 + 60) {
+                var fluid = ((StoneMillBlockEntity) this.container.getTileEntity()).getInputFluidTank().getFluid();
+                if (!fluid.isEmpty()) {
+                    matrixStack.renderComponentTooltip(this.font, List.of(fluid.getHoverName(),
+                                    Component.literal("%smB".formatted(fluid.getAmount())).withStyle(ChatFormatting.GRAY))
+                            , mouseX, mouseY);
+                }
+            }
         }
 
     }

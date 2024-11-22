@@ -53,8 +53,6 @@ public class ModContent {
      * 即检查{@link CreativeTabsScreenPage#getVisibleTabs()}。
      * 拿到状态之后切换输出即可。
      * <p>
-     *
-     *
      */
     @SubscribeEvent
     public static void creativeModeTabRegister(RegisterEvent event) {
@@ -192,7 +190,7 @@ public class ModContent {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntityRegister.STONE_MILL_TYPE.get(),
                 (blockEntity, context) -> blockEntity.isRemoved() ? null : (context == Direction.DOWN ? blockEntity.getOutputInventory() : blockEntity.getInputInventory()));
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BlockEntityRegister.STONE_MILL_TYPE.get(),
-                (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getFluidTank());
+                (blockEntity, context) -> blockEntity.isRemoved() ? null : (context == Direction.UP ? blockEntity.getInputFluidTank():blockEntity.getFluidTank()));
 
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntityRegister.STONE_ROLLER_TYPE.get(),
                 (blockEntity, context) -> blockEntity.isRemoved() ? null : (context == Direction.DOWN ? blockEntity.getOutputInventory() : blockEntity.getInputInventory()));

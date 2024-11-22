@@ -4,14 +4,18 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.joml.Matrix4f;
+
+import java.util.Optional;
 
 public class RenderUtil {
     /**
@@ -55,6 +59,25 @@ public class RenderUtil {
 
     public static TextureAtlasSprite getBlockSprite(ResourceLocation sprite) {
         return Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS).getSprite(sprite);
+    }
+
+    public static void renderFluidStackInGUI(GuiGraphics matrixStack, int mouseX, int mouseY, int capacity, FluidStack fluid, int startX, int startY, int totalHeight) {
+
+        int height = 0;
+        if (capacity != 0) {
+            height = (int) Math.ceil(((float) totalHeight) * fluid.getAmount() / capacity);
+        }
+        // GuiHelper.drawTank(this, new TexturePos(offsetX + 37, offsetY + 22, 16, 48), fluidHandler.getFluidInTank(0), height);
+        PoseStack poseStack = matrixStack.pose();
+        poseStack.pushPose();
+        if (!fluid.isEmpty()) {
+            renderFluidStackInGUI(matrixStack.pose().last().pose(), fluid, 16, height, startX, startY+totalHeight);
+            if (startX < mouseX && mouseX < startX + 16
+                    && startY < mouseY && mouseY < startY + totalHeight) {
+                matrixStack.fill(startX, startY , startX + 16, startY + totalHeight, 0, 0x88FFFFFF);
+            }
+        }
+        poseStack.popPose();
     }
 
     /**
