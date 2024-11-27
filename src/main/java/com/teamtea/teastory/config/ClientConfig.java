@@ -1,6 +1,7 @@
 package com.teamtea.teastory.config;
 
 
+import com.teamtea.teastory.plugin.CompatManager;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class ClientConfig
@@ -10,6 +11,7 @@ public class ClientConfig
     {
         GUI.load(builder);
         Renderer.load(builder);
+        CompatManager.initConfig(builder,false);
     }
 
     public static class GUI

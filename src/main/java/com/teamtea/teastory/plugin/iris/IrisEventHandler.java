@@ -1,5 +1,6 @@
 package com.teamtea.teastory.plugin.iris;
 
+import com.teamtea.teastory.plugin.CompatManager;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 
@@ -9,7 +10,9 @@ public class IrisEventHandler {
 
     @SubscribeEvent
     public void onTick(ClientTickEvent.Pre levelTickEvent) {
-        TSIrisPlugin.checkReload();
+        if (CompatManager.irisCompat.getAsBoolean()) {
+            TSIrisPlugin.checkReload();
+        }
     }
 
 
