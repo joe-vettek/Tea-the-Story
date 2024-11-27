@@ -3,6 +3,7 @@ package com.teamtea.teastory;
 
 import com.teamtea.teastory.block.crops.VineInfoManager;
 import com.teamtea.teastory.config.NormalConfigs;
+import com.teamtea.teastory.plugin.PluginManager;
 import com.teamtea.teastory.recipe.drink.DrinkEffectManager;
 import com.teamtea.teastory.registry.*;
 import net.minecraft.resources.ResourceLocation;
@@ -11,6 +12,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -100,6 +102,7 @@ public class TeaStory {
         ModBiomeModifiers.BIOME_MODIFIER_SERIALIZERS.register(modEventBus);
         ModPlacementModifiers.PLACEMENT_MODIFIERS.register(modEventBus);
 
+        PluginManager.init(NeoForge.EVENT_BUS);
         // ModContents.DRMenuType.register(modEventBus);
 
         // ModContents.init();
