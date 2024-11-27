@@ -1,20 +1,14 @@
-package com.teamtea.teastory.plugin.ecliptic_seasons;
+package com.teamtea.teastory.plugin.eclipticseasons;
 
 import com.teamtea.eclipticseasons.api.constant.crop.CropHumidityType;
 import com.teamtea.eclipticseasons.api.constant.crop.CropSeasonType;
 import com.teamtea.teastory.TeaStory;
-import com.teamtea.teastory.data.tag.TeaStoryItemTagProvider;
 import com.teamtea.teastory.registry.BlockRegister;
-import com.teamtea.teastory.registry.ItemRegister;
-import com.teamtea.teastory.tag.TeaTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
@@ -26,6 +20,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class ESDataEventHandler {
     public static ESDataEventHandler INSTANCE = new ESDataEventHandler();
+
 
 
     @SubscribeEvent
@@ -78,10 +73,16 @@ public class ESDataEventHandler {
             );
             tag(CropSeasonType.SP_AU.getTag()).add(BlockRegister.CHINESE_CABBAGE_SEEDS.value());
 
-            tag(CropHumidityType.AVERAGE_MOIST.getTag()).add(BlockRegister.CHILI_SEEDS.value(),BlockRegister.TEA_SEEDS.value());
+            tag(CropSeasonType.SP_SU_AU.getTag()).add(BlockRegister.CUCUMBERS.value());
+            tag(CropSeasonType.SU_AU.getTag()).add(BlockRegister.GRAPES.value(),BlockRegister.BITTER_GOURDS.value());
+
+            tag(CropHumidityType.AVERAGE_MOIST.getTag()).add(
+                    BlockRegister.CHILI_SEEDS.value(),BlockRegister.TEA_SEEDS.value(),
+                    BlockRegister.BITTER_GOURDS.value(),BlockRegister.CUCUMBERS.value());
             tag(CropHumidityType.MOIST_HUMID.getTag()).add(BlockRegister.RICE_GRAINS.value(),
                     BlockRegister.riceSeedlings.value());
 
+            tag(CropHumidityType.DRY_MOIST.getTag()).add(BlockRegister.GRAPES.value());
         }
     }
 }

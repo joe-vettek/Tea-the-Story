@@ -1,7 +1,10 @@
 package com.teamtea.teastory.plugin;
 
-import com.teamtea.teastory.plugin.ecliptic_seasons.ESDataEventHandler;
+import com.teamtea.eclipticseasons.api.EclipticSeasonsApi;
+import com.teamtea.teastory.plugin.eclipticseasons.ESCommonEventHandler;
+import com.teamtea.teastory.plugin.eclipticseasons.ESDataEventHandler;
 import com.teamtea.teastory.plugin.iris.IrisEventHandler;
+import net.irisshaders.iris.Iris;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import net.neoforged.neoforge.common.NeoForge;
@@ -9,16 +12,22 @@ import net.neoforged.neoforge.common.NeoForge;
 public class CompatManager {
 
     private static boolean iris = false;
+    private static boolean eclipticseasons = false;
 
     public static void init(IEventBus loadEventBus) {
         IEventBus gameEventBus = NeoForge.EVENT_BUS;
         if (Platform.isPhysicalClient()) {
-            iris = Platform.isModLoaded("iris");
+            iris = Platform.isModLoaded(Iris.MODID);
             if (iris) {
                 gameEventBus.register(IrisEventHandler.INSTANCE);
             }
         }
-        loadEventBus.register(ESDataEventHandler.INSTANCE);
+        eclipticseasons =Platform.isModLoaded(EclipticSeasonsApi.MODID);
+        if(eclipticseasons)
+        {
+            loadEventBus.register(ESDataEventHandler.INSTANCE);
+            gameEventBus.register(ESCommonEventHandler.INSTANCE);
+        }
     }
 
     public static ModConfigSpec.BooleanValue enable;

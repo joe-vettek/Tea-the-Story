@@ -54,7 +54,7 @@ public class TSIrisPlugin {
                                             BlockRegister.CUCUMBER,
                                             BlockRegister.BITTER_GOURD
                                     )
-                                    .forEach(ob -> simpleCopyAdd(Blocks.VINE.defaultBlockState(), ob.value()));
+                                    .forEach(ob -> simpleCopyAdd(Blocks.CAVE_VINES.defaultBlockState(), ob.value()));
                             List.of(BlockRegister.wild_tea_plant,
                                             BlockRegister.tea_plant
                                             // ,
