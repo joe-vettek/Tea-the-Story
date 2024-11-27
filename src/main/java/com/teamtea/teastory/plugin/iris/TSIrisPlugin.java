@@ -34,8 +34,7 @@ public class TSIrisPlugin {
                         if (blockStateIds != null) {
                             shaderpack=nowshaderpack;
                             simpleCopyAddGrassUpper(BlockRegister.ricePlant.get());
-                            List.of(BlockRegister.wild_tea_plant,
-                                            BlockRegister.WILD_GRAPE,
+                            List.of(BlockRegister.WILD_GRAPE,
                                             BlockRegister.WILD_RICE,
                                             BlockRegister.WILD_CHINESE_CABBAGE,
                                             BlockRegister.WILD_CHILI,
@@ -56,7 +55,8 @@ public class TSIrisPlugin {
                                             BlockRegister.BITTER_GOURD
                                     )
                                     .forEach(ob -> simpleCopyAdd(Blocks.VINE.defaultBlockState(), ob.value()));
-                            List.of(BlockRegister.tea_plant
+                            List.of(BlockRegister.wild_tea_plant,
+                                            BlockRegister.tea_plant
                                             // ,
                                             // BlockRegister.WATERMELON_VINE
                                     )
