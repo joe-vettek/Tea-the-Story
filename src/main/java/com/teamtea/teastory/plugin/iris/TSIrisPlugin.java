@@ -56,15 +56,16 @@ public class TSIrisPlugin {
                                             BlockRegister.BITTER_GOURD
                                     )
                                     .forEach(ob -> simpleCopyAdd(Blocks.VINE.defaultBlockState(), ob.value()));
-                            List.of(BlockRegister.tea_plant,
-                                            BlockRegister.WATERMELON_VINE
+                            List.of(BlockRegister.tea_plant
+                                            // ,
+                                            // BlockRegister.WATERMELON_VINE
                                     )
                                     .forEach(ob -> simpleCopyAdd(Blocks.OAK_LEAVES.defaultBlockState(), ob.value()));
-                            for (Planks.PlankHolders value : Planks.TrellisBlockMap.values()) {
-                                for (TrellisWithVineBlock trellisWithVineBlock : value.trellisWithVineBlocks()) {
-                                    simpleCopyAdd(Blocks.OAK_LEAVES.defaultBlockState(), trellisWithVineBlock);
-                                }
-                            }
+                            // for (Planks.PlankHolders value : Planks.TrellisBlockMap.values()) {
+                            //     for (TrellisWithVineBlock trellisWithVineBlock : value.trellisWithVineBlocks()) {
+                            //         simpleCopyAdd(Blocks.OAK_LEAVES.defaultBlockState(), trellisWithVineBlock);
+                            //     }
+                            // }
                         }
 
                     }
