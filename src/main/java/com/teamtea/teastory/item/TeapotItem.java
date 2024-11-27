@@ -38,7 +38,7 @@ public class TeapotItem extends BlockItem implements FluidContainerItem {
     @Override
     public InteractionResult useOn(UseOnContext pContext) {
         Level worldIn = pContext.getLevel();
-        if (canFillWater && !worldIn.isClientSide()) {
+        if (canFillWater) {
             Player playerIn = pContext.getPlayer();
             InteractionHand handIn = pContext.getHand();
 
@@ -51,8 +51,13 @@ public class TeapotItem extends BlockItem implements FluidContainerItem {
                 BlockPos blockpos = blockHitResult.getBlockPos();
                 if (worldIn.getFluidState(blockpos).isSource()) {
                     var resultItem = FluidUtil.tryPickUpFluid(itemStack, playerIn, worldIn, blockpos, blockHitResult.getDirection()).getResult();
-                    playerIn.setItemInHand(handIn, resultItem);
-                    return InteractionResult.SUCCESS;
+                    if(!resultItem.isEmpty()) {
+                        playerIn.setItemInHand(handIn, resultItem);
+                        return InteractionResult.sidedSuccess(worldIn.isClientSide());
+                    }else {
+                        return InteractionResult.CONSUME_PARTIAL;
+                    }
+
                 }
                 // if (worldIn.mayInteract(playerIn, blockpos) && playerIn.mayUseItemAt(blockpos, blockHitResult.getDirection(), itemStack)) {
                 //     BlockState state = worldIn.getBlockState(blockpos);

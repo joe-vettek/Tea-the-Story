@@ -69,22 +69,79 @@ public class WoodenTrayBlock extends Block implements EntityBlock {
 
     @Override
     protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
-        var te = pLevel.getBlockEntity(pPos);
-        if (te instanceof TeaCupBlockEntity) {
+        // var te = pLevel.getBlockEntity(pPos);
+        // if (te instanceof TeaCupBlockEntity) {
+        //     {
+        //         int index = pState.getValue(CUP);
+        //         if (!setCup((TeaCupBlockEntity) te, index, pStack, pLevel, pPos, pState)) {
+        //             if (pStack.getItem() == BlockEntityRegister.PORCELAIN_TEAPOT.get()) {
+        //                 FluidUtil.getFluidHandler(pStack.copy()).ifPresent(item ->
+        //                 {
+        //                     for (int i = 0; i < 3; i++) {
+        //                         FluidTank tank = ((TeaCupBlockEntity) te).getFluidTank(i);
+        //                         if (tank.isEmpty()) {
+        //                             if (FluidUtil.interactWithFluidHandler(pPlayer, pHand, tank)) {
+        //                                 if (pState.getValue(DRINK) + 1 <= 3) {
+        //                                     pLevel.setBlockAndUpdate(pPos, pState.setValue(DRINK, pState.getValue(DRINK) + 1));
+        //                                 }
+        //                                 pLevel.playSound(null, pPos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 0.5F, 0.9F);
+        //                             }
+        //                             break;
+        //                         }
+        //                     }
+        //                 });
+        //             }
+        //         }
+        //     }
+        // }
+        return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level worldIn, BlockPos pos, Player player, BlockHitResult pHitResult) {
+        var handIn=player.getUsedItemHand();
+        ItemStack held = player.getItemInHand(handIn);
+        var te = worldIn.getBlockEntity(pos);
+        if (te instanceof TeaCupBlockEntity)
+        {
+            if (held.isEmpty())
             {
-                int index = pState.getValue(CUP);
-                if (!setCup((TeaCupBlockEntity) te, index, pStack, pLevel, pPos, pState)) {
-                    if (pStack.getItem() == BlockEntityRegister.PORCELAIN_TEAPOT.get()) {
-                        FluidUtil.getFluidHandler(pStack.copy()).ifPresent(item ->
+                int index = state.getValue(CUP) - 1;
+                if (index > -1)
+                {
+                    ItemStack itemStack = getCup((TeaCupBlockEntity) te, index);
+                    ItemHandlerHelper.giveItemToPlayer(player, itemStack);
+                    if (itemStack.getItem() == ItemRegister.PORCELAIN_CUP.get())
+                    {
+                        worldIn.setBlockAndUpdate(pos, state.setValue(CUP, state.getValue(CUP) - 1));
+                    }
+                    else
+                    {
+                        worldIn.setBlockAndUpdate(pos, state.setValue(CUP, state.getValue(CUP) - 1).setValue(DRINK, state.getValue(DRINK) - 1));
+                    }
+                }
+            }
+            else
+            {
+                int index = state.getValue(CUP);
+                if (!setCup((TeaCupBlockEntity) te, index, held, worldIn, pos, state))
+                {
+                    if (held.getItem() == BlockEntityRegister.PORCELAIN_TEAPOT.get())
+                    {
+                        FluidUtil.getFluidHandler(player.getItemInHand(handIn).copyWithCount(1)).ifPresent(item ->
                         {
-                            for (int i = 0; i < 3; i++) {
+                            for (int i = 0; i < 3; i++)
+                            {
                                 FluidTank tank = ((TeaCupBlockEntity) te).getFluidTank(i);
-                                if (tank.isEmpty()) {
-                                    if (FluidUtil.interactWithFluidHandler(pPlayer, pHand, tank)) {
-                                        if (pState.getValue(DRINK) + 1 <= 3) {
-                                            pLevel.setBlockAndUpdate(pPos, pState.setValue(DRINK, pState.getValue(DRINK) + 1));
+                                if (tank.isEmpty())
+                                {
+                                    if (FluidUtil.interactWithFluidHandler(player, handIn, tank))
+                                    {
+                                        if (state.getValue(DRINK) + 1 <= 3)
+                                        {
+                                            worldIn.setBlockAndUpdate(pos, state.setValue(DRINK, state.getValue(DRINK) + 1));
                                         }
-                                        pLevel.playSound(null, pPos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 0.5F, 0.9F);
+                                        worldIn.playSound(null, pos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 0.5F, 0.9F);
                                     }
                                     break;
                                 }
@@ -94,26 +151,8 @@ public class WoodenTrayBlock extends Block implements EntityBlock {
                 }
             }
         }
-        return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
-    }
 
-    @Override
-    protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
-        var te = pLevel.getBlockEntity(pPos);
-        if (te instanceof TeaCupBlockEntity) {
-            int index = pState.getValue(CUP) - 1;
-            if (index > -1) {
-                ItemStack itemStack = getCup((TeaCupBlockEntity) te, index);
-                ItemHandlerHelper.giveItemToPlayer(pPlayer, itemStack);
-                if (itemStack.getItem() == ItemRegister.PORCELAIN_CUP.get()) {
-                    pLevel.setBlockAndUpdate(pPos, pState.setValue(CUP, pState.getValue(CUP) - 1));
-                } else {
-                    pLevel.setBlockAndUpdate(pPos, pState.setValue(CUP, pState.getValue(CUP) - 1).setValue(DRINK, pState.getValue(DRINK) - 1));
-                }
-            }
-        }
-
-        return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);
+        return super.useWithoutItem(state, worldIn, pos, player, pHitResult);
     }
 
 
