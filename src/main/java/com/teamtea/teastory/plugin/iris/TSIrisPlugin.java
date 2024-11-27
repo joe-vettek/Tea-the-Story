@@ -25,14 +25,14 @@ public class TSIrisPlugin {
     public static void checkReload() {
         if (Iris.getIrisConfig() != null) {
             String nowshaderpack = Iris.getIrisConfig().getShaderPackName().orElse(null);
-            if (!Objects.equals(nowshaderpack, shaderpack))
+            // if (!Objects.equals(nowshaderpack, shaderpack))
             {
                 if (IrisApi.getInstance().isShaderPackInUse()) {
                     if (WorldRenderingSettings.INSTANCE.getBlockStateIds() != blockStateIds)
                     {
                         blockStateIds = WorldRenderingSettings.INSTANCE.getBlockStateIds();
                         if (blockStateIds != null) {
-                            shaderpack=nowshaderpack;
+                            shaderpack = nowshaderpack;
                             simpleCopyAddGrassUpper(BlockRegister.ricePlant.get());
                             List.of(BlockRegister.WILD_GRAPE,
                                             BlockRegister.WILD_RICE,
@@ -79,7 +79,12 @@ public class TSIrisPlugin {
     }
 
     public static void simpleCopyAddGrassUpper(Block block) {
-        simpleCopyAdd(Blocks.TALL_GRASS.defaultBlockState().setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER), block);
+        if (shaderpack != null && !shaderpack.toLowerCase().contains("photon"))
+            simpleCopyAdd(Blocks.TALL_GRASS.defaultBlockState().setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER), block);
+        else simpleCopyAdd(Blocks.VINE.defaultBlockState(), block);
+        // simpleCopyAdd(Blocks.OAK_LEAVES.defaultBlockState(), block);
+        // simpleCopyAdd(Blocks.TALL_GRASS.defaultBlockState().setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER), block);
+
     }
 
     public static void simpleCopyAdd(BlockState state, Block block) {

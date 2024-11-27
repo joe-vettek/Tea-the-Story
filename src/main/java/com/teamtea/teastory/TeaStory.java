@@ -102,7 +102,7 @@ public class TeaStory {
         ModBiomeModifiers.BIOME_MODIFIER_SERIALIZERS.register(modEventBus);
         ModPlacementModifiers.PLACEMENT_MODIFIERS.register(modEventBus);
 
-        CompatManager.init(NeoForge.EVENT_BUS);
+        CompatManager.init(modEventBus);
         // ModContents.DRMenuType.register(modEventBus);
 
         // ModContents.init();
