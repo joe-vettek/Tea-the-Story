@@ -108,10 +108,10 @@ public class RicePlantBlock extends CropBlock {
         if (state.getBlock() == this) {
             if (state.getValue(AGE) < ageToGrow - 2) {
                 worldIn.setBlockAndUpdate(pos, state.setValue(AGE, state.getValue(AGE) + 1));
-                growTogether(ageToGrow, worldIn, pos.north());
-                growTogether(ageToGrow, worldIn, pos.south());
-                growTogether(ageToGrow, worldIn, pos.east());
-                growTogether(ageToGrow, worldIn, pos.west());
+                growTogether(ageToGrow-1, worldIn, pos.north());
+                growTogether(ageToGrow-1, worldIn, pos.south());
+                growTogether(ageToGrow-1, worldIn, pos.east());
+                growTogether(ageToGrow-1, worldIn, pos.west());
             }
         }
     }
