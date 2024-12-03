@@ -1,0 +1,12 @@
+{
+  "values": {
+    "teastory:crushed_straw": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "teastory:tea_residues": {
+      "can_villager_compost": true,
+      "chance": 0.2
+    }
+  }
+}
