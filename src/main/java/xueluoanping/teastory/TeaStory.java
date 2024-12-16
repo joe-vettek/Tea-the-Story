@@ -5,6 +5,7 @@ import cloud.lemonslice.teastory.block.crops.VineInfoManager;
 import cloud.lemonslice.teastory.config.NormalConfigs;
 import cloud.lemonslice.teastory.recipe.drink.DrinkEffectManager;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -117,8 +118,12 @@ public class TeaStory {
 
     public void FMLCommonSetup(final FMLCommonSetupEvent event) {
         // start.dataGen(event);
-        DrinkEffectManager.init();
-        VineInfoManager.initTrellisBlocks();
+       event.enqueueWork(()->{
+           DrinkEffectManager.init();
+           VineInfoManager.initTrellisBlocks();
+           ItemRegister.registerComposter();
+
+       });
     }
 
     public void gatherData(final GatherDataEvent event) {

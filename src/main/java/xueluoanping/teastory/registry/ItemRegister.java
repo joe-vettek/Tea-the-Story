@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.capability.ItemFluidContainer;
 import net.minecraftforge.fml.common.Mod;
@@ -134,5 +135,9 @@ public class ItemRegister {
     public static RegistryObject<Item> WELCOME_MARCH_RECORD = ModItems.register("welcome_march", () -> new SRecordItem(9, () -> SoundEventsRegistry.RECORD_WELCOME_MARCH, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 10));
 
 
+    public static void registerComposter() {
+        ComposterBlock.COMPOSTABLES.put(TEA_RESIDUES.get(),0.2f);
+        ComposterBlock.COMPOSTABLES.put(CRUSHED_STRAW.get(),0.3f);
+    }
 }
 
