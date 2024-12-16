@@ -63,6 +63,17 @@ public class HybridizableFlowerBlock extends BushBlock implements BonemealableBl
     }
 
 
+    // TODO：这个很特殊，可以看用不用
+    @Override
+    protected boolean useShapeForLightOcclusion(BlockState state) {
+        return super.useShapeForLightOcclusion(state);
+    }
+
+    @Override
+    protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {
+        return super.getShadeBrightness(state, level, pos);
+    }
+
     @Override
     public int getFlammability(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
         return 100;

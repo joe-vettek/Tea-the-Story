@@ -55,10 +55,7 @@ import com.teamtea.teastory.variant.Planks;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientSetup {
@@ -176,7 +173,8 @@ public class ClientSetup {
         BakedModel OAK_TRELLIS_ITEM_MODEL = event.getModels().get(OAK_TRELLIS_ITEM_LOCATION);
 
         // TeaStory.logger(OAK_TRELLIS_MODEL);
-        TeaStory.logger("Minecraft loading all the models with " + modelRegistry.entrySet().size());
+        TeaStory.logger("Minecraft loading all the models status with " + modelRegistry.entrySet().size());
+        TeaStory.logger("Minecraft loading all models with size " + new HashSet<>(modelRegistry.values()).size());
         var state = BlockRegister.OAK_TRELLIS.get().defaultBlockState();
 
 
