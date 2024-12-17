@@ -214,11 +214,11 @@ public class BlockRegister {
 
 
     // FLOWERS 花朵
-    public static RegistryObject<HybridizableFlowerBlock> CHRYSANTHEMUM = ModBlocks.register("chrysanthemum", () -> new HybridizableFlowerBlock(Block.Properties.copy(Blocks.DANDELION).noOcclusion()));
+    public static RegistryObject<HybridizableFlowerBlock> CHRYSANTHEMUM = ModBlocks.register("chrysanthemum", () -> new HybridizableFlowerBlock(Block.Properties.copy(Blocks.DANDELION).noOcclusion().mapColor(state -> ((DyeItem)state.getValue(HybridizableFlowerBlock.FLOWER_COLOR).getDye()).getDyeColor().getMapColor())));
     public static RegistryObject<HybridizableFlowerBlockItem> CHRYSANTHEMUM_ITEM = ModItems.register("chrysanthemum", () -> new HybridizableFlowerBlockItem(CHRYSANTHEMUM.get(), new Item.Properties()));
-    public static RegistryObject<HybridizableFlowerBlock> HYACINTH = ModBlocks.register("hyacinth", () -> new HybridizableFlowerBlock(Block.Properties.copy(Blocks.DANDELION).noOcclusion()));
+    public static RegistryObject<HybridizableFlowerBlock> HYACINTH = ModBlocks.register("hyacinth", () -> new HybridizableFlowerBlock(Block.Properties.copy(Blocks.DANDELION).noOcclusion().mapColor(state -> ((DyeItem)state.getValue(HybridizableFlowerBlock.FLOWER_COLOR).getDye()).getDyeColor().getMapColor())));
     public static RegistryObject<HybridizableFlowerBlockItem> HYACINTH_ITEM = ModItems.register("hyacinth", () -> new HybridizableFlowerBlockItem(HYACINTH.get(), new Item.Properties()));
-    public static RegistryObject<HybridizableFlowerBlock> ZINNIA = ModBlocks.register("zinnia", () -> new HybridizableFlowerBlock(Block.Properties.copy(Blocks.DANDELION).noOcclusion()));
+    public static RegistryObject<HybridizableFlowerBlock> ZINNIA = ModBlocks.register("zinnia", () -> new HybridizableFlowerBlock(Block.Properties.copy(Blocks.DANDELION).noOcclusion().mapColor(state -> ((DyeItem)state.getValue(HybridizableFlowerBlock.FLOWER_COLOR).getDye()).getDyeColor().getMapColor())));
     public static RegistryObject<HybridizableFlowerBlockItem> ZINNIA_ITEM = ModItems.register("zinnia", () -> new HybridizableFlowerBlockItem(ZINNIA.get(), new Item.Properties()));
 
 }
