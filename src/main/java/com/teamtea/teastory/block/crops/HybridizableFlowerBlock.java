@@ -9,20 +9,24 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.EmptyBlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.BushBlock;
+import net.minecraft.world.level.block.FlowerBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -34,21 +38,26 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class HybridizableFlowerBlock extends BushBlock implements BonemealableBlock {
-    public static final MapCodec<HybridizableFlowerBlock> CODEC = simpleCodec(HybridizableFlowerBlock::new);
+public class HybridizableFlowerBlock extends FlowerBlock implements BonemealableBlock {
+    // public static final MapCodec<HybridizableFlowerBlock> CODEC = simpleCodec(HybridizableFlowerBlock::new);
 
     public static final EnumProperty<FlowerColor> FLOWER_COLOR = EnumProperty.create("color", FlowerColor.class);
     protected static final VoxelShape SHAPE = Block.box(3.0D, 0.0D, 3.0D, 13.0D, 14.0D, 13.0D);
 
     public HybridizableFlowerBlock(BlockBehaviour.Properties pProperties) {
-        super(pProperties);
+        super(makeEffectList(MobEffects.HEAL,2),pProperties);
         this.registerDefaultState(this.defaultBlockState().setValue(FLOWER_COLOR, FlowerColor.WHITE));
     }
 
     @Override
-    protected MapCodec<? extends BushBlock> codec() {
-        return CODEC;
+    public MapColor getMapColor(BlockState state, BlockGetter level, BlockPos pos, MapColor defaultColor) {
+        return defaultColor;
     }
+
+    // @Override
+    // protected MapCodec<? extends BushBlock> codec() {
+    //     return CODEC;
+    // }
 
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {

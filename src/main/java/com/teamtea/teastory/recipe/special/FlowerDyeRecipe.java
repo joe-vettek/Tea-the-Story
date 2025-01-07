@@ -7,6 +7,7 @@ import com.teamtea.teastory.item.HybridizableFlowerBlockItem;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
@@ -57,14 +58,14 @@ public class FlowerDyeRecipe extends CustomRecipe {
                 }
             }
         }
-        FlowerColor color = itemstack.get(DataComponents.BLOCK_STATE).get(HybridizableFlowerBlock.FLOWER_COLOR);
-        if (color.getDye() != null) {
-            return new ItemStack(color.getDye(), 2);
+        BlockItemStateProperties color = itemstack.get(DataComponents.BLOCK_STATE);
+        if (color != null
+                && color.get(HybridizableFlowerBlock.FLOWER_COLOR) instanceof FlowerColor flowerColor
+                && flowerColor.getDye() != null) {
+            return new ItemStack(flowerColor.getDye(), 2);
         }
         return ItemStack.EMPTY;
     }
-
-
 
 
     @Override

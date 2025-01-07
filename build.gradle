@@ -21,6 +21,11 @@ group = mod_group_id
 
 repositories {
     mavenLocal()
+
+    flatDir {
+        dirs("libs")
+    }
+
     maven {
         url "https://cursemaven.com"
         content {
@@ -127,7 +132,7 @@ dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
 
 
-    implementation ("curse.maven:jei-238222:5846880")
+    implementation("curse.maven:jei-238222:5846880")
     implementation("curse.maven:jade-324717:5591256-deobf-sources-api")
 
     implementation("curse.maven:ecliptic-seasons-1118306:5828120")
@@ -136,9 +141,17 @@ dependencies {
 
     onlyMainRuntimeOnly("curse.maven:irisshaders-455508:5910090")
     onlyMainRuntimeOnly "maven.modrinth:sodium:mc1.21.1-0.6.0-neoforge"
-    onlyMainRuntimeOnly("curse.maven:journeymap-32274:5541925")
+//    onlyMainRuntimeOnly("curse.maven:journeymap-32274:5541925")
 
-    
+    println("----Scan onlyMainRuntimeOnly libs begin----")
+    fileTree(dir: 'libs', include: ['*.jar']).each { File file ->
+        def fileName = file.name
+        println(fileName.substring(0, fileName.indexOf("-")) + "," + fileName.substring(fileName.indexOf("-") + 1, fileName.indexOf(".jar")))
+        onlyMainRuntimeOnly(name: fileName.substring(0, fileName.indexOf(".jar")),
+                group: 'libs',
+                version: fileName.substring(0, fileName.indexOf(".jar")))
+    }
+    println("----Scan onlyMainRuntimeOnly libs end----")
 //    runtimeOnly ("curse.maven:spark-361579:5434153")
 
     // Example optional mod dependency with JEI

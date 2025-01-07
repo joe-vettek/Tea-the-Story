@@ -187,11 +187,11 @@ public class BlockRegister {
 
 
     // FLOWERS 花朵
-    public static DeferredHolder<Block, HybridizableFlowerBlock> CHRYSANTHEMUM = ModBlocks.register("chrysanthemum", () -> new HybridizableFlowerBlock(Block.Properties.ofFullCopy(Blocks.DANDELION).noOcclusion().mapColor(state -> ((DyeItem)state.getValue(HybridizableFlowerBlock.FLOWER_COLOR).getDye()).getDyeColor().getMapColor())));
+    public static DeferredHolder<Block, HybridizableFlowerBlock> CHRYSANTHEMUM = ModBlocks.register("chrysanthemum", () -> new HybridizableFlowerBlock(Block.Properties.of().noCollission().instabreak().sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY).mapColor(state -> ((DyeItem)state.getValue(HybridizableFlowerBlock.FLOWER_COLOR).getDye()).getDyeColor().getMapColor())));
     public static DeferredHolder<Item, HybridizableFlowerBlockItem> CHRYSANTHEMUM_ITEM = ModItems.register("chrysanthemum", () -> new HybridizableFlowerBlockItem(CHRYSANTHEMUM.get(), new Item.Properties()));
-    public static DeferredHolder<Block, HybridizableFlowerBlock> HYACINTH = ModBlocks.register("hyacinth", () -> new HybridizableFlowerBlock(Block.Properties.ofFullCopy(Blocks.DANDELION).noOcclusion().mapColor(state -> ((DyeItem)state.getValue(HybridizableFlowerBlock.FLOWER_COLOR).getDye()).getDyeColor().getMapColor())));
+    public static DeferredHolder<Block, HybridizableFlowerBlock> HYACINTH = ModBlocks.register("hyacinth", () -> new HybridizableFlowerBlock(Block.Properties.of().noCollission().instabreak().sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY).mapColor(state -> ((DyeItem)state.getValue(HybridizableFlowerBlock.FLOWER_COLOR).getDye()).getDyeColor().getMapColor())));
     public static DeferredHolder<Item, HybridizableFlowerBlockItem> HYACINTH_ITEM = ModItems.register("hyacinth", () -> new HybridizableFlowerBlockItem(HYACINTH.get(), new Item.Properties()));
-    public static DeferredHolder<Block, HybridizableFlowerBlock> ZINNIA = ModBlocks.register("zinnia", () -> new HybridizableFlowerBlock(Block.Properties.ofFullCopy(Blocks.DANDELION).noOcclusion().mapColor(state -> ((DyeItem)state.getValue(HybridizableFlowerBlock.FLOWER_COLOR).getDye()).getDyeColor().getMapColor())));
+    public static DeferredHolder<Block, HybridizableFlowerBlock> ZINNIA = ModBlocks.register("zinnia", () -> new HybridizableFlowerBlock(Block.Properties.of().noCollission().instabreak().sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY).mapColor(state -> ((DyeItem)state.getValue(HybridizableFlowerBlock.FLOWER_COLOR).getDye()).getDyeColor().getMapColor())));
     public static DeferredHolder<Item, HybridizableFlowerBlockItem> ZINNIA_ITEM = ModItems.register("zinnia", () -> new HybridizableFlowerBlockItem(ZINNIA.get(), new Item.Properties()));
 
 }
