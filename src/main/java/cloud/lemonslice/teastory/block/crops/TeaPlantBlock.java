@@ -4,6 +4,7 @@ package cloud.lemonslice.teastory.block.crops;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.stats.Stats;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -13,6 +14,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Ravager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
@@ -24,12 +26,15 @@ import net.minecraft.world.level.block.FarmBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.PlantType;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
 import xueluoanping.teastory.registry.ItemRegister;
 import xueluoanping.teastory.registry.BlockRegister;
 
@@ -147,18 +152,24 @@ public class TeaPlantBlock extends BushBlock implements BonemealableBlock {
     @Override
     public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         if (!worldIn.isClientSide()) {
-            if (player.getItemInHand(handIn).is(Tags.Items.SHEARS))
+            // if (player.getItemInHand(handIn).is(Tags.Items.SHEARS))
+            ItemStack stack = player.getItemInHand(handIn);
+            if (stack.canPerformAction(ToolActions.SHEARS_CARVE))
                 switch (this.getAge(state)) {
                     case 8:
                         worldIn.setBlockAndUpdate(pos, this.defaultBlockState().setValue(AGE, worldIn.getRandom().nextInt(3) + 4));
                         worldIn.addFreshEntity(new ItemEntity(worldIn, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, new ItemStack(ItemRegister.TEA_LEAVES.get(), worldIn.getRandom().nextInt(5) + 1)));
-                        player.getItemInHand(handIn).setDamageValue(player.getItemInHand(handIn).getDamageValue()+1);
+                        stack.hurtAndBreak(1, player, (p_55287_) -> p_55287_.broadcastBreakEvent(handIn));
+                        worldIn.gameEvent(player, GameEvent.SHEAR, pos);
+                        player.awardStat(Stats.ITEM_USED.get(Items.SHEARS));
                         return InteractionResult.SUCCESS;
                     case 11:
                         worldIn.setBlockAndUpdate(pos, this.defaultBlockState().setValue(AGE, worldIn.getRandom().nextInt(3) + 4));
                         worldIn.addFreshEntity(new ItemEntity(worldIn, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, new ItemStack(BlockRegister.TEA_SEEDS.get(), worldIn.getRandom().nextInt(5) + 1)));
                         worldIn.addFreshEntity(new ItemEntity(worldIn, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, new ItemStack(ItemRegister.TEA_LEAVES.get(), 1)));
-                        player.getItemInHand(handIn).setDamageValue(player.getItemInHand(handIn).getDamageValue()+1);
+                        stack.hurtAndBreak(1, player, (p_55287_) -> p_55287_.broadcastBreakEvent(handIn));
+                        worldIn.gameEvent(player, GameEvent.SHEAR, pos);
+                        player.awardStat(Stats.ITEM_USED.get(Items.SHEARS));
                         return InteractionResult.SUCCESS;
                 }
             return InteractionResult.FAIL;

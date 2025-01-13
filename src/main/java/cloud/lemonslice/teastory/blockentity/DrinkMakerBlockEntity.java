@@ -1,6 +1,7 @@
 package cloud.lemonslice.teastory.blockentity;
 
 import cloud.lemonslice.teastory.client.container.DrinkMakerContainer;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Items;
 import cloud.lemonslice.teastory.recipe.drink.DrinkRecipe;
 import net.minecraft.core.BlockPos;
@@ -139,10 +140,11 @@ public class DrinkMakerBlockEntity extends NormalContainerBlockEntity {
                                 }
                             }
                             if (tileEntity.containerInventory.resolve().isPresent()){
-                                var con=tileEntity.containerInventory.resolve().get();
-                                if (con.getStackInSlot(0).getItem().getCraftingRemainingItem() == Items.BUCKET){
-                                    con.setStackInSlot(0, tileEntity.currentRecipe.getFluidResult().getBucket().getDefaultInstance());
-                                }else {
+                                // var con=tileEntity.containerInventory.resolve().get();
+                                // if (con.getStackInSlot(0).getItem().getCraftingRemainingItem() == Items.BUCKET){
+                                //     con.setStackInSlot(0, tileEntity.currentRecipe.getFluidResult().getBucket().getDefaultInstance());
+                                // }else
+                                {
                                     CompoundTag nbt = new FluidStack(tileEntity.currentRecipe.getFluidResult(), tileEntity.getFluidAmount()).writeToNBT(new CompoundTag());
                                     fluid.getContainer().getOrCreateTag().put(FLUID_NBT_KEY, nbt);
                                 }
@@ -203,8 +205,8 @@ public class DrinkMakerBlockEntity extends NormalContainerBlockEntity {
 
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                // return !(stack.getItem() instanceof BucketItem);
-                return true;
+                return !(stack.getItem() instanceof BucketItem);
+                // return true;
             }
         };
     }
@@ -242,7 +244,7 @@ public class DrinkMakerBlockEntity extends NormalContainerBlockEntity {
 
     @Nullable
     public Component getFluidTranslation() {
-        return getFluidHandler().map(h -> h.getFluidInTank(0).getDisplayName()).orElse(Component.empty());
+        return getFluidHandler().map(h -> h.getFluidInTank(0).getDisplayName()).orElse(null);
     }
 
     public LazyOptional<IFluidHandlerItem> getFluidHandler() {
