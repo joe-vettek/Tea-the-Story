@@ -1,5 +1,6 @@
 package com.teamtea.teastory.blockentity;
 
+import com.teamtea.eclipticseasons.EclipticSeasons;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -27,7 +28,11 @@ public class VineBlockEntity extends SyncedBlockEntity {
     @Override
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider pRegistries) {
         super.loadAdditional(tag,pRegistries);
-        this.age = tag.getInt("age");
+        int tagInt = tag.getInt("age");
+        if(tagInt!=age){
+            requestModelDataUpdate();
+        }
+        this.age = tagInt;
         this.distance = tag.getInt("distance");
     }
 
@@ -35,11 +40,6 @@ public class VineBlockEntity extends SyncedBlockEntity {
     public @NotNull ModelData getModelData() {
         return ModelData.builder().with(AGE_PROPERTY, getAge()).build();
         // return super.getModelData();
-    }
-
-    @Override
-    public void requestModelDataUpdate() {
-        super.requestModelDataUpdate();
     }
 
     @Override

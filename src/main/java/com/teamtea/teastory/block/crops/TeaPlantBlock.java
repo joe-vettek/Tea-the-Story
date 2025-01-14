@@ -5,15 +5,18 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.stats.Stats;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Ravager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
@@ -22,6 +25,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -118,7 +122,7 @@ public class TeaPlantBlock extends BushBlock implements BonemealableBlock {
             for (int j = -1; j <= 1; ++j) {
                 float f1 = 0.0F;
                 BlockState blockstate = worldIn.getBlockState(blockpos.offset(i, 0, j));
-                if (blockstate.canSustainPlant(worldIn, blockpos.offset(i, 0, j), Direction.UP, blockIn)== TriState.FALSE) {
+                if (blockstate.canSustainPlant(worldIn, blockpos.offset(i, 0, j), Direction.UP, blockIn) == TriState.FALSE) {
                     f1 = 1.0F;
                     if (blockstate.isFertile(worldIn, blockpos.offset(i, 0, j))) {
                         f1 = 3.0F;
@@ -155,18 +159,23 @@ public class TeaPlantBlock extends BushBlock implements BonemealableBlock {
     @Override
     public ItemInteractionResult useItemOn(ItemStack pStack, BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         if (!worldIn.isClientSide()) {
-            if (pStack.is(Tags.Items.TOOLS_SHEAR))
+            // if (pStack.is(Tags.Items.TOOLS_SHEAR))
+            if (pStack.canPerformAction(net.neoforged.neoforge.common.ItemAbilities.SHEARS_CARVE))
                 switch (this.getAge(state)) {
                     case 8:
                         worldIn.setBlockAndUpdate(pos, this.defaultBlockState().setValue(AGE, worldIn.getRandom().nextInt(3) + 4));
                         worldIn.addFreshEntity(new ItemEntity(worldIn, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, new ItemStack(ItemRegister.TEA_LEAVES.get(), worldIn.getRandom().nextInt(5) + 1)));
-                        player.getItemInHand(handIn).setDamageValue(player.getItemInHand(handIn).getDamageValue()+1);
+                        pStack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(handIn));
+                        worldIn.gameEvent(player, GameEvent.SHEAR, pos);
+                        player.awardStat(Stats.ITEM_USED.get(Items.SHEARS));
                         return ItemInteractionResult.SUCCESS;
                     case 11:
                         worldIn.setBlockAndUpdate(pos, this.defaultBlockState().setValue(AGE, worldIn.getRandom().nextInt(3) + 4));
                         worldIn.addFreshEntity(new ItemEntity(worldIn, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, new ItemStack(BlockRegister.TEA_SEEDS.get(), worldIn.getRandom().nextInt(5) + 1)));
                         worldIn.addFreshEntity(new ItemEntity(worldIn, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, new ItemStack(ItemRegister.TEA_LEAVES.get(), 1)));
-                        player.getItemInHand(handIn).setDamageValue(player.getItemInHand(handIn).getDamageValue()+1);
+                        pStack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(handIn));
+                        worldIn.gameEvent(player, GameEvent.SHEAR, pos);
+                        player.awardStat(Stats.ITEM_USED.get(Items.SHEARS));
                         return ItemInteractionResult.SUCCESS;
                 }
             return ItemInteractionResult.FAIL;

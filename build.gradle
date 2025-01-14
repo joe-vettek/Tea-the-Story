@@ -135,7 +135,7 @@ dependencies {
     implementation("curse.maven:jei-238222:5846880")
     implementation("curse.maven:jade-324717:5591256-deobf-sources-api")
 
-    implementation("curse.maven:ecliptic-seasons-1118306:5828120")
+    compileOnly("curse.maven:ecliptic-seasons-1118306:6062861")
 
     compileOnly("curse.maven:irisshaders-455508:5910090")
 

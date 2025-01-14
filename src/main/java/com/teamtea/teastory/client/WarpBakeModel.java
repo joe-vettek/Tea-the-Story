@@ -83,19 +83,18 @@ public class WarpBakeModel implements IDynamicBakedModel {
                 bakedQuads.set(i, new BakedQuadRetextured(bakedQuads.get(i), cache));
             }
             if (state != null && side == null && state.getBlock() instanceof TrellisWithVineBlock) {
-                if (state.getValue(TrellisBlock.EAST) || state.getValue(TrellisBlock.WEST) || state.getValue(TrellisBlock.SOUTH) || state.getValue(TrellisBlock.NORTH)) {
+                if (state.getValue(TrellisBlock.EAST)
+                        || state.getValue(TrellisBlock.WEST)
+                        || state.getValue(TrellisBlock.SOUTH)
+                        || state.getValue(TrellisBlock.NORTH)) {
                     bakedQuads.addAll(Minecraft.getInstance().getModelManager().getModel(grape_leaves_on_beam).getQuads(null, null, rand));
                 }
                 if (state.getValue(TrellisBlock.POST)) {
-                    int age = 0;
-                    try {
-                        age = extraData.get(VineBlockEntity.AGE_PROPERTY);
-                    } catch (Exception e) {
-                    }
+                    int age = extraData.get(VineBlockEntity.AGE_PROPERTY) instanceof Integer integer ? integer : 0;
                     List<BakedQuad> bakedQuads1 = grapes.get(age).getQuads(null, null, rand);
                     // bakedQuads1 = QuadTransformers.applying(new Transformation(new Vector3f(0.5f, 0.5f, 0.5f), new Quaternionf(), new Vector3f(0.625f, 0.625f, 0.625f), new Quaternionf())).process(bakedQuads1);
+                    // net.neoforged.neoforge.client.model.QuadTransformers.applyingLightmap()
                     bakedQuads.addAll(bakedQuads1);
-
                 }
             }
         }
@@ -125,32 +124,25 @@ public class WarpBakeModel implements IDynamicBakedModel {
     }
 
     @Override
-    public TextureAtlasSprite getParticleIcon() {
+    public @NotNull TextureAtlasSprite getParticleIcon() {
         return cache == null ? bakedModel.getParticleIcon() : cache;
     }
 
     @Override
-    public ItemOverrides getOverrides() {
+    public @NotNull ItemOverrides getOverrides() {
         // return bakedModel.getOverrides();
         return itemOverrides;
     }
 
-    @Override
-    public @NotNull ModelData getModelData(@NotNull BlockAndTintGetter level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull ModelData modelData) {
-        if (level.getBlockEntity(pos) instanceof VineBlockEntity vineEntity)
-            return modelData.derive().with(VineBlockEntity.AGE_PROPERTY, vineEntity.getAge()).build();
-        return modelData;
-    }
+    // @Override
+    // public @NotNull ModelData getModelData(@NotNull BlockAndTintGetter level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull ModelData modelData) {
+    //     if (level.getBlockEntity(pos) instanceof VineBlockEntity vineEntity)
+    //         return modelData.derive().with(VineBlockEntity.AGE_PROPERTY, vineEntity.getAge()).build();
+    //     return modelData;
+    // }
 
     @Override
     public BakedModel applyTransform(ItemDisplayContext transformType, PoseStack poseStack, boolean applyLeftHandTransform) {
-
-        // return bakedModel.applyTransform(transformType, poseStack, applyLeftHandTransform);
-        // this.getTransforms().getTransform(transformType).apply(applyLeftHandTransform, poseStack);
-
-        // poseStack.translate(0.9375F, 0.21875F, 0F);
-        // poseStack.mulPose(XYZ.deg_to_rad(30, 45, 0 ));
-        // poseStack.scale(0.75f, 0.75f, 0.75f);
         bakedModel.getTransforms().getTransform(transformType).apply(applyLeftHandTransform, poseStack);
         return this;
     }

@@ -2,6 +2,7 @@ package com.teamtea.teastory.blockentity;
 
 import com.teamtea.teastory.client.container.DrinkMakerContainer;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidActionResult;
@@ -128,9 +129,10 @@ public class DrinkMakerBlockEntity extends NormalContainerTileEntity {
                         }
                         if (blockEntity.containerInventory != null) {
                             var con = blockEntity.containerInventory;
-                            if (con.getStackInSlot(0).getItem().getCraftingRemainingItem() == Items.BUCKET) {
-                                con.setStackInSlot(0, blockEntity.currentRecipe.getFluidResult().getBucket().getDefaultInstance());
-                            } else {
+                            // if (con.getStackInSlot(0).getItem().getCraftingRemainingItem() == Items.BUCKET) {
+                            //     con.setStackInSlot(0, blockEntity.currentRecipe.getFluidResult().getBucket().getDefaultInstance());
+                            // } else
+                            {
                                 var f = new FluidStack(blockEntity.currentRecipe.getFluidResult(), blockEntity.getFluidAmount());
                                 ItemStack container = fluidHandler.getContainer();
                                 container
@@ -141,7 +143,7 @@ public class DrinkMakerBlockEntity extends NormalContainerTileEntity {
 
                                 container.getCapability(Capabilities.FluidHandler.ITEM)
                                         .fill(f, IFluidHandler.FluidAction.EXECUTE);
-                                blockEntity.containerInventory.setStackInSlot(0,container);
+                                blockEntity.containerInventory.setStackInSlot(0, container);
                             }
                         }
                         blockEntity.setToZero();
@@ -198,8 +200,9 @@ public class DrinkMakerBlockEntity extends NormalContainerTileEntity {
 
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                // return !(stack.getItem() instanceof BucketItem);
-                return FluidUtil.getFluidHandler(stack).isPresent();
+                return !(stack.getItem() instanceof BucketItem)
+                        && FluidUtil.getFluidHandler(stack).isPresent();
+                // return FluidUtil.getFluidHandler(stack).isPresent();
             }
         };
     }

@@ -31,6 +31,7 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 import net.neoforged.neoforge.client.gui.CreativeTabsScreenPage;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
+import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
@@ -98,6 +99,11 @@ public class ModContent {
     public static void onRegisterEntityAttribute(EntityAttributeCreationEvent event) {
         // event.put(EntityTypeRegistry.SCARECROW_TYPE.get(), DefaultAttributes.getSupplier(EntityType.ARMOR_STAND));
         event.put(EntityRegister.SCARECROW_TYPE.get(), LivingEntity.createLivingAttributes().build());
+    }
+
+    @SubscribeEvent
+    public static void onRegisterEntityAttribute(BlockEntityTypeAddBlocksEvent event) {
+       event.modify(BlockEntityType.CAMPFIRE);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
