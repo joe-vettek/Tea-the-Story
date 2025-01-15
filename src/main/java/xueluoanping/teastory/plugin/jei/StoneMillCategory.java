@@ -13,7 +13,7 @@ import net.minecraft.network.chat.Component;
 import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.registry.BlockEntityRegister;
 
-
+@SuppressWarnings("removal")
 public class StoneMillCategory implements IRecipeCategory<StoneMillRecipe> {
     private final IDrawable icon;
     private final IGuiHelper guiHelper;

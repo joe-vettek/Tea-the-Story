@@ -18,7 +18,7 @@ import net.minecraftforge.fluids.FluidStack;
 import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.registry.BlockEntityRegister;
 
-
+@SuppressWarnings("removal")
 public class DrinkMakerCategory implements IRecipeCategory<DrinkRecipe>
 {
     private final IDrawable icon;

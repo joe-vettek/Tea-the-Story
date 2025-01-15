@@ -21,6 +21,7 @@ import xueluoanping.teastory.TeaStory;
 
 import java.util.Collections;
 
+@SuppressWarnings("removal")
 public class BambooTraySingleInCategory<T extends BambooTraySingleInRecipe> implements IRecipeCategory<T> {
     private final RecipeType<T> uid;
     private final IDrawable icon;

@@ -377,6 +377,8 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock, B
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+        if( BlockEntityRegister.VINE_TYPE==null)
+            return null;
         return BlockEntityRegister.VINE_TYPE.get().create(pPos, pState);
     }
 
