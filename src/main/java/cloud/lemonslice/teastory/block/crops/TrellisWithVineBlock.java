@@ -218,7 +218,9 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock, B
         }
         return false;
     }
-
+    public VineType getVineType() {
+        return type;
+    }
     @Override
     @SuppressWarnings("deprecation")
     public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {

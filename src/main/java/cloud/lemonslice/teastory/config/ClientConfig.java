@@ -1,6 +1,7 @@
 package cloud.lemonslice.teastory.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
+import xueluoanping.teastory.plugin.CompatManager;
 
 public class ClientConfig
 {
@@ -9,6 +10,7 @@ public class ClientConfig
     {
         GUI.load(builder);
         Renderer.load(builder);
+        CompatManager.initConfig(builder,false);
     }
 
     public static class GUI

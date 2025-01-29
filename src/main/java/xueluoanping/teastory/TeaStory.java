@@ -16,6 +16,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xueluoanping.teastory.data.start;
+import xueluoanping.teastory.plugin.CompatManager;
 import xueluoanping.teastory.registry.*;
 
 import java.util.List;
@@ -105,6 +106,9 @@ public class TeaStory {
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, NormalConfigs.SERVER_CONFIG);
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, NormalConfigs.CLIENT_CONFIG);
+
+
+        CompatManager.init( FMLJavaModLoadingContext.get().getModEventBus());
     }
 
 

@@ -1,6 +1,7 @@
 package cloud.lemonslice.teastory.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
+import xueluoanping.teastory.plugin.CompatManager;
 
 public class ServerConfig
 {
@@ -11,6 +12,7 @@ public class ServerConfig
         Temperature.load(builder);
         Season.load(builder);
         Others.load(builder);
+        CompatManager.initConfig(builder,true);
     }
 
     public static class BlockConfig

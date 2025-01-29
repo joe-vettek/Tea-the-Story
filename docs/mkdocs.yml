@@ -1,9 +1,9 @@
-site_name: Ecliptic Seasons
+site_name: Tea the Story
 site_url: https://example.com
-site_description: A documentation for Ecliptic Seasons project
+site_description: A documentation for Tea the Story project
 site_author: jianzoushihu
-repo_url: https://github.com/joe-vettek/Ecliptic-Seasons
-repo_name: Ecliptic Seasons
+repo_url: https://github.com/joe-vettek/Tea-the-Story
+repo_name: Tea the Story
 
 theme:
   name: 'material'
@@ -16,6 +16,7 @@ nav:
           - Index: 'en/index.md'
       - 中文:
           - 首页: 'zh/index.md'
+          - 游玩: 'zh/play.md'
 
 
 markdown_extensions:
