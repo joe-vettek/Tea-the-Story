@@ -54,6 +54,7 @@ import xueluoanping.teastory.resource.ClientModFilePackResources;
 import xueluoanping.teastory.variant.Planks;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -157,6 +158,8 @@ public class ClientSetup {
 
         // TeaStory.logger(OAK_TRELLIS_MODEL);
         TeaStory.logger("Minecraft loading all the models with " + modelRegistry.entrySet().size());
+        TeaStory.logger("Minecraft loading all real models with " + new HashSet<>(modelRegistry.values()).size());
+
         var state = BlockRegister.OAK_TRELLIS.get().defaultBlockState();
 
 

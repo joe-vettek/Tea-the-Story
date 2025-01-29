@@ -1,0 +1,45 @@
+site_name: Ecliptic Seasons
+site_url: https://example.com
+site_description: A documentation for Ecliptic Seasons project
+site_author: jianzoushihu
+repo_url: https://github.com/joe-vettek/Ecliptic-Seasons
+repo_name: Ecliptic Seasons
+
+theme:
+  name: 'material'
+  language: 'en'
+
+
+nav:
+  - Home:
+      - English:
+          - Index: 'en/index.md'
+      - 中文:
+          - 首页: 'zh/index.md'
+
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - admonition
+
+extra_css:
+  - _static/css/custom.css
+extra_javascript:
+  - _static/js/custom.js
+
+docs_dir: 'source'
+
+extra:
+  static_path: [ '[_static]' ]
+  alternate:
+    - name: English
+      link: /en/latest/en/
+      lang: en
+    - name: 中文
+      link: /en/latest/zh/
+      lang: zh
+plugins:
+  - search
+
+
