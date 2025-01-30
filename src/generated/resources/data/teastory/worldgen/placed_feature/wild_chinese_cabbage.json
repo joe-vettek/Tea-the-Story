@@ -2,12 +2,8 @@
   "feature": "teastory:wild_chinese_cabbage",
   "placement": [
     {
-      "type": "minecraft:count",
-      "count": 4
-    },
-    {
       "type": "minecraft:rarity_filter",
-      "chance": 28
+      "chance": 20
     },
     {
       "type": "minecraft:in_square"

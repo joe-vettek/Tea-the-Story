@@ -2,12 +2,8 @@
   "feature": "teastory:wild_cucumber",
   "placement": [
     {
-      "type": "minecraft:count",
-      "count": 2
-    },
-    {
       "type": "minecraft:rarity_filter",
-      "chance": 42
+      "chance": 20
     },
     {
       "type": "minecraft:in_square"

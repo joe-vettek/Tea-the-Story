@@ -42,16 +42,16 @@
                 ]
               },
               {
-                "type": "minecraft:matching_blocks",
-                "blocks": "minecraft:grass_block"
+                "type": "minecraft:matching_block_tag",
+                "tag": "minecraft:dirt"
               }
             ]
           }
         }
       ]
     },
-    "tries": 4,
-    "xz_spread": 4,
+    "tries": 8,
+    "xz_spread": 6,
     "y_spread": 3
   }
 }

@@ -2,12 +2,8 @@
   "feature": "teastory:wild_rice",
   "placement": [
     {
-      "type": "minecraft:count",
-      "count": 2
-    },
-    {
       "type": "minecraft:rarity_filter",
-      "chance": 24
+      "chance": 15
     },
     {
       "type": "minecraft:in_square"
