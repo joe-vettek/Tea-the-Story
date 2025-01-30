@@ -16,6 +16,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -65,62 +66,63 @@ public class TeapotItem extends BlockItem
     //
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn)
-    {
-        if (canFillWater)
-        {
+    public InteractionResult useOn(UseOnContext pContext) {
+        Level worldIn = pContext.getLevel();
+        if (canFillWater) {
+            Player playerIn = pContext.getPlayer();
+            InteractionHand handIn = pContext.getHand();
+
             ItemStack itemStack = playerIn.getItemInHand(handIn);
             HitResult raytraceresult = getPlayerPOVHitResult(worldIn, playerIn, ClipContext.Fluid.SOURCE_ONLY);
 
-            if (raytraceresult.getType() == HitResult.Type.MISS)
-            {
-                return new InteractionResultHolder<>(InteractionResult.PASS, itemStack);
-            }
-            else if (raytraceresult.getType() != HitResult.Type.BLOCK)
-            {
-                return new InteractionResultHolder<>(InteractionResult.PASS, itemStack);
-            }
-            else
-            {
-                BlockHitResult blockraytraceresult = (BlockHitResult) raytraceresult;
-                BlockPos blockpos = blockraytraceresult.getBlockPos();
-                if (worldIn.mayInteract(playerIn, blockpos) && playerIn.mayUseItemAt(blockpos, blockraytraceresult.getDirection(), itemStack))
-                {
-                    BlockState blockstate1 = worldIn.getBlockState(blockpos);
-                    if (blockstate1.getBlock() instanceof LiquidBlock)
-                    {
-                        Fluid fluid = ((LiquidBlock) blockstate1.getBlock()).getFluid();
-                        if (fluid != Fluids.EMPTY && fluid.is(FluidTags.WATER))
-                        {
-                            ((LiquidBlock) blockstate1.getBlock()).pickupBlock(worldIn, blockpos, blockstate1);
-                            playerIn.awardStat(Stats.ITEM_USED.get(this));
 
-                            SoundEvent soundevent = SoundEvents.BOTTLE_FILL;
-                            playerIn.playSound(soundevent, 1.0F, 1.0F);
+            if (raytraceresult.getType() == HitResult.Type.BLOCK
+                    && raytraceresult instanceof BlockHitResult blockHitResult) {
+                BlockPos blockpos = blockHitResult.getBlockPos();
+                if (worldIn.getFluidState(blockpos).isSource()) {
+                    var resultItem = FluidUtil.tryPickUpFluid(itemStack, playerIn, worldIn, blockpos, blockHitResult.getDirection()).getResult();
+                    if(!resultItem.isEmpty()) {
 
-                            if (!playerIn.isCreative())
-                            {
-                                ItemStack itemStack1 = new ItemStack(this);
-                                CompoundTag fluidTag = new CompoundTag();
-                                new FluidStack(fluid, capacity).writeToNBT(fluidTag);
-                                itemStack1.getOrCreateTag().put(FLUID_NBT_KEY, fluidTag);
-                                ItemHandlerHelper.giveItemToPlayer(playerIn, itemStack1);
+                        playerIn.awardStat(Stats.ITEM_USED.get(this));
+                        SoundEvent soundevent = SoundEvents.BOTTLE_FILL;
+                        playerIn.playSound(soundevent, 1.0F, 1.0F);
 
-                                itemStack.shrink(1);
-                            }
-
-                            return new InteractionResultHolder<>(InteractionResult.SUCCESS, itemStack);
-                        }
+                        playerIn.setItemInHand(handIn, resultItem);
+                        return InteractionResult.sidedSuccess(worldIn.isClientSide());
+                    }else {
+                        return InteractionResult.CONSUME_PARTIAL;
                     }
-                    return new InteractionResultHolder<>(InteractionResult.FAIL, itemStack);
+
                 }
-                else
-                {
-                    return new InteractionResultHolder<>(InteractionResult.FAIL, itemStack);
-                }
+                // if (worldIn.mayInteract(playerIn, blockpos) && playerIn.mayUseItemAt(blockpos, blockHitResult.getDirection(), itemStack)) {
+                //     BlockState state = worldIn.getBlockState(blockpos);
+                //     if (state.getBlock() instanceof LiquidBlock liquidBlock) {
+                //         Fluid fluid = liquidBlock.fluid.getSource();
+                //         if (fluid != Fluids.EMPTY && fluid.is(FluidTags.WATER)) {
+                //             // liquidBlock.pickupBlock(playerIn, worldIn, blockpos, state);
+                //
+                //             playerIn.awardStat(Stats.ITEM_USED.get(this));
+                //             SoundEvent soundevent = SoundEvents.BOTTLE_FILL;
+                //             playerIn.playSound(soundevent, 1.0F, 1.0F);
+                //
+                //             if (!playerIn.isCreative()) {
+                //                 // ItemStack stack = new ItemStack(this);
+                //                 // stack.set(ModCapabilities.SIMPLE_FLUID, SimpleFluidContent.copyOf(new FluidStack(fluid, FluidType.BUCKET_VOLUME)));
+                //                 FluidUtil.tryPickUpFluid(itemStack,playerIn,worldIn,blockpos,blockHitResult.getDirection());
+                //                 // ItemHandlerHelper.giveItemToPlayer(playerIn, stack);
+                //                 // itemStack.shrink(1);
+                //             }
+                //             FluidUtil.tryPickUpFluid(itemStack,playerIn,worldIn,blockpos,blockHitResult.getDirection());
+                //
+                //             return InteractionResult.SUCCESS;
+                //         }
+                //     }
+                //
+                // }
+                //
             }
         }
-        else return super.use(worldIn, playerIn, handIn);
+        return super.useOn(pContext);
     }
 
 

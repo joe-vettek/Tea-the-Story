@@ -88,8 +88,7 @@ public class BambooTrayBlock extends Block implements EntityBlock {
 
     @Override
     public void onRemove(BlockState blockState, Level worldIn, BlockPos pos, BlockState pNewState, boolean isMoving) {
-        if ( pNewState.getBlock() != this)
-        {
+        if (pNewState.getBlock() != this) {
             dropItems(worldIn, pos);
         }
         super.onRemove(blockState, worldIn, pos, pNewState, isMoving);
@@ -161,7 +160,7 @@ public class BambooTrayBlock extends Block implements EntityBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level worldIn, BlockState state, BlockEntityType<T> blockEntityType) {
         // return !worldIn.isClientSide ?
-           return      NormalHorizontalBlock.createTickerHelper(blockEntityType, BlockEntityRegister.BAMBOO_TRAY_TYPE.get(), BambooTrayBlockEntity::tick) ;
+        return NormalHorizontalBlock.createTickerHelper(blockEntityType, BlockEntityRegister.BAMBOO_TRAY_TYPE.get(), BambooTrayBlockEntity::tick);
     }
 
 }

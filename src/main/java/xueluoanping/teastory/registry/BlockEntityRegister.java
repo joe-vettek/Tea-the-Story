@@ -44,10 +44,10 @@ public class BlockEntityRegister {
 
 
     public static RegistryObject<Block> BAMBOO_TRAY = ModBlocks.register("bamboo_tray", () -> new BambooTrayBlock(Block.Properties.copy(Blocks.BAMBOO).strength(0.5F).noOcclusion().offsetType(BlockBehaviour.OffsetType.NONE)));
-    public static RegistryObject<Block> STONE_CATAPULT_BOARD_WITH_TRAY = ModBlocks.register("stone_catapult_board_with_tray", () -> new CatapultBoardBlockWithTray(Block.Properties.copy(Blocks.STONE).sound(SoundType.BAMBOO).strength(1.0F).noOcclusion()));
+    public static RegistryObject<Block> STONE_CATAPULT_BOARD_WITH_TRAY = ModBlocks.register("stone_catapult_board_with_tray", () -> new CatapultBoardBlockWithTray(Block.Properties.copy(Blocks.STONE).sound(SoundType.BAMBOO).strength(1.0F).noOcclusion().isRedstoneConductor((s, l, p) -> (!s.getValue(CatapultBoardBlockWithTray.ENABLED)))));
     public static RegistryObject<Item> BAMBOO_TRAY_ITEM = ModItems.register("bamboo_tray", () -> new BlockItem(BAMBOO_TRAY.get(), new Item.Properties()));
     public static RegistryObject<BlockEntityType<BambooTrayBlockEntity>> BAMBOO_TRAY_TYPE = DRBlockEntities.register("bamboo_tray",
-            () -> BlockEntityType.Builder.of(BambooTrayBlockEntity::new, BAMBOO_TRAY.get(),STONE_CATAPULT_BOARD_WITH_TRAY.get()).build(null));
+            () -> BlockEntityType.Builder.of(BambooTrayBlockEntity::new, BAMBOO_TRAY.get(), STONE_CATAPULT_BOARD_WITH_TRAY.get()).build(null));
     public static RegistryObject<MenuType<BambooTrayContainer>> BAMBOO_TRAY_CONTAINER = DRMenuType.register("bamboo_tray", () -> IForgeMenuType.create(BambooTrayContainer::new));
 
 

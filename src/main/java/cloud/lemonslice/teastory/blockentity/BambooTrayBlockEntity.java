@@ -130,6 +130,7 @@ public class BambooTrayBlockEntity extends NormalContainerBlockEntity {
                 this.containerInventory.ifPresent(inv ->
                         inv.setStackInSlot(0, output));
                 this.processTicks = 0;
+
                 if (this.getBlockState().getBlock() instanceof CatapultBoardBlockWithTray && getLevel().getBlockState(getBlockPos()).isRedstoneConductor(getLevel(),getBlockPos())) {
                     level.setBlockAndUpdate(getBlockPos(), this.getBlockState().setValue(CatapultBoardBlockWithTray.ENABLED, true));
                     CatapultBoardBlockWithTray.shoot(getLevel(), getBlockPos());
