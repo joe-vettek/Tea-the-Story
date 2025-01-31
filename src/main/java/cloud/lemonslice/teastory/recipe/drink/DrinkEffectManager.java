@@ -72,8 +72,10 @@ public final class DrinkEffectManager {
         List<DrinkEffectAttribute> drinkEffectAttributes = new ArrayList<>();
         for (Map.Entry<ResourceKey<DrinkEffect>, DrinkEffect> entry : drinkEffects.entrySet()) {
             FluidStack fluidStack = entry.getValue().fluidStack();
-            if (fluidStack.isFluidEqual(fluid) && fluidStack.getAmount() <= fluid.getAmount()) {
-                int mul = fluidStack.getAmount() / fluid.getAmount();
+            if (fluidStack.isFluidEqual(fluid)
+                    && fluidStack.getAmount() > 0
+                    && fluidStack.getAmount() <= fluid.getAmount()) {
+                int mul = fluid.getAmount() / fluidStack.getAmount();
                 if (mul > 1) {
                     for (DrinkEffectAttribute drinkEffectAttribute : entry.getValue().drinkEffectAttribute()) {
                         drinkEffectAttributes.add(new DrinkEffectAttribute(drinkEffectAttribute.getPotion(), drinkEffectAttribute.getDuration() * mul, drinkEffectAttribute.getLevel()));

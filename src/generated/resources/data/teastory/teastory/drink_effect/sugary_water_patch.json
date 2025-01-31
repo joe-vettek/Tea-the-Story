@@ -7,7 +7,7 @@
     }
   ],
   "fluid": {
-    "Amount": 500,
+    "Amount": 250,
     "FluidName": "teastory:sugary_water"
   }
 }

@@ -24,7 +24,7 @@ public class DrinkRegistry {
     }
 
     private static ResourceKey<DrinkEffect> createKey(ResourceLocation name) {
-        return ResourceKey.create(DRINK_EFFECT, name);
+        return ResourceKey.create(DRINK_EFFECT, name.withSuffix("_patch"));
     }
 
     public static DrinkEffectAttribute createSimpleDrinkEffect(MobEffect potionIn, int durationIn, int level) {
