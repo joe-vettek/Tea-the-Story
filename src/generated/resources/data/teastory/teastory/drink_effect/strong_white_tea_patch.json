@@ -2,13 +2,13 @@
   "effects": [
     {
       "duration": 2,
-      "level": 2,
-      "potion": "minecraft:haste"
+      "id": "minecraft:haste",
+      "level": 2
     },
     {
       "duration": 4,
-      "level": 4,
-      "potion": "teastory:excitement"
+      "id": "teastory:excitement",
+      "level": 4
     }
   ],
   "fluid": {

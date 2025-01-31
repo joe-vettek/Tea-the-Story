@@ -23,8 +23,8 @@
       // 效果持续时间
       "level": 2,
       // 效果等级
-      "potion": "minecraft:speed"
-      // 药水效果ID
+      "id": "minecraft:speed"
+      // 效果ID
     }
   ]
 }
@@ -46,8 +46,8 @@
       // 效果持续时间
       "level": 2,
       // 效果等级
-      "potion": "minecraft:speed"
-      // 药水效果ID
+      "id": "minecraft:speed"
+      // 效果ID
     }
   ]
 }

@@ -2,13 +2,13 @@
   "effects": [
     {
       "duration": 4,
-      "level": 4,
-      "potion": "minecraft:health_boost"
+      "id": "minecraft:health_boost",
+      "level": 4
     },
     {
       "duration": 4,
-      "level": 4,
-      "potion": "teastory:excitement"
+      "id": "teastory:excitement",
+      "level": 4
     }
   ],
   "fluid": {

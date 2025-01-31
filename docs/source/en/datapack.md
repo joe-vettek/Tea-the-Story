@@ -22,8 +22,8 @@ If the amount of tea consumed is greater than the requirement, the effect time w
       // Effect duration 
       "level": 2,
       // Effect level  
-      "potion": "minecraft:speed"
-      // Potion effect ID  
+      "id": "minecraft:speed"
+      // effect ID  
     }
   ]
 }  
@@ -46,8 +46,8 @@ recipe syntax.
       // Effect duration
       "level": 2,
       // Effect level  
-      "potion": "minecraft:speed"
-      // Potion effect ID  
+      "id": "minecraft:speed"
+      // effect ID  
     }
   ]
 }  
