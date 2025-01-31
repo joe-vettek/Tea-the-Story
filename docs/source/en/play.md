@@ -113,7 +113,7 @@ Start by boiling water in a kettle over a fire.
 Check JEI recipes for fluid ratios. For example:
 - A kettle with 2000mB (2 buckets) of boiling water requires **4+ green tea bags** to start brewing (500mB consumes 1 tea bag).
 
-![drink_maker_zh.png](../_static/resource/drink_maker_zh.png)
+![drink_maker_en.png](..%2F_static%2Fresource%2Fdrink_maker_en.png)
 
 ---
 
