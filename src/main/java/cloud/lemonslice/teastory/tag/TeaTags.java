@@ -13,38 +13,6 @@ import xueluoanping.teastory.TeaStory;
 
 public final class TeaTags {
     public static class Items {
-        public final static TagKey<Item> ARID = ItemTags.create(TeaStory.rl("crops/arid_arid"));
-        public final static TagKey<Item> ARID_DRY = ItemTags.create(TeaStory.rl("crops/arid_dry"));
-        public final static TagKey<Item> ARID_AVERAGE = ItemTags.create(TeaStory.rl("crops/arid_average"));
-        public final static TagKey<Item> ARID_MOIST = ItemTags.create(TeaStory.rl("crops/arid_moist"));
-        public final static TagKey<Item> ARID_HUMID = ItemTags.create(TeaStory.rl("crops/arid_humid"));
-        public final static TagKey<Item> DRY = ItemTags.create(TeaStory.rl("crops/dry_dry"));
-        public final static TagKey<Item> DRY_AVERAGE = ItemTags.create(TeaStory.rl("crops/dry_average"));
-        public final static TagKey<Item> DRY_MOIST = ItemTags.create(TeaStory.rl("crops/dry_moist"));
-        public final static TagKey<Item> DRY_HUMID = ItemTags.create(TeaStory.rl("crops/dry_humid"));
-        public final static TagKey<Item> AVERAGE = ItemTags.create(TeaStory.rl("crops/average_average"));
-        public final static TagKey<Item> AVERAGE_MOIST = ItemTags.create(TeaStory.rl("crops/average_moist"));
-        public final static TagKey<Item> AVERAGE_HUMID = ItemTags.create(TeaStory.rl("crops/average_humid"));
-        public final static TagKey<Item> MOIST = ItemTags.create(TeaStory.rl("crops/moist_moist"));
-        public final static TagKey<Item> MOIST_HUMID = ItemTags.create(TeaStory.rl("crops/moist_humid"));
-        public final static TagKey<Item> HUMID = ItemTags.create(TeaStory.rl("crops/humid_humid"));
-
-        public final static TagKey<Item> SPRING = ItemTags.create(TeaStory.rl("crops/spring"));
-        public final static TagKey<Item> SUMMER = ItemTags.create(TeaStory.rl("crops/summer"));
-        public final static TagKey<Item> AUTUMN = ItemTags.create(TeaStory.rl("crops/autumn"));
-        public final static TagKey<Item> WINTER = ItemTags.create(TeaStory.rl("crops/winter"));
-        public final static TagKey<Item> SP_SU = ItemTags.create(TeaStory.rl("crops/spring_summer"));
-        public final static TagKey<Item> SP_AU = ItemTags.create(TeaStory.rl("crops/spring_autumn"));
-        public final static TagKey<Item> SP_WI = ItemTags.create(TeaStory.rl("crops/spring_winter"));
-        public final static TagKey<Item> SU_AU = ItemTags.create(TeaStory.rl("crops/summer_autumn"));
-        public final static TagKey<Item> SU_WI = ItemTags.create(TeaStory.rl("crops/summer_winter"));
-        public final static TagKey<Item> AU_WI = ItemTags.create(TeaStory.rl("crops/autumn_winter"));
-        public final static TagKey<Item> SP_SU_AU = ItemTags.create(TeaStory.rl("crops/spring_summer_autumn"));
-        public final static TagKey<Item> SP_SU_WI = ItemTags.create(TeaStory.rl("crops/spring_summer_winter"));
-        public final static TagKey<Item> SP_AU_WI = ItemTags.create(TeaStory.rl("crops/spring_autumn_winter"));
-        public final static TagKey<Item> SU_AU_WI = ItemTags.create(TeaStory.rl("crops/summer_autumn_winter"));
-        public final static TagKey<Item> ALL_SEASONS = ItemTags.create(TeaStory.rl("crops/all_seasons"));
-
         public final static TagKey<Item> SEEDS_AGAVE = ItemTags.create(TeaStory.rl("forge", "seeds/agave"));
         public final static TagKey<Item> SEEDS_AMARANTH = ItemTags.create(TeaStory.rl("forge", "seeds/amaranth"));
         public final static TagKey<Item> SEEDS_ARROWROOT = ItemTags.create(TeaStory.rl("forge", "seeds/arrowroot"));

@@ -15,9 +15,11 @@ nav:
       - English:
           - Index: 'en/index.md'
           - Play: 'en/play.md'
+          - Datapack: 'en/datapack.md'
       - 中文:
           - 首页: 'zh/index.md'
           - 游玩: 'zh/play.md'
+          - 数据包: 'zh/datapack.md'
 
 
 markdown_extensions:
