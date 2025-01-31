@@ -1,0 +1,13 @@
+{
+  "effects": [
+    {
+      "duration": 2,
+      "level": 2,
+      "potion": "teastory:agility"
+    }
+  ],
+  "fluid": {
+    "Amount": 500,
+    "FluidName": "teastory:weak_green_tea"
+  }
+}

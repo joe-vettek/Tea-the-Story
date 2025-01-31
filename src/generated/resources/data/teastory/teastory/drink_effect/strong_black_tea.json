@@ -1,0 +1,18 @@
+{
+  "effects": [
+    {
+      "duration": 4,
+      "level": 4,
+      "potion": "minecraft:health_boost"
+    },
+    {
+      "duration": 8,
+      "level": 8,
+      "potion": "teastory:excitement"
+    }
+  ],
+  "fluid": {
+    "Amount": 250,
+    "FluidName": "teastory:strong_black_tea"
+  }
+}

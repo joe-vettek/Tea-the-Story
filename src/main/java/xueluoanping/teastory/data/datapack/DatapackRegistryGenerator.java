@@ -9,6 +9,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
 import net.minecraftforge.registries.ForgeRegistries;
 import xueluoanping.teastory.TeaStory;
+import xueluoanping.teastory.registry.DrinkRegistry;
 import xueluoanping.teastory.registry.ModBiomeFeatures;
 import xueluoanping.teastory.registry.ModBiomeModifiers;
 import xueluoanping.teastory.registry.ModDamageType;
@@ -24,6 +25,7 @@ public class DatapackRegistryGenerator extends DatapackBuiltinEntriesProvider {
             .add(Registries.PLACED_FEATURE, ModBiomeFeatures.TeaPlacedFeature::bootstrap)
             .add(Registries.DAMAGE_TYPE, ModDamageType::bootstrap)
             .add(ForgeRegistries.Keys.BIOME_MODIFIERS, ModBiomeModifiers::bootstrap)
+            .add(DrinkRegistry.DRINK_EFFECT, DrinkRegistry::bootstrap)
             ;
 
     public DatapackRegistryGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {

@@ -18,11 +18,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.DataPackRegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistry;
 import net.minecraftforge.registries.RegisterEvent;
@@ -30,6 +32,7 @@ import net.minecraftforge.server.ServerLifecycleHooks;
 import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.blockentity.VineBlockEntity;
 import xueluoanping.teastory.item.Citem;
+import xueluoanping.teastory.recipe.DrinkEffect;
 import xueluoanping.teastory.resource.ServerModFilePackResources;
 import xueluoanping.teastory.variant.Planks;
 
@@ -40,6 +43,11 @@ import java.util.Map;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModContent {
+
+    @SubscribeEvent
+    public static void onNewRegistry(DataPackRegistryEvent.NewRegistry event) {
+        event.dataPackRegistry(DrinkRegistry.DRINK_EFFECT, DrinkEffect.DIRECT_CODEC);
+    }
 
     @SubscribeEvent
     public static void creativeModeTabRegister(RegisterEvent event) {
