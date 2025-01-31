@@ -47,7 +47,7 @@ Cabbage and chili in Tea the Story follow standard farming mechanics, but other 
 Rice requires a complex planting process:
 1. Plant rice grains on farmland to obtain seedlings.
 2. Create a **rice paddy** by tilling farmland with an aqueduct shovel.
-3. Connect the paddy to water via aqueducts and plant seedlings in the flooded paddy.
+3. Connect the paddy to water via mossy aqueducts and plant seedlings in the flooded paddy.
 
 ![plant_rice.png](../_static/resource/plant_rice.png)
 
@@ -86,7 +86,7 @@ Check the GUI for real-time status. Note: More items in the tray increase proces
 
 ![bake_tea.png](../_static/resource/bake_tea.png)
 
-Place a tray on a launcher block to enable **automated ejection mode**.
+Place a tray on a catapult board to enable **automated ejection mode**.
 
 ![auto_make_tea.png](../_static/resource/auto_make_tea.png)
 
