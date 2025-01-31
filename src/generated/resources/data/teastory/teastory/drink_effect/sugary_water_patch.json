@@ -2,8 +2,8 @@
   "effects": [
     {
       "duration": 2,
-      "level": 2,
-      "potion": "minecraft:speed"
+      "id": "minecraft:speed",
+      "level": 2
     }
   ],
   "fluid": {

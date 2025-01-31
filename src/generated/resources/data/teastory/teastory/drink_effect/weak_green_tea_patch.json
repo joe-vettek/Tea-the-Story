@@ -2,8 +2,8 @@
   "effects": [
     {
       "duration": 2,
-      "level": 2,
-      "potion": "teastory:agility"
+      "id": "teastory:agility",
+      "level": 2
     }
   ],
   "fluid": {

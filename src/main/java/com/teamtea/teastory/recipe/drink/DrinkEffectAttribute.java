@@ -19,7 +19,7 @@ public class DrinkEffectAttribute {
     }
 
     public static final Codec<DrinkEffectAttribute> DIRECT_CODEC = RecordCodecBuilder.create(builder -> builder.group(
-                    BuiltInRegistries.MOB_EFFECT.holderByNameCodec().fieldOf("potion").forGetter(DrinkEffectAttribute::getPotion),
+                    BuiltInRegistries.MOB_EFFECT.holderByNameCodec().fieldOf("id").forGetter(DrinkEffectAttribute::getPotion),
                     Codec.INT.fieldOf("duration").forGetter(DrinkEffectAttribute::getDuration),
                     Codec.INT.fieldOf("level").forGetter(DrinkEffectAttribute::getDuration))
             .apply(builder, DrinkEffectAttribute::new));
