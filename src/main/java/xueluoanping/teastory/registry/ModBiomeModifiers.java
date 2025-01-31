@@ -73,18 +73,18 @@ public class ModBiomeModifiers {
                 HolderSet.direct(placedFeatureHolderGetter.getOrThrow(ModBiomeFeatures.TeaPlacedFeature.WILD_RICE)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
         context.register(WILD_CHILI, new AddFeaturesByFilterBiomeModifier(
-                new AndHolderSet<>(List.of(holderGetter.getOrThrow(Tags.Biomes.IS_WET_OVERWORLD), new OrHolderSet<>(List.of(holderGetter.getOrThrow(BiomeTags.IS_FOREST), holderGetter.getOrThrow(Tags.Biomes.IS_PLAINS))))),
+                new OrHolderSet<>(List.of(holderGetter.getOrThrow(BiomeTags.IS_JUNGLE), holderGetter.getOrThrow(Tags.Biomes.IS_WET_OVERWORLD))),
                 Optional.empty(),
                 Optional.of(0.35f),
                 Optional.empty(),
                 Optional.of(0.4f),
-                Optional.of(0.9f),
+                Optional.empty(),
                 HolderSet.direct(placedFeatureHolderGetter.getOrThrow(ModBiomeFeatures.TeaPlacedFeature.WILD_CHILI)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
         context.register(WILD_CHINESE_CABBAGE, new AddFeaturesByFilterBiomeModifier(
                 holderGetter.getOrThrow(Tags.Biomes.IS_COLD_OVERWORLD),
                 Optional.empty(),
-                Optional.of(0.0f),
+                Optional.empty(),
                 Optional.of(0.55f),
                 Optional.empty(),
                 Optional.empty(),
@@ -103,9 +103,9 @@ public class ModBiomeModifiers {
                 new OrHolderSet<>(List.of(holderGetter.getOrThrow(Tags.Biomes.IS_PLAINS), holderGetter.getOrThrow(BiomeTags.IS_FOREST))),
                 Optional.empty(),
                 Optional.of(0.15f),
-                Optional.of(0.95f),
+                Optional.of(0.97f),
                 Optional.of(0.4f),
-                Optional.of(0.9f),
+                Optional.of(0.95f),
                 HolderSet.direct(placedFeatureHolderGetter.getOrThrow(ModBiomeFeatures.TeaPlacedFeature.WILD_CUCUMBER)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
         context.register(WILD_BITTER_GOURD, new AddFeaturesByFilterBiomeModifier(
@@ -136,7 +136,7 @@ public class ModBiomeModifiers {
                 HolderSet.direct(placedFeatureHolderGetter.getOrThrow(ModBiomeFeatures.TeaPlacedFeature.GRASS_BLOCK_WITH_HOLE)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
         context.register(FLOWER_PATCH, new AddFeaturesByFilterBiomeModifier(
-                new OrHolderSet<>(List.of(HolderSet.direct(holderGetter.getOrThrow(Biomes.FLOWER_FOREST)),HolderSet.direct(holderGetter.getOrThrow(Biomes.MEADOW)))),
+                new OrHolderSet<>(List.of(HolderSet.direct(holderGetter.getOrThrow(Biomes.FLOWER_FOREST)), HolderSet.direct(holderGetter.getOrThrow(Biomes.MEADOW)))),
                 Optional.empty(),
                 Optional.of(0.0f),
                 Optional.empty(),

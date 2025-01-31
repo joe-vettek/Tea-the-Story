@@ -1,25 +1,13 @@
 {
   "type": "teastory:add_features_by_filter",
   "allowed_biomes": {
-    "type": "forge:and",
+    "type": "forge:or",
     "values": [
-      {
-        "type": "forge:or",
-        "values": [
-          "#forge:is_wet/overworld"
-        ]
-      },
-      {
-        "type": "forge:or",
-        "values": [
-          "#minecraft:is_forest",
-          "#forge:is_plains"
-        ]
-      }
+      "#minecraft:is_jungle",
+      "#forge:is_wet/overworld"
     ]
   },
   "features": "teastory:wild_chili",
-  "max_downfall": 0.9,
   "min_downfall": 0.4,
   "min_temperature": 0.35,
   "step": "vegetal_decoration"

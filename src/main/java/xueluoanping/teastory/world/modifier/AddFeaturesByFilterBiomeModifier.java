@@ -5,11 +5,14 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.common.world.ModifiableBiomeInfo;
+import xueluoanping.teastory.TeaStory;
+import xueluoanping.teastory.registry.ModBiomeFeatures;
 import xueluoanping.teastory.registry.ModBiomeModifiers;
 
 
@@ -44,6 +47,8 @@ public record AddFeaturesByFilterBiomeModifier(
             if (maximumDownfall.isPresent() && biome.value().getBaseTemperature() > maximumDownfall.get()) {
                 return;
             }
+            if(features().get(0).is(ModBiomeFeatures.TeaPlacedFeature.WILD_CUCUMBER))
+                TeaStory.logger(biome);
             BiomeGenerationSettingsBuilder generationSettings = builder.getGenerationSettings();
             this.features.forEach(holder -> generationSettings.addFeature(this.step, holder));
         }
