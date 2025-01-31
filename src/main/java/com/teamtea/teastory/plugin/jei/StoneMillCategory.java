@@ -13,7 +13,7 @@ import net.minecraft.network.chat.Component;
 import com.teamtea.teastory.TeaStory;
 import com.teamtea.teastory.registry.BlockEntityRegister;
 
-
+@SuppressWarnings("removal")
 public class StoneMillCategory implements IRecipeCategory<StoneMillRecipe> {
     private final IDrawable icon;
     private final IGuiHelper guiHelper;

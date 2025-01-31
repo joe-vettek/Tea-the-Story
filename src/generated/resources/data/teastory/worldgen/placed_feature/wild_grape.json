@@ -2,12 +2,8 @@
   "feature": "teastory:wild_grape",
   "placement": [
     {
-      "type": "minecraft:count",
-      "count": 3
-    },
-    {
       "type": "minecraft:rarity_filter",
-      "chance": 32
+      "chance": 18
     },
     {
       "type": "minecraft:in_square"

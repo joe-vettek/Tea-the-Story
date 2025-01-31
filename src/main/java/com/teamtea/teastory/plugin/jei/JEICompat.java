@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
+@SuppressWarnings("removal")
 @JeiPlugin
 public final class JEICompat implements IModPlugin {
     private static final ResourceLocation IN_RAIN = TeaStory.rl("bamboo_tray.mode.in_rain");

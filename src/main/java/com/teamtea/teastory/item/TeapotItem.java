@@ -1,6 +1,9 @@
 package com.teamtea.teastory.item;
 
 
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.item.context.UseOnContext;
 import net.neoforged.neoforge.fluids.*;
 import com.teamtea.teastory.tag.TeaTags;
@@ -52,6 +55,11 @@ public class TeapotItem extends BlockItem implements FluidContainerItem {
                 if (worldIn.getFluidState(blockpos).isSource()) {
                     var resultItem = FluidUtil.tryPickUpFluid(itemStack, playerIn, worldIn, blockpos, blockHitResult.getDirection()).getResult();
                     if(!resultItem.isEmpty()) {
+
+                        playerIn.awardStat(Stats.ITEM_USED.get(this));
+                        SoundEvent soundevent = SoundEvents.BOTTLE_FILL;
+                        playerIn.playSound(soundevent, 1.0F, 1.0F);
+
                         playerIn.setItemInHand(handIn, resultItem);
                         return InteractionResult.sidedSuccess(worldIn.isClientSide());
                     }else {

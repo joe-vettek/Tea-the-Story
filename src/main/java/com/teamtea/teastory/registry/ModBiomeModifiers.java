@@ -10,6 +10,7 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -22,6 +23,7 @@ import net.neoforged.neoforge.registries.holdersets.AndHolderSet;
 import net.neoforged.neoforge.registries.holdersets.OrHolderSet;
 
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -69,18 +71,18 @@ public class ModBiomeModifiers {
                 HolderSet.direct(placedFeatureHolderGetter.getOrThrow(ModBiomeFeatures.TeaPlacedFeature.WILD_RICE)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
         context.register(WILD_CHILI, new AddFeaturesByFilterBiomeModifier(
-                new AndHolderSet<>(holderGetter.getOrThrow(Tags.Biomes.IS_WET_OVERWORLD), new OrHolderSet<>(holderGetter.getOrThrow(Tags.Biomes.IS_FOREST), holderGetter.getOrThrow(Tags.Biomes.IS_PLAINS))),
+                new OrHolderSet<>(List.of(holderGetter.getOrThrow(BiomeTags.IS_JUNGLE), holderGetter.getOrThrow(Tags.Biomes.IS_WET_OVERWORLD))),
                 Optional.empty(),
                 Optional.of(0.35f),
                 Optional.empty(),
                 Optional.of(0.4f),
-                Optional.of(0.9f),
+                Optional.empty(),
                 HolderSet.direct(placedFeatureHolderGetter.getOrThrow(ModBiomeFeatures.TeaPlacedFeature.WILD_CHILI)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
         context.register(WILD_CHINESE_CABBAGE, new AddFeaturesByFilterBiomeModifier(
                 holderGetter.getOrThrow(Tags.Biomes.IS_COLD_OVERWORLD),
                 Optional.empty(),
-                Optional.of(0.0f),
+                Optional.empty(),
                 Optional.of(0.55f),
                 Optional.empty(),
                 Optional.empty(),
@@ -99,9 +101,9 @@ public class ModBiomeModifiers {
                 new OrHolderSet<>(holderGetter.getOrThrow(Tags.Biomes.IS_PLAINS), holderGetter.getOrThrow(Tags.Biomes.IS_FOREST)),
                 Optional.empty(),
                 Optional.of(0.15f),
-                Optional.of(0.95f),
+                Optional.of(0.97f),
                 Optional.of(0.4f),
-                Optional.of(0.9f),
+                Optional.of(0.95f),
                 HolderSet.direct(placedFeatureHolderGetter.getOrThrow(ModBiomeFeatures.TeaPlacedFeature.WILD_CUCUMBER)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
         context.register(WILD_BITTER_GOURD, new AddFeaturesByFilterBiomeModifier(

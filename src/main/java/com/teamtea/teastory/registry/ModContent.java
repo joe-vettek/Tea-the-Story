@@ -109,6 +109,7 @@ public class ModContent {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onRegisterForWood(RegisterEvent event) {
         // if(true)return;
+        // TODO：neoforge 不需要像1.20forge那样解封注册表，但我们需要时间
         if (event.getRegistryKey() == Registries.BLOCK) {
             Map<ResourceLocation, Block> resourceLocationBlockMap = new HashMap<>();
             for (var block : BuiltInRegistries.BLOCK.entrySet()) {

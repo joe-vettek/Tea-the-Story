@@ -21,6 +21,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -173,5 +175,12 @@ public class CatapultBoardBlockWithTray extends NormalHorizontalBlock implements
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
         return BlockEntityRegister.BAMBOO_TRAY_TYPE.get().create(pPos, pState);
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level worldIn, BlockState state, BlockEntityType<T> blockEntityType) {
+        // return !worldIn.isClientSide ?
+        return NormalHorizontalBlock.createTickerHelper(blockEntityType, BlockEntityRegister.BAMBOO_TRAY_TYPE.get(), BambooTrayBlockEntity::tick);
     }
 }

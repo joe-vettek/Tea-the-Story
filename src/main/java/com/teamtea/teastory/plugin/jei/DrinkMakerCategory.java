@@ -21,6 +21,7 @@ import com.teamtea.teastory.TeaStory;
 import com.teamtea.teastory.registry.BlockEntityRegister;
 
 
+@SuppressWarnings("removal")
 public class DrinkMakerCategory implements IRecipeCategory<DrinkRecipe>
 {
     private final IDrawable icon;
