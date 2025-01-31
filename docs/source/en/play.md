@@ -11,9 +11,9 @@ There are currently seven types of wild crops:
 - Wild Tea
 - Wild Grapes
 - Wild Cucumber
-- Wild Bitter Melon
+- Wild Bitter Ground
 - Wild Chili
-- Wild Cabbage
+- Wild Chinese Cabbage
 
 Wild rice typically grows near freshwater sources, while tea plants thrive in moist mountain biomes.
 
@@ -40,7 +40,7 @@ Use gravel to block water flow in aqueducts.
 
 ## Farming
 
-Cabbage and chili in Tea the Story follow standard farming mechanics, but other crops differ.
+Chinese cabbage and chili in Tea the Story follow standard farming mechanics, but other crops differ.
 
 ### Rice
 
