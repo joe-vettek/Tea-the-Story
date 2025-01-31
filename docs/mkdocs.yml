@@ -14,6 +14,7 @@ nav:
   - Home:
       - English:
           - Index: 'en/index.md'
+          - Play: 'en/play.md'
       - 中文:
           - 首页: 'zh/index.md'
           - 游玩: 'zh/play.md'
