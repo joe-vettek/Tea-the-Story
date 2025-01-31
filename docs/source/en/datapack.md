@@ -6,6 +6,7 @@ To improve flexibility, tea drink effects are now configurable via datapacks.
 The fluid in the teacup must have the `teastory:drink` tag to be recognized.
 Remove comments when using. The configuration consists of two parts: fluid matching and effect definitions.
 For tag matching, use "Tag", consistent with other recipe requirements.
+If the amount of tea consumed is greater than the requirement, the effect time will be extended by an integer multiple; if it is less than the requirem
 
 ```json5
 {
