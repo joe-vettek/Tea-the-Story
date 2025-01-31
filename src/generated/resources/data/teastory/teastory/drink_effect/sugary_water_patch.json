@@ -1,0 +1,13 @@
+{
+  "effects": [
+    {
+      "duration": 2,
+      "level": 2,
+      "potion": "minecraft:speed"
+    }
+  ],
+  "fluid": {
+    "amount": 250,
+    "id": "teastory:sugary_water"
+  }
+}

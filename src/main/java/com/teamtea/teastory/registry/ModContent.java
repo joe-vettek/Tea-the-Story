@@ -5,9 +5,9 @@ import com.teamtea.teastory.block.crops.TrellisBlock;
 import com.teamtea.teastory.block.crops.TrellisWithVineBlock;
 import com.teamtea.teastory.block.crops.VineInfoManager;
 import com.teamtea.teastory.block.crops.VineType;
+import com.teamtea.teastory.recipe.drink.DrinkEffect;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.core.Direction;
-import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -20,7 +20,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.EventPriority;
@@ -33,8 +32,7 @@ import net.neoforged.neoforge.client.gui.CreativeTabsScreenPage;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import com.teamtea.teastory.blockentity.VineBlockEntity;
 import com.teamtea.teastory.item.Citem;
@@ -46,6 +44,11 @@ import java.util.*;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 public class ModContent {
+
+    @SubscribeEvent
+    public static void onNewRegistry(DataPackRegistryEvent.NewRegistry event) {
+        event.dataPackRegistry(TeaStoryRegistries.DRINK_EFFECT, DrinkEffect.DIRECT_CODEC);
+    }
 
     /**
      * 我们需要的是改变一下{@link CreativeModeTab#getDisplayItems()}的输出。

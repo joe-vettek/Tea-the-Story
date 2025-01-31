@@ -2,6 +2,7 @@ package com.teamtea.teastory.item;
 
 
 import com.teamtea.teastory.recipe.drink.DrinkEffectManager;
+import com.teamtea.teastory.registry.TeaStoryRegistries;
 import com.teamtea.teastory.tag.TeaTags;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -94,7 +95,7 @@ public class CupDrinkItem extends Item implements FluidContainerItem {
             worldIn.playSound(null, entityLiving.getX(), entityLiving.getY(), entityLiving.getZ(), entityLiving.getEatingSound(stack), SoundSource.NEUTRAL, 1.0F, 1.0F + (worldIn.getRandom().nextFloat() - worldIn.getRandom().nextFloat()) * 0.4F);
             FluidUtil.getFluidContained(stack).ifPresent(handler ->
             {
-                BiConsumer<LivingEntity, Integer> action = DrinkEffectManager.getEffects(handler.getFluid());
+                BiConsumer<LivingEntity, Integer> action = DrinkEffectManager.getEffects(worldIn.registryAccess().registryOrThrow(TeaStoryRegistries.DRINK_EFFECT),handler);
                 if (action != null) {
                     action.accept(entityLiving, handler.getAmount());
                 } else if (entityLiving instanceof Player && handler.getFluid() != FluidRegister.BOILING_WATER_STILL.get()) {

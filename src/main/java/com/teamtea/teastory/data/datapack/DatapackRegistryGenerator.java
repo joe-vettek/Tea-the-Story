@@ -2,9 +2,7 @@ package com.teamtea.teastory.data.datapack;
 
 
 import com.teamtea.teastory.TeaStory;
-import com.teamtea.teastory.registry.ModBiomeFeatures;
-import com.teamtea.teastory.registry.ModBiomeModifiers;
-import com.teamtea.teastory.registry.ModDamageType;
+import com.teamtea.teastory.registry.*;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
@@ -23,6 +21,7 @@ public class DatapackRegistryGenerator extends DatapackBuiltinEntriesProvider {
             .add(Registries.PLACED_FEATURE, ModBiomeFeatures.TeaPlacedFeature::bootstrap)
             .add(Registries.DAMAGE_TYPE, ModDamageType::bootstrap)
             .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ModBiomeModifiers::bootstrap)
+            .add(TeaStoryRegistries.DRINK_EFFECT, DrinkRegistry::bootstrap)
             ;
 
     public DatapackRegistryGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {

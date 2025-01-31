@@ -1,0 +1,13 @@
+{
+  "effects": [
+    {
+      "duration": 4,
+      "level": 4,
+      "potion": "minecraft:health_boost"
+    }
+  ],
+  "fluid": {
+    "amount": 250,
+    "id": "teastory:weak_black_tea"
+  }
+}

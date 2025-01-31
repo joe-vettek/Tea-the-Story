@@ -1,0 +1,13 @@
+{
+  "effects": [
+    {
+      "duration": 2,
+      "level": 2,
+      "potion": "minecraft:haste"
+    }
+  ],
+  "fluid": {
+    "amount": 250,
+    "id": "teastory:weak_white_tea"
+  }
+}
