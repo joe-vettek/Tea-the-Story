@@ -104,7 +104,7 @@ public class ModBiomeFeatures {
                                             new NoiseProvider(
                                                     2345L,
                                                     new NormalNoise.NoiseParameters(0, 1.0),
-                                                    0.020833334F,
+                                                    0.0020833334F,
                                                     Stream.of(BlockRegister.CHRYSANTHEMUM, BlockRegister.HYACINTH, BlockRegister.ZINNIA)
                                                             .map(o -> {
                                                                 var state = o.get().defaultBlockState();
