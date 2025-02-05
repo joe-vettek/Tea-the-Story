@@ -209,10 +209,10 @@ dependencies {
     implementation fg.deobf("curse.maven:ecliptic-seasons-1118306:6134052")
 
     runtimeOnly fg.deobf("curse.maven:create-328085:4835191-deobf-sources-api")
-    onlyMainRuntimeOnly fg.deobf("curse.maven:embeddium-908741:4949986")
-    onlyMainRuntimeOnly fg.deobf("curse.maven:oculus-581495:4952626")
+    onlyMainRuntimeOnly fg.deobf("curse.maven:embeddium-908741:5681725")
+    onlyMainRuntimeOnly fg.deobf("curse.maven:oculus-581495:6020952")
 
-    compileOnly fg.deobf("curse.maven:oculus-581495:4952626")
+    compileOnly fg.deobf("curse.maven:oculus-581495:6020952")
 
     onlyMainRuntimeOnly fg.deobf("curse.maven:journeymap-32274:4873863")
 

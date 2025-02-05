@@ -1,9 +1,9 @@
 package xueluoanping.teastory.plugin.iris;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import net.coderbot.iris.Iris;
-import net.coderbot.iris.block_rendering.BlockRenderingSettings;
+import net.irisshaders.iris.Iris;
 import net.irisshaders.iris.api.v0.IrisApi;
+import net.irisshaders.iris.shaderpack.materialmap.WorldRenderingSettings;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
@@ -36,9 +36,9 @@ public class TSIrisPlugin {
                 // Iris.getCurrentPack().get().getIdMap().getBlockProperties().
                 if (IrisApi.getInstance().isShaderPackInUse()) {
 
-                    if (BlockRenderingSettings.INSTANCE.getBlockStateIds() != blockStateIds)
+                    if (WorldRenderingSettings.INSTANCE.getBlockStateIds() != blockStateIds)
                     {
-                        blockStateIds = BlockRenderingSettings.INSTANCE.getBlockStateIds();
+                        blockStateIds = WorldRenderingSettings.INSTANCE.getBlockStateIds();
                         if (blockStateIds != null) {
                             shaderpack = nowshaderpack;
                             simpleCopyAddGrassUpper(BlockRegister.ricePlant.get());

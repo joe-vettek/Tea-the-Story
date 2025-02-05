@@ -2,7 +2,7 @@ package xueluoanping.teastory.plugin;
 
 
 import com.teamtea.eclipticseasons.api.EclipticSeasonsApi;
-import net.coderbot.iris.Iris;
+import net.irisshaders.iris.Iris;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
