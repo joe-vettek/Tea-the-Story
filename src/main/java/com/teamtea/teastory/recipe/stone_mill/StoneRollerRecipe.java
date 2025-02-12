@@ -100,6 +100,7 @@ public class StoneRollerRecipe implements Recipe<RecipeWrapper> {
                         )
                         .apply(recipeInstance, StoneRollerRecipe::new)
         );
+
         public static final StreamCodec<RegistryFriendlyByteBuf, StoneRollerRecipe> streamCodec =
                 StreamCodec.of(StoneRollerRecipe.StoneRollerRecipeSerializer::toNetwork, StoneRollerRecipe.StoneRollerRecipeSerializer::fromNetwork);
 

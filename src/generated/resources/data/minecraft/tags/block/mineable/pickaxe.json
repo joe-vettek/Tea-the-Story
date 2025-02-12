@@ -7,6 +7,8 @@
     "teastory:saucepan",
     "teastory:stone_stove",
     "teastory:stone_roller",
-    "teastory:stone_mill"
+    "teastory:stone_mill",
+    "teastory:cobblestone_aqueduct",
+    "teastory:mossy_cobblestone_aqueduct"
   ]
 }
