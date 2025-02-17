@@ -43,7 +43,7 @@ public class ServerModFilePackResources extends AbstractPackResources {
         JsonObject jsonObject = new JsonObject();
         JsonObject pack = new JsonObject();
         pack.addProperty("description", "Tea the Story Auto");
-        pack.addProperty("pack_format", 9);
+        pack.addProperty("pack_format", 48);
         jsonObject.add("pack", pack);
         return getMetadataFromStream(pDeserializer, jsonObjectToIoSupplier(jsonObject).get());
     }

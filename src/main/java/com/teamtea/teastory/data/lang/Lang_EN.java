@@ -287,7 +287,7 @@ public class Lang_EN extends LangHelper {
         addDescription(TeaAdvancementGenerator.WASH_RICE, "Place the husked rice into a wooden bucket filled with clean water for washing.");
 
         addTittle(TeaAdvancementGenerator.COOK_RICE, "Cooking Rice");
-        addDescription(TeaAdvancementGenerator.COOK_RICE, "The cooking pot needs to be heated on a stove. First, add water, then rice, and finally cover it again.");
+        addDescription(TeaAdvancementGenerator.COOK_RICE, "The cooking pot needs to be heated on a stove. First, add rice, then water, and finally cover it again.");
 
         addTittle(TeaAdvancementGenerator.TEA_LEAVES, "Tea Leaf Picking");
         addDescription(TeaAdvancementGenerator.TEA_LEAVES, "Scissors can be used to cut tea leaves from the tea tree.");
