@@ -25,8 +25,8 @@ public final class TeaStoryBlockTagProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
-        tag(BlockTags.WOODEN_FENCES).add(BlockRegister.BAMBOO_LATTICE.get(),BlockRegister.DRIED_BAMBOO_WALL.get(),BlockRegister.DRIED_BAMBOO_WALL.get());
-        tag(BlockTags.WALLS).add(BlockRegister.DRIED_BAMBOO_WALL.get(),BlockRegister.DRIED_BAMBOO_WALL.get());
+        tag(BlockTags.WOODEN_FENCES).add(BlockRegister.BAMBOO_LATTICE.get(), BlockRegister.DRIED_BAMBOO_WALL.get(), BlockRegister.DRIED_BAMBOO_WALL.get());
+        tag(BlockTags.WALLS).add(BlockRegister.DRIED_BAMBOO_WALL.get(), BlockRegister.DRIED_BAMBOO_WALL.get());
 
         // BlockRegister.ModBlocks.getEntries().forEach(blockHolder -> {
         //     if (blockHolder.get() instanceof TrellisBlock) {
@@ -54,6 +54,15 @@ public final class TeaStoryBlockTagProvider extends BlockTagsProvider {
                 BlockRegister.saucepan.get(),
                 BlockEntityRegister.STONE_STOVE.get(),
                 BlockEntityRegister.STONE_ROLLER.get(),
-                BlockEntityRegister.STONE_MILL.get());
+                BlockEntityRegister.STONE_MILL.get(),
+                BlockRegister.cobblestoneAqueduct.get(),
+                BlockRegister.mossyCobblestoneAqueduct.get());
+
+        tag(BlockTags.MINEABLE_WITH_SHOVEL).add(
+                BlockRegister.dirtAqueduct.get()
+        );
+
+        tag(BlockTags.DIRT).add(BlockRegister.GRASS_BLOCK_WITH_HOLE.get());
+
     }
 }

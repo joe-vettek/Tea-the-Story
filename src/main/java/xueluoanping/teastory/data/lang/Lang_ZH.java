@@ -287,7 +287,7 @@ public class Lang_ZH extends LangHelper {
         addDescription(TeaAdvancementGenerator.WASH_RICE,"将褪去谷壳的大米丢入装了清水的木桶中进行清洗");
 
         addTittle(TeaAdvancementGenerator.COOK_RICE,"煮饭");
-        addDescription(TeaAdvancementGenerator.COOK_RICE,"煮锅需要下有炉子加热，然后先加水，后加米，最后重新盖上");
+        addDescription(TeaAdvancementGenerator.COOK_RICE,"煮锅需要下有炉子加热，然后先加米，后加水，最后重新盖上");
 
         addTittle(TeaAdvancementGenerator.TEA_LEAVES,"剪茶");
         addDescription(TeaAdvancementGenerator.TEA_LEAVES,"剪刀可以从茶树上剪下茶叶");

@@ -24,16 +24,7 @@ public class TSIrisPlugin {
             String nowshaderpack = Iris.getIrisConfig().getShaderPackName().orElse(null);
             // if (!Objects.equals(nowshaderpack, shaderpack))
             {
-                try {
-                    // List<BlockEntry> blockEntries = Iris.getCurrentPack().get().getIdMap().getBlockProperties().getOrDefault(10176,new ArrayList<>());
-                    // blockEntries=new ArrayList<>(blockEntries);
-                    // if(blockEntries.size()<20)
-                    // blockEntries.add(new BlockEntry(new NamespacedId(BlockRegister.WILD_GRAPE.getId().toString()),new HashMap<>()));
-                    // Iris.getCurrentPack().get().getIdMap().getBlockProperties().put(10176,blockEntries);
-                } catch (Exception e) {
 
-                }
-                // Iris.getCurrentPack().get().getIdMap().getBlockProperties().
                 if (IrisApi.getInstance().isShaderPackInUse()) {
 
                     if (WorldRenderingSettings.INSTANCE.getBlockStateIds() != blockStateIds)

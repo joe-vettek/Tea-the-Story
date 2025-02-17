@@ -43,7 +43,7 @@ public class ClientModFilePackResources extends AbstractPackResources {
         JsonObject jsonObject = new JsonObject();
         JsonObject pack = new JsonObject();
         pack.addProperty("description", "Tea the Story Auto Client");
-        pack.addProperty("pack_format", 9);
+        pack.addProperty("pack_format", 15);
         jsonObject.add("pack", pack);
         return getMetadataFromStream(pDeserializer, jsonObjectToIoSupplier(jsonObject).get());
     }

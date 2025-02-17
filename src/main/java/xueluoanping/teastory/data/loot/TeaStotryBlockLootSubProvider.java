@@ -216,6 +216,8 @@ public class TeaStotryBlockLootSubProvider extends BlockLootSubProvider {
         dropSelf(BlockEntityRegister.DIRT_STOVE.get());
         dropSelf(BlockEntityRegister.STONE_STOVE.get());
         dropSelf(BlockEntityRegister.WOODEN_TRAY.get());
+        dropSelf(BlockEntityRegister.WOODEN_BARREL.get());
+
 
         dropSelf(BlockRegister.WOODEN_FRAME.get());
         dropSelf(BlockRegister.BAMBOO_LANTERN.get());
