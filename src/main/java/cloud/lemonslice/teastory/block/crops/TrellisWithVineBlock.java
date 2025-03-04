@@ -13,10 +13,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
@@ -277,7 +274,10 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock, B
         } else if (facing == Direction.UP) {
             BlockPos posUp = pos.relative(facing);
             BlockState state = level.getBlockState(posUp);
-            stateIn = stateIn.setValue(UP, state.getBlock() instanceof TrellisWithVineBlock || state.is(BlockTags.WOODEN_FENCES) || state.isFaceSturdy(level, posUp, Direction.DOWN));
+            stateIn = stateIn.setValue(UP, state.getBlock() instanceof TrellisWithVineBlock || state.is(BlockTags.WOODEN_FENCES) || state.isFaceSturdy(level, posUp, Direction.DOWN)
+                    || state.getBlock() instanceof StandingSignBlock
+                    || state.getBlock() instanceof TorchBlock
+                    || state.getBlock() instanceof LanternBlock);
         }
         // if (true) return stateIn;
 
@@ -372,7 +372,7 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock, B
     static {
         VoxelShape TOP_SHAPE = VoxelShapeHelper.createVoxelShape(0.0D, 4.0D, 0.0D, 16.0D, 9.0D, 16.0D);
         VoxelShape POST_SHAPE = VoxelShapeHelper.createVoxelShape(6.0D, 0.0D, 6.0D, 4.0D, 12.0D, 4.0D);
-        VoxelShape POST_UP_SHAPE = VoxelShapeHelper.createVoxelShape(6.0D, 7.0D, 6.0D, 4.0D, 9.0D, 4.0D);
+        VoxelShape POST_UP_SHAPE = VoxelShapeHelper.createVoxelShape(6.0D, 12.0D, 6.0D, 4.0D, 4.0D, 4.0D);
         SHAPES = new VoxelShape[]{TOP_SHAPE, POST_UP_SHAPE, POST_SHAPE, Shapes.or(POST_UP_SHAPE, POST_SHAPE),
                 TOP_SHAPE, Shapes.or(TOP_SHAPE, POST_UP_SHAPE), Shapes.or(TOP_SHAPE, POST_SHAPE), Shapes.or(TOP_SHAPE, POST_UP_SHAPE, POST_SHAPE)};
     }

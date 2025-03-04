@@ -9,14 +9,21 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.StandingAndWallBlockItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -24,6 +31,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -32,7 +40,7 @@ import xueluoanping.teastory.variant.Planks;
 
 import java.util.List;
 
-public class TrellisBlock extends HorizontalConnectedBlock  implements SimpleWaterloggedBlock {
+public class TrellisBlock extends HorizontalConnectedBlock implements SimpleWaterloggedBlock {
     public static final BooleanProperty POST = BooleanProperty.create("post");
     public static final BooleanProperty UP = BlockStateProperties.UP;
     // public static final BooleanProperty HORIZONTAL = BooleanProperty.create("horizontal");
@@ -137,14 +145,57 @@ public class TrellisBlock extends HorizontalConnectedBlock  implements SimpleWat
         } else if (facing == Direction.UP) {
             BlockPos posUp = currentPos.relative(facing);
             BlockState state = worldIn.getBlockState(posUp);
-            stateIn = stateIn.setValue(UP, state.getBlock() instanceof TrellisBlock || state.is(BlockTags.WOODEN_FENCES) || state.isFaceSturdy(worldIn, posUp, Direction.DOWN));
+
+            stateIn = stateIn.setValue(UP, state.getBlock() instanceof TrellisBlock
+                    || state.is(BlockTags.WOODEN_FENCES)
+                    || state.isFaceSturdy(worldIn, posUp, Direction.DOWN) || state.getBlock() instanceof StandingSignBlock
+
+            );
         }
         return stateIn;
     }
+
+    @Override
+    public InteractionResult use(BlockState pState, Level level, BlockPos blockPos, Player player, InteractionHand pHand, BlockHitResult pHit) {
+        // if (!level.isClientSide())
+        if (
+                pState.getValue(POST) && !pState.getValue(UP) && ((int) (pHit.getLocation().y() * 100 % 100)) * 0.16 >= 12 &&
+                        player.getItemInHand(pHand).getItem() instanceof BlockItem blockItem) {
+            Block block = blockItem.getBlock();
+            if (block instanceof TorchBlock
+                    || block instanceof LanternBlock
+                    || block instanceof StandingSignBlock) {
+                if (!level.isClientSide()) {
+                    level.setBlockAndUpdate(blockPos, pState.setValue(UP, true));
+                    BlockState stateForPlacement = block.getStateForPlacement(new BlockPlaceContext(level, player, pHand, player.getItemInHand(pHand), pHit));
+                    BlockPos above = blockPos.above();
+                    if (stateForPlacement != null
+                            && stateForPlacement.canSurvive(level, above)) {
+                        level.setBlockAndUpdate(above, stateForPlacement);
+                        SoundType soundType1 = block.defaultBlockState().getSoundType(level, blockPos, player);
+                        level.playSound(null, above, soundType1.getPlaceSound(), SoundSource.BLOCKS, (soundType1.getVolume() + 1.0F) / 2.0F, soundType1.getPitch() * 0.8F);
+                        if (!player.isCreative())
+                            player.getItemInHand(pHand).shrink(1);
+                        if (block instanceof SignBlock && level.getBlockEntity(above) instanceof SignBlockEntity signblockentity) {
+                            SignBlock signblock = (SignBlock) block;
+                            signblock.openTextEdit(player, signblockentity, true);
+                        }
+                    } else {
+                        level.setBlockAndUpdate(blockPos, pState.setValue(UP, false));
+                    }
+                }
+
+                return InteractionResult.sidedSuccess(level.isClientSide);
+            }
+        }
+        return super.use(pState, level, blockPos, player, pHand, pHit);
+    }
+
     @Override
     public @NotNull FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
+
     @Override
     public boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos) {
         return true;
@@ -152,7 +203,7 @@ public class TrellisBlock extends HorizontalConnectedBlock  implements SimpleWat
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder.add(POST, UP,WATERLOGGED));
+        super.createBlockStateDefinition(builder.add(POST, UP, WATERLOGGED));
     }
 
 
@@ -184,7 +235,7 @@ public class TrellisBlock extends HorizontalConnectedBlock  implements SimpleWat
         VoxelShape TOP_EAST = VoxelShapeHelper.createVoxelShape(0.0D, 7.0D, 7.0D, 14.0D, 3.0D, 2.0D);
         VoxelShape TOP_WEST = VoxelShapeHelper.createVoxelShape(2.0D, 7.0D, 7.0D, 14.0D, 3.0D, 2.0D);
         VoxelShape POST_SHAPE = VoxelShapeHelper.createVoxelShape(6.0D, 0.0D, 6.0D, 4.0D, 12.0D, 4.0D);
-        VoxelShape POST_UP_SHAPE = VoxelShapeHelper.createVoxelShape(6.0D, 7.0D, 6.0D, 4.0D, 9.0D, 4.0D);
+        VoxelShape POST_UP_SHAPE = VoxelShapeHelper.createVoxelShape(6.0D, 12.0D, 6.0D, 4.0D, 4.0D, 4.0D);
         SHAPES = new VoxelShape[]{CENTER, POST_SHAPE, POST_UP_SHAPE, Shapes.or(POST_UP_SHAPE, POST_SHAPE),
                 TOP_WEST, Shapes.or(TOP_WEST, POST_SHAPE), Shapes.or(TOP_WEST, POST_UP_SHAPE), Shapes.or(TOP_WEST, POST_UP_SHAPE, POST_SHAPE),
                 TOP_EAST, Shapes.or(TOP_EAST, POST_SHAPE), Shapes.or(TOP_EAST, POST_UP_SHAPE), Shapes.or(TOP_EAST, POST_UP_SHAPE, POST_SHAPE),

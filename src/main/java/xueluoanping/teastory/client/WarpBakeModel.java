@@ -55,24 +55,26 @@ public class WarpBakeModel implements IDynamicBakedModel {
         // if (ll == null)
         List<BakedQuad> bakedQuads = new ArrayList<>();
         {
-            if (state == null) {
+            List<BakedQuad> bakedQuads2 = new ArrayList<>();
+            if (state == null)
+            {
                 if (side != null) return List.of();
-                bakedQuads = new ArrayList<>(bakedModel.getQuads(null, null, rand, extraData, renderType));
+                bakedQuads2 = new ArrayList<>(bakedModel.getQuads(null, null, rand, extraData, renderType));
                 for (Direction value : Direction.values()) {
-                    bakedQuads.addAll(bakedModel.getQuads(null, value, rand, extraData, renderType));
+                    bakedQuads2.addAll(bakedModel.getQuads(null, value, rand, extraData, renderType));
                 }
                 // stateListMap.put(null, bakedQuads);
-            } else {
-                bakedQuads = bakedModel.getQuads(state, side, rand, extraData, renderType);
+            }
+            else {
+                bakedQuads2 = bakedModel.getQuads(state, side, rand, extraData, renderType);
                 // stateListMap.put(state, bakedQuads);
             }
-            if (!(bakedQuads instanceof ArrayList)) {
-                bakedQuads = new ArrayList<>(bakedQuads);
+
+            bakedQuads = new ArrayList<>(bakedQuads2.size());
+            for (int i = 0; i < bakedQuads2.size(); i++) {
+                bakedQuads.add(new BakedQuadRetextured(bakedQuads2.get(i), cache));
             }
 
-            for (int i = 0; i < bakedQuads.size(); i++) {
-                bakedQuads.set(i, new BakedQuadRetextured(bakedQuads.get(i), cache));
-            }
             if (state != null && side == null && state.getBlock() instanceof TrellisWithVineBlock) {
                 if (state.getValue(TrellisBlock.EAST) || state.getValue(TrellisBlock.WEST) || state.getValue(TrellisBlock.SOUTH) || state.getValue(TrellisBlock.NORTH)) {
                     bakedQuads.addAll(Minecraft.getInstance().getModelManager().getModel(grape_leaves_on_beam).getQuads(null, null, rand));

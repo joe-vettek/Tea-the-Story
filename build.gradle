@@ -5,7 +5,7 @@ buildscript {
         maven { url = 'https://maven.parchmentmc.org' }
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '6.+', changing: true
         classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7+'
 
         classpath group: 'org.parchmentmc', name: 'librarian', version: "1.+"
@@ -206,9 +206,12 @@ dependencies {
 
     implementation fg.deobf("curse.maven:jei-238222:5846810")
     implementation fg.deobf("curse.maven:jade-324717:4654448")
-    implementation fg.deobf("curse.maven:ecliptic-seasons-1118306:6134052")
+    implementation fg.deobf("curse.maven:ecliptic-seasons-1118306:6221119")
 
-    runtimeOnly fg.deobf("curse.maven:create-328085:4835191-deobf-sources-api")
+    implementation fg.deobf("curse.maven:markdownmanual-502485:4873115")
+    runtimeOnly fg.deobf("curse.maven:architectury-api-419699:5137938")
+
+    runtimeOnly fg.deobf("curse.maven:create-328085:4835191")
     onlyMainRuntimeOnly fg.deobf("curse.maven:embeddium-908741:5681725")
     onlyMainRuntimeOnly fg.deobf("curse.maven:oculus-581495:6020952")
 

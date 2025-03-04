@@ -1,50 +1,52 @@
 package xueluoanping.teastory.plugin;
 
 
+import cloud.lemonslice.teastory.item.AqueductShovelItem;
 import com.teamtea.eclipticseasons.api.EclipticSeasonsApi;
-import net.irisshaders.iris.Iris;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Tiers;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import xueluoanping.teastory.manual.ManualItem;
 import xueluoanping.teastory.plugin.eclipticseasons.ESCommonEventHandler;
 import xueluoanping.teastory.plugin.eclipticseasons.ESDataEventHandler;
-import xueluoanping.teastory.plugin.iris.IrisEventHandler;
+import xueluoanping.teastory.registry.ItemRegister;
+import xueluoanping.teastory.registry.ManualRegistry;
 
 public class CompatManager {
 
-    private static boolean iris = false;
     private static boolean eclipticseasons = false;
+    private static boolean markdown_manual = false;
 
     public static void init(IEventBus loadEventBus) {
         IEventBus gameEventBus = MinecraftForge.EVENT_BUS;
-        if (Platform.isPhysicalClient()) {
-            iris = Platform.isModLoaded(Iris.MODID);
-            if (iris) {
-                gameEventBus.register(IrisEventHandler.INSTANCE);
-            }
-        }
-        eclipticseasons =Platform.isModLoaded(EclipticSeasonsApi.MODID);
-        if(eclipticseasons)
-        {
+        eclipticseasons = Platform.isModLoaded(EclipticSeasonsApi.MODID);
+        markdown_manual = Platform.isModLoaded(EclipticSeasonsApi.MODID);
+
+        if (eclipticseasons) {
             loadEventBus.register(ESDataEventHandler.INSTANCE);
             gameEventBus.register(ESCommonEventHandler.INSTANCE);
         }
+        if (markdown_manual) {
+            ManualRegistry.MANUALS.register(loadEventBus);
+            ManualRegistry.DOCUMENT_PROVIDERS.register(loadEventBus);
+            ManualRegistry.PATH_PROVIDERS.register(loadEventBus);
+
+            ManualRegistry.MANUAL_ITEM = ItemRegister.ModItems.register("manual", () -> new ManualItem( new Item.Properties()));
+        }
     }
 
-    public static ForgeConfigSpec.BooleanValue enable;
-    public static ForgeConfigSpec.BooleanValue irisCompat;
+    public static ForgeConfigSpec.BooleanValue enableSeason;
 
-
-    public static void initConfig(ForgeConfigSpec.Builder builder, boolean isServer){
-        if(isServer){
+    public static void initConfig(ForgeConfigSpec.Builder builder, boolean isServer) {
+        if (isServer) {
             builder.push("Compat");
-            enable = builder.comment("Enable solar term season compat.")
+            enableSeason = builder.comment("Enable solar term season compat.")
                     .define("EnableSeason", true);
             builder.pop();
-        }else {
+        } else {
             builder.push("Compat");
-            irisCompat = builder.comment("Automatically compatible with shader pack foliage swaying effects.")
-                    .define("Iris", true);
             builder.pop();
         }
     }
