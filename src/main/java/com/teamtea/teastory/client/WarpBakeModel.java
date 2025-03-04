@@ -62,26 +62,30 @@ public class WarpBakeModel implements IDynamicBakedModel {
 
     @Override
     public @NotNull List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @NotNull RandomSource rand, @NotNull ModelData extraData, @Nullable RenderType renderType) {
-        List<BakedQuad> bakedQuads = stateListMap.get(state);
+        // List<BakedQuad> bakedQuads = stateListMap.get(state);
         // if (ll == null)
+        List<BakedQuad> bakedQuads = new ArrayList<>();
         {
-            if (state == null) {
+            List<BakedQuad> bakedQuads2 = new ArrayList<>();
+            if (state == null)
+            {
                 if (side != null) return List.of();
-                bakedQuads = new ArrayList<>(bakedModel.getQuads(null, null, rand, extraData, renderType));
+                bakedQuads2 = new ArrayList<>(bakedModel.getQuads(null, null, rand, extraData, renderType));
                 for (Direction value : Direction.values()) {
-                    bakedQuads.addAll(bakedModel.getQuads(null, value, rand, extraData, renderType));
+                    bakedQuads2.addAll(bakedModel.getQuads(null, value, rand, extraData, renderType));
                 }
-                stateListMap.put(null, bakedQuads);
-            } else {
-                bakedQuads = bakedModel.getQuads(state, side, rand, extraData, renderType);
-                stateListMap.put(state, bakedQuads);
+                // stateListMap.put(null, bakedQuads);
             }
-            if (!(bakedQuads instanceof ArrayList)) {
-                bakedQuads = new ArrayList<>(bakedQuads);
+            else {
+                bakedQuads2 = bakedModel.getQuads(state, side, rand, extraData, renderType);
+                // stateListMap.put(state, bakedQuads);
             }
-            for (int i = 0; i < bakedQuads.size(); i++) {
-                bakedQuads.set(i, new BakedQuadRetextured(bakedQuads.get(i), cache));
+
+            bakedQuads = new ArrayList<>(bakedQuads2.size());
+            for (int i = 0; i < bakedQuads2.size(); i++) {
+                bakedQuads.add(new BakedQuadRetextured(bakedQuads2.get(i), cache));
             }
+
             if (state != null && side == null && state.getBlock() instanceof TrellisWithVineBlock) {
                 if (state.getValue(TrellisBlock.EAST)
                         || state.getValue(TrellisBlock.WEST)

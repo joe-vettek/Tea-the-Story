@@ -3,7 +3,9 @@ package com.teamtea.teastory.plugin;
 import com.teamtea.eclipticseasons.api.EclipticSeasonsApi;
 import com.teamtea.teastory.plugin.eclipticseasons.ESCommonEventHandler;
 import com.teamtea.teastory.plugin.eclipticseasons.ESDataEventHandler;
+import com.teamtea.teastory.plugin.guideme.GuideMeMode;
 import com.teamtea.teastory.plugin.iris.IrisEventHandler;
+import guideme.Guides;
 import net.irisshaders.iris.Iris;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.ModConfigSpec;
@@ -13,6 +15,7 @@ public class CompatManager {
 
     private static boolean iris = false;
     private static boolean eclipticseasons = false;
+    private static boolean guideme = false;
 
     public static void init(IEventBus loadEventBus) {
         IEventBus gameEventBus = NeoForge.EVENT_BUS;
@@ -27,6 +30,12 @@ public class CompatManager {
         {
             loadEventBus.register(ESDataEventHandler.INSTANCE);
             gameEventBus.register(ESCommonEventHandler.INSTANCE);
+        }
+
+        guideme =Platform.isModLoaded("guideme");
+        if(guideme)
+        {
+            GuideMeMode.init();
         }
     }
 

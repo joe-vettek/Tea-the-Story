@@ -4,20 +4,21 @@ import com.teamtea.eclipticseasons.api.constant.crop.CropHumidityInfo;
 import com.teamtea.eclipticseasons.api.constant.crop.CropHumidityType;
 import com.teamtea.eclipticseasons.api.constant.crop.CropSeasonInfo;
 import com.teamtea.eclipticseasons.api.constant.crop.CropSeasonType;
+import com.teamtea.eclipticseasons.api.event.RegisterAndModifyCropInfoEvent;
 import com.teamtea.eclipticseasons.common.core.crop.CropInfoManager;
 import com.teamtea.teastory.block.crops.TrellisWithVineBlock;
 import com.teamtea.teastory.plugin.CompatManager;
 import com.teamtea.teastory.variant.Planks;
+import net.minecraft.tags.TagKey;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.event.TagsUpdatedEvent;
 
 public class ESCommonEventHandler {
     public static ESCommonEventHandler INSTANCE = new ESCommonEventHandler();
 
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onTagsUpdated(TagsUpdatedEvent tagsUpdatedEvent) {
+    public void onTagsUpdated(RegisterAndModifyCropInfoEvent event) {
         if (CompatManager.enable.getAsBoolean()) {
             for (Planks.PlankHolders value : Planks.TrellisBlockMap.values()) {
                 for (TrellisWithVineBlock trellisWithVineBlock : value.trellisWithVineBlocks()) {
@@ -29,8 +30,7 @@ public class ESCommonEventHandler {
                         }
                     }
                     if (cropHumidityType0 != null)
-                        CropInfoManager.registerCropHumidityInfo(trellisWithVineBlock, cropHumidityType0, true);
-
+                        event.registerCropHumidityInfo(trellisWithVineBlock, cropHumidityType0, true);
 
                     CropSeasonInfo cropSeasonInfo = CropInfoManager.getSeasonInfo(trellisWithVineBlock.getVineType().getFruit());
                     CropSeasonType cropSeasonType0 = null;
@@ -39,8 +39,9 @@ public class ESCommonEventHandler {
                             cropSeasonType0 = cropSeasonType;
                         }
                     }
+
                     if (cropSeasonType0 != null)
-                        CropInfoManager.registerCropSeasonInfo(trellisWithVineBlock, cropSeasonType0, true);
+                        event.registerCropSeasonInfo(trellisWithVineBlock, cropSeasonType0, true);
 
                 }
             }
