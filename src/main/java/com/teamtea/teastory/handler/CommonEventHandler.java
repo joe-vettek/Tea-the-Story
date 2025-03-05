@@ -37,10 +37,6 @@ public final class CommonEventHandler {
         applyExcitementEffect(event);
     }
 
-    @SubscribeEvent
-    public static void onUseBoneMeal(BonemealEvent event) {
-        boneMealUsingLimit(event);
-    }
 
     @SubscribeEvent
     public static void onNeighborChanged(BlockEvent.NeighborNotifyEvent event) {
@@ -56,7 +52,6 @@ public final class CommonEventHandler {
 
     @SubscribeEvent
     public static void onToolUsing(BlockEvent.BlockToolModificationEvent event) {
-
         onAqueductShovelUsing(event);
     }
 

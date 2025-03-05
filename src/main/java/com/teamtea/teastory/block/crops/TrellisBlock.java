@@ -152,9 +152,7 @@ public class TrellisBlock extends HorizontalConnectedBlock implements SimpleWate
             stateIn = stateIn.setValue(UP, state.getBlock() instanceof TrellisBlock
                     || state.is(BlockTags.WOODEN_FENCES)
                     || state.isFaceSturdy(worldIn, posUp, Direction.DOWN)
-                    || state.getBlock() instanceof StandingSignBlock
-                    || state.getBlock() instanceof TorchBlock
-                    || state.getBlock() instanceof LanternBlock);
+                    || state.getBlock() instanceof StandingSignBlock);
         }
         return stateIn;
     }
@@ -162,12 +160,10 @@ public class TrellisBlock extends HorizontalConnectedBlock implements SimpleWate
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState pState, Level level, BlockPos blockPos, Player player, InteractionHand pHand, BlockHitResult pHit) {
         if (
-                pState.getValue(POST) && !pState.getValue(UP) && ((int) (pHit.getLocation().y() * 100 % 100)) * 0.16 >= 12 &&
+                pState.getValue(POST) && !pState.getValue(UP) && ((int) ((pHit.getLocation().y()-blockPos.getY()) * 100 % 100)) * 0.16 >= 12 &&
                         player.getItemInHand(pHand).getItem() instanceof BlockItem blockItem) {
             Block block = blockItem.getBlock();
-            if (block instanceof TorchBlock
-                    || block instanceof LanternBlock
-                    || block instanceof StandingSignBlock) {
+            if (block instanceof StandingSignBlock) {
                 if (!level.isClientSide()) {
                     level.setBlockAndUpdate(blockPos, pState.setValue(UP, true));
                     BlockState stateForPlacement = block.getStateForPlacement(new BlockPlaceContext(level, player, pHand, player.getItemInHand(pHand), pHit));

@@ -29,21 +29,7 @@ import com.teamtea.teastory.registry.BlockRegister;
 import java.util.List;
 
 public final class AgricultureEventHandler {
-    public static void boneMealUsingLimit(BonemealEvent event) {
-        if (!ServerConfig.Agriculture.canUseBoneMeal.get()) {
-            if (event.getState().getBlock() instanceof TeaPlantBlock) {
-                if (event.getState().getValue(TeaPlantBlock.AGE) == 7 || event.getState().getValue(TeaPlantBlock.AGE) == 6) {
-                    // event.s(Event.Result.DEFAULT);
-                } else {
-                    event.setCanceled(true);
-                }
-            } else if (event.getState().getBlock() instanceof BonemealableBlock && event.getState().is(BlockTags.CROPS)) {
-                event.setCanceled(true);
-            } else {
-                // event.setResult(Event.Result.DEFAULT);
-            }
-        }
-    }
+
 
     public static void onAqueductShovelUsing(BlockEvent.BlockToolModificationEvent event) {
 

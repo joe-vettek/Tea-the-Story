@@ -257,6 +257,8 @@ public class Lang_ZH extends LangHelper {
         add("block.teastory.grape_juice", "葡萄汁");
         add("block.teastory.cucumber_juice", "黄瓜汁");
 
+        add("item.teastory.manual","茶纪");
+        add("item.teastory.manual.tooltip","茶，一片树叶的故事~");
     }
 
     private void addAdvancements() {

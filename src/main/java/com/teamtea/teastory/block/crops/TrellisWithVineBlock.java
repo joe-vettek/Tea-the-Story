@@ -198,9 +198,7 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock, B
             BlockState state = level.getBlockState(posUp);
             stateIn = stateIn.setValue(UP, state.getBlock() instanceof TrellisWithVineBlock || state.is(BlockTags.WOODEN_FENCES)
                     || state.isFaceSturdy(level, posUp, Direction.DOWN)
-                    || state.getBlock() instanceof StandingSignBlock
-                    || state.getBlock() instanceof TorchBlock
-                    || state.getBlock() instanceof LanternBlock);
+                    || state.getBlock() instanceof StandingSignBlock);
         }
         // if (true) return stateIn;
 

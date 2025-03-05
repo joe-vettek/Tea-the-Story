@@ -24,15 +24,13 @@ public class ServerConfig {
     }
 
     public static class Agriculture {
-        public static ModConfigSpec.BooleanValue canUseBoneMeal;
         public static ModConfigSpec.BooleanValue useAshAsBoneMeal;
         public static ModConfigSpec.BooleanValue addSeedToHouseChest;
         public static ModConfigSpec.BooleanValue betterMelon;
 
         private static void load(ModConfigSpec.Builder builder) {
             builder.push("Agriculture");
-            canUseBoneMeal = builder.comment("Can bone meal be used to grow crops?")
-                    .define("BoneMeal", true);
+
             useAshAsBoneMeal = builder.comment("Can ash be used as bone meal?")
                     .define("Ash", true);
             addSeedToHouseChest = builder.comment("Can players find seeds in the chest of village?")
