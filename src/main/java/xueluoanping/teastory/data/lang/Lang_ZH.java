@@ -258,6 +258,9 @@ public class Lang_ZH extends LangHelper {
 
 
         addAdvancements();
+
+        add("item.teastory.manual","茶纪");
+        add("item.teastory.manual.tooltip","茶，一片树叶的故事~");
     }
 
     private void addAdvancements() {

@@ -31,29 +31,7 @@ import java.util.List;
 
 public final class AgricultureEventHandler
 {
-    public static void boneMealUsingLimit(BonemealEvent event)
-    {
-        if (!ServerConfig.Agriculture.canUseBoneMeal.get())
-        {
-            if (event.getBlock().getBlock() instanceof TeaPlantBlock)
-            {
-                if (event.getBlock().getValue(TeaPlantBlock.AGE) == 7 || event.getBlock().getValue(TeaPlantBlock.AGE) == 6)
-                {
-                    event.setResult(Event.Result.DEFAULT);
-                }
-                else
-                {
-                    event.setCanceled(true);
-                }
-            }
-            else if (event.getBlock().getBlock() instanceof IPlantable && ((IPlantable) event.getBlock().getBlock()).getPlantType(event.getLevel(), event.getPos()) == PlantType.CROP)
-            {
-                event.setCanceled(true);
-            }
-            else
-                event.setResult(Event.Result.DEFAULT);
-        }
-    }
+
 
     public static void onAqueductShovelUsing(BlockEvent.BlockToolModificationEvent event)
     {

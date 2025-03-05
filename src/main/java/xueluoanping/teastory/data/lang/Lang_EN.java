@@ -256,6 +256,9 @@ public class Lang_EN extends LangHelper {
         add("block.teastory.cucumber_juice", "Cucumber Juice");
 
         addAdvancements();
+
+        add("item.teastory.manual","Tea and Record");
+        add("item.teastory.manual.tooltip","Tea, a story about the leaf.");
     }
 
     private void addAdvancements() {

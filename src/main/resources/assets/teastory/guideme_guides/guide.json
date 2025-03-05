@@ -1,0 +1,16 @@
+{
+  "item_settings": {
+    "display_name": {
+      "type": "translatable",
+      "translate": "item.teastory.manual"
+    },
+    "tooltip_lines": [
+      {
+        "type": "translatable",
+        "translate": "item.teastory.manual.tooltip",
+        "color": "dark_gray"
+      }
+    ],
+    "model": "teastory:item/manual"
+  }
+}

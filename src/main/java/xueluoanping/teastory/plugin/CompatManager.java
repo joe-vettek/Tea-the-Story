@@ -3,6 +3,7 @@ package xueluoanping.teastory.plugin;
 
 import cloud.lemonslice.teastory.item.AqueductShovelItem;
 import com.teamtea.eclipticseasons.api.EclipticSeasonsApi;
+import li.cil.manual.client.forge.MarkdownManualForge;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tiers;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -22,7 +23,7 @@ public class CompatManager {
     public static void init(IEventBus loadEventBus) {
         IEventBus gameEventBus = MinecraftForge.EVENT_BUS;
         eclipticseasons = Platform.isModLoaded(EclipticSeasonsApi.MODID);
-        markdown_manual = Platform.isModLoaded(EclipticSeasonsApi.MODID);
+        markdown_manual = Platform.isModLoaded("markdown_manual");
 
         if (eclipticseasons) {
             loadEventBus.register(ESDataEventHandler.INSTANCE);

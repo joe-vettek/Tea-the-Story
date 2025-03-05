@@ -39,11 +39,6 @@ public final class CommonEventHandler {
     }
 
     @SubscribeEvent
-    public static void onUseBoneMeal(BonemealEvent event) {
-        boneMealUsingLimit(event);
-    }
-
-    @SubscribeEvent
     public static void onNeighborChanged(BlockEvent.NeighborNotifyEvent event) {
         dropAsh(event);
     }

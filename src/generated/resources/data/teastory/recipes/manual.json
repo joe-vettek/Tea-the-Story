@@ -1,0 +1,29 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "markdown_manual"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "category": "misc",
+        "group": "manual",
+        "ingredients": [
+          {
+            "item": "teastory:tea_leaves"
+          },
+          {
+            "item": "minecraft:paper"
+          }
+        ],
+        "result": {
+          "item": "teastory:manual"
+        }
+      }
+    }
+  ]
+}

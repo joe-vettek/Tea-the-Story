@@ -2,6 +2,12 @@ package xueluoanping.teastory.data.recipe;
 
 
 import cloud.lemonslice.teastory.tag.TeaTags;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.common.crafting.ConditionalRecipe;
+import net.minecraftforge.common.crafting.PartialNBTIngredient;
+import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
+import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.craft.FluidIngredient;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
@@ -32,6 +38,8 @@ public final class TeaStoryRecipeProvider extends RecipeProvider {
         // Special Custom Recipes 自定义特殊配方
         SpecialRecipeBuilder.special(RecipeRegister.CRAFTING_SPECIAL_FLOWERDYE.get()).save(consumer, "teastory:flower_dye");
 
+        ConditionalRecipe.builder().addCondition(new ModLoadedCondition("markdown_manual")).addRecipe(
+        con->ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, BuiltInRegistries.ITEM.get(TeaStory.rl("manual"))).requires(ItemRegister.TEA_LEAVES.get()).requires(Items.PAPER).group("manual").unlockedBy("has_paper", has(Items.PAPER)).save(con)).build(consumer,TeaStory.rl("manual"));
         // Decoration Recipes 装饰品配方
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ItemRegister.BAMBOO_PLANK.get()).define('x', Items.BAMBOO).pattern("xx").pattern("xx").group("bamboo_plank").unlockedBy("has_bamboo", has(Items.BAMBOO)).save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockRegister.BAMBOO_DOOR.get(), 3).define('x', ItemRegister.BAMBOO_PLANK.get()).pattern("xx").pattern("xx").pattern("xx").group("bamboo_door").unlockedBy("has_bamboo_plank", has(ItemRegister.BAMBOO_PLANK.get())).save(consumer);

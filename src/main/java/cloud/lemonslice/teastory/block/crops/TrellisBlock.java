@@ -162,9 +162,7 @@ public class TrellisBlock extends HorizontalConnectedBlock implements SimpleWate
                 pState.getValue(POST) && !pState.getValue(UP) && ((int) (pHit.getLocation().y() * 100 % 100)) * 0.16 >= 12 &&
                         player.getItemInHand(pHand).getItem() instanceof BlockItem blockItem) {
             Block block = blockItem.getBlock();
-            if (block instanceof TorchBlock
-                    || block instanceof LanternBlock
-                    || block instanceof StandingSignBlock) {
+            if (block instanceof StandingSignBlock) {
                 if (!level.isClientSide()) {
                     level.setBlockAndUpdate(blockPos, pState.setValue(UP, true));
                     BlockState stateForPlacement = block.getStateForPlacement(new BlockPlaceContext(level, player, pHand, player.getItemInHand(pHand), pHit));

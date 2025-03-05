@@ -62,7 +62,6 @@ public class ServerConfig
 
     public static class Agriculture
     {
-        public static ForgeConfigSpec.BooleanValue canUseBoneMeal;
         public static ForgeConfigSpec.BooleanValue useAshAsBoneMeal;
         public static ForgeConfigSpec.BooleanValue addSeedToHouseChest;
         public static ForgeConfigSpec.BooleanValue betterMelon;
@@ -70,8 +69,7 @@ public class ServerConfig
         private static void load(ForgeConfigSpec.Builder builder)
         {
             builder.push("Agriculture");
-            canUseBoneMeal = builder.comment("Can bone meal be used to grow crops?")
-                    .define("BoneMeal", true);
+
             useAshAsBoneMeal = builder.comment("Can ash be used as bone meal?")
                     .define("Ash", true);
             addSeedToHouseChest = builder.comment("Can players find seeds in the chest of village?")

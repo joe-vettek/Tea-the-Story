@@ -224,6 +224,8 @@ dependencies {
 
     runtimeOnly fg.deobf("curse.maven:spark-361579:4738952")
 
+    runtimeOnly fg.deobf("curse.maven:guideme-1173950:6227045")
+
     println("----Scan libs begin----")
     fileTree(dir: 'libs', include: ['*.jar']).each { File file ->
         def fileName = file.name
