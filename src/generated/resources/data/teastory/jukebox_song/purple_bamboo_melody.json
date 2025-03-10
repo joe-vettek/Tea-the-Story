@@ -1,0 +1,8 @@
+{
+  "comparator_output": 8,
+  "description": {
+    "translate": "jukebox_song.teastory.purple_bamboo_melody"
+  },
+  "length_in_seconds": 10.0,
+  "sound_event": "teastory:record.purple_bamboo_melody"
+}

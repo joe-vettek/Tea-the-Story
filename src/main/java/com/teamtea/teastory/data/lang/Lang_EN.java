@@ -121,24 +121,34 @@ public class Lang_EN extends LangHelper {
         add("item.teastory.rice_ball_with_kelp", "Instant Rice Ball");
         add("item.teastory.shennong_chi", "Shennong Chi");
         add("item.teastory.saucepan_lid", "Saucepan Lid");
+
         add("item.teastory.picking_tea", "Music Disc");
-        add("item.teastory.picking_tea.desc", "Picking Tea");
+        add("jukebox_song.teastory.picking_tea", "Picking Tea");
+
         add("item.teastory.spring_festival_overture", "Music Disc");
-        add("item.teastory.spring_festival_overture.desc", "Huanzhi Li - Spring Festival Overture");
+        add("jukebox_song.teastory.spring_festival_overture", "Huanzhi Li - Spring Festival Overture");
+
         add("item.teastory.flowers_moon", "Music Disc");
-        add("item.teastory.flowers_moon.desc", "Blooming Flowers & Full Moon");
+        add("jukebox_song.teastory.flowers_moon", "Blooming Flowers & Full Moon");
+
         add("item.teastory.moving_up", "Music Disc");
-        add("item.teastory.moving_up.desc", "Moving Up");
+        add("jukebox_song.teastory.moving_up", "Moving Up");
+
         add("item.teastory.joyful", "Music Disc");
-        add("item.teastory.joyful.desc", "Joyful");
+        add("jukebox_song.teastory.joyful", "Joyful");
+
         add("item.teastory.dancing_golden_snake", "Music Disc");
-        add("item.teastory.dancing_golden_snake.desc", "Dancing Golden Snake");
+        add("jukebox_song.teastory.dancing_golden_snake", "Dancing Golden Snake");
+
         add("item.teastory.green_willow", "Music Disc");
-        add("item.teastory.green_willow.desc", "Green Willow");
+        add("jukebox_song.teastory.green_willow", "Green Willow");
+
         add("item.teastory.purple_bamboo_melody", "Music Disc");
-        add("item.teastory.purple_bamboo_melody.desc", "Purple Bamboo Melody");
+        add("jukebox_song.teastory.purple_bamboo_melody", "Purple Bamboo Melody");
+
         add("item.teastory.welcome_march", "Music Disc");
-        add("item.teastory.welcome_march.desc", "Welcome March");
+        add("jukebox_song.teastory.welcome_march", "Welcome March");
+
         add("block.teastory.wooden_frame", "Wooden Frame");
         add("block.teastory.dirt_stove", "Dirt Stove");
         add("block.teastory.stone_stove", "Stone Stove");

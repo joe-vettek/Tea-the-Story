@@ -1,0 +1,8 @@
+{
+  "comparator_output": 2,
+  "description": {
+    "translate": "jukebox_song.teastory.spring_festival_overture"
+  },
+  "length_in_seconds": 10.0,
+  "sound_event": "teastory:record.spring_festival_overture"
+}

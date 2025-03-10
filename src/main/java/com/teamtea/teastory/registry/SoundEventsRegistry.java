@@ -1,4 +1,4 @@
-package com.teamtea.teastory.client;
+package com.teamtea.teastory.registry;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;

@@ -1,0 +1,8 @@
+{
+  "comparator_output": 4,
+  "description": {
+    "translate": "jukebox_song.teastory.moving_up"
+  },
+  "length_in_seconds": 10.0,
+  "sound_event": "teastory:record.moving_up"
+}

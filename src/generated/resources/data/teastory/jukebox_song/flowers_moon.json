@@ -1,0 +1,8 @@
+{
+  "comparator_output": 3,
+  "description": {
+    "translate": "jukebox_song.teastory.flowers_moon"
+  },
+  "length_in_seconds": 10.0,
+  "sound_event": "teastory:record.flowers_and_moon"
+}

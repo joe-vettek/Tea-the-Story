@@ -1,0 +1,8 @@
+{
+  "comparator_output": 6,
+  "description": {
+    "translate": "jukebox_song.teastory.dancing_golden_snake"
+  },
+  "length_in_seconds": 10.0,
+  "sound_event": "teastory:record.dancing_golden_snake"
+}

@@ -122,24 +122,34 @@ public class Lang_ZH extends LangHelper {
         add("item.teastory.rice_ball_with_kelp", "速食饭团");
         add("item.teastory.shennong_chi", "神农尺");
         add("item.teastory.saucepan_lid", "锅盖");
+
         add("item.teastory.picking_tea", "音乐唱片");
-        add("item.teastory.picking_tea.desc", "采茶舞曲");
+        add("jukebox_song.teastory.picking_tea", "采茶舞曲");
+
         add("item.teastory.spring_festival_overture", "音乐唱片");
-        add("item.teastory.spring_festival_overture.desc", "李焕之 - 春节序曲");
+        add("jukebox_song.teastory.spring_festival_overture", "李焕之 - 春节序曲");
+
         add("item.teastory.flowers_moon", "音乐唱片");
-        add("item.teastory.flowers_moon.desc", "花好月圆");
+        add("jukebox_song.teastory.flowers_moon", "花好月圆");
+
         add("item.teastory.moving_up", "音乐唱片");
-        add("item.teastory.moving_up.desc", "步步高");
+        add("jukebox_song.teastory.moving_up", "步步高");
+
         add("item.teastory.joyful", "音乐唱片");
-        add("item.teastory.joyful.desc", "喜洋洋");
+        add("jukebox_song.teastory.joyful", "喜洋洋");
+
         add("item.teastory.dancing_golden_snake", "音乐唱片");
-        add("item.teastory.dancing_golden_snake.desc", "金蛇狂舞");
+        add("jukebox_song.teastory.dancing_golden_snake", "金蛇狂舞");
+
         add("item.teastory.green_willow", "音乐唱片");
-        add("item.teastory.green_willow.desc", "杨柳青");
+        add("jukebox_song.teastory.green_willow", "杨柳青");
+
         add("item.teastory.purple_bamboo_melody", "音乐唱片");
-        add("item.teastory.purple_bamboo_melody.desc", "紫竹调");
+        add("jukebox_song.teastory.purple_bamboo_melody", "紫竹调");
+
         add("item.teastory.welcome_march", "音乐唱片");
-        add("item.teastory.welcome_march.desc", "欢迎进行曲");
+        add("jukebox_song.teastory.welcome_march", "欢迎进行曲");
+
         add("block.teastory.wooden_frame", "木制框架");
         add("block.teastory.dirt_stove", "土灶");
         add("block.teastory.stone_stove", "石灶");

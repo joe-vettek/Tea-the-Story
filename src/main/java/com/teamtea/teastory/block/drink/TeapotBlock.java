@@ -40,7 +40,7 @@ import com.teamtea.teastory.registry.FluidRegister;
 import com.teamtea.teastory.registry.ModCapabilities;
 import com.teamtea.teastory.registry.BlockEntityRegister;
 import com.teamtea.teastory.block.NormalHorizontalBlock;
-import com.teamtea.teastory.client.SoundEventsRegistry;
+import com.teamtea.teastory.registry.SoundEventsRegistry;
 
 import java.util.Optional;
 
