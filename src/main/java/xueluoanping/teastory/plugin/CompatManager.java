@@ -1,19 +1,14 @@
 package xueluoanping.teastory.plugin;
 
 
-import cloud.lemonslice.teastory.item.AqueductShovelItem;
 import com.teamtea.eclipticseasons.api.EclipticSeasonsApi;
-import li.cil.manual.client.forge.MarkdownManualForge;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Tiers;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
-import xueluoanping.teastory.manual.ManualItem;
 import xueluoanping.teastory.plugin.eclipticseasons.ESCommonEventHandler;
 import xueluoanping.teastory.plugin.eclipticseasons.ESDataEventHandler;
-import xueluoanping.teastory.registry.ItemRegister;
-import xueluoanping.teastory.registry.ManualRegistry;
+
+import java.lang.reflect.Method;
 
 public class CompatManager {
 
@@ -30,11 +25,14 @@ public class CompatManager {
             gameEventBus.register(ESCommonEventHandler.INSTANCE);
         }
         if (markdown_manual) {
-            ManualRegistry.MANUALS.register(loadEventBus);
-            ManualRegistry.DOCUMENT_PROVIDERS.register(loadEventBus);
-            ManualRegistry.PATH_PROVIDERS.register(loadEventBus);
-
-            ManualRegistry.MANUAL_ITEM = ItemRegister.ModItems.register("manual", () -> new ManualItem( new Item.Properties()));
+            try {
+                Class<?> manualWorkClass = Class.forName("xueluoanping.teastory.manual.ManualWork");
+                Object manualWorkInstance = manualWorkClass.getDeclaredConstructor().newInstance();
+                Method loadMethod = manualWorkClass.getMethod("load", IEventBus.class);
+                loadMethod.invoke(manualWorkInstance, loadEventBus);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
