@@ -211,7 +211,6 @@ dependencies {
     implementation fg.deobf("curse.maven:markdownmanual-502485:4873115")
     runtimeOnly fg.deobf("curse.maven:architectury-api-419699:5137938")
 
-    runtimeOnly fg.deobf("curse.maven:create-328085:4835191")
     onlyMainRuntimeOnly fg.deobf("curse.maven:embeddium-908741:5681725")
     onlyMainRuntimeOnly fg.deobf("curse.maven:oculus-581495:6020952")
 
@@ -225,6 +224,9 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:spark-361579:4738952")
 
     runtimeOnly fg.deobf("curse.maven:guideme-1173950:6227045")
+
+    onlyMainRuntimeOnly fg.deobf("curse.maven:itemphysic-258587:6045993")
+    onlyMainRuntimeOnly fg.deobf("curse.maven:creativecore-257814:6109933")
 
     println("----Scan libs begin----")
     fileTree(dir: 'libs', include: ['*.jar']).each { File file ->

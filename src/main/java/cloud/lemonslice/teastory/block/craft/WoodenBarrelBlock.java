@@ -45,7 +45,6 @@ public class WoodenBarrelBlock extends Block implements EntityBlock {
     }
 
 
-
     @Override
     @SuppressWarnings("deprecation")
     public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
@@ -70,7 +69,7 @@ public class WoodenBarrelBlock extends Block implements EntityBlock {
             int i = ((WoodenBarrelBlockEntity) te).getFluidAmount();
             float f = pos.getY() + 0.0625F + 0.875F * i / 2000;
             if (!worldIn.isClientSide()) {
-                if (entityIn.fireImmune()) {
+                if (entityIn.isOnFire()) {
                     if (((WoodenBarrelBlockEntity) te).getFluid().is(FluidTags.WATER) && i > 250 && entityIn.getBlockY() <= f) {
                         entityIn.extinguishFire();
                     }

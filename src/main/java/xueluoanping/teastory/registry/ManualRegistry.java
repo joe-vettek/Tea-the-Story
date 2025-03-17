@@ -14,6 +14,7 @@ import net.minecraftforge.registries.RegistryObject;
 import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.manual.TManual;
 
+// 可以写成非static
 public class ManualRegistry {
 
     public static final DeferredRegister<ManualModel> MANUALS = DeferredRegister.create(Constants.MANUAL_REGISTRY, TeaStory.MODID);
