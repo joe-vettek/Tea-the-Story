@@ -47,8 +47,9 @@ public class ModContent {
 
     @SubscribeEvent
     public static void onNewRegistry(DataPackRegistryEvent.NewRegistry event) {
-        event.dataPackRegistry(TeaStoryRegistries.DRINK_EFFECT, DrinkEffect.DIRECT_CODEC);
+        event.dataPackRegistry(TeaStoryRegistries.DRINK_EFFECT, DrinkEffect.CODEC, DrinkEffect.CODEC);
     }
+
 
     /**
      * 我们需要的是改变一下{@link CreativeModeTab#getDisplayItems()}的输出。
