@@ -119,20 +119,24 @@ public class CupDrinkItem extends ItemFluidContainer {
     public ItemStack finishUsingItem(ItemStack stack, Level worldIn, LivingEntity entityLiving) {
         if (canDrink(stack)) {
             worldIn.playSound(null, entityLiving.getX(), entityLiving.getY(), entityLiving.getZ(), entityLiving.getEatingSound(stack), SoundSource.NEUTRAL, 1.0F, 1.0F + (worldIn.getRandom().nextFloat() - worldIn.getRandom().nextFloat()) * 0.4F);
-            FluidUtil.getFluidContained(stack).ifPresent(handler ->
+            if(!worldIn.isClientSide())
             {
-                BiConsumer<LivingEntity, Integer> action = DrinkEffectManager.getEffects(worldIn.registryAccess().registryOrThrow(DrinkRegistry.DRINK_EFFECT),handler);
-                if (action != null) {
-                    action.accept(entityLiving, handler.getAmount());
-                } else if (entityLiving instanceof Player
-                        && handler.getFluid() != FluidRegistry.BOILING_WATER_STILL.get()) {
-                    var foodata = ((Player) entityLiving).getFoodData();
-                    // TeaStory.logger(foodata.getSaturationLevel());
-                    ((Player) entityLiving).getFoodData().setFoodLevel(foodata.getFoodLevel() + (int) (1.2F * this.capacity / 100));
-                    ((Player) entityLiving).getFoodData().setSaturation(foodata.getSaturationLevel() + 0.4F);
-                    // TeaStory.logger(foodata.getSaturationLevel());
-                }
-            });
+                FluidUtil.getFluidContained(stack).ifPresent(handler ->
+                {
+                    BiConsumer<LivingEntity, Integer> action = DrinkEffectManager.getEffects(worldIn.registryAccess().registryOrThrow(DrinkRegistry.DRINK_EFFECT), handler);
+                    if (action != null) {
+                        action.accept(entityLiving, handler.getAmount());
+                    } else if (entityLiving instanceof Player
+                            && handler.getFluid() != FluidRegistry.BOILING_WATER_STILL.get()) {
+                        var foodata = ((Player) entityLiving).getFoodData();
+                        // TeaStory.logger(foodata.getSaturationLevel());
+                        ((Player) entityLiving).getFoodData().setFoodLevel(foodata.getFoodLevel() + (int) (1.2F * this.capacity / 100));
+                        ((Player) entityLiving).getFoodData().setSaturation(foodata.getSaturationLevel() + 0.4F);
+                        // TeaStory.logger(foodata.getSaturationLevel());
+                    }
+                });
+            }
+
             if (entityLiving instanceof Player) {
                 ItemHandlerHelper.giveItemToPlayer((Player) entityLiving, new ItemStack(this.getCraftingRemainingItem()));
             }

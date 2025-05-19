@@ -103,6 +103,7 @@ public class TeaStory {
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::gatherData);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::FMLCommonSetup);
+        MinecraftForge.EVENT_BUS.addListener(ModContent::onWandererTradesEvent);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, NormalConfigs.SERVER_CONFIG);
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, NormalConfigs.CLIENT_CONFIG);

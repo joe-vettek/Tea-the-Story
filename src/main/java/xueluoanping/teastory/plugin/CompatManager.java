@@ -5,6 +5,7 @@ import com.teamtea.eclipticseasons.api.EclipticSeasonsApi;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.plugin.eclipticseasons.ESCommonEventHandler;
 import xueluoanping.teastory.plugin.eclipticseasons.ESDataEventHandler;
 
@@ -25,13 +26,15 @@ public class CompatManager {
             gameEventBus.register(ESCommonEventHandler.INSTANCE);
         }
         if (markdown_manual) {
+            // ManualWork xx=new ManualWork();
+            // xx.load(loadEventBus);
             try {
                 Class<?> manualWorkClass = Class.forName("xueluoanping.teastory.manual.ManualWork");
                 Object manualWorkInstance = manualWorkClass.getDeclaredConstructor().newInstance();
                 Method loadMethod = manualWorkClass.getMethod("load", IEventBus.class);
                 loadMethod.invoke(manualWorkInstance, loadEventBus);
             } catch (Exception e) {
-                e.printStackTrace();
+                TeaStory.LOGGER.error(e);
             }
         }
     }

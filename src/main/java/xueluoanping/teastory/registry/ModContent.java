@@ -16,11 +16,14 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.village.WandererTradesEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -49,6 +52,11 @@ public class ModContent {
         event.dataPackRegistry(DrinkRegistry.DRINK_EFFECT, DrinkEffect.DIRECT_CODEC);
     }
 
+    public static void onWandererTradesEvent(WandererTradesEvent event) {
+      event.getGenericTrades().add((pTrader, pRandom) -> new MerchantOffer(new ItemStack(Items.EMERALD, 4),
+              BlockRegister.WILD_BITTER_GOURD_ITEM.get().getDefaultInstance(),3,1,pRandom.nextFloat()*9.43f));
+    }
+
     @SubscribeEvent
     public static void creativeModeTabRegister(RegisterEvent event) {
         // TeaStory.logger(event.getRegistryKey(),BuiltInRegistries.BLOCK.entrySet().stream().toList().size());
@@ -60,6 +68,7 @@ public class ModContent {
     public static void onRegisterEntityAttribute(EntityAttributeCreationEvent event) {
         // event.put(EntityTypeRegistry.SCARECROW_TYPE.get(), DefaultAttributes.getSupplier(EntityType.ARMOR_STAND));
         event.put(EntityTypeRegistry.SCARECROW_TYPE.get(), LivingEntity.createLivingAttributes().build());
+
     }
 
     // refer to BlockSetInternalImpl of Moonlight
