@@ -223,7 +223,7 @@ dependencies {
 
     runtimeOnly fg.deobf("curse.maven:spark-361579:4738952")
 
-    runtimeOnly fg.deobf("curse.maven:guideme-1173950:6227045")
+    onlyMainRuntimeOnly fg.deobf("curse.maven:guideme-1173950:6227045")
 
     onlyMainRuntimeOnly fg.deobf("curse.maven:itemphysic-258587:6045993")
     onlyMainRuntimeOnly fg.deobf("curse.maven:creativecore-257814:6109933")
