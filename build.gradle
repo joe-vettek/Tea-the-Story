@@ -3,7 +3,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.gradle.userdev' version '7.0.165'
+    id 'net.neoforged.gradle.userdev' version '7.0.183'
 }
 
 
@@ -142,13 +142,13 @@ dependencies {
     runtimeOnly "org.appliedenergistics:guideme:${guideme_version}"
 
     implementation("curse.maven:jei-238222:5846880")
-    implementation("curse.maven:jade-324717:5591256-deobf-sources-api")
+    compileOnly("curse.maven:jade-324717:5591256-deobf-sources-api")
 
-    implementation("curse.maven:ecliptic-seasons-1118306:6134075")
+    implementation("curse.maven:ecliptic-seasons-1118306:6636300")
 
 
-    onlyMainRuntimeOnly("curse.maven:irisshaders-455508:5910090")
-    onlyMainRuntimeOnly "maven.modrinth:sodium:mc1.21.1-0.6.0-neoforge"
+    onlyMainRuntimeOnly("curse.maven:irisshaders-455508:6213632")
+    onlyMainRuntimeOnly "maven.modrinth:sodium:mc1.21.1-0.6.9-neoforge"
 //    onlyMainRuntimeOnly("curse.maven:journeymap-32274:5541925")
 
     println("----Scan onlyMainRuntimeOnly libs begin----")

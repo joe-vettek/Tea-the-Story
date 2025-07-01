@@ -2,14 +2,12 @@ package com.teamtea.teastory.tag;
 
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.tags.BiomeTags;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.*;
 
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import com.teamtea.teastory.TeaStory;
 
@@ -123,6 +121,8 @@ public final class TeaTags {
     }
 
     public static class Blocks {
+        public final static TagKey<Block> TRELLIS_WITH_VINE = BlockTags.create(TeaStory.rl("trellis_with_vine"));
+        public final static TagKey<Block> TRELLIS = BlockTags.create(TeaStory.rl("trellis"));
 
     }
 

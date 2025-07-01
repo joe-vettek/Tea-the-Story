@@ -1,0 +1,7 @@
+{
+  "parent": "teastory:block/aqueduct_with_top",
+  "textures": {
+    "side": "eclipticseasons:block/snow_overlay",
+    "top": "minecraft:block/snow"
+  }
+}

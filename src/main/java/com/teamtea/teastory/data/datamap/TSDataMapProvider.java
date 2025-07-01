@@ -16,7 +16,7 @@ public class TSDataMapProvider extends DataMapProvider {
     }
 
     @Override
-    protected void gather() {
+    protected void gather(HolderLookup.Provider provider) {
         final var compostables = builder(NeoForgeDataMaps.COMPOSTABLES);
         compostables.add(ItemRegister.TEA_RESIDUES, new Compostable(0.2f, true), false);
         compostables.add(ItemRegister.CRUSHED_STRAW, new Compostable(0.3f, true), false);

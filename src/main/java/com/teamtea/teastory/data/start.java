@@ -2,6 +2,7 @@ package com.teamtea.teastory.data;
 
 
 import com.teamtea.teastory.data.advancement.Advancements;
+import com.teamtea.teastory.data.compat.TSModelProvider;
 import com.teamtea.teastory.data.datamap.TSDataMapProvider;
 import com.teamtea.teastory.data.datapack.DatapackRegistryGenerator;
 import com.teamtea.teastory.data.tag.*;
@@ -9,6 +10,8 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.component.DyedItemColor;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import com.teamtea.teastory.TeaStory;
@@ -54,6 +57,7 @@ public final class start {
             generator.addProvider(event.includeClient(),new Lang_ZH(packOutput, helper));
             generator.addProvider(event.includeClient(), new BlockStatesDataProvider(packOutput, helper));
             generator.addProvider(event.includeClient(), new TeaItemModelProvider(packOutput, MODID, helper));
+            generator.addProvider(event.includeClient(), new TSModelProvider(packOutput, MODID, helper,lookupProvider));
 
         }
     }

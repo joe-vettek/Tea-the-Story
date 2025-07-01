@@ -2,7 +2,7 @@
 navigation:
   title: "数据包"
   icon: "teastory:porcelain_teapot"
-  parent: _zh_cn/index.md
+  parent: index.md
 ---
 
 ## 自定义茶水效果

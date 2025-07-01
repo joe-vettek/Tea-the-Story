@@ -3,12 +3,15 @@ package com.teamtea.teastory.resource;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import com.teamtea.teastory.block.crops.TrellisBlock;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.teamtea.teastory.tag.TeaTags;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -19,6 +22,8 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.metadata.MetadataSectionSerializer;
 import net.minecraft.server.packs.resources.IoSupplier;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.tags.TagManager;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -71,24 +76,38 @@ public class ServerModFilePackResources extends AbstractPackResources {
 // TeaStory.logger(11111,namespace,path);
 
         if (namespace.equals("minecraft") && path.equals(Registries.tagsDirPath(Registries.BLOCK))) {
-            JsonObject jsonObject = new JsonObject();
-            JsonArray jsonArray = new JsonArray();
+            // JsonObject jsonObject = new JsonObject();
+            // JsonArray jsonArray = new JsonArray();
+            // Planks.TrellisBlockMap.forEach((resourceLocation, blockBlockPair) -> {
+            //     jsonArray.add(resourceLocation.toString());
+            // });
+            // for (Map.Entry<ResourceKey<Block>, Block> resourceKeyBlockEntry : BuiltInRegistries.BLOCK.entrySet()) {
+            //     if (resourceKeyBlockEntry.getValue() instanceof TrellisBlock) {
+            //         jsonArray.add(resourceKeyBlockEntry.getKey().location().toString());
+            //     }
+            // }
+            // jsonObject.add("values", jsonArray);
+            //
+            // // here we need to use the method to lock the path
+            // var base = BlockTags.WOODEN_FENCES.location();
+            // ExistingFileHelper.ResourceType resourceType = new ExistingFileHelper.ResourceType(PackType.SERVER_DATA, ".json", Registries.tagsDirPath(Registries.BLOCK));
+            // var loc = TeaStory.rl(base.getNamespace(), resourceType.getPrefix() + "/" + base.getPath() + resourceType.getSuffix());
+            // resourceOutput.accept(loc, jsonObjectToIoSupplier(jsonObject));
+
+
+            List<Block> trellis = new ArrayList<>();
+            List<Block> trellis_with_vine = new ArrayList<>();
+
             Planks.TrellisBlockMap.forEach((resourceLocation, blockBlockPair) -> {
-                jsonArray.add(resourceLocation.toString());
+                trellis.add(blockBlockPair.trellisBlock());
+                trellis.addAll(blockBlockPair.trellisWithVineBlocks());
+                trellis_with_vine.addAll(blockBlockPair.trellisWithVineBlocks());
             });
-            for (Map.Entry<ResourceKey<Block>, Block> resourceKeyBlockEntry : BuiltInRegistries.BLOCK.entrySet()) {
-                if (resourceKeyBlockEntry.getValue() instanceof TrellisBlock) {
-                    jsonArray.add(resourceKeyBlockEntry.getKey().location().toString());
-                }
-            }
-            jsonObject.add("values", jsonArray);
 
             // here we need to use the method to lock the path
-            var base = BlockTags.WOODEN_FENCES.location();
-            ExistingFileHelper.ResourceType resourceType = new ExistingFileHelper.ResourceType(PackType.SERVER_DATA, ".json", Registries.tagsDirPath(Registries.BLOCK));
-            var loc = TeaStory.rl(base.getNamespace(), resourceType.getPrefix() + "/" + base.getPath() + resourceType.getSuffix());
-            resourceOutput.accept(loc, jsonObjectToIoSupplier(jsonObject));
-
+            saveBlockTag(resourceOutput, BlockTags.WOODEN_FENCES, trellis);
+            saveBlockTag(resourceOutput, TeaTags.Blocks.TRELLIS, trellis);
+            saveBlockTag(resourceOutput, TeaTags.Blocks.TRELLIS_WITH_VINE, trellis_with_vine);
         } else if (namespace.equals(TeaStory.MODID) && path.equals(Registries.elementsDirPath(Registries.RECIPE))) {
             JsonObject jsonObject = new JsonObject();
 
@@ -210,7 +229,18 @@ public class ServerModFilePackResources extends AbstractPackResources {
         }
 
     }
-
+    private void saveBlockTag(ResourceOutput resourceOutput, TagKey<Block> blockTagKey, List<Block> blocks) {
+        ResourceLocation base = blockTagKey.location();
+        ExistingFileHelper.ResourceType resourceType = new ExistingFileHelper.ResourceType(PackType.SERVER_DATA, ".json", Registries.tagsDirPath(Registries.BLOCK));
+        ResourceLocation loc = TeaStory.rl(base.getNamespace(), resourceType.getPrefix() + "/" + base.getPath() + resourceType.getSuffix());
+        JsonObject jsonObject = new JsonObject();
+        JsonArray jsonArray = new JsonArray();
+        for (String s : blocks.stream().map(block -> block.builtInRegistryHolder().key().location().toString()).toList()) {
+            jsonArray.add(s);
+        }
+        jsonObject.add("values", jsonArray);
+        resourceOutput.accept(loc, jsonObjectToIoSupplier(jsonObject));
+    }
     @Override
     public Set<String> getNamespaces(PackType pType) {
         return Set.of("minecraft", TeaStory.MODID);

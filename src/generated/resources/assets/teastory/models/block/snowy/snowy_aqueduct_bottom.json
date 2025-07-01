@@ -1,0 +1,6 @@
+{
+  "parent": "teastory:block/aqueduct_bottom_with_top",
+  "textures": {
+    "top": "minecraft:block/snow"
+  }
+}

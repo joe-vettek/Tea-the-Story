@@ -1,0 +1,8 @@
+{
+  "blocks": [
+    "teastory:bamboo_table",
+    "teastory:stone_table",
+    "teastory:wooden_table"
+  ],
+  "mid": "teastory:snowy_table"
+}
