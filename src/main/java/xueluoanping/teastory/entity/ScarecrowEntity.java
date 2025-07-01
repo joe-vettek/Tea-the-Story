@@ -1,6 +1,7 @@
 package xueluoanping.teastory.entity;
 
 
+import cloud.lemonslice.teastory.block.decorations.ScarecrowBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.decoration.ArmorStand;
@@ -54,6 +55,14 @@ public class ScarecrowEntity extends ArmorStand {
     @Override
     public boolean isDeadOrDying() {
         return this.level().isEmptyBlock(this.blockPosition());
+    }
+
+    @Override
+    public void remove(RemovalReason pReason) {
+        BlockPos below = blockPosition().below();
+        if(level().getBlockState(below).getBlock() instanceof ScarecrowBlock)
+            level().removeBlock(below, false);
+        super.remove(pReason);
     }
 
 }
