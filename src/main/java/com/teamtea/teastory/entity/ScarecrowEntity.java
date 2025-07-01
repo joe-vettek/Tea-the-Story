@@ -1,6 +1,7 @@
 package com.teamtea.teastory.entity;
 
 
+import com.teamtea.teastory.block.decorations.ScarecrowBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.decoration.ArmorStand;
@@ -63,7 +64,9 @@ public class ScarecrowEntity extends ArmorStand {
 
     @Override
     public void remove(RemovalReason pReason) {
-        level().removeBlock(blockPosition(), false);
+        BlockPos below = blockPosition().below();
+        if (level().getBlockState(below).getBlock() instanceof ScarecrowBlock)
+            level().removeBlock(below, false);
         super.remove(pReason);
     }
 
