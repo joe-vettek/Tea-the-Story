@@ -73,7 +73,7 @@ public class ESDataEventHandler {
             );
             tag(CropSeasonType.SP_AU.getTag()).add(BlockRegister.CHINESE_CABBAGE_SEEDS.get());
 
-            tag(CropSeasonType.SP_SU_AU.getTag()).add(BlockRegister.CUCUMBERS.get());
+            tag(CropSeasonType.SP_AU.getTag()).add(BlockRegister.CUCUMBERS.get());
             tag(CropSeasonType.SU_AU.getTag()).add(BlockRegister.GRAPES.get(),BlockRegister.BITTER_GOURDS.get());
 
             tag(CropHumidityType.AVERAGE_MOIST.getTag()).add(

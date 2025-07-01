@@ -1,6 +1,7 @@
 package xueluoanping.teastory.data.tag;
 
 
+import cloud.lemonslice.teastory.tag.TeaTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
@@ -27,7 +28,9 @@ public final class TeaStoryBlockTagProvider extends BlockTagsProvider {
     protected void addTags(HolderLookup.Provider pProvider) {
         tag(BlockTags.WOODEN_FENCES).add(BlockRegister.BAMBOO_LATTICE.get(), BlockRegister.DRIED_BAMBOO_WALL.get(), BlockRegister.DRIED_BAMBOO_WALL.get());
         tag(BlockTags.WALLS).add(BlockRegister.DRIED_BAMBOO_WALL.get(), BlockRegister.DRIED_BAMBOO_WALL.get());
-
+        //
+        // tag(TeaTags.Blocks.TRELLIS);
+        // tag(TeaTags.Blocks.TRELLIS_WITH_VINE);
         // BlockRegister.ModBlocks.getEntries().forEach(blockHolder -> {
         //     if (blockHolder.get() instanceof TrellisBlock) {
         //         tag(BlockTags.WOODEN_FENCES).add(blockHolder.get());

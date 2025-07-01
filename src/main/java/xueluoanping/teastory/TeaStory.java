@@ -5,6 +5,7 @@ import cloud.lemonslice.teastory.block.crops.VineInfoManager;
 import cloud.lemonslice.teastory.config.NormalConfigs;
 import cloud.lemonslice.teastory.recipe.drink.DrinkEffectManager;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.data.event.GatherDataEvent;
@@ -13,6 +14,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xueluoanping.teastory.data.start;
@@ -20,6 +22,7 @@ import xueluoanping.teastory.plugin.CompatManager;
 import xueluoanping.teastory.registry.*;
 
 import java.util.List;
+import java.util.Set;
 // import xueluoanping.fluiddrawerslegacy.handler.ControllerFluidCapabilityHandler;
 
 // The value here should match an entry in the META-INF/mods.toml file

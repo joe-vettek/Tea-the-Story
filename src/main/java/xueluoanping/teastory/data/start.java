@@ -8,6 +8,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 import xueluoanping.teastory.TeaStory;
 import xueluoanping.teastory.data.advancement.Advancements;
+import xueluoanping.teastory.data.compat.TSModelProvider;
 import xueluoanping.teastory.data.datapack.DatapackRegistryGenerator;
 import xueluoanping.teastory.data.lang.Lang_EN;
 import xueluoanping.teastory.data.lang.Lang_ZH;
@@ -49,6 +50,8 @@ public final class start {
             generator.addProvider(event.includeClient(),new Lang_ZH(packOutput, helper));
             generator.addProvider(event.includeClient(), new BlockStatesDataProvider(packOutput, helper));
             generator.addProvider(event.includeClient(), new TeaItemModelProvider(packOutput, MODID, helper));
+
+            generator.addProvider(event.includeClient(), new TSModelProvider(packOutput, MODID, helper,lookupProvider));
 
         }
     }

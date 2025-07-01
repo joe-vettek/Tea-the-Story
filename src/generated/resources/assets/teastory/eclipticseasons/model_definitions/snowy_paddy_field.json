@@ -1,0 +1,51 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "north": "false"
+      },
+      "apply": {
+        "uvlock": true,
+        "model": "teastory:block/snowy/snowy_paddy_field_wall"
+      }
+    },
+    {
+      "when": {
+        "east": "false"
+      },
+      "apply": {
+        "y": 90,
+        "uvlock": true,
+        "model": "teastory:block/snowy/snowy_paddy_field_wall"
+      }
+    },
+    {
+      "when": {
+        "south": "false"
+      },
+      "apply": {
+        "y": 180,
+        "uvlock": true,
+        "model": "teastory:block/snowy/snowy_paddy_field_wall"
+      }
+    },
+    {
+      "when": {
+        "west": "false"
+      },
+      "apply": {
+        "y": 270,
+        "uvlock": true,
+        "model": "teastory:block/snowy/snowy_paddy_field_wall"
+      }
+    },
+    {
+      "when": {
+        "waterlogged": "false"
+      },
+      "apply": {
+        "model": "teastory:block/snowy/snowy_dry_paddy_field"
+      }
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "blocks": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:or",
+        "values": [
+          "#teastory:trellis"
+        ]
+      },
+      {
+        "type": "forge:not",
+        "value": "#teastory:trellis_with_vine"
+      }
+    ]
+  },
+  "flag": 999,
+  "properties": [
+    {
+      "matcher": {
+        "value": "false"
+      },
+      "name": "up"
+    }
+  ]
+}

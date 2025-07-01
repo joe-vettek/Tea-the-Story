@@ -4,6 +4,7 @@ import cloud.lemonslice.teastory.block.crops.TrellisBlock;
 import cloud.lemonslice.teastory.block.crops.TrellisWithVineBlock;
 import cloud.lemonslice.teastory.block.crops.VineInfoManager;
 import cloud.lemonslice.teastory.block.crops.VineType;
+import cloud.lemonslice.teastory.tag.TeaTags;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;

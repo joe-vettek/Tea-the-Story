@@ -129,9 +129,11 @@ public class ScarecrowBlock extends NormalHorizontalBlock {
     }
 
     @Override
-    public void onPlace(BlockState pState, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pMovedByPiston) {
-        super.onPlace(pState, pLevel, pPos, pOldState, pMovedByPiston);
-        ScarecrowEntity.create(pLevel, pPos, 0.25, 0, 0);
+    public void onPlace(BlockState state, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pMovedByPiston) {
+        super.onPlace(state, pLevel, pPos, pOldState, pMovedByPiston);
+        if (state.getValue(HALF) == DoubleBlockHalf.UPPER) {
+            ScarecrowEntity.create(pLevel, pPos, 0.25, 0, 0);
+        }
     }
 
     @Override

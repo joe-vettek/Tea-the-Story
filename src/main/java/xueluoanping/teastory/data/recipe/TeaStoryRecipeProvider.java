@@ -27,7 +27,7 @@ import xueluoanping.teastory.registry.*;
 
 import java.util.function.Consumer;
 
-public final class TeaStoryRecipeProvider extends RecipeProvider {
+public class TeaStoryRecipeProvider extends RecipeProvider {
 
     public TeaStoryRecipeProvider(PackOutput generator) {
         super(generator);

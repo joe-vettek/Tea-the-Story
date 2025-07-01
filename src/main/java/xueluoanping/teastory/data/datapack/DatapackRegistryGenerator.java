@@ -2,6 +2,7 @@ package xueluoanping.teastory.data.datapack;
 
 
 
+import com.teamtea.eclipticseasons.common.registry.ESRegistries;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
@@ -9,6 +10,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
 import net.minecraftforge.registries.ForgeRegistries;
 import xueluoanping.teastory.TeaStory;
+import xueluoanping.teastory.data.compat.TSSnowDefinitionProvider;
 import xueluoanping.teastory.registry.DrinkRegistry;
 import xueluoanping.teastory.registry.ModBiomeFeatures;
 import xueluoanping.teastory.registry.ModBiomeModifiers;
@@ -26,6 +28,7 @@ public class DatapackRegistryGenerator extends DatapackBuiltinEntriesProvider {
             .add(Registries.DAMAGE_TYPE, ModDamageType::bootstrap)
             .add(ForgeRegistries.Keys.BIOME_MODIFIERS, ModBiomeModifiers::bootstrap)
             .add(DrinkRegistry.DRINK_EFFECT, DrinkRegistry::bootstrap)
+            .add(ESRegistries.SNOW_DEFINITIONS, TSSnowDefinitionProvider::bootstrap)
             ;
 
     public DatapackRegistryGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
