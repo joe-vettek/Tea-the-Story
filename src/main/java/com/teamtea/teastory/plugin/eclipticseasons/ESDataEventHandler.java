@@ -48,6 +48,23 @@ public class ESDataEventHandler {
 
         @Override
         protected void addTags(HolderLookup.Provider pProvider) {
+            tag(CropSeasonType.SUMMER.getBlockTag()).add(BlockRegister.WATERMELON_VINE.get());
+            this.tag(CropHumidityType.DRY_HUMID.getBlockTag()).add(BlockRegister.WATERMELON_VINE.get());
+
+
+            tag(CropSeasonType.SPRING.getBlockTag()).add(BlockRegister.tea_plant.get());
+            tag(CropSeasonType.SP_SU.getBlockTag()).add(
+                    BlockRegister.RiceSeedlingBlock.get(),
+                    BlockRegister.ricePlant.get(),
+                    BlockRegister.CHILI_PLANT.get()
+            );
+            tag(CropSeasonType.SP_AU.getBlockTag()).add(BlockRegister.CHINESE_CABBAGE_PLANT.get());
+
+            tag(CropHumidityType.AVERAGE_MOIST.getBlockTag()).add(
+                    BlockRegister.CHILI_PLANT.get(),BlockRegister.tea_plant.get());
+            tag(CropHumidityType.MOIST_HUMID.getBlockTag()).add(BlockRegister.RiceSeedlingBlock.get(),
+                    BlockRegister.ricePlant.get());
+
         }
     }
 

@@ -42,8 +42,7 @@ public class AddItemModifier extends LootModifier {
     @Nonnull
     @Override
     protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
-        if (ServerConfig.Agriculture.addSeedToHouseChest.get())
-        {
+        if (ServerConfig.Agriculture.addSeedToHouseChest.get()) {
             ItemStack addedStack = new ItemStack(addedItem, count);
 
             if (addedStack.getCount() < addedStack.getMaxStackSize()) {
