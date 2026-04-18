@@ -9,16 +9,15 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -36,6 +35,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 public class AqueductBlock extends HorizontalConnectedBlock implements SimpleWaterloggedBlock {
     public static final IntegerProperty DISTANCE = IntegerProperty.create("distance", 0, 32);
@@ -73,7 +73,7 @@ public class AqueductBlock extends HorizontalConnectedBlock implements SimpleWat
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult pHitResult) {
+    protected InteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult pHitResult) {
         if (player.getItemInHand(handIn).getItem() == Blocks.GRAVEL.asItem() && !state.getValue(BLOCKED)) {
             level.setBlockAndUpdate(pos, state.setValue(BLOCKED, true).setValue(WATERLOGGED, false).setValue(DISTANCE, 32));
             if (level instanceof ServerLevel) {
@@ -83,17 +83,17 @@ public class AqueductBlock extends HorizontalConnectedBlock implements SimpleWat
                 updateWater((ServerLevel) level, pos.west(), state);
             }
             player.getItemInHand(handIn).shrink(1);
-            return ItemInteractionResult.SUCCESS;
+            return InteractionResult.SUCCESS;
         } else {
             return fillAqueduct(level, pos, player, handIn);
         }
     }
 
-    public ItemInteractionResult fillAqueduct(Level worldIn, BlockPos pos, Player player, InteractionHand handIn) {
+    public InteractionResult fillAqueduct(Level worldIn, BlockPos pos, Player player, InteractionHand handIn) {
         if (player.getItemInHand(handIn).is(Tags.Items.COBBLESTONES)) {
             worldIn.setBlockAndUpdate(pos, Blocks.COBBLESTONE.defaultBlockState());
-            return ItemInteractionResult.SUCCESS;
-        } else return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return InteractionResult.SUCCESS;
+        } else return InteractionResult.PASS;
     }
 
 
@@ -131,12 +131,14 @@ public class AqueductBlock extends HorizontalConnectedBlock implements SimpleWat
         return distance;
     }
 
-    // removedByPlayer
     @Override
-    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
-        this.playerWillDestroy(level, pos, state, player);
-        return level.setBlock(pos, Blocks.AIR.defaultBlockState(), level.isClientSide() ? Block.UPDATE_ALL_IMMEDIATE : Block.UPDATE_ALL);
+    public void playerDestroy(Level level, Player player, BlockPos pos, BlockState state, @org.jspecify.annotations.Nullable BlockEntity blockEntity, ItemStack destroyedWith) {
+        super.playerDestroy(level, player, pos, state, blockEntity, destroyedWith);
+         level.setBlock(pos, Blocks.AIR.defaultBlockState(), level.isClientSide() ? Block.UPDATE_ALL_IMMEDIATE : Block.UPDATE_ALL);
+
     }
+
+
 
     public int getDistance(BlockState state, boolean isUp) {
         if (!canConnect(state) || state.getBlock() instanceof AqueductBlock && state.getValue(BLOCKED)) {
@@ -243,23 +245,23 @@ public class AqueductBlock extends HorizontalConnectedBlock implements SimpleWat
     }
 
 
-    // updatePostPlacement
     @Override
-    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
+    protected BlockState updateShape(BlockState stateIn, LevelReader level, ScheduledTickAccess ticks, BlockPos currentPos, Direction facing, BlockPos facingPos, BlockState facingState, RandomSource random) {
         // 排水和给水计划刻时间别设一样
         if (!(facingState.getBlock() instanceof AqueductBlock) && !(facingState.getBlock() instanceof PaddyFieldBlock)) {
-            level.scheduleTick(currentPos, this, Fluids.WATER.getTickDelay(level) / 2);
+            ticks.scheduleTick(currentPos, this, Fluids.WATER.getTickDelay(level) / 2);
         }
         if (stateIn.getValue(WATERLOGGED)) {
-            level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+            ticks.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
         if (facing.getAxis().getPlane() == Direction.Plane.HORIZONTAL) {
             stateIn = stateIn.setValue(FACING_TO_PROPERTY_MAP.get(facing), this.canConnect(facingState));
         } else if (facing == Direction.DOWN) {
             stateIn = stateIn.setValue(BOTTOM, this.isAqueduct(facingState));
         }
-        return stateIn;
-    }
+        return stateIn;    }
+
+
 
     // receiveFluid
     @Override
@@ -267,22 +269,18 @@ public class AqueductBlock extends HorizontalConnectedBlock implements SimpleWat
         return false;
     }
 
-
-    // pickupFluid
     @Override
-    public ItemStack pickupBlock(@javax.annotation.Nullable Player pPlayer, LevelAccessor accessor, BlockPos pos, BlockState state) {
+    public ItemStack pickupBlock(@org.jspecify.annotations.Nullable LivingEntity user, LevelAccessor level, BlockPos pos, BlockState state) {
         return ItemStack.EMPTY;
     }
 
-    // canPlaceLiquid
     @Override
-    public boolean canPlaceLiquid(@javax.annotation.Nullable Player pPlayer, BlockGetter blockGetter, BlockPos pos, BlockState state, Fluid fluid) {
-        return false;
-    }
+    public boolean canPlaceLiquid(@org.jspecify.annotations.Nullable LivingEntity user, BlockGetter level, BlockPos pos, BlockState state, Fluid type) {
+        return false;    }
+
 
     @Override
-    @SuppressWarnings("deprecation")
-    public FluidState getFluidState(BlockState state) {
+    public @NonNull FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 

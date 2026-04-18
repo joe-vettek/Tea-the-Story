@@ -3,7 +3,7 @@ package com.teamtea.teastory.block.crops;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -26,12 +26,12 @@ public class AqueductConnectorBlock extends AqueductBlock
     }
 
     @Override
-    public ItemInteractionResult fillAqueduct(Level worldIn, BlockPos pos, Player player, InteractionHand handIn) {
+    public InteractionResult fillAqueduct(Level worldIn, BlockPos pos, Player player, InteractionHand handIn) {
         if (player.getItemInHand(handIn).getItem() == Items.MOSSY_COBBLESTONE)
         {
             worldIn.setBlockAndUpdate(pos, Blocks.MOSSY_COBBLESTONE.defaultBlockState());
-            return ItemInteractionResult.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
-        else return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        else return InteractionResult.PASS;
     }
 }
