@@ -6,7 +6,7 @@ import com.teamtea.teastory.recipe.drink.DrinkEffectAttribute;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.material.Fluid;
@@ -20,7 +20,7 @@ public class DrinkRegistry {
         return ResourceKey.create(TeaStoryRegistries.DRINK_EFFECT, TeaStory.rl(name));
     }
 
-    private static ResourceKey<DrinkEffect> createKey(ResourceLocation name) {
+    private static ResourceKey<DrinkEffect> createKey(Identifier name) {
         return ResourceKey.create(TeaStoryRegistries.DRINK_EFFECT, name.withSuffix("_patch"));
     }
 
@@ -33,12 +33,12 @@ public class DrinkRegistry {
     }
 
     public static void registerEffects(BootstrapContext<DrinkEffect> context, Fluid fluid, DrinkEffectAttribute... doEffects) {
-        ResourceLocation key = BuiltInRegistries.FLUID.getKey(fluid);
+        Identifier key = BuiltInRegistries.FLUID.getKey(fluid);
         context.register(createKey(key), new DrinkEffect(new FluidStack(fluid, 250), List.of(doEffects)));
     }
 
     public static void registerEffects(BootstrapContext<DrinkEffect> context, Fluid fluid, List<DrinkEffectAttribute> doEffects) {
-        ResourceLocation key = BuiltInRegistries.FLUID.getKey(fluid);
+        Identifier key = BuiltInRegistries.FLUID.getKey(fluid);
         context.register(createKey(key), new DrinkEffect(new FluidStack(fluid, 250), doEffects));
     }
 

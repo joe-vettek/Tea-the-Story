@@ -3,7 +3,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.gradle.userdev' version '7.0.183'
+    id 'net.neoforged.gradle.userdev' version '7.1.21'
 }
 
 
@@ -55,7 +55,7 @@ base {
 }
 
 // Mojang ships Java 21 to end users starting in 1.20.5, so mods should target Java 21.
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
 
 minecraft.accessTransformers.file rootProject.file('src/main/resources/META-INF/accesstransformer.cfg')
 //minecraft.accessTransformers.entry public net.minecraft.client.Minecraft textureManager # textureManager
@@ -107,12 +107,19 @@ runs {
         systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
     }
 
-    data {
+    clientData {
+        // example of overriding the workingDirectory set in configureEach above, uncomment if you want to use it
+        // workingDirectory project.file('run-data')
+        // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
+        arguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+    }
+
+    serverData {
         // example of overriding the workingDirectory set in configureEach above, uncomment if you want to use it
         // workingDirectory project.file('run-data')
 
         // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-        programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+        arguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/server_resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
     }
 }
 
@@ -138,17 +145,18 @@ dependencies {
     // For all intends and purposes: You can treat this dependency as if it is a normal library you would use.
     implementation "net.neoforged:neoforge:${neo_version}"
 
-    compileOnly "org.appliedenergistics:guideme:${guideme_version}:api"
-    runtimeOnly "org.appliedenergistics:guideme:${guideme_version}"
+//    compileOnly "org.appliedenergistics:guideme:${guideme_version}:api"
+//    runtimeOnly "org.appliedenergistics:guideme:${guideme_version}"
+    implementation "curse.maven:guideme-1173950:7929350"
 
-    implementation("curse.maven:jei-238222:5846880")
-    compileOnly("curse.maven:jade-324717:5591256-deobf-sources-api")
+    compileOnly "curse.maven:jei-238222:7850293"
+    implementation "curse.maven:jade-324717:7817285"
 
-    implementation("curse.maven:ecliptic-seasons-1118306:6636300")
+    implementation("curse.maven:ecliptic-seasons-1118306:7939233")
 
 
-    onlyMainRuntimeOnly("curse.maven:irisshaders-455508:6213632")
-    onlyMainRuntimeOnly "maven.modrinth:sodium:mc1.21.1-0.6.9-neoforge"
+    implementation "maven.modrinth:sodium:mc26.1.1-0.8.9-neoforge"
+    compileOnly "maven.modrinth:iris:1.10.9+26.1-neoforge"
 //    onlyMainRuntimeOnly("curse.maven:journeymap-32274:5541925")
 
     println("----Scan onlyMainRuntimeOnly libs begin----")

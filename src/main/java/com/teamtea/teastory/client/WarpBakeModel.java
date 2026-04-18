@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.resources.model.ModelIdentifier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -39,16 +39,16 @@ public class WarpBakeModel implements IDynamicBakedModel {
     private final Map<BlockState, List<BakedQuad>> stateListMap = new IdentityHashMap<>();
     private final TextureAtlasSprite cache;
     private final ItemOverrides itemOverrides;
-    public static final ModelResourceLocation grape_leaves_on_beam = mrl("block/grape_leaves_on_beam");
-    public static final ModelResourceLocation grape_on_post_0 = mrl("block/grape_on_post_0");
-    public static final ModelResourceLocation grape_on_post_1 = mrl("block/grape_on_post_1");
-    public static final ModelResourceLocation grape_on_post_2 = mrl("block/grape_on_post_2");
-    public static final ModelResourceLocation grape_on_post_3 = mrl("block/grape_on_post_3");
-    public static final List<ModelResourceLocation> grapesRes = List.of(grape_on_post_0, grape_on_post_1, grape_on_post_2, grape_on_post_3);
+    public static final ModelIdentifier grape_leaves_on_beam = mrl("block/grape_leaves_on_beam");
+    public static final ModelIdentifier grape_on_post_0 = mrl("block/grape_on_post_0");
+    public static final ModelIdentifier grape_on_post_1 = mrl("block/grape_on_post_1");
+    public static final ModelIdentifier grape_on_post_2 = mrl("block/grape_on_post_2");
+    public static final ModelIdentifier grape_on_post_3 = mrl("block/grape_on_post_3");
+    public static final List<ModelIdentifier> grapesRes = List.of(grape_on_post_0, grape_on_post_1, grape_on_post_2, grape_on_post_3);
     public static final List<BakedModel> grapes = new ArrayList<>();
 
-    public static ModelResourceLocation mrl(String s) {
-        return ModelResourceLocation.standalone(TeaStory.rl(s));
+    public static ModelIdentifier mrl(String s) {
+        return ModelIdentifier.standalone(TeaStory.rl(s));
     }
 
     public WarpBakeModel(BakedModel bakedModel, TextureAtlasSprite cache) {

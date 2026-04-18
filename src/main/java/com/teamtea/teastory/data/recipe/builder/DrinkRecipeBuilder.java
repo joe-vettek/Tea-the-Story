@@ -4,7 +4,7 @@ import com.teamtea.teastory.recipe.drink.DrinkRecipe;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
@@ -44,8 +44,8 @@ public class DrinkRecipeBuilder {
     }
 
     public void build(RecipeOutput consumerIn, String save) {
-        ResourceLocation originRes = BuiltInRegistries.FLUID.getKey(this.result.getStacks()[0].getFluid());
-        ResourceLocation saveRes = ResourceLocation.tryParse(save);
+        Identifier originRes = BuiltInRegistries.FLUID.getKey(this.result.getStacks()[0].getFluid());
+        Identifier saveRes = Identifier.tryParse(save);
         if (saveRes.equals(originRes)) {
             throw new IllegalStateException("Recipe " + saveRes + " should remove its 'save' argument");
         } else {
@@ -53,7 +53,7 @@ public class DrinkRecipeBuilder {
         }
     }
 
-    public void build(RecipeOutput consumerIn, ResourceLocation id) {
+    public void build(RecipeOutput consumerIn, Identifier id) {
         id = TeaStory.rl(id.getNamespace(), "%s/%s".formatted(RecipeRegister.DRINK_MAKER.getId().getPath(), id.getPath()));
 
         consumerIn.accept(id, new DrinkRecipe("", this.ingredients, this.fluidIngredient, this.result), null);

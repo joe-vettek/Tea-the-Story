@@ -11,7 +11,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackLocationInfo;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
@@ -115,14 +115,14 @@ public class ModContent {
         // if(true)return;
         // TODO：neoforge 不需要像1.20forge那样解封注册表，但我们需要时间
         if (event.getRegistryKey() == Registries.BLOCK) {
-            Map<ResourceLocation, Block> resourceLocationBlockMap = new HashMap<>();
+            Map<Identifier, Block> resourceLocationBlockMap = new HashMap<>();
             for (var block : BuiltInRegistries.BLOCK.entrySet()) {
                 if (block.getKey().location().getPath().endsWith("_planks")) {
                     resourceLocationBlockMap.put(block.getKey().location(), block.getValue());
                 }
             }
 
-            for (Map.Entry<ResourceLocation, Block> resourceLocationBlockEntry : resourceLocationBlockMap.entrySet()) {
+            for (Map.Entry<Identifier, Block> resourceLocationBlockEntry : resourceLocationBlockMap.entrySet()) {
                 String name = resourceLocationBlockEntry.getKey().toString().replace(":", ".").replace("_planks", "_trellis");
                 var blockB = new TrellisBlock(Block.Properties.ofFullCopy(BlockRegister.OAK_TRELLIS.get()));
                 event.register(Registries.BLOCK, TeaStory.rl(name), () -> blockB);
@@ -139,7 +139,7 @@ public class ModContent {
 
             }
 
-            // Minecraft.getInstance().getResourceManager().getResource(new ResourceLocation("minecraft","tags/blocks/planks.json"))
+            // Minecraft.getInstance().getResourceManager().getResource(new Identifier("minecraft","tags/blocks/planks.json"))
         }
         if (event.getRegistryKey() == Registries.ITEM) {
             Planks.TrellisBlockMap.forEach((resourceLocation, block) -> {
@@ -153,7 +153,7 @@ public class ModContent {
             BlockEntityRegister.VINE_TYPE = BlockEntityRegister.DRBlockEntities.register("trellis_vine",
                     () -> BlockEntityType.Builder.of(VineBlockEntity::new, blocks).build(null));
         }
-        // ServerLifecycleHooks.getCurrentServer().getResourceManager().getResourceStack(new ResourceLocation("tags/blocks/acacia_logs.json"));
+        // ServerLifecycleHooks.getCurrentServer().getResourceManager().getResourceStack(new Identifier("tags/blocks/acacia_logs.json"));
     }
     // ServerLifecycleHooks.getCurrentServer().getResourceManager()
 
@@ -168,24 +168,6 @@ public class ModContent {
                 ItemRegister.BOTTLE_DRINK.value(),
                 BlockEntityRegister.PORCELAIN_TEAPOT.value(),
                 BlockEntityRegister.IRON_KETTLE_ITEM.value());
-
-        // event.registerBlock(Capabilities.ItemHandler.BLOCK,
-        //         (level, pos, state, blockEntity, context) -> {
-        //             var stack = new ItemStack(Items.SNOW_BLOCK);
-        //             // stack.setCount(state.getValue(SnowLayerBlock.LAYERS));
-        //             return new ItemStackHandler(NonNullList.of(
-        //                     new ItemStack(Items.SNOW_BLOCK), stack
-        //             )) {
-        //                 @Override
-        //                 public ItemStack extractItem(int slot, int amount, boolean simulate) {
-        //                     var stack = super.extractItem(slot, amount, simulate);
-        //                     if (!simulate && !stack.isEmpty()) {
-        //                         level.removeBlock(pos, false);
-        //                     }
-        //                     return stack;
-        //                 }
-        //             };
-        //         }, Blocks.SNOW_BLOCK);
 
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BlockEntityRegister.WOODEN_BARREL_TYPE.get(),
                 (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getFluidTank());
@@ -215,21 +197,5 @@ public class ModContent {
                 (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getFluidTank());
     }
 
-    @SubscribeEvent
-    public static void onAddPackFindersEvent(AddPackFindersEvent event) {
 
-        if (event.getPackType() == PackType.SERVER_DATA) {
-
-            for (String packID : List.of(TeaStory.MODID + "_generator")) {
-                var packLocationInfo = new PackLocationInfo(
-                        packID, Component.translatable(packID), PackSource.BUILT_IN, Optional.of(Planks.knowPack(packID)
-                ));
-                event.addRepositorySource(consumer -> consumer.accept(
-                        Pack.readMetaAndCreate(packLocationInfo,
-                                new ServerPathResourcesSupplier("data/"), PackType.SERVER_DATA,
-                                Planks.FEATURE_SELECTION_CONFIG)));
-            }
-
-        }
-    }
 }

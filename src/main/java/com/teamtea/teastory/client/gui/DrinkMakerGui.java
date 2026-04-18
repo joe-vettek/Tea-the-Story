@@ -9,7 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -21,7 +21,7 @@ import java.util.Optional;
 
 public class DrinkMakerGui extends AbstractContainerScreen<DrinkMakerContainer> {
     private static final String TEXTURE_PATH = "textures/gui/container/gui_drink_maker.png";
-    private static final ResourceLocation TEXTURE = TeaStory.rl(TEXTURE_PATH);
+    private static final Identifier TEXTURE = TeaStory.rl(TEXTURE_PATH);
 
     private static final int QUESTION_X = 83;
     private static final int QUESTION_Y = 16;

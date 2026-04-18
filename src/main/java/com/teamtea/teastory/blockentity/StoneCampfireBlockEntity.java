@@ -24,7 +24,7 @@ public class StoneCampfireBlockEntity extends CampfireBlockEntity {
     }
 
     public static void particleTick(Level pLevel, BlockPos pPos, BlockState pState, CampfireBlockEntity pBlockEntity) {
-        RandomSource randomsource = pLevel.random;
+        RandomSource randomsource = pLevel.getRandom();
         if (randomsource.nextFloat() < 0.11F) {
             for (int i = 0; i < randomsource.nextInt(2) + 2; i++) {
                 CampfireBlock.makeParticles(pLevel, pPos, pState.getValue(CampfireBlock.SIGNAL_FIRE), false);

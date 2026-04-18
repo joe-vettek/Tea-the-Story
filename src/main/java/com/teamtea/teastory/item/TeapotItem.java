@@ -100,7 +100,7 @@ public class TeapotItem extends BlockItem implements FluidContainerItem {
 
 
     public void fillItemGroup(CreativeModeTab.Output group) {
-        // for (Fluid fluid : FluidTags.getCollection().getTagByID(new ResourceLocation("teastory:drink")).getAllElements())
+        // for (Fluid fluid : FluidTags.getCollection().getTagByID(new Identifier("teastory:drink")).getAllElements())
         for (var fluid : FluidRegister.FLUIDS.getEntries()) {
             if (fluid.is(TeaTags.Fluids.DRINK))
                 if (fluid.get() instanceof BaseFlowingFluid.Source) {

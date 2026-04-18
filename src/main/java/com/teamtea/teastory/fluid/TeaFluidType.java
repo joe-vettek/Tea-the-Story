@@ -5,7 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.FogRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.FluidType;
@@ -15,15 +15,15 @@ import com.teamtea.teastory.registry.FluidRegister;
 
 public class TeaFluidType extends FluidType {
 
-    private final ResourceLocation STILL_TEXTURE;
-    private final ResourceLocation FLOWING_TEXTURE;
+    private final Identifier STILL_TEXTURE;
+    private final Identifier FLOWING_TEXTURE;
     private int colourTint;
 
     public TeaFluidType(Properties properties) {
         this(properties, FluidRegister.WATER_STILL_TEXTURE, FluidRegister.WATER_FLOW_TEXTURE);
     }
 
-    public TeaFluidType(Properties properties, ResourceLocation stillTexture, ResourceLocation flowingTexture) {
+    public TeaFluidType(Properties properties, Identifier stillTexture, Identifier flowingTexture) {
         super(properties);
         this.STILL_TEXTURE = stillTexture;
         this.FLOWING_TEXTURE = flowingTexture;
@@ -39,15 +39,15 @@ public class TeaFluidType extends FluidType {
         return new TeaFluidTypeExtension(teaFluidType.STILL_TEXTURE, teaFluidType.FLOWING_TEXTURE, teaFluidType.colourTint);
     }
 
-    public record TeaFluidTypeExtension(ResourceLocation STILL_TEXTURE, ResourceLocation FLOWING_TEXTURE,
+    public record TeaFluidTypeExtension(Identifier STILL_TEXTURE, Identifier FLOWING_TEXTURE,
                                         int colourTint) implements IClientFluidTypeExtensions {
         @Override
-        public ResourceLocation getStillTexture() {
+        public Identifier getStillTexture() {
             return this.STILL_TEXTURE;
         }
 
         @Override
-        public ResourceLocation getFlowingTexture() {
+        public Identifier getFlowingTexture() {
             return this.FLOWING_TEXTURE;
         }
 

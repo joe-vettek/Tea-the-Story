@@ -6,13 +6,14 @@ import com.teamtea.teastory.config.NormalConfigs;
 import com.teamtea.teastory.plugin.CompatManager;
 import com.teamtea.teastory.recipe.drink.DrinkEffectManager;
 import com.teamtea.teastory.registry.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
@@ -134,18 +135,18 @@ public class TeaStory {
         modContainer.registerConfig(ModConfig.Type.COMMON, NormalConfigs.SERVER_CONFIG);
         modContainer.registerConfig(ModConfig.Type.CLIENT, NormalConfigs.CLIENT_CONFIG);
 
-        if (FMLLoader.getDist() == Dist.CLIENT)
+        if (FMLEnvironment.getDist() == Dist.CLIENT)
             modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
 
     }
 
 
-    public static ResourceLocation rl(String id) {
-        return ResourceLocation.fromNamespaceAndPath(MODID, id);
+    public static Identifier rl(String id) {
+        return Identifier.fromNamespaceAndPath(MODID, id);
     }
 
-    public static ResourceLocation rl(String namespace, String id) {
-        return ResourceLocation.fromNamespaceAndPath(namespace, id);
+    public static Identifier rl(String namespace, String id) {
+        return Identifier.fromNamespaceAndPath(namespace, id);
     }
 
     public void FMLCommonSetup(final FMLCommonSetupEvent event) {

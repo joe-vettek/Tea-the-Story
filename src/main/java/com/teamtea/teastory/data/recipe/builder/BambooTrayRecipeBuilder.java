@@ -5,7 +5,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import com.teamtea.teastory.recipe.bamboo_tray.BambooTraySingleInRecipe;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -51,8 +51,8 @@ public class BambooTrayRecipeBuilder {
     }
 
     public void build(RecipeOutput consumerIn, String save) {
-        ResourceLocation originRes = BuiltInRegistries.ITEM.getKey(this.result);
-        ResourceLocation saveRes = ResourceLocation.tryParse(save);
+        Identifier originRes = BuiltInRegistries.ITEM.getKey(this.result);
+        Identifier saveRes = Identifier.tryParse(save);
         if (saveRes.equals(originRes)) {
             throw new IllegalStateException("Recipe " + saveRes + " should remove its 'save' argument");
         } else {
@@ -60,7 +60,7 @@ public class BambooTrayRecipeBuilder {
         }
     }
 
-    public void build(RecipeOutput consumerIn, ResourceLocation id) {
+    public void build(RecipeOutput consumerIn, Identifier id) {
         id = TeaStory.rl(id.getNamespace(), "%s/%s".formatted(recipeSerializer.getId().getPath().replace("bamboo_",""), id.getPath()));
         var c = recipeSerializer.get().factory.create("", this.ingredient, this.result.getDefaultInstance(), this.workTime);
         consumerIn.accept(id, c, null);

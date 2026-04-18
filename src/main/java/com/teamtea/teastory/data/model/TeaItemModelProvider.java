@@ -4,7 +4,7 @@ import com.teamtea.teastory.block.crops.WildCropBlock;
 import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -42,8 +42,8 @@ public class TeaItemModelProvider extends ItemModelProvider {
         //         b -> simpleParent(blockName(b))
         // );
         // getModel(TeaStory.rl("block/" + "stone_campfire")
-        withExistingParent(itemName(BlockRegister.stone_campfire_ITEM.value()), ResourceLocation.withDefaultNamespace(GENERATED))
-                .parent(new ModelFile.ExistingModelFile(ResourceLocation.withDefaultNamespace("block/block"), existingFileHelper))
+        withExistingParent(itemName(BlockRegister.stone_campfire_ITEM.value()), Identifier.withDefaultNamespace(GENERATED))
+                .parent(new ModelFile.ExistingModelFile(Identifier.withDefaultNamespace("block/block"), existingFileHelper))
                 .guiLight(BlockModel.GuiLight.FRONT)
                 .customLoader(CompositeModelBuilder::begin)
                 .child("layer1", getModel(TeaStory.rl("block/" + "stone_campfire")))
@@ -55,7 +55,7 @@ public class TeaItemModelProvider extends ItemModelProvider {
 
     }
 
-    public ItemModelBuilder getModel(ResourceLocation resourceLocation) {
+    public ItemModelBuilder getModel(Identifier resourceLocation) {
         return new ItemModelBuilder(resourceLocation, existingFileHelper)
                 .parent(new ModelFile.ExistingModelFile(resourceLocation, existingFileHelper));
     }
@@ -75,10 +75,10 @@ public class TeaItemModelProvider extends ItemModelProvider {
         return BuiltInRegistries.ITEM.getKey(item).getPath();
     }
 
-    public ResourceLocation resourceItem(String path) {
+    public Identifier resourceItem(String path) {
         return TeaStory.rl("item/" + path);
     }
-    public static ResourceLocation resourceBlock(String path) {
+    public static Identifier resourceBlock(String path) {
         return TeaStory.rl("block/" + path);
     }
 

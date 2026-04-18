@@ -46,7 +46,7 @@ public class TeaStotryBlockLootSubProvider extends BlockLootSubProvider {
     // so while you add your block, and then you need to deal with the block you don't need
     // If you don't want to do some extra check, maybe my method is better,
     // so now you need override add,accept method yourself. Don't be lazy.
-    // private final Map<ResourceLocation, LootTable.Builder> map = Maps.newHashMap();
+    // private final Map<Identifier, LootTable.Builder> map = Maps.newHashMap();
 
 
     public TeaStotryBlockLootSubProvider(HolderLookup.Provider provider) {

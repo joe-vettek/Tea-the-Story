@@ -10,7 +10,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import com.teamtea.teastory.fluid.TeaFluidType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -31,8 +31,8 @@ public final class FluidRegister {
     public static DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(NeoForgeRegistries.Keys.FLUID_TYPES, MODID);
 
 
-    public static final ResourceLocation WATER_STILL_TEXTURE =  ResourceLocation.tryParse("minecraft:block/water_still");
-    public static final ResourceLocation WATER_FLOW_TEXTURE = ResourceLocation.tryParse("minecraft:block/water_flow");
+    public static final Identifier WATER_STILL_TEXTURE =  Identifier.tryParse("minecraft:block/water_still");
+    public static final Identifier WATER_FLOW_TEXTURE = Identifier.tryParse("minecraft:block/water_flow");
 
     public static final DeferredHolder<Fluid, BaseFlowingFluid.Source> BOILING_WATER_STILL = FLUIDS.register("boiling_water", () -> new BaseFlowingFluid.Source(FluidRegister.BOILING_WATER_PROPERTIES));
     public static final DeferredHolder<Fluid, BaseFlowingFluid.Flowing> BOILING_WATER_FLOW = FLUIDS.register("boiling_water_flowing", () -> new BaseFlowingFluid.Flowing(FluidRegister.BOILING_WATER_PROPERTIES));

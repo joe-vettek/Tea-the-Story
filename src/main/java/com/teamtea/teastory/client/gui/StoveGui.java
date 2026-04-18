@@ -8,13 +8,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import com.teamtea.teastory.TeaStory;
 
 public class StoveGui extends AbstractContainerScreen<StoveContainer> {
     private static final String TEXTURE_PATH = "textures/gui/container/gui_stove.png";
-    private static final ResourceLocation TEXTURE = TeaStory.rl(TEXTURE_PATH);
+    private static final Identifier TEXTURE = TeaStory.rl(TEXTURE_PATH);
     private StoveContainer container;
 
     public StoveGui(StoveContainer container, Inventory inventory, Component name) {

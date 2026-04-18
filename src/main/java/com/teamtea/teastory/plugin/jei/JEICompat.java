@@ -20,7 +20,7 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -33,13 +33,13 @@ import java.util.stream.Collectors;
 @SuppressWarnings("removal")
 @JeiPlugin
 public final class JEICompat implements IModPlugin {
-    private static final ResourceLocation IN_RAIN = TeaStory.rl("bamboo_tray.mode.in_rain");
-    private static final ResourceLocation OUTDOORS = TeaStory.rl("bamboo_tray.mode.outdoors");
-    private static final ResourceLocation INDOORS = TeaStory.rl("bamboo_tray.mode.indoors");
-    private static final ResourceLocation BAKE = TeaStory.rl("bamboo_tray.mode.bake");
-    public static final ResourceLocation DRINK_MAKER = TeaStory.rl("drink_maker");
-    public static final ResourceLocation STONE_MILL = TeaStory.rl("stone_mill");
-    public static final ResourceLocation STONE_ROLLER = TeaStory.rl("stone_roller");
+    private static final Identifier IN_RAIN = TeaStory.rl("bamboo_tray.mode.in_rain");
+    private static final Identifier OUTDOORS = TeaStory.rl("bamboo_tray.mode.outdoors");
+    private static final Identifier INDOORS = TeaStory.rl("bamboo_tray.mode.indoors");
+    private static final Identifier BAKE = TeaStory.rl("bamboo_tray.mode.bake");
+    public static final Identifier DRINK_MAKER = TeaStory.rl("drink_maker");
+    public static final Identifier STONE_MILL = TeaStory.rl("stone_mill");
+    public static final Identifier STONE_ROLLER = TeaStory.rl("stone_roller");
 
     public static final mezz.jei.api.recipe.RecipeType<BambooTrayInRainRecipe> IN_RAIN_TYPE = getType(IN_RAIN, BambooTrayInRainRecipe.class);
     public static final mezz.jei.api.recipe.RecipeType<BambooTrayOutdoorsRecipe> OUTDOORS_TYPE = getType(OUTDOORS, BambooTrayOutdoorsRecipe.class);
@@ -50,7 +50,7 @@ public final class JEICompat implements IModPlugin {
     public static final mezz.jei.api.recipe.RecipeType<StoneRollerRecipe> STONE_ROLLER_TYPE = getType(STONE_ROLLER, StoneRollerRecipe.class);
 
     @Override
-    public @NotNull ResourceLocation getPluginUid() {
+    public @NotNull Identifier getPluginUid() {
         return TeaStory.rl("recipe");
     }
 
@@ -117,14 +117,15 @@ public final class JEICompat implements IModPlugin {
 
     }
 
-    public static <T> mezz.jei.api.recipe.RecipeType<T> getType(ResourceLocation rs, Class<? extends T> recipeClass) {
+    public static <T> mezz.jei.api.recipe.RecipeType<T> getType(Identifier rs, Class<? extends T> recipeClass) {
         return mezz.jei.api.recipe.RecipeType.create(rs.getNamespace(), rs.getPath(), recipeClass);
     }
 
 
     private static <T extends Recipe<?>> List<T> getRecipes(@NotNull RecipeType<T> type) {
         return Minecraft.getInstance().level
-                .getRecipeManager()
+                .recipeAccess()
+                .propertySet()
                 .getRecipes()
                 .stream()
                 .filter(r -> r.value().getType() == type)

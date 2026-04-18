@@ -4,7 +4,7 @@ import com.teamtea.teastory.block.crops.WildCropBlock;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
@@ -35,7 +35,7 @@ public class BlockStatesDataProvider extends BlockStateProvider {
 
 
         for (DeferredHolder<Block, ? extends Block> entry : FluidRegister.BLOCKS.getEntries()) {
-            simpleBlock(entry.value(), ConfiguredModel.builder().modelFile(models().withExistingParent("water", ResourceLocation.withDefaultNamespace("water"))).build());
+            simpleBlock(entry.value(), ConfiguredModel.builder().modelFile(models().withExistingParent("water", Identifier.withDefaultNamespace("water"))).build());
         }
 
 
@@ -64,7 +64,7 @@ public class BlockStatesDataProvider extends BlockStateProvider {
                 .end();
 
         for (DeferredHolder<Block, WildCropBlock> holder : List.of(BlockRegister.WILD_CUCUMBER, BlockRegister.WILD_BITTER_GOURD, BlockRegister.WILD_RICE, BlockRegister.WILD_CHILI, BlockRegister.WILD_CHINESE_CABBAGE)) {
-            simpleBlock(holder.value(), ConfiguredModel.builder().modelFile(models().withExistingParent(blockName(holder.value()), ResourceLocation.withDefaultNamespace("cross"))
+            simpleBlock(holder.value(), ConfiguredModel.builder().modelFile(models().withExistingParent(blockName(holder.value()), Identifier.withDefaultNamespace("cross"))
                     .texture("cross",resourceBlock(blockName(holder.value())))
             ).build());
 
@@ -75,7 +75,7 @@ public class BlockStatesDataProvider extends BlockStateProvider {
 
     // Thanks vectorwing，great work
     // I am not proud of this method... But hey, it's runData. Only I shall have to deal with it.
-    public void customStageBlock(Block block, @Nullable ResourceLocation parent, String textureKey, IntegerProperty ageProperty, List<Integer> suffixes, Property<?>... ignored) {
+    public void customStageBlock(Block block, @Nullable Identifier parent, String textureKey, IntegerProperty ageProperty, List<Integer> suffixes, Property<?>... ignored) {
         getVariantBuilder(block)
                 .forAllStatesExcept(state -> {
                     int ageSuffix = state.getValue(ageProperty);
@@ -95,12 +95,12 @@ public class BlockStatesDataProvider extends BlockStateProvider {
         return BuiltInRegistries.BLOCK.getKey(block).getPath();
     }
 
-    public static ResourceLocation resourceBlock(String path) {
+    public static Identifier resourceBlock(String path) {
         return TeaStory.rl("block/" + path);
     }
 
-    public ResourceLocation resourceVanillaBlock(String path) {
-        return ResourceLocation.withDefaultNamespace("block/" + path);
+    public Identifier resourceVanillaBlock(String path) {
+        return Identifier.withDefaultNamespace("block/" + path);
     }
 
 

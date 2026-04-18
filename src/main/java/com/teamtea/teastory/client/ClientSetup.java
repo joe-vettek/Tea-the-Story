@@ -23,11 +23,11 @@ import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.resources.model.ModelIdentifier;
 import net.minecraft.client.resources.model.MultiPartBakedModel;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackLocationInfo;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
@@ -131,13 +131,13 @@ public class ClientSetup {
     public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(EntityRegister.SEAT_TYPE.get(), pContext -> new EntityRenderer<Entity>(pContext) {
             @Override
-            public ResourceLocation getTextureLocation(Entity pEntity) {
+            public Identifier getTextureLocation(Entity pEntity) {
                 return null;
             }
         });
         event.registerEntityRenderer(EntityRegister.SCARECROW_TYPE.get(), pContext -> new EntityRenderer<Entity>(pContext) {
             @Override
-            public ResourceLocation getTextureLocation(Entity pEntity) {
+            public Identifier getTextureLocation(Entity pEntity) {
                 return null;
             }
         });
@@ -162,14 +162,14 @@ public class ClientSetup {
 
     @SubscribeEvent
     public static void onModelBaked(ModelEvent.ModifyBakingResult event) {
-        Map<ModelResourceLocation, BakedModel> modelRegistry = event.getModels();
+        Map<ModelIdentifier, BakedModel> modelRegistry = event.getModels();
 
-        for (ModelResourceLocation grapesRe : WarpBakeModel.grapesRes) {
+        for (ModelIdentifier grapesRe : WarpBakeModel.grapesRes) {
             WarpBakeModel.grapes.add(modelRegistry.get(grapesRe));
         }
 
         // MultiPartBakedModel OAK_TRELLIS_MODEL = (MultiPartBakedModel) event.getModels().get(BlockModelShaper.stateToModelLocation(BlockRegister.OAK_TRELLIS.get().defaultBlockState()));
-        ModelResourceLocation OAK_TRELLIS_ITEM_LOCATION = new ModelResourceLocation(BlockRegister.OAK_TRELLIS.getId(), "inventory");
+        ModelIdentifier OAK_TRELLIS_ITEM_LOCATION = new ModelIdentifier(BlockRegister.OAK_TRELLIS.getId(), "inventory");
         BakedModel OAK_TRELLIS_ITEM_MODEL = event.getModels().get(OAK_TRELLIS_ITEM_LOCATION);
 
         // TeaStory.logger(OAK_TRELLIS_MODEL);
@@ -180,7 +180,7 @@ public class ClientSetup {
 
         Planks.TrellisBlockMap.forEach((res, plankHolders) -> {
             // modelRegistry.get(((HashMap.Node) (Planks.resourceLocationBlockMap).entrySet().toArray()[0]).getKey())
-            // modelRegistry.put(new ModelResourceLocation((res),""),cc);
+            // modelRegistry.put(new ModelIdentifier((res),""),cc);
             ArrayList<BlockState> blockStates = new ArrayList<>(plankHolders.trellisBlock().getStateDefinition().getPossibleStates());
             plankHolders.trellisWithVineBlocks()
                     .forEach(trellisWithVineBlock ->
@@ -206,9 +206,9 @@ public class ClientSetup {
             // }
 
             {
-                var location_A = new ModelResourceLocation(BuiltInRegistries.ITEM.getKey(plankHolders.plank().asItem()), "inventory");
+                var location_A = new ModelIdentifier(BuiltInRegistries.ITEM.getKey(plankHolders.plank().asItem()), "inventory");
 
-                var location_3 = new ModelResourceLocation(BuiltInRegistries.ITEM.getKey(plankHolders.trellisBlock().asItem()), "inventory");
+                var location_3 = new ModelIdentifier(BuiltInRegistries.ITEM.getKey(plankHolders.trellisBlock().asItem()), "inventory");
 
                 modelRegistry.put(location_3, new WarpBakeModel(OAK_TRELLIS_ITEM_MODEL, modelRegistry.get(location_A).getParticleIcon()));
             }
@@ -266,22 +266,7 @@ public class ClientSetup {
         });
     }
 
-    @SubscribeEvent
-    public static void onAddPackFindersEvent(AddPackFindersEvent event) {
 
-        if (event.getPackType() == PackType.CLIENT_RESOURCES) {
-            for (String packID : List.of(TeaStory.MODID + "_asset_generator")) {
-                var packLocationInfo = new PackLocationInfo(
-                        packID, Component.translatable(packID), PackSource.BUILT_IN, Optional.of(Planks.knowPack(packID)
-                ));
-                event.addRepositorySource(consumer -> consumer.accept(
-                        Pack.readMetaAndCreate(packLocationInfo,
-                                new PathResourcesSupplier(ModList.get().getModFileById(TeaStory.MODID).getFile(), Path.of("asset/")), PackType.CLIENT_RESOURCES,
-                                Planks.FEATURE_SELECTION_CONFIG)));
-            }
-
-        }
-    }
 
 
 }

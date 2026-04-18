@@ -15,7 +15,7 @@ import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -56,7 +56,7 @@ public class TeaAdvancementGenerator implements AdvancementProvider.AdvancementG
                 .display(ItemRegister.TEA_LEAVES.get(),
                         getTittle(ROOT),
                         getDescription(ROOT),
-                        ResourceLocation.parse("minecraft:textures/block/bricks.png"),
+                        Identifier.parse("minecraft:textures/block/bricks.png"),
                         AdvancementType.TASK, false, false, false)
                 .addCriterion("any", InventoryChangeTrigger.TriggerInstance.hasItems(new ItemLike[]{}))
                 .requirements(AdvancementRequirements.Strategy.AND)
@@ -112,7 +112,7 @@ public class TeaAdvancementGenerator implements AdvancementProvider.AdvancementG
                 .display(icon,
                         getTittle(name),
                         getDescription(name),
-                        ResourceLocation.parse("minecraft:textures/block/bricks.png"),
+                        Identifier.parse("minecraft:textures/block/bricks.png"),
                         AdvancementType.TASK, false, false, false)
                 .addCriterion("require", InventoryChangeTrigger.TriggerInstance.hasItems(
                         itemLikes
@@ -134,7 +134,7 @@ public class TeaAdvancementGenerator implements AdvancementProvider.AdvancementG
                 .display(icon,
                         getTittle(name),
                         getDescription(name),
-                        ResourceLocation.parse("minecraft:textures/block/bricks.png"),
+                        Identifier.parse("minecraft:textures/block/bricks.png"),
                         AdvancementType.TASK, false, false, false)
                 .addCriterion("require", InventoryChangeTrigger.TriggerInstance.hasItems(
                         ItemPredicate.Builder.item().of(pTag))

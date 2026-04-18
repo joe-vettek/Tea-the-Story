@@ -3,7 +3,7 @@ package com.teamtea.teastory.data.recipe.builder;
 import com.teamtea.teastory.recipe.stone_mill.StoneMillRecipe;
 import net.minecraft.core.NonNullList;
 import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -48,11 +48,11 @@ public class StoneMillRecipeBuilder {
     }
 
     public void build(RecipeOutput consumerIn, String save) {
-        ResourceLocation saveRes = ResourceLocation.tryParse(save);
+        Identifier saveRes = Identifier.tryParse(save);
         this.build(consumerIn, saveRes);
     }
 
-    public void build(RecipeOutput consumerIn, ResourceLocation id) {
+    public void build(RecipeOutput consumerIn, Identifier id) {
         id = TeaStory.rl(id.getNamespace(), "%s/%s".formatted(RecipeRegister.STONE_MILL.getId().getPath(), id.getPath()));
 
         consumerIn.accept(id,new StoneMillRecipe("",this.inputItem, this.inputFluid, this.outputItems, this.outputFluid, this.workTime),null);
