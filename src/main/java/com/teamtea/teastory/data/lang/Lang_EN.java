@@ -26,20 +26,9 @@ public class Lang_EN extends LangHelper {
         add(BlockRegister.RiceSeedlingBlock.get(), "Rice Grain");
         add(BlockRegister.ricePlant.get(), "Rice Seedlings");
         add(BlockRegister.TEA_SEEDS.get(), "Tea Seeds");
-        add(BlockRegister.CHILI_PLANT.get(), "Chili Seeds");
-        add(BlockRegister.CHILI.get(), "Chili");
-        add(BlockRegister.CHINESE_CABBAGE_PLANT.get(), "Chinese Cabbage Seeds");
-        add(BlockRegister.CHINESE_CABBAGE.get(), "Chinese Cabbage");
-        add(BlockRegister.GRAPE.get(), "Grape");
-        add(BlockRegister.CUCUMBER.get(), "Cucumber");
-        add(BlockRegister.BITTER_GOURD.get(), "Bitter Gourd");
         add(BlockRegister.WOODEN_BOWL_ITEM.get(), "Wooden Bowl");
 
         add(BlockRegister.WILD_RICE.get(), "Wild Rice");
-        add(BlockRegister.WILD_CHINESE_CABBAGE.get(), "Wild Chinese Cabbage");
-        add(BlockRegister.WILD_CHILI.get(), "Wild Chili");
-        add(BlockRegister.WILD_CUCUMBER.get(), "Wild Cucumber");
-        add(BlockRegister.WILD_BITTER_GOURD.get(), "Wild Bitter Gourd");
 
         add(ItemRegister.NETHER_WART_RICE_BOWL.get(), "Nether Wart Rice Bowl");
         add(ItemRegister.SPICY_BEEF_RICE_BOWL.get(), "Spicy Beef Rice Bowl");

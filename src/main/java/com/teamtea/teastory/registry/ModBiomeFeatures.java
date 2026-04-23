@@ -47,11 +47,6 @@ public class ModBiomeFeatures {
 
     public static class TeaConfiguredFeature {
         public static final ResourceKey<ConfiguredFeature<?, ?>> WILD_RICE = createKey("wild_rice");
-        public static final ResourceKey<ConfiguredFeature<?, ?>> WILD_CHILI = createKey("wild_chili");
-        public static final ResourceKey<ConfiguredFeature<?, ?>> WILD_CHINESE_CABBAGE = createKey("wild_chinese_cabbage");
-        public static final ResourceKey<ConfiguredFeature<?, ?>> WILD_GRAPE = createKey("wild_grape");
-        public static final ResourceKey<ConfiguredFeature<?, ?>> WILD_CUCUMBER = createKey("wild_cucumber");
-        public static final ResourceKey<ConfiguredFeature<?, ?>> WILD_BITTER_GOURD = createKey("wild_bitter_gourd");
         public static final ResourceKey<ConfiguredFeature<?, ?>> WILD_TEA_PLANT = createKey("wild_tea_plant");
         public static final ResourceKey<ConfiguredFeature<?, ?>> GRASS_BLOCK_WITH_HOLE = createKey("grass_block_with_hole");
         public static final ResourceKey<ConfiguredFeature<?, ?>> FLOWER_PATCH = createKey("flower_patch");
@@ -94,11 +89,6 @@ public class ModBiomeFeatures {
 
         public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
             FeatureUtils.register(context, WILD_RICE, Feature.RANDOM_BOOLEAN_SELECTOR, onDirtCrop(BlockStateProvider.simple(BlockRegister.WILD_RICE.get()), 56));
-            FeatureUtils.register(context, WILD_CHILI, Feature.RANDOM_PATCH, grassLikePatch(BlockStateProvider.simple(BlockRegister.WILD_CHILI.get()), 50));
-            FeatureUtils.register(context, WILD_CHINESE_CABBAGE, Feature.RANDOM_PATCH, grassLikePatch(BlockStateProvider.simple(BlockRegister.WILD_CHINESE_CABBAGE.get()), 56));
-            FeatureUtils.register(context, WILD_GRAPE, Feature.RANDOM_PATCH, grassLikePatch(BlockStateProvider.simple(BlockRegister.WILD_GRAPE.get()), 50));
-            FeatureUtils.register(context, WILD_CUCUMBER, Feature.RANDOM_PATCH, grassLikePatch(BlockStateProvider.simple(BlockRegister.WILD_CUCUMBER.get()), 50));
-            FeatureUtils.register(context, WILD_BITTER_GOURD, Feature.RANDOM_PATCH, grassLikePatch(BlockStateProvider.simple(BlockRegister.WILD_BITTER_GOURD.get()), 48));
             FeatureUtils.register(context, WILD_TEA_PLANT, Feature.RANDOM_PATCH, grassLikePatch(BlockStateProvider.simple(BlockRegister.wild_tea_plant.get()), 36));
             FeatureUtils.register(context, GRASS_BLOCK_WITH_HOLE, Feature.RANDOM_PATCH, onDirtReplace(BlockRegister.GRASS_BLOCK_WITH_HOLE.get().defaultBlockState(), 8));
             FeatureUtils.register(
@@ -136,11 +126,6 @@ public class ModBiomeFeatures {
 
     public static class TeaPlacedFeature {
         public static final ResourceKey<PlacedFeature> WILD_RICE = createKey("wild_rice");
-        public static final ResourceKey<PlacedFeature> WILD_CHILI = createKey("wild_chili");
-        public static final ResourceKey<PlacedFeature> WILD_CHINESE_CABBAGE = createKey("wild_chinese_cabbage");
-        public static final ResourceKey<PlacedFeature> WILD_GRAPE = createKey("wild_grape");
-        public static final ResourceKey<PlacedFeature> WILD_CUCUMBER = createKey("wild_cucumber");
-        public static final ResourceKey<PlacedFeature> WILD_BITTER_GOURD = createKey("wild_bitter_gourd");
         public static final ResourceKey<PlacedFeature> WILD_TEA_PLANT = createKey("wild_tea_plant");
         public static final ResourceKey<PlacedFeature> GRASS_BLOCK_WITH_HOLE = createKey("grass_block_with_hole");
         public static final ResourceKey<PlacedFeature> FLOWER_PATCH = createKey("flower_patch");
@@ -161,11 +146,6 @@ public class ModBiomeFeatures {
             HolderGetter<ConfiguredFeature<?, ?>> holdergetter = context.lookup(Registries.CONFIGURED_FEATURE);
 
             PlacementUtils.register(context, WILD_RICE, holdergetter.getOrThrow(TeaConfiguredFeature.WILD_RICE), worldSurfaceSquared(15));
-            PlacementUtils.register(context, WILD_CHILI, holdergetter.getOrThrow(TeaConfiguredFeature.WILD_CHILI), worldSurfaceSquared(24));
-            PlacementUtils.register(context, WILD_CHINESE_CABBAGE, holdergetter.getOrThrow(TeaConfiguredFeature.WILD_CHINESE_CABBAGE), worldSurfaceSquared(20));
-            PlacementUtils.register(context, WILD_GRAPE, holdergetter.getOrThrow(TeaConfiguredFeature.WILD_GRAPE), worldSurfaceSquared(18));
-            PlacementUtils.register(context, WILD_CUCUMBER, holdergetter.getOrThrow(TeaConfiguredFeature.WILD_CUCUMBER), worldSurfaceSquared(20));
-            PlacementUtils.register(context, WILD_BITTER_GOURD, holdergetter.getOrThrow(TeaConfiguredFeature.WILD_BITTER_GOURD), worldSurfaceSquared(24));
             PlacementUtils.register(context, WILD_TEA_PLANT, holdergetter.getOrThrow(TeaConfiguredFeature.WILD_TEA_PLANT), worldSurfaceSquared(18));
             PlacementUtils.register(context, GRASS_BLOCK_WITH_HOLE, holdergetter.getOrThrow(TeaConfiguredFeature.GRASS_BLOCK_WITH_HOLE), worldSurfaceSquaredWithCount(3, 20));
             PlacementUtils.register(context, FLOWER_PATCH, holdergetter.getOrThrow(TeaConfiguredFeature.FLOWER_PATCH), worldSurfaceSquaredWithCount(2, 5));

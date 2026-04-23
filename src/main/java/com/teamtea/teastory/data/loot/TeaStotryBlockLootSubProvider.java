@@ -74,20 +74,10 @@ public class TeaStotryBlockLootSubProvider extends BlockLootSubProvider {
     private void generateCropsDrops() {
 
         dropCropBlock(BlockRegister.WATERMELON_VINE.get(), Items.MELON, Items.MELON_SEEDS, MelonVineBlock.AGE, 7);
-        dropCropBlock(BlockRegister.GRAPE.get(), BlockRegister.GRAPES.get(), Items.AIR, StemFruitBlock.AGE_0_4, 4);
-        dropCropBlock(BlockRegister.CUCUMBER.get(), BlockRegister.CUCUMBERS.get(), Items.AIR, StemFruitBlock.AGE_0_4, 4);
-        dropCropBlock(BlockRegister.BITTER_GOURD.get(), BlockRegister.BITTER_GOURDS.get(), Items.AIR, StemFruitBlock.AGE_0_4, 4);
-        dropCropBlock(BlockRegister.CHILI_PLANT.get(), BlockRegister.CHILI.get(), BlockRegister.CHILI_SEEDS.get(), ChiliBlock.AGE, 6);
-        dropCropBlock(BlockRegister.CHINESE_CABBAGE_PLANT.get(), BlockRegister.CHINESE_CABBAGE.get(), BlockRegister.CHINESE_CABBAGE_SEEDS.get(), ChineseCabbageBlock.AGE, 6);
 
         add(BlockRegister.wild_tea_plant.get(), (b) -> createWildCropDrops(b, BlockRegister.TEA_SEEDS.get(), ItemRegister.TEA_LEAVES.get()));
-        add(BlockRegister.WILD_GRAPE.get(), (b) -> createWildCropDrops(b, BlockRegister.GRAPES.get()));
-        add(BlockRegister.WILD_BITTER_GOURD.get(), (b) -> createWildCropDrops(b, BlockRegister.BITTER_GOURDS.get()));
-        add(BlockRegister.WILD_CUCUMBER.get(), (b) -> createWildCropDrops(b, BlockRegister.CUCUMBERS.get()));
 
         add(BlockRegister.WILD_RICE.get(), (b) -> createWildCropDrops(b, BlockRegister.RICE_GRAINS.get()));
-        add(BlockRegister.WILD_CHINESE_CABBAGE.get(), (b) -> createWildCropDrops(b, BlockRegister.CHINESE_CABBAGE_SEEDS.get()));
-        add(BlockRegister.WILD_CHILI.get(), (b) -> createWildCropDrops(b, BlockRegister.CHILI_SEEDS.get()));
 
         dropRice();
         dropTeaPlant();
@@ -297,7 +287,7 @@ public class TeaStotryBlockLootSubProvider extends BlockLootSubProvider {
         // AlternativesEntry
         return LootTable.lootTable()
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(pBlock).when(this.hasShearsOrSilkTouch())
-                        .otherwise( LootItem.lootTableItem(seed).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 1.0F))))))
+                        .otherwise(LootItem.lootTableItem(seed).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 1.0F))))))
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(EntryGroup.list(
                                 LootItem.lootTableItem(seed).apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 2.0F))),
                                 LootItem.lootTableItem(extra).apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 3.0F)))

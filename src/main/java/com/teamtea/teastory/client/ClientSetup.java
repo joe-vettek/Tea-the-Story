@@ -1,16 +1,12 @@
 package com.teamtea.teastory.client;
 
 import com.teamtea.teastory.block.crops.HybridizableFlowerBlock;
-import com.teamtea.teastory.*;
-import com.teamtea.teastory.block.crops.TrellisWithVineBlock;
-import com.teamtea.teastory.client.color.block.GrassBlockColor;
 import com.teamtea.teastory.client.color.block.HybridizableFlowerBlockColor;
 import com.teamtea.teastory.client.color.block.SaucepanBlockColor;
 import com.teamtea.teastory.client.color.block.TeaCupBlockColor;
 import com.teamtea.teastory.client.color.item.*;
 import com.teamtea.teastory.client.render.*;
 import com.teamtea.teastory.registry.*;
-import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.color.block.BlockTintSources;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
@@ -18,10 +14,7 @@ import net.minecraft.client.resources.model.ModelIdentifier;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.GrassColor;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -72,40 +65,11 @@ public class ClientSetup {
     }
 
     @SubscribeEvent
-    public static void onModelBaked(ModelEvent.RegisterStandalone event) {
-        event.register(WarpBakeModel.grape_leaves_on_beam, SimpleUnbakedStandaloneModel.blockStateModel(Identifier.parse(WarpBakeModel.grape_leaves_on_beam.getName())));
-        event.register(WarpBakeModel.grape_on_post_0, SimpleUnbakedStandaloneModel.blockStateModel(Identifier.parse(WarpBakeModel.grape_on_post_0.getName())));
-        event.register(WarpBakeModel.grape_on_post_1, SimpleUnbakedStandaloneModel.blockStateModel(Identifier.parse(WarpBakeModel.grape_on_post_1.getName())));
-        event.register(WarpBakeModel.grape_on_post_2, SimpleUnbakedStandaloneModel.blockStateModel(Identifier.parse(WarpBakeModel.grape_on_post_2.getName())));
-        event.register(WarpBakeModel.grape_on_post_3, SimpleUnbakedStandaloneModel.blockStateModel(Identifier.parse(WarpBakeModel.grape_on_post_3.getName())));
-    }
-
-    @SubscribeEvent
-    public static void onModelBaked(ModelEvent.ModifyBakingResult event) {
-        var modelRegistry = event.getBakingResult();
-
-        for (var grapesRe : WarpBakeModel.grapesRes) {
-            WarpBakeModel.grapes.add(modelRegistry.standaloneModels().get(grapesRe));
-        }
-
-        // // MultiPartBakedModel OAK_TRELLIS_MODEL = (MultiPartBakedModel) event.getModels().get(BlockModelShaper.stateToModelLocation(BlockRegister.OAK_TRELLIS.get().defaultBlockState()));
-        // ModelIdentifier OAK_TRELLIS_ITEM_LOCATION = new ModelIdentifier(BlockRegister.OAK_TRELLIS.getId(), "inventory");
-        // BakedModel OAK_TRELLIS_ITEM_MODEL = event.getModels().get(OAK_TRELLIS_ITEM_LOCATION);
-
-
-    }
-
-    @SubscribeEvent
     public static void onRegisterColorHandlersEvent_Block(RegisterColorHandlersEvent.BlockTintSources event) {
 
         var grassColor = BlockTintSources.grassBlock();
         event.register(List.of(grassColor), BlockRegister.GRASS_BLOCK_WITH_HOLE.get(), BlockRegister.WATERMELON_VINE.get());
 
-        for (Block block : BuiltInRegistries.BLOCK) {
-            if (block instanceof TrellisWithVineBlock) {
-                event.register(List.of(grassColor), block);
-            }
-        }
         var hybridizableFlowerBlockColor = new HybridizableFlowerBlockColor();
         BlockRegister.ModBlocks.getEntries().forEach(blockHolder -> {
             if (blockHolder.get() instanceof HybridizableFlowerBlock) {

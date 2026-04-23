@@ -26,29 +26,5 @@ public class EventsHandlers {
         }
     }
 
-    // @SubscribeEvent
-    // public static void onWandererTradesEvent(WandererTradesEvent event) {
-    //     event.getGenericTrades().add((pTrader, pRandom) -> new MerchantOffer(
-    //             new ItemCost(Items.EMERALD, 4),
-    //             BlockRegister.WILD_BITTER_GOURD_ITEM.get().getDefaultInstance(),3,1,pRandom.nextFloat()*9.43f));
-    // }
-
-
-    @SubscribeEvent
-    public static void onMobSpawnEvent(EntityJoinLevelEvent event) {
-        if (
-                event.getLevel() instanceof ServerLevel
-                        && !event.loadedFromDisk()
-                        && event.getEntity().is(TeaTags.Entities.BIRDS)
-                        && event.getEntity() instanceof PathfinderMob pathfinderMob) {
-
-            // TeaStory.logger(event.getLevel(), pathfinderMob.goalSelector.getAvailableGoals().size());
-            pathfinderMob.goalSelector.addGoal(0, new AvoidCommonEntityGoal<>(
-                    pathfinderMob, ScarecrowEntity.class, Entity::isAlive, 8F, 1.0D, 1.2D,Entity::isAlive
-            ));
-            // event.getToolTip().add(Component.translatable("info.teastory.tooltip.rice"));
-        }
-    }
-
 
 }

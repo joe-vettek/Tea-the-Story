@@ -27,20 +27,9 @@ public class Lang_ZH extends LangHelper {
         add(BlockRegister.RiceSeedlingBlock.get(), "稻谷");
         add(BlockRegister.ricePlant.get(), "水稻秧苗");
         add(BlockRegister.TEA_SEEDS.get(), "茶籽");
-        add(BlockRegister.CHILI_PLANT.get(), "辣椒种子");
-        add(BlockRegister.CHILI.get(), "辣椒");
-        add(BlockRegister.CHINESE_CABBAGE_PLANT.get(), "白菜种子");
-        add(BlockRegister.CHINESE_CABBAGE.get(), "白菜");
-        add(BlockRegister.GRAPE.get(), "葡萄");
-        add(BlockRegister.CUCUMBER.get(), "黄瓜");
-        add(BlockRegister.BITTER_GOURD.get(), "苦瓜");
         add(BlockRegister.WOODEN_BOWL_ITEM.get(), "木碗");
 
         add(BlockRegister.WILD_RICE.get(), "野生稻");
-        add(BlockRegister.WILD_CHINESE_CABBAGE.get(), "野白菜");
-        add(BlockRegister.WILD_CHILI.get(), "野生辣椒");
-        add(BlockRegister.WILD_CUCUMBER.get(), "野黄瓜");
-        add(BlockRegister.WILD_BITTER_GOURD.get(), "野苦瓜");
 
         add(ItemRegister.NETHER_WART_RICE_BOWL.get(), "地狱疣饭");
         add(ItemRegister.SPICY_BEEF_RICE_BOWL.get(), "香辣牛肉饭");

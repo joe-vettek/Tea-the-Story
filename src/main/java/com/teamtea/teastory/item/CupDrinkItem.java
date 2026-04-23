@@ -65,8 +65,8 @@ public class CupDrinkItem extends Item implements FluidContainerItem {
 
     // getUseAction
     @Override
-    public UseAnim getUseAnimation(ItemStack stack) {
-        return canDrink(stack) ? UseAnim.DRINK : UseAnim.NONE;
+    public ItemUseAnimation getUseAnimation(ItemStack stack) {
+        return canDrink(stack) ? ItemUseAnimation.DRINK : ItemUseAnimation.NONE;
     }
 
     @Override
@@ -76,15 +76,15 @@ public class CupDrinkItem extends Item implements FluidContainerItem {
 
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
+    public InteractionResult use(Level worldIn, Player playerIn, InteractionHand handIn) {
         var stack = playerIn.getItemInHand(handIn);
 
         if (canDrink(stack)) {
 
             playerIn.startUsingItem(handIn);
-            return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
+            return InteractionResult.SUCCESS;
         } else {
-            return new InteractionResultHolder<>(InteractionResult.PASS, playerIn.getItemInHand(handIn));
+            return InteractionResult.PASS;
         }
     }
 
@@ -94,7 +94,7 @@ public class CupDrinkItem extends Item implements FluidContainerItem {
             worldIn.playSound(null, entityLiving.getX(), entityLiving.getY(), entityLiving.getZ(), entityLiving.getEatingSound(stack), SoundSource.NEUTRAL, 1.0F, 1.0F + (worldIn.getRandom().nextFloat() - worldIn.getRandom().nextFloat()) * 0.4F);
             FluidUtil.getFluidContained(stack).ifPresent(handler ->
             {
-                BiConsumer<LivingEntity, Integer> action = DrinkEffectManager.getEffects(worldIn.registryAccess().registryOrThrow(TeaStoryRegistries.DRINK_EFFECT),handler);
+                BiConsumer<LivingEntity, Integer> action = DrinkEffectManager.getEffects(worldIn.registryAccess().registryOrThrow(TeaStoryRegistries.DRINK_EFFECT), handler);
                 if (action != null) {
                     action.accept(entityLiving, handler.getAmount());
                 } else if (entityLiving instanceof Player && handler.getFluid() != FluidRegister.BOILING_WATER_STILL.get()) {

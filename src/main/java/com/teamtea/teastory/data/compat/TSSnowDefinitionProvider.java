@@ -5,8 +5,6 @@ import com.teamtea.eclipticseasons.api.data.season.SnowDefinition;
 import com.teamtea.eclipticseasons.common.core.map.MapChecker;
 import com.teamtea.eclipticseasons.common.registry.ESRegistries;
 import com.teamtea.teastory.TeaStory;
-import com.teamtea.teastory.block.crops.PaddyFieldBlock;
-import com.teamtea.teastory.block.crops.TrellisBlock;
 import com.teamtea.teastory.registry.BlockRegister;
 import com.teamtea.teastory.tag.TeaTags;
 import net.minecraft.core.*;
