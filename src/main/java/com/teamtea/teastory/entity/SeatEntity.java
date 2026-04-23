@@ -58,16 +58,6 @@ public class SeatEntity extends Entity {
 
     }
 
-    @Override
-    protected void readAdditionalSaveData(CompoundTag pCompound) {
-
-    }
-
-    @Override
-    protected void addAdditionalSaveData(CompoundTag pCompound) {
-
-    }
-
     public static InteractionResult createSeat(Level world, BlockPos pos, Player player, double height, double x, double z) {
         if (!world.isClientSide()) {
             List<SeatEntity> seats = world.getEntitiesOfClass(SeatEntity.class, new AABB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1.0, pos.getY() + 1.0, pos.getZ() + 1.0));

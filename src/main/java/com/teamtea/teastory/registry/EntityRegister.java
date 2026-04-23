@@ -7,7 +7,6 @@ import net.minecraft.world.entity.*;
 
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import com.teamtea.teastory.entity.ScarecrowEntity;
 
 
 public final class EntityRegister {

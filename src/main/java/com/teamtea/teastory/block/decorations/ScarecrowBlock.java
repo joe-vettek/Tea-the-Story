@@ -22,7 +22,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import com.teamtea.teastory.block.NormalHorizontalBlock;
-import com.teamtea.teastory.entity.ScarecrowEntity;
 
 import javax.annotation.Nullable;
 
@@ -104,7 +103,7 @@ public class ScarecrowBlock extends NormalHorizontalBlock {
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         BlockPos blockpos = context.getClickedPos();
-        if (blockpos.getY() <= context.getLevel().getMaxBuildHeight() && context.getLevel().getBlockState(blockpos.above()).canBeReplaced(context)) {
+        if (blockpos.getY() <= context.getLevel().getMaxY() && context.getLevel().getBlockState(blockpos.above()).canBeReplaced(context)) {
             return super.getStateForPlacement(context).setValue(HALF, DoubleBlockHalf.LOWER);
         } else {
             return null;
@@ -120,9 +119,9 @@ public class ScarecrowBlock extends NormalHorizontalBlock {
     @Override
     public void onPlace(BlockState state, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pMovedByPiston) {
         super.onPlace(state, pLevel, pPos, pOldState, pMovedByPiston);
-        if (state.getValue(HALF) == DoubleBlockHalf.UPPER) {
-            ScarecrowEntity.create(pLevel, pPos, 0.25, 0, 0);
-        }
+        // if (state.getValue(HALF) == DoubleBlockHalf.UPPER) {
+        //     ScarecrowEntity.create(pLevel, pPos, 0.25, 0, 0);
+        // }
     }
 
     @Override

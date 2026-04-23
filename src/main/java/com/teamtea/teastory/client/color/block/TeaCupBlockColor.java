@@ -2,15 +2,22 @@ package com.teamtea.teastory.client.color.block;
 
 import com.teamtea.teastory.blockentity.TeaCupBlockEntity;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.color.block.BlockColor;
+import net.minecraft.client.color.block.BlockTintSource;
+import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.minecraft.world.level.material.Fluid;
 
-public class TeaCupBlockColor implements BlockColor {
+public record TeaCupBlockColor(int tintindex) implements BlockTintSource {
+
+
     @Override
-    public int getColor(BlockState state, BlockAndTintGetter reader, BlockPos pos, int tintindex) {
+    public int color(BlockState state) {
+        return -1;
+    }
+
+    @Override
+    public int colorInWorld(BlockState state, BlockAndTintGetter level, BlockPos pos) {
         if (pos != null) {
             if (Minecraft.getInstance().level != null) {
 
@@ -21,7 +28,8 @@ public class TeaCupBlockColor implements BlockColor {
                     int t = tintindex;
                     int color;
                     do {
-                        color = IClientFluidTypeExtensions.of(((TeaCupBlockEntity) te).getFluid(drink)).getTintColor();
+                        Fluid fluid = ((TeaCupBlockEntity) te).getFluid(drink);
+                        color = Minecraft.getInstance().getModelManager().getFluidStateModelSet().get(fluid.defaultFluidState()).fluidTintSource().color(fluid.defaultFluidState());
                         drink++;
                         if (color != 0) {
                             t--;

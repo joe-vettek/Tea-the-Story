@@ -37,10 +37,8 @@ public final class TeaStoryItemTagProvider extends ItemTagsProvider {
 
         tag(TeaTags.Items.SEEDS_CARROT).add(Items.CARROT);
 
-        tag(TeaTags.Items.SEEDS_CUCUMBER).add(BlockRegister.CUCUMBERS.get());
 
 
-        tag(TeaTags.Items.SEEDS_GRAPE).add(BlockRegister.GRAPES.get());
 
         tag(TeaTags.Items.SEEDS_RICE).add(BlockRegister.RICE_GRAINS.get());
 
@@ -52,8 +50,6 @@ public final class TeaStoryItemTagProvider extends ItemTagsProvider {
         tag(TeaTags.Items.CROPS_GREEN_TEA_LEAF).add(ItemRegister.GREEN_TEA_LEAVES.get());
         tag(TeaTags.Items.CROPS_TEA_LEAF).add(ItemRegister.TEA_LEAVES.get());
         tag(TeaTags.Items.CROPS_WHITE_TEA_LEAF).add(ItemRegister.WHITE_TEA_LEAVES.get());
-        tag(TeaTags.Items.CROPS_GRAPE).add(BlockRegister.GRAPES.get());
-        tag(TeaTags.Items.CROPS_CUCUMBER).add(BlockRegister.CUCUMBERS.get());
         tag(TeaTags.Items.CROPS_STRAW).add(ItemRegister.DRY_STRAW.get());
         tag(TeaTags.Items.CROPS_RICE).add(ItemRegister.RICE.get());
         tag(TeaTags.Items.CROPS_APPLE).add(Items.APPLE);

@@ -131,7 +131,7 @@ public class HaystackBlock extends Block {
     public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random) {
         if (state.getValue(HALF) == DoubleBlockHalf.LOWER) {
             Holder<Biome> biome = worldIn.getBiome(pos);
-            int humidity = getHumid(biome.value().getModifiedClimateSettings().downfall(), biome.value().getTemperature(pos));
+            int humidity = getHumid(biome.value().getModifiedClimateSettings().downfall(), biome.value().getTemperature(pos,worldIn.getSeaLevel()));
             if (state.is(BlockRegister.WET_HAYSTACK.get())) {
                 if (random.nextInt(60 / (6 - humidity)) == 0) {
                     worldIn.setBlock(pos, BlockRegister.WET_HAYSTACK.get().defaultBlockState().setValue(HALF, DoubleBlockHalf.LOWER), 2);

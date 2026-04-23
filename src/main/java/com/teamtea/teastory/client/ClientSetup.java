@@ -8,6 +8,7 @@ import com.teamtea.teastory.client.color.item.*;
 import com.teamtea.teastory.client.render.*;
 import com.teamtea.teastory.registry.*;
 import net.minecraft.client.color.block.BlockTintSources;
+import net.minecraft.client.color.item.GrassColorSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelIdentifier;
@@ -73,11 +74,11 @@ public class ClientSetup {
         var hybridizableFlowerBlockColor = new HybridizableFlowerBlockColor();
         BlockRegister.ModBlocks.getEntries().forEach(blockHolder -> {
             if (blockHolder.get() instanceof HybridizableFlowerBlock) {
-                event.register(hybridizableFlowerBlockColor, blockHolder.get());
+                event.register(List.of(hybridizableFlowerBlockColor), blockHolder.get());
             }
         });
-        event.register(new TeaCupBlockColor(), BlockEntityRegister.WOODEN_TRAY.get());
-        event.register(new SaucepanBlockColor(), BlockRegister.saucepan.get());
+        event.register(List.of(new TeaCupBlockColor()), BlockEntityRegister.WOODEN_TRAY.get());
+        event.register(List.of(new SaucepanBlockColor()), BlockRegister.saucepan.get());
 
 
     }
@@ -88,7 +89,7 @@ public class ClientSetup {
         FluidRegister.ITEMS.getEntries().forEach(itemRegistryObject -> event.register(buckColors, itemRegistryObject.get()));
         event.register(new CupItemColors(), ItemRegister.PORCELAIN_CUP_DRINK.get());
         event.register(new BottleItemColors(), ItemRegister.BOTTLE_DRINK.get());
-        event.register(new GrassBlockItemColors(), BlockRegister.GRASS_BLOCK_WITH_HOLE.get().asItem());
+        event.register(List.of(new GrassColorSource(0.5f,0.5f)), BlockRegister.GRASS_BLOCK_WITH_HOLE.get().asItem());
         var hybridizableFlowerItemColor = new HybridizableFlowerItemColor();
         BlockRegister.ModBlocks.getEntries().forEach(blockHolder -> {
             if (blockHolder.get() instanceof HybridizableFlowerBlock) {

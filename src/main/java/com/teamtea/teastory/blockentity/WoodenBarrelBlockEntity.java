@@ -3,19 +3,20 @@ package com.teamtea.teastory.blockentity;
 
 import com.teamtea.teastory.config.ServerConfig;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import com.teamtea.teastory.registry.BlockEntityRegister;
 import com.teamtea.teastory.blockentity.base.SyncedBlockEntity;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidStacksResourceHandler;
 
 
 public class WoodenBarrelBlockEntity extends SyncedBlockEntity {
-    private final FluidTank fluidTank;
+    private final FluidStacksResourceHandler fluidTank;
     private Fluid remainFluid = Fluids.EMPTY;
     private final int capacity;
     private int heightAmount = 0;
@@ -26,57 +27,52 @@ public class WoodenBarrelBlockEntity extends SyncedBlockEntity {
         this.fluidTank = createFluidHandler(this.capacity);
     }
 
-
     @Override
-    public void loadAdditional(CompoundTag tag, HolderLookup.Provider pRegistries) {
-        super.loadAdditional(tag, pRegistries);
-        this.fluidTank.readFromNBT(pRegistries, tag.getCompound("FluidTank"));
-        recordPreviousFluid(this.fluidTank.getFluid());
+    protected void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
+        this.fluidTank.deserialize(input.childOrEmpty("FluidTank"));
+        recordPreviousFluid(new FluidStack(this.fluidTank.getResource(0).getFluid(),this.fluidTank.getAmountAsInt(0)));
     }
 
-    // write
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider pRegistries) {
-        tag.put("FluidTank", this.fluidTank.writeToNBT(pRegistries, new CompoundTag()));
-        super.saveAdditional(tag, pRegistries);
+    protected void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
+        this.fluidTank.serialize(output.child("FluidTank"));
     }
 
+    private FluidStacksResourceHandler createFluidHandler(int size) {
+        return new FluidStacksResourceHandler(1, size) {
 
-    private FluidTank createFluidHandler(int size) {
-        return new FluidTank(size) {
             @Override
-            protected void onContentsChanged() {
-                WoodenBarrelBlockEntity.this.recordPreviousFluid(this.fluid);
-                // super.onContentsChanged();
+            protected void onContentsChanged(int index, FluidStack previousContents) {
+                super.onContentsChanged(index, previousContents);
+                WoodenBarrelBlockEntity.this.recordPreviousFluid(previousContents);
                 inventoryChanged();
             }
 
             @Override
-            public boolean isFluidValid(FluidStack stack) {
-                return !stack.getFluid().getFluidType().isLighterThanAir() && stack.getFluid().getFluidType().getTemperature() < 500;
+            public boolean isValid(int index, FluidResource resource) {
+                return !resource.getFluid().getFluidType().isLighterThanAir() && resource.getFluid().getFluidType().getTemperature() < 500;
             }
         };
     }
 
-    public FluidTank getFluidTank() {
+    public FluidStacksResourceHandler getFluidTank() {
         return this.fluidTank;
     }
 
     public Fluid getFluid() {
-        return this.fluidTank.getFluid().getFluid();
+        return this.fluidTank.getResource(0).getFluid();
     }
 
     public int getFluidAmount() {
-        return getFluidTank().getFluidAmount();
+        return getFluidTank().getAmountAsInt(0);
     }
 
-    public void setFluidTank(FluidStack stack) {
-        this.fluidTank.setFluid(stack);
-    }
 
     public void setFluid(Fluid fluid) {
         if (!fluid.isSame(Fluids.EMPTY)) {
-            this.fluidTank.setFluid(new FluidStack(fluid, getFluidAmount()));
+            this.fluidTank.set(0, FluidResource.of(fluid), getFluidAmount());
             this.inventoryChanged();
         }
     }

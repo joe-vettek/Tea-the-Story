@@ -23,34 +23,33 @@ import static net.minecraft.world.level.storage.loot.LootTable.createStackSplitt
  * Credits to Commoble for this implementation!
  * Thanks FarmersDelight MIT License
  */
-public class AddLootTableModifier extends AddTableLootModifier
-{
-	public static final Supplier<MapCodec<AddLootTableModifier>> CODEC = Suppliers.memoize(() ->
-			RecordCodecBuilder.mapCodec(inst -> codecStart(inst)
-					.and(ResourceKey.codec(Registries.LOOT_TABLE).fieldOf("lootTable").forGetter((m) -> m.lootTable))
-					.apply(inst, AddLootTableModifier::new)));
+public class AddLootTableModifier extends AddTableLootModifier {
+    public static final Supplier<MapCodec<AddLootTableModifier>> CODEC = Suppliers.memoize(() ->
+            RecordCodecBuilder.mapCodec(inst -> codecStart(inst)
+                    .and(ResourceKey.codec(Registries.LOOT_TABLE).fieldOf("lootTable").forGetter((m) -> m.lootTable))
+                    .apply(inst, AddLootTableModifier::new)));
 
-	private final ResourceKey<LootTable> lootTable;
+    private final ResourceKey<LootTable> lootTable;
 
-	public AddLootTableModifier(LootItemCondition[] conditionsIn, ResourceKey<LootTable> lootTable) {
-		super(conditionsIn, lootTable);
-		this.lootTable = lootTable;
-	}
+    public AddLootTableModifier(LootItemCondition[] conditionsIn, ResourceKey<LootTable> lootTable) {
+        super(conditionsIn, lootTable);
+        this.lootTable = lootTable;
+    }
 
-	@Nonnull
-	@Override
-	protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
-		// if (Configuration.GENERATE_FD_CHEST_LOOT.get())
-		{
-			context.getResolver().get(Registries.LOOT_TABLE, this.lootTable).ifPresent((extraTable) -> {
-				extraTable.value().getRandomItemsRaw(context, createStackSplitter(context.getLevel(), generatedLoot::add));
-			});
-		}
-		return generatedLoot;
-	}
+    @Nonnull
+    @Override
+    protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
+        // if (Configuration.GENERATE_FD_CHEST_LOOT.get())
+        {
+            context.getResolver().get(this.lootTable).ifPresent((extraTable) -> {
+                extraTable.value().getRandomItemsRaw(context, createStackSplitter(context.getLevel(), generatedLoot::add));
+            });
+        }
+        return generatedLoot;
+    }
 
-	@Override
-	public MapCodec<? extends IGlobalLootModifier> codec() {
-		return CODEC.get();
-	}
+    @Override
+    public MapCodec<? extends IGlobalLootModifier> codec() {
+        return CODEC.get();
+    }
 }

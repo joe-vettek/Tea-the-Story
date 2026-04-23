@@ -2,21 +2,22 @@ package com.teamtea.teastory.blockentity;
 
 import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import com.teamtea.teastory.registry.BlockEntityRegister;
 import com.teamtea.teastory.blockentity.base.SyncedBlockEntity;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidStacksResourceHandler;
 
 import java.util.List;
 
 
 public class TeaCupBlockEntity extends SyncedBlockEntity {
-    private final List<FluidTank> fluidTanks = Lists.newArrayList();
+    private final List<FluidStacksResourceHandler> fluidTanks = Lists.newArrayList();
 
     public TeaCupBlockEntity(int capacity, BlockPos pos, BlockState state) {
         super(BlockEntityRegister.WOODEN_TRAY_TYPE.get(), pos, state);
@@ -26,60 +27,49 @@ public class TeaCupBlockEntity extends SyncedBlockEntity {
     }
 
     @Override
-    public void loadAdditional(CompoundTag tag, HolderLookup.Provider pRegistries) {
-        super.loadAdditional(tag, pRegistries);
-        fluidTanks.get(0).readFromNBT(pRegistries, tag.getCompound("FluidTank_0"));
-        fluidTanks.get(1).readFromNBT(pRegistries, tag.getCompound("FluidTank_1"));
-        fluidTanks.get(2).readFromNBT(pRegistries, tag.getCompound("FluidTank_2"));
+    protected void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
+        for (int i = 0; i < 3; i++) {
+            fluidTanks.get(i).deserialize(input.childOrEmpty("FluidTank_" + i));
+        }
     }
 
-    // write
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider pRegistries) {
-        tag.put("FluidTank_0",fluidTanks.get(0).writeToNBT(pRegistries,new CompoundTag()));
-        tag.put("FluidTank_1",fluidTanks.get(1).writeToNBT(pRegistries,new CompoundTag()));
-        tag.put("FluidTank_2",fluidTanks.get(2).writeToNBT(pRegistries,new CompoundTag()));
-        super.saveAdditional(tag,pRegistries);
+    protected void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
+        for (int i = 0; i < 3; i++) {
+            fluidTanks.get(i).serialize(output.child("FluidTank_" + i));
+        }
     }
 
-    private FluidTank createFluidHandler(int capacity) {
-        return new FluidTank(capacity) {
+
+    private FluidStacksResourceHandler createFluidHandler(int capacity) {
+        return new FluidStacksResourceHandler(1, capacity) {
+
             @Override
-            protected void onContentsChanged() {
-                // TeaCupTileEntity.this.refresh();
-                // TeaCupTileEntity.this.markDirty();
-                // super.onContentsChanged();
-                TeaCupBlockEntity.this.inventoryChanged();
+            protected void onContentsChanged(int index, FluidStack previousContents) {
+                super.onContentsChanged(index, previousContents);
+                inventoryChanged();
             }
 
             @Override
-            public boolean isFluidValid(FluidStack stack) {
-                return !stack.getFluid().getFluidType().isLighterThanAir() && stack.getFluid().getFluidType().getTemperature() < 500;
+            public boolean isValid(int index, FluidResource resource) {
+                return !resource.getFluid().getFluidType().isLighterThanAir() && resource.getFluid().getFluidType().getTemperature() < 500;
             }
         };
     }
 
-    public FluidTank getFluidTank(int index) {
+    public FluidStacksResourceHandler getFluidTank(int index) {
         return this.fluidTanks.get(index);
     }
 
     public Fluid getFluid(int index) {
-        return this.fluidTanks.get(index).getFluid().getFluid();
+        return this.fluidTanks.get(index).getResource(0).getFluid();
     }
 
-    public int getFluidAmount(int index) {
-        return getFluidTank(index).getFluidAmount();
-    }
 
     public void setFluidTank(int index, FluidStack stack) {
-        this.fluidTanks.get(index).setFluid(stack);
+        this.fluidTanks.get(index).set(0, FluidResource.of(stack), stack.getAmount());
     }
-
-    public void setFluid(int index, Fluid fluid) {
-        this.fluidTanks.get(index).setFluid(new FluidStack(fluid, getFluidAmount(index)));
-        // this.refresh();
-        inventoryChanged();
-    }
-
 
 }
