@@ -46,7 +46,7 @@ public class WildCropBlock extends BushBlock {
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         VoxelShape shape=isShort ? SHAPE_LOW : SHAPE;
-        Vec3 vec3 = pState.getOffset(pLevel, pPos);
+        Vec3 vec3 = pState.getOffset( pPos);
         return shape.move(vec3.x, vec3.y, vec3.z);
     }
 

@@ -3,7 +3,7 @@ package com.teamtea.teastory.data.loot;
 import com.teamtea.teastory.block.craft.SaucepanBlock;
 import com.teamtea.teastory.block.crops.*;
 import com.teamtea.teastory.block.decorations.BambooLatticeBlock;
-import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.BlockLootSubProvider;
@@ -30,6 +30,7 @@ import com.teamtea.teastory.registry.ItemRegister;
 import com.teamtea.teastory.registry.BlockEntityRegister;
 
 
+import java.util.List;
 import java.util.Set;
 
 public class TeaStotryBlockLootSubProvider extends BlockLootSubProvider {
@@ -205,15 +206,9 @@ public class TeaStotryBlockLootSubProvider extends BlockLootSubProvider {
         add(BlockRegister.SCARECROW.get(), this::createDoorTable);
         add(BlockRegister.WET_HAYSTACK.get(), this::createDoorTable);
         add(BlockRegister.DRY_HAYSTACK.get(), this::createDoorTable);
-        add(BlockEntityRegister.DRINK_MAKER.get(), this::createDrinkMakerBlock);
     }
 
     private void generateSelfDrops() {
-        dropSelf(BlockEntityRegister.BAMBOO_TRAY.get());
-        dropSelf(BlockEntityRegister.STONE_MILL.get());
-        dropSelf(BlockEntityRegister.STONE_ROLLER.get());
-        dropSelf(BlockEntityRegister.DIRT_STOVE.get());
-        dropSelf(BlockEntityRegister.STONE_STOVE.get());
         dropSelf(BlockEntityRegister.WOODEN_TRAY.get());
         dropSelf(BlockEntityRegister.WOODEN_BARREL.get());
 
@@ -228,23 +223,12 @@ public class TeaStotryBlockLootSubProvider extends BlockLootSubProvider {
 
         dropSelf(BlockRegister.stone_campfire.get());
 
-        dropSelf(BlockRegister.filter_screen.get());
-        dropSelf(BlockRegister.STONE_CATAPULT_BOARD.get());
-        dropSelf(BlockRegister.BAMBOO_CATAPULT_BOARD.get());
-        dropSelf(BlockRegister.IRON_CATAPULT_BOARD.get());
-
     }
 
 
     @Override
     protected Iterable<Block> getKnownBlocks() {
-        return map.entrySet()
-                .stream()
-                .map(e -> BuiltInRegistries.BLOCK.stream()
-                        .filter(block -> block.getLootTable().equals(e.getKey()))
-                        .findFirst()
-                        .get())
-                .toList();
+        return List.of();
     }
 
     protected void dropCropBlock(@NotNull Block block, Item melon, Item melonSeeds, IntegerProperty age, int i) {
@@ -252,12 +236,6 @@ public class TeaStotryBlockLootSubProvider extends BlockLootSubProvider {
                 createStateBuilder(block, age, i);
         add(block, createCropDrops(block, melon, melonSeeds, builder));
     }
-
-
-    protected LootTable.Builder createDrinkMakerBlock(Block pBlock) {
-        return LootTable.lootTable().withPool(this.applyExplosionCondition(pBlock, LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(pBlock).when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(pBlock).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(DrinkMakerBlock.LEFT, true))))));
-    }
-
 
     public LootTable.Builder createSinglePropertyBlock(Block item, Property<?> pProperty) {
         return LootTable.lootTable()
@@ -312,7 +290,7 @@ public class TeaStotryBlockLootSubProvider extends BlockLootSubProvider {
     }
 
     private LootItemCondition.Builder hasShearsOrSilkTouch() {
-        return HAS_SHEARS.or(this.hasSilkTouch());
+        return hasShears().or(this.hasSilkTouch());
     }
 
     protected LootTable.Builder createWildCropDrops(Block pBlock, Item seed, Item extra) {

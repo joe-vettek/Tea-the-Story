@@ -3,7 +3,6 @@ package com.teamtea.teastory.client;
 import com.teamtea.teastory.block.crops.HybridizableFlowerBlock;
 import com.teamtea.teastory.*;
 import com.teamtea.teastory.block.crops.TrellisWithVineBlock;
-import com.teamtea.teastory.block.crops.WildCropBlock;
 import com.teamtea.teastory.client.color.block.GrassBlockColor;
 import com.teamtea.teastory.client.color.block.HybridizableFlowerBlockColor;
 import com.teamtea.teastory.client.color.block.SaucepanBlockColor;
@@ -12,35 +11,27 @@ import com.teamtea.teastory.client.color.item.*;
 import com.teamtea.teastory.client.render.*;
 import com.teamtea.teastory.registry.*;
 import net.minecraft.client.color.block.BlockColors;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.BlockModelShaper;
+import net.minecraft.client.color.block.BlockTintSources;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelIdentifier;
-import net.minecraft.client.resources.model.MultiPartBakedModel;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.GrassColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.Property;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
-import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import net.neoforged.neoforge.client.model.standalone.SimpleUnbakedStandaloneModel;
 import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 import com.teamtea.teastory.fluid.TeaFluidType;
-import com.teamtea.teastory.resource.PathResourcesSupplier;
-import com.teamtea.teastory.variant.Planks;
-import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.*;
 
@@ -81,53 +72,38 @@ public class ClientSetup {
     }
 
     @SubscribeEvent
-    public static void onModelBaked(ModelEvent.RegisterAdditional event) {
-        event.register(WarpBakeModel.grape_leaves_on_beam);
-        event.register(WarpBakeModel.grape_on_post_0);
-        event.register(WarpBakeModel.grape_on_post_1);
-        event.register(WarpBakeModel.grape_on_post_2);
-        event.register(WarpBakeModel.grape_on_post_3);
+    public static void onModelBaked(ModelEvent.RegisterStandalone event) {
+        event.register(WarpBakeModel.grape_leaves_on_beam, SimpleUnbakedStandaloneModel.blockStateModel(Identifier.parse(WarpBakeModel.grape_leaves_on_beam.getName())));
+        event.register(WarpBakeModel.grape_on_post_0, SimpleUnbakedStandaloneModel.blockStateModel(Identifier.parse(WarpBakeModel.grape_on_post_0.getName())));
+        event.register(WarpBakeModel.grape_on_post_1, SimpleUnbakedStandaloneModel.blockStateModel(Identifier.parse(WarpBakeModel.grape_on_post_1.getName())));
+        event.register(WarpBakeModel.grape_on_post_2, SimpleUnbakedStandaloneModel.blockStateModel(Identifier.parse(WarpBakeModel.grape_on_post_2.getName())));
+        event.register(WarpBakeModel.grape_on_post_3, SimpleUnbakedStandaloneModel.blockStateModel(Identifier.parse(WarpBakeModel.grape_on_post_3.getName())));
     }
 
     @SubscribeEvent
     public static void onModelBaked(ModelEvent.ModifyBakingResult event) {
-        Map<ModelIdentifier, BakedModel> modelRegistry = event.getModels();
+        var modelRegistry = event.getBakingResult();
 
-        for (ModelIdentifier grapesRe : WarpBakeModel.grapesRes) {
-            WarpBakeModel.grapes.add(modelRegistry.get(grapesRe));
+        for (var grapesRe : WarpBakeModel.grapesRes) {
+            WarpBakeModel.grapes.add(modelRegistry.standaloneModels().get(grapesRe));
         }
 
-        // MultiPartBakedModel OAK_TRELLIS_MODEL = (MultiPartBakedModel) event.getModels().get(BlockModelShaper.stateToModelLocation(BlockRegister.OAK_TRELLIS.get().defaultBlockState()));
-        ModelIdentifier OAK_TRELLIS_ITEM_LOCATION = new ModelIdentifier(BlockRegister.OAK_TRELLIS.getId(), "inventory");
-        BakedModel OAK_TRELLIS_ITEM_MODEL = event.getModels().get(OAK_TRELLIS_ITEM_LOCATION);
+        // // MultiPartBakedModel OAK_TRELLIS_MODEL = (MultiPartBakedModel) event.getModels().get(BlockModelShaper.stateToModelLocation(BlockRegister.OAK_TRELLIS.get().defaultBlockState()));
+        // ModelIdentifier OAK_TRELLIS_ITEM_LOCATION = new ModelIdentifier(BlockRegister.OAK_TRELLIS.getId(), "inventory");
+        // BakedModel OAK_TRELLIS_ITEM_MODEL = event.getModels().get(OAK_TRELLIS_ITEM_LOCATION);
 
-        // TeaStory.logger(OAK_TRELLIS_MODEL);
-        TeaStory.logger("Minecraft loading all the models status with " + modelRegistry.entrySet().size());
-        TeaStory.logger("Minecraft loading all models with size " + new HashSet<>(modelRegistry.values()).size());
 
     }
 
     @SubscribeEvent
-    public static void onRegisterColorHandlersEvent_Block(RegisterColorHandlersEvent.Block event) {
-        // Register programmable custom block color providers for LeavesPropertiesJson
+    public static void onRegisterColorHandlersEvent_Block(RegisterColorHandlersEvent.BlockTintSources event) {
 
-        BlockState birchLeaves = Blocks.BIRCH_LEAVES.defaultBlockState();
-        BlockColors blockColors = event.getBlockColors();
+        var grassColor = BlockTintSources.grassBlock();
+        event.register(List.of(grassColor), BlockRegister.GRASS_BLOCK_WITH_HOLE.get(), BlockRegister.WATERMELON_VINE.get());
 
-        // Minecraft.getInstance().getBlockColors().register(HYBRIDIZABLE_FLOWER_COLOR, BlockRegistry.CHRYSANTHEMUM, BlockRegistry.HYACINTH, BlockRegistry.ZINNIA);
-        // FluidRegistry.BLOCKS.getEntries().forEach(e -> Minecraft.getInstance().getBlockColors().register(FLUID_COLOR, e.get()));
-        // Minecraft.getInstance().getBlockColors().register(TEA_CUP_COLOR, BlockRegistry.WOODEN_TRAY);
-        // Minecraft.getInstance().getBlockColors().register(SAUCEPAN_COLOR, BlockRegistry.SAUCEPAN);
-        var grassColor = new GrassBlockColor();
-        event.register(grassColor, BlockRegister.GRASS_BLOCK_WITH_HOLE.get(), BlockRegister.WATERMELON_VINE.get());
-        // BlockRegister.ModBlocks.getEntries().forEach(blockHolder -> {
-        //     if (blockHolder.get() instanceof TrellisWithVineBlock) {
-        //         event.register(grassColor, blockHolder.get());
-        //     }
-        // });
         for (Block block : BuiltInRegistries.BLOCK) {
             if (block instanceof TrellisWithVineBlock) {
-                event.register(grassColor, block);
+                event.register(List.of(grassColor), block);
             }
         }
         var hybridizableFlowerBlockColor = new HybridizableFlowerBlockColor();
@@ -143,7 +119,7 @@ public class ClientSetup {
     }
 
     @SubscribeEvent
-    public static void onRegisterColorHandlersEvent_Item(RegisterColorHandlersEvent.Item event) {
+    public static void onRegisterColorHandlersEvent_Item(RegisterColorHandlersEvent.ItemTintSources event) {
         var buckColors = new BucketItemColors();
         FluidRegister.ITEMS.getEntries().forEach(itemRegistryObject -> event.register(buckColors, itemRegistryObject.get()));
         event.register(new CupItemColors(), ItemRegister.PORCELAIN_CUP_DRINK.get());

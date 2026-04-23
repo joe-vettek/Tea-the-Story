@@ -7,7 +7,7 @@ import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtension
 import net.neoforged.neoforge.fluids.FluidUtil;
 
 
-public class BottleItemColors implements ItemColor
+public class BottleItemColors implements ColorSos
 {
 
     @Override

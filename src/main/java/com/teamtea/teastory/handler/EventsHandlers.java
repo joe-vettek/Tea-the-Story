@@ -15,7 +15,7 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import com.teamtea.teastory.registry.ItemRegister;
 import com.teamtea.teastory.entity.ScarecrowEntity;
-import net.neoforged.neoforge.event.village.WandererTradesEvent;
+// import net.neoforged.neoforge.event.village.WandererTradesEvent;
 
 @EventBusSubscriber
 public class EventsHandlers {
@@ -26,12 +26,12 @@ public class EventsHandlers {
         }
     }
 
-    @SubscribeEvent
-    public static void onWandererTradesEvent(WandererTradesEvent event) {
-        event.getGenericTrades().add((pTrader, pRandom) -> new MerchantOffer(
-                new ItemCost(Items.EMERALD, 4),
-                BlockRegister.WILD_BITTER_GOURD_ITEM.get().getDefaultInstance(),3,1,pRandom.nextFloat()*9.43f));
-    }
+    // @SubscribeEvent
+    // public static void onWandererTradesEvent(WandererTradesEvent event) {
+    //     event.getGenericTrades().add((pTrader, pRandom) -> new MerchantOffer(
+    //             new ItemCost(Items.EMERALD, 4),
+    //             BlockRegister.WILD_BITTER_GOURD_ITEM.get().getDefaultInstance(),3,1,pRandom.nextFloat()*9.43f));
+    // }
 
 
     @SubscribeEvent
