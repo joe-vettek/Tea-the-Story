@@ -7,10 +7,12 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.TriState;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Ravager;
@@ -32,7 +34,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.EventHooks;
 import com.teamtea.teastory.registry.ItemRegister;
 import com.teamtea.teastory.registry.BlockRegister;
@@ -56,8 +57,8 @@ public class TeaPlantBlock extends BushBlock implements BonemealableBlock {
     }
 
     @Override
-    protected MapCodec<? extends BushBlock> codec() {
-        return CODEC;
+    public MapCodec<BushBlock> codec() {
+        return (MapCodec) CODEC;
     }
 
     @Override
@@ -157,7 +158,7 @@ public class TeaPlantBlock extends BushBlock implements BonemealableBlock {
 
 
     @Override
-    public ItemInteractionResult useItemOn(ItemStack pStack, BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+    public InteractionResult useItemOn(ItemStack pStack, BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         if (!worldIn.isClientSide()) {
             // if (pStack.is(Tags.Items.TOOLS_SHEAR))
             if (pStack.canPerformAction(net.neoforged.neoforge.common.ItemAbilities.SHEARS_CARVE))
@@ -165,48 +166,48 @@ public class TeaPlantBlock extends BushBlock implements BonemealableBlock {
                     case 8:
                         worldIn.setBlockAndUpdate(pos, this.defaultBlockState().setValue(AGE, worldIn.getRandom().nextInt(3) + 4));
                         worldIn.addFreshEntity(new ItemEntity(worldIn, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, new ItemStack(ItemRegister.TEA_LEAVES.get(), worldIn.getRandom().nextInt(5) + 1)));
-                        pStack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(handIn));
+                        pStack.hurtAndBreak(1, player, handIn);
                         worldIn.gameEvent(player, GameEvent.SHEAR, pos);
                         player.awardStat(Stats.ITEM_USED.get(Items.SHEARS));
-                        return ItemInteractionResult.SUCCESS;
+                        return InteractionResult.SUCCESS;
                     case 11:
                         worldIn.setBlockAndUpdate(pos, this.defaultBlockState().setValue(AGE, worldIn.getRandom().nextInt(3) + 4));
                         worldIn.addFreshEntity(new ItemEntity(worldIn, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, new ItemStack(BlockRegister.TEA_SEEDS.get(), worldIn.getRandom().nextInt(5) + 1)));
                         worldIn.addFreshEntity(new ItemEntity(worldIn, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, new ItemStack(ItemRegister.TEA_LEAVES.get(), 1)));
-                        pStack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(handIn));
+                        pStack.hurtAndBreak(1, player, handIn);
                         worldIn.gameEvent(player, GameEvent.SHEAR, pos);
                         player.awardStat(Stats.ITEM_USED.get(Items.SHEARS));
-                        return ItemInteractionResult.SUCCESS;
+                        return InteractionResult.SUCCESS;
                 }
-            return ItemInteractionResult.FAIL;
+            return InteractionResult.FAIL;
         } else {
-            return ItemInteractionResult.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
     }
 
 
     @Override
     protected boolean mayPlaceOn(BlockState state, BlockGetter worldIn, BlockPos pos) {
-        return state.getBlock() instanceof FarmBlock;
+        return state.getBlock() instanceof FarmlandBlock;
     }
 
     // @Override
     // public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
-    //     return worldIn.getBlockState(pos.below()).getBlock() instanceof FarmBlock;
+    //     return worldIn.getBlockState(pos.below()).getBlock() instanceof FarmlandBlock;
     // }
 
-    // onEntityCollision
+
     @Override
-    public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn) {
-
-        if (entityIn instanceof Ravager && EventHooks.canEntityGrief(worldIn, entityIn)) {
-            worldIn.destroyBlock(pos, true);
+    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean isPrecise) {
+        if (entity instanceof Ravager
+                && level instanceof ServerLevel serverLevel
+                && EventHooks.canEntityGrief(serverLevel, entity)) {
+            level.destroyBlock(pos, true);
         }
-        if (entityIn instanceof LivingEntity) {
-            entityIn.makeStuckInBlock(state, new Vec3(0.8F, 0.75D, 0.8F));
+        if (entity instanceof LivingEntity) {
+            entity.makeStuckInBlock(state, new Vec3(0.8F, 0.75D, 0.8F));
         }
-
-        super.entityInside(state, worldIn, pos, entityIn);
+        super.entityInside(state, level, pos, entity, effectApplier, isPrecise);
     }
 
     // getSeedsItem
@@ -215,8 +216,9 @@ public class TeaPlantBlock extends BushBlock implements BonemealableBlock {
         return BlockRegister.TEA_SEEDS.get();
     }
 
+
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player) {
         return new ItemStack(this.getBaseSeedId());
     }
 
@@ -236,7 +238,7 @@ public class TeaPlantBlock extends BushBlock implements BonemealableBlock {
     // grow
     @Override
     public void performBonemeal(ServerLevel worldIn, RandomSource rand, BlockPos pos, BlockState state) {
-        if (!worldIn.dimensionType().natural()) {
+        if (!worldIn.dimensionType().hasSkyLight()) {
             return;
         }
         int i = this.getAge(state);

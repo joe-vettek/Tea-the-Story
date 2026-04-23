@@ -12,8 +12,10 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.TriState;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -31,7 +33,6 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.util.TriState;
 
 public class MelonVineBlock extends BushBlock implements BonemealableBlock {
     public static final MapCodec<MelonVineBlock> CODEC = RecordCodecBuilder.mapCodec(
@@ -52,8 +53,8 @@ public class MelonVineBlock extends BushBlock implements BonemealableBlock {
     }
 
     @Override
-    protected MapCodec<? extends BushBlock> codec() {
-        return CODEC;
+    public MapCodec<BushBlock> codec() {
+        return (MapCodec)CODEC;
     }
 
     @Override
@@ -72,15 +73,15 @@ public class MelonVineBlock extends BushBlock implements BonemealableBlock {
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult pHitResult) {
+    protected InteractionResult useItemOn(ItemStack pStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult pHitResult) {
         if (player.getItemInHand(handIn).is(Tags.Items.TOOLS_SHEAR) && state.getValue(AGE) == 7) {
-            player.getItemInHand(handIn).hurtAndBreak(1, player, LivingEntity.getSlotForHand(handIn));
+            player.getItemInHand(handIn).hurtAndBreak(1, player, handIn);
             level.setBlockAndUpdate(pos, this.defaultBlockState());
             if (!level.isClientSide()) {
                 Block.popResource(level, pos, new ItemStack(melon));
                 level.playSound(null, pos, SoundEvents.SHEEP_SHEAR, SoundSource.BLOCKS, 1.0F, 1.0F);
             }
-            return ItemInteractionResult.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
         return super.useItemOn(pStack, state, level, pos, player, handIn, pHitResult);
     }
@@ -88,7 +89,7 @@ public class MelonVineBlock extends BushBlock implements BonemealableBlock {
 
     @Override
     protected boolean mayPlaceOn(BlockState state, BlockGetter worldIn, BlockPos pos) {
-        return state.is(BlockTags.DIRT) || state.getBlock() instanceof FarmBlock || canSupportRigidBlock(worldIn, pos);
+        return state.is(BlockTags.DIRT) || state.getBlock() instanceof FarmlandBlock || canSupportRigidBlock(worldIn, pos);
     }
 
 
@@ -148,7 +149,7 @@ public class MelonVineBlock extends BushBlock implements BonemealableBlock {
     // canGrow
     @Override
     public boolean isBonemealSuccess(Level worldIn, RandomSource p_220879_, BlockPos pos, BlockState state) {
-        return state.getValue(AGE) < 7 && worldIn.getBlockState(pos.below()).getBlock() instanceof FarmBlock;
+        return state.getValue(AGE) < 7 && worldIn.getBlockState(pos.below()).getBlock() instanceof FarmlandBlock;
     }
 
     // grow
@@ -206,8 +207,7 @@ public class MelonVineBlock extends BushBlock implements BonemealableBlock {
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player) {
         return new ItemStack(Items.MELON_SEEDS);
     }
-
 }

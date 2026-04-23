@@ -1,48 +1,30 @@
 package com.teamtea.teastory.registry;
 
 import com.teamtea.teastory.TeaStory;
-import com.teamtea.teastory.block.crops.TrellisBlock;
-import com.teamtea.teastory.block.crops.TrellisWithVineBlock;
-import com.teamtea.teastory.block.crops.VineInfoManager;
-import com.teamtea.teastory.block.crops.VineType;
 import com.teamtea.teastory.recipe.drink.DrinkEffect;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
-import net.minecraft.core.Direction;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
-import net.minecraft.server.packs.PackLocationInfo;
-import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.repository.Pack;
-import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 import net.neoforged.neoforge.client.gui.CreativeTabsScreenPage;
-import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
-import com.teamtea.teastory.blockentity.VineBlockEntity;
-import com.teamtea.teastory.item.Citem;
 import com.teamtea.teastory.item.FluidContainerItem;
-import com.teamtea.teastory.resource.ServerPathResourcesSupplier;
-import com.teamtea.teastory.variant.Planks;
 
 import java.util.*;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber
 public class ModContent {
 
     @SubscribeEvent
@@ -89,9 +71,6 @@ public class ModContent {
                                     BlockRegister.CHRYSANTHEMUM_ITEM.get().fillItemGroup(output);
                                     BlockRegister.HYACINTH_ITEM.get().fillItemGroup(output);
                                     BlockRegister.ZINNIA_ITEM.get().fillItemGroup(output);
-                                    Planks.TrellisBlockMap.forEach((resourceLocation, blockBlockPair) -> {
-                                        output.accept(blockBlockPair.trellisBlock());
-                                    });
                                 })
                                 .build());
             });
@@ -110,55 +89,7 @@ public class ModContent {
        event.modify(BlockEntityType.CAMPFIRE);
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void onRegisterForWood(RegisterEvent event) {
-        // if(true)return;
-        // TODO：neoforge 不需要像1.20forge那样解封注册表，但我们需要时间
-        if (event.getRegistryKey() == Registries.BLOCK) {
-            Map<Identifier, Block> resourceLocationBlockMap = new HashMap<>();
-            for (var block : BuiltInRegistries.BLOCK.entrySet()) {
-                if (block.getKey().location().getPath().endsWith("_planks")) {
-                    resourceLocationBlockMap.put(block.getKey().location(), block.getValue());
-                }
-            }
 
-            for (Map.Entry<Identifier, Block> resourceLocationBlockEntry : resourceLocationBlockMap.entrySet()) {
-                String name = resourceLocationBlockEntry.getKey().toString().replace(":", ".").replace("_planks", "_trellis");
-                var blockB = new TrellisBlock(Block.Properties.ofFullCopy(BlockRegister.OAK_TRELLIS.get()));
-                event.register(Registries.BLOCK, TeaStory.rl(name), () -> blockB);
-
-                ArrayList<TrellisWithVineBlock> blocks = new ArrayList<>(3);
-                for (VineType value : VineType.values()) {
-                    TrellisWithVineBlock trellisWithVineBlock = new TrellisWithVineBlock(value, Block.Properties.ofFullCopy(BlockRegister.OAK_TRELLIS.get()).sound(SoundType.CROP).randomTicks());
-                    VineInfoManager.registerVineTypeConnections(value, blockB, trellisWithVineBlock);
-                    event.register(Registries.BLOCK, TeaStory.rl(name + "_with_" + value.getName() + "_vine"), () -> trellisWithVineBlock);
-                    blocks.add(trellisWithVineBlock);
-                }
-
-                Planks.TrellisBlockMap.put(TeaStory.rl(name), new Planks.PlankHolders(resourceLocationBlockEntry.getValue(), blockB, blocks));
-
-            }
-
-            // Minecraft.getInstance().getResourceManager().getResource(new Identifier("minecraft","tags/blocks/planks.json"))
-        }
-        if (event.getRegistryKey() == Registries.ITEM) {
-            Planks.TrellisBlockMap.forEach((resourceLocation, block) -> {
-                event.register(Registries.ITEM, resourceLocation, () -> new Citem(block.trellisBlock(), new Item.Properties()));
-            });
-        }
-        if (event.getRegistryKey() == Registries.ENTITY_TYPE) {
-            Block[] blocks = BuiltInRegistries.BLOCK.stream()
-                    .filter(block -> block instanceof TrellisWithVineBlock)
-                    .toArray(Block[]::new);
-            BlockEntityRegister.VINE_TYPE = BlockEntityRegister.DRBlockEntities.register("trellis_vine",
-                    () -> BlockEntityType.Builder.of(VineBlockEntity::new, blocks).build(null));
-        }
-        // ServerLifecycleHooks.getCurrentServer().getResourceManager().getResourceStack(new Identifier("tags/blocks/acacia_logs.json"));
-    }
-    // ServerLifecycleHooks.getCurrentServer().getResourceManager()
-
-
-    // SimpleFluidContent
     @SubscribeEvent
     public static void onRegisterCapabilitiesEvent(RegisterCapabilitiesEvent event) {
         event.registerItem(Capabilities.FluidHandler.ITEM, (s, a) -> ((FluidContainerItem) s.getItem()).transferToFluidHandler(s),
@@ -172,24 +103,6 @@ public class ModContent {
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BlockEntityRegister.WOODEN_BARREL_TYPE.get(),
                 (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getFluidTank());
 
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntityRegister.BAMBOO_TRAY_TYPE.get(),
-                (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getContainerInventory());
-
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntityRegister.DRINK_MAKER_TYPE.get(),
-                (blockEntity, context) -> blockEntity.isRemoved() ? null : (context == Direction.DOWN ? blockEntity.getResiduesInventory() : blockEntity.getIngredientsInventory()));
-        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BlockEntityRegister.DRINK_MAKER_TYPE.get(),
-                (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getFluidHandler());
-
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntityRegister.STONE_MILL_TYPE.get(),
-                (blockEntity, context) -> blockEntity.isRemoved() ? null : (context == Direction.DOWN ? blockEntity.getOutputInventory() : blockEntity.getInputInventory()));
-        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BlockEntityRegister.STONE_MILL_TYPE.get(),
-                (blockEntity, context) -> blockEntity.isRemoved() ? null : (context == Direction.UP ? blockEntity.getInputFluidTank():blockEntity.getFluidTank()));
-
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntityRegister.STONE_ROLLER_TYPE.get(),
-                (blockEntity, context) -> blockEntity.isRemoved() ? null : (context == Direction.DOWN ? blockEntity.getOutputInventory() : blockEntity.getInputInventory()));
-
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntityRegister.STOVE_TYPE.get(),
-                (blockEntity, context) -> blockEntity.isRemoved() ? null : (context == Direction.DOWN ? blockEntity.getAshInventory() : blockEntity.getFuelInventory()));
 
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BlockEntityRegister.IRON_KETTLE_TYPE.get(),
                 (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getFluidTank());

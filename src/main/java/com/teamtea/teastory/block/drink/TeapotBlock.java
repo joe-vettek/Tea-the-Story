@@ -10,7 +10,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -53,14 +53,9 @@ public class TeapotBlock extends NormalHorizontalBlock implements EntityBlock {
 
 
     @Override
-    public boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos) {
+    protected boolean propagatesSkylightDown(BlockState state) {
         return true;
     }
-
-    // @Override
-    // protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-    //     super.createBlockStateDefinition(builder.add(HORIZONTAL_FACING));
-    // }
 
 
     @Override
@@ -107,12 +102,12 @@ public class TeapotBlock extends NormalHorizontalBlock implements EntityBlock {
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+    protected InteractionResult useItemOn(ItemStack pStack, BlockState pState, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         FluidUtil.getFluidHandler(player.getItemInHand(handIn).copy())
                 .flatMap(item ->
                         Optional.ofNullable(level.getCapability(Capabilities.FluidHandler.BLOCK, pos, hit.getDirection()))).ifPresent(fluid ->
                         FluidUtil.interactWithFluidHandler(player, handIn, fluid));
-        return ItemInteractionResult.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 
 
@@ -127,6 +122,11 @@ public class TeapotBlock extends NormalHorizontalBlock implements EntityBlock {
             itemStack.set(ModCapabilities.SIMPLE_FLUID, SimpleFluidContent.copyOf(fluidStack));
             return itemStack;
         } else return ItemStack.EMPTY;
+    }
+
+    @Override
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player) {
+        return getSelf(level, pos);
     }
 
     @Override

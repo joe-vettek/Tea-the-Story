@@ -21,7 +21,8 @@ import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
+import net.minecraft.world.level.levelgen.feature.WeightedPlacedFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.RandomFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.ReplaceBlockConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
@@ -65,7 +66,7 @@ public class ModBiomeFeatures {
             );
         }
 
-        private static RandomPatchConfiguration onDirtCrop(BlockStateProvider pStateProvider, int pTries) {
+        private static RandomFeatureConfiguration onDirtCrop(BlockStateProvider pStateProvider, int pTries) {
             var predicate = BlockPredicate.allOf(
                     // BlockPredicate.anyOf(BlockPredicate.matchesTag(Direction.DOWN.getNormal(), Tags.Blocks.MU))
                     BlockPredicate.matchesTag(Direction.DOWN.getNormal(), BlockTags.DIRT),
@@ -87,12 +88,12 @@ public class ModBiomeFeatures {
 
 
         public static RandomPatchConfiguration simpleRandomPatchConfiguration(int pTries, Holder<PlacedFeature> pFeature) {
-            return new RandomPatchConfiguration(pTries, 6, 3, pFeature);
+            return new RandomFeatureConfiguration(List.of(new WeightedPlacedFeature(pFeature, pTries), pFeature));
         }
 
 
         public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
-            FeatureUtils.register(context, WILD_RICE, Feature.RANDOM_PATCH, onDirtCrop(BlockStateProvider.simple(BlockRegister.WILD_RICE.get()), 56));
+            FeatureUtils.register(context, WILD_RICE, Feature.RANDOM_BOOLEAN_SELECTOR, onDirtCrop(BlockStateProvider.simple(BlockRegister.WILD_RICE.get()), 56));
             FeatureUtils.register(context, WILD_CHILI, Feature.RANDOM_PATCH, grassLikePatch(BlockStateProvider.simple(BlockRegister.WILD_CHILI.get()), 50));
             FeatureUtils.register(context, WILD_CHINESE_CABBAGE, Feature.RANDOM_PATCH, grassLikePatch(BlockStateProvider.simple(BlockRegister.WILD_CHINESE_CABBAGE.get()), 56));
             FeatureUtils.register(context, WILD_GRAPE, Feature.RANDOM_PATCH, grassLikePatch(BlockStateProvider.simple(BlockRegister.WILD_GRAPE.get()), 50));

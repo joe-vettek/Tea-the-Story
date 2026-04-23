@@ -8,6 +8,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
@@ -68,13 +70,13 @@ public class LowAqueductBlock extends AqueductBlock {
     }
 
     @Override
-    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
+    protected BlockState updateShape(BlockState stateIn, LevelReader level, ScheduledTickAccess ticks, BlockPos currentPos, Direction facing, BlockPos facingPos, BlockState facingState, RandomSource random) {
         // 排水和给水计划刻时间别设一样
         if (!(facingState.getBlock() instanceof AqueductBlock) && !(facingState.getBlock() instanceof PaddyFieldBlock)) {
-            level.scheduleTick(currentPos, this, Fluids.WATER.getTickDelay(level) / 2);
+            ticks.scheduleTick(currentPos, this, Fluids.WATER.getTickDelay(level) / 2);
         }
         if (stateIn.getValue(WATERLOGGED)) {
-            level.scheduleTick(currentPos, this, Fluids.WATER.getTickDelay(level));
+            ticks.scheduleTick(currentPos, this, Fluids.WATER.getTickDelay(level));
         }
         if (facing.getAxis().getPlane() == Direction.Plane.HORIZONTAL) {
             stateIn = stateIn.setValue(FACING_TO_PROPERTY_MAP.get(facing), this.canConnect(facingState));
@@ -83,6 +85,7 @@ public class LowAqueductBlock extends AqueductBlock {
         }
         return stateIn;
     }
+
 
     @Override
     @SuppressWarnings("deprecation")

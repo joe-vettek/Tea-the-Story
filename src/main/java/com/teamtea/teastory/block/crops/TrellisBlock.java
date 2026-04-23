@@ -13,7 +13,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -158,7 +158,7 @@ public class TrellisBlock extends HorizontalConnectedBlock implements SimpleWate
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState pState, Level level, BlockPos blockPos, Player player, InteractionHand pHand, BlockHitResult pHit) {
+    protected InteractionResult useItemOn(ItemStack stack, BlockState pState, Level level, BlockPos blockPos, Player player, InteractionHand pHand, BlockHitResult pHit) {
         if (
                 pState.getValue(POST) && !pState.getValue(UP) && ((int) ((pHit.getLocation().y()-blockPos.getY()) * 100 % 100)) * 0.16 >= 12 &&
                         player.getItemInHand(pHand).getItem() instanceof BlockItem blockItem) {
@@ -184,7 +184,7 @@ public class TrellisBlock extends HorizontalConnectedBlock implements SimpleWate
                     }
                 }
 
-                return ItemInteractionResult.sidedSuccess(level.isClientSide);
+                return InteractionResult.sidedSuccess(level.isClientSide);
             }
         }
         return super.useItemOn(stack, pState, level, blockPos, player, pHand, pHit);
@@ -196,10 +196,9 @@ public class TrellisBlock extends HorizontalConnectedBlock implements SimpleWate
     }
 
     @Override
-    public boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos) {
+    protected boolean propagatesSkylightDown(BlockState state) {
         return true;
     }
-
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder.add(POST, UP, WATERLOGGED));

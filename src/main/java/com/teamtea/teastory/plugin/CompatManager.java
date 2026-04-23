@@ -1,7 +1,6 @@
 package com.teamtea.teastory.plugin;
 
 import com.teamtea.eclipticseasons.api.EclipticSeasonsApi;
-import com.teamtea.teastory.plugin.eclipticseasons.ESCommonEventHandler;
 import com.teamtea.teastory.plugin.eclipticseasons.ESDataEventHandler;
 import com.teamtea.teastory.plugin.guideme.GuideMeMode;
 import net.neoforged.bus.api.IEventBus;
@@ -22,7 +21,6 @@ public class CompatManager {
         if(eclipticseasons)
         {
             loadEventBus.register(ESDataEventHandler.INSTANCE);
-            gameEventBus.register(ESCommonEventHandler.INSTANCE);
         }
 
         guideme =Platform.isModLoaded("guideme");

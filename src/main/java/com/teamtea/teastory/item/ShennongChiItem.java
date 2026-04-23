@@ -4,7 +4,6 @@ package com.teamtea.teastory.item;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -36,7 +35,7 @@ public class ShennongChiItem extends SwordItem {
         if (!worldIn.isClientSide()) {
             playerIn.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 400, 0));
         }
-        playerIn.getItemInHand(handIn).hurtAndBreak(1, playerIn, LivingEntity.getSlotForHand(handIn));
+        playerIn.getItemInHand(handIn).hurtAndBreak(1, playerIn, handIn);
         return InteractionResultHolder.consume(playerIn.getItemInHand(handIn));
     }
 

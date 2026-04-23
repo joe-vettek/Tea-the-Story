@@ -5,20 +5,20 @@ import com.teamtea.teastory.registry.BlockEntityRegister;
 import com.teamtea.teastory.blockentity.StoneCampfireBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CampfireCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -54,18 +54,18 @@ public class StoneCampfireBlock extends NormalHorizontalBlock implements SimpleW
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+    protected InteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
         if (pLevel.getBlockEntity(pPos) instanceof CampfireBlockEntity campfireblockentity) {
             ItemStack itemstack = pPlayer.getItemInHand(pHand);
             Optional<RecipeHolder<CampfireCookingRecipe>> optional = campfireblockentity.getCookableRecipe(itemstack);
             // campfireblockentity.placeFood(pPlayer, itemstack, 200);
             if (optional.isPresent()) {
-                if (!pLevel.isClientSide && campfireblockentity.placeFood(pPlayer, itemstack, optional.get().value().getCookingTime())) {
+                if (!pLevel.isClientSide() && campfireblockentity.placeFood(pPlayer, itemstack, optional.get().value().getCookingTime())) {
                     pPlayer.awardStat(Stats.INTERACT_WITH_CAMPFIRE);
-                    return ItemInteractionResult.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 }
 
-                return ItemInteractionResult.CONSUME;
+                return InteractionResult.CONSUME;
             }
         }
         return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
@@ -109,9 +109,9 @@ public class StoneCampfireBlock extends NormalHorizontalBlock implements SimpleW
     @Override
     protected void onProjectileHit(Level pLevel, BlockState pState, BlockHitResult pHit, Projectile pProjectile) {
         BlockPos blockpos = pHit.getBlockPos();
-        if (!pLevel.isClientSide
+        if (pLevel instanceof ServerLevel serverLevel
                 && pProjectile.isOnFire()
-                && pProjectile.mayInteract(pLevel, blockpos)
+                && pProjectile.mayInteract(serverLevel, blockpos)
                 && !pState.getValue(LIT)
                 && !pState.getValue(WATERLOGGED)) {
             pLevel.setBlock(blockpos, pState.setValue(BlockStateProperties.LIT, Boolean.valueOf(true)), Block.UPDATE_ALL_IMMEDIATE);
@@ -119,14 +119,14 @@ public class StoneCampfireBlock extends NormalHorizontalBlock implements SimpleW
     }
 
     @Override
-    protected BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pFacingPos) {
-        if (pState.getValue(WATERLOGGED)) {
-            pLevel.scheduleTick(pCurrentPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel));
+    protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction directionToNeighbour, BlockPos neighbourPos, BlockState neighbourState, RandomSource random) {
+        if (state.getValue(WATERLOGGED)) {
+            ticks.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
+        return directionToNeighbour == Direction.DOWN
+                ? state.setValue(SIGNAL_FIRE, this.isSmokeSource(neighbourState))
+                : super.updateShape(state, level, ticks, pos, directionToNeighbour, neighbourPos, neighbourState, random);
 
-        return pFacing == Direction.DOWN
-                ? pState.setValue(SIGNAL_FIRE, Boolean.valueOf(this.isSmokeSource(pFacingState)))
-                : super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
     }
 
     protected boolean isSmokeSource(BlockState pState) {
@@ -141,7 +141,7 @@ public class StoneCampfireBlock extends NormalHorizontalBlock implements SimpleW
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        if (pLevel.isClientSide) {
+        if (pLevel.isClientSide()) {
             return pState.getValue(LIT) ? createTickerHelper(pBlockEntityType, BlockEntityRegister.stone_campfire_TYPE.get(), StoneCampfireBlockEntity::particleTick) : null;
         } else {
             return pState.getValue(LIT)

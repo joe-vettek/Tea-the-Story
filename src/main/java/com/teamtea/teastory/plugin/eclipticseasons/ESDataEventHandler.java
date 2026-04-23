@@ -7,15 +7,14 @@ import com.teamtea.teastory.registry.BlockRegister;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+
+import net.neoforged.neoforge.common.data.ItemTagsProvider;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
-import javax.annotation.Nullable;
 import java.util.concurrent.CompletableFuture;
 
 public class ESDataEventHandler {
@@ -24,21 +23,18 @@ public class ESDataEventHandler {
 
 
     @SubscribeEvent
-    public void onGatherDataEvent(GatherDataEvent event) {
+    public void onGatherDataEvent(GatherDataEvent.Server event) {
         DataGenerator generator = event.getGenerator();
-        ExistingFileHelper helper = event.getExistingFileHelper();
         PackOutput packOutput = generator.getPackOutput();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
-        if (event.includeServer()) {
-            var blockTags = new TS_ESBlockTagProvider(packOutput,lookupProvider, TeaStory.MODID, helper);
-            generator.addProvider(event.includeServer(),blockTags);
-            generator.addProvider(event.includeServer(),new TS_ESItemTagProvider(packOutput, lookupProvider, blockTags.contentsGetter()));
-        }
+        var blockTags = new TS_ESBlockTagProvider(packOutput, lookupProvider, TeaStory.MODID);
+        generator.addProvider(true,blockTags);
+        generator.addProvider(true,new TS_ESItemTagProvider(packOutput, lookupProvider, blockTags.contentsGetter()));
     }
 
     public static class TS_ESBlockTagProvider extends BlockTagsProvider {
-        public TS_ESBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, String modId, @Nullable ExistingFileHelper existingFileHelper) {
-            super(output, lookupProvider, modId, existingFileHelper);
+        public TS_ESBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, String modId) {
+            super(output, lookupProvider, modId);
         }
 
         @Override
@@ -71,7 +67,7 @@ public class ESDataEventHandler {
     public static  class TS_ESItemTagProvider extends ItemTagsProvider {
 
         public TS_ESItemTagProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> providerCompletableFuture, CompletableFuture<TagsProvider.TagLookup<Block>> tagLookupCompletableFuture) {
-            super(packOutput, providerCompletableFuture, tagLookupCompletableFuture);
+            super(packOutput, providerCompletableFuture, TeaStory.MODID);
         }
 
 

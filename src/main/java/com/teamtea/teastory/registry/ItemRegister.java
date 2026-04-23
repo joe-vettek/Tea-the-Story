@@ -140,16 +140,5 @@ public class ItemRegister {
     public static DeferredHolder<Item, Item> CHICKEN_BURGER = ModItems.register("chicken_burger", () -> new Item(new Item.Properties().food(NormalFoods.CHICKEN_BURGER)));
 
 
-    public static DeferredHolder<Item, Item> PICKING_TEA_RECORD = ModItems.register("picking_tea", () -> new SRecordItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(ModSong.PICKING_TEA)));
-    public static DeferredHolder<Item, Item> SPRING_FESTIVAL_OVERTURE_RECORD = ModItems.register("spring_festival_overture", () -> new SRecordItem( new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(ModSong.SPRING_FESTIVAL_OVERTURE)));
-    public static DeferredHolder<Item, Item> FLOWERS_AND_MOON_RECORD = ModItems.register("flowers_moon", () -> new SRecordItem( new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(ModSong.FLOWERS_AND_MOON)));
-    public static DeferredHolder<Item, Item> MOVING_UP_RECORD = ModItems.register("moving_up", () -> new SRecordItem( new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(ModSong.MOVING_UP)));
-    public static DeferredHolder<Item, Item> JOYFUL_RECORD = ModItems.register("joyful", () -> new SRecordItem( new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(ModSong.JOYFUL)));
-    public static DeferredHolder<Item, Item> DANCING_GOLDEN_SNAKE_RECORD = ModItems.register("dancing_golden_snake", () -> new SRecordItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(ModSong.DANCING_GOLDEN_SNAKE)));
-    public static DeferredHolder<Item, Item> GREEN_WILLOW_RECORD = ModItems.register("green_willow", () -> new SRecordItem( new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(ModSong.GREEN_WILLOW)));
-    public static DeferredHolder<Item, Item> PURPLE_BAMBOO_MELODY_RECORD = ModItems.register("purple_bamboo_melody", () -> new SRecordItem( new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(ModSong.PURPLE_BAMBOO_MELODY)));
-    public static DeferredHolder<Item, Item> WELCOME_MARCH_RECORD = ModItems.register("welcome_march", () -> new SRecordItem( new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(ModSong.WELCOME_MARCH)));
-    //
-
 }
 

@@ -13,7 +13,7 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DirtPathBlock;
-import net.minecraft.world.level.block.FarmBlock;
+import net.minecraft.world.level.block.FarmlandBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.Tags;
@@ -62,7 +62,7 @@ public class AqueductShovelItem extends ShovelItem {
             }
             world.playSound(playerEntity, blockPos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 1.0F);
             return InteractionResult.SUCCESS;
-        }  else if (blockState.getBlock() instanceof FarmBlock) {
+        }  else if (blockState.getBlock() instanceof FarmlandBlock) {
             if (!world.isClientSide()) {
                 world.setBlock(blockPos, ((PaddyFieldBlock) BlockRegister.paddyField.get()).getStateForPlacement(world, blockPos), 3);
                 if (playerEntity != null) {

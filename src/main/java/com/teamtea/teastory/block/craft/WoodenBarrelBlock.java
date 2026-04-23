@@ -7,8 +7,10 @@ import com.teamtea.teastory.tag.TeaTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -47,40 +49,40 @@ public class WoodenBarrelBlock extends Block implements EntityBlock {
 
 
     @Override
-    @SuppressWarnings("deprecation")
-    public ItemInteractionResult useItemOn(ItemStack pStack, BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+    public InteractionResult useItemOn(ItemStack pStack, BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         if (!worldIn.isClientSide()) {
             if (FluidUtil.getFluidHandler(pStack.copy()).isPresent()) {
                 return Optional.ofNullable(worldIn.getCapability(Capabilities.FluidHandler.BLOCK, pos, hit.getDirection())).map(fluidTank ->
                 {
                     FluidUtil.interactWithFluidHandler(player, handIn, fluidTank);
-                    return ItemInteractionResult.SUCCESS;
-                }).orElse(ItemInteractionResult.FAIL);
+                    return InteractionResult.SUCCESS;
+                }).orElse(InteractionResult.FAIL);
             }
         }
-        return ItemInteractionResult.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 
 
     @Override
-    public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn) {
-        var te = worldIn.getBlockEntity(pos);
+    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean isPrecise) {
+        var te = level.getBlockEntity(pos);
         if (te instanceof WoodenBarrelBlockEntity) {
             int i = ((WoodenBarrelBlockEntity) te).getFluidAmount();
             float f = pos.getY() + 0.0625F + 0.875F * i / 2000;
-            if (!worldIn.isClientSide()) {
-                if (entityIn.isOnFire()) {
-                    if (((WoodenBarrelBlockEntity) te).getFluid().is(FluidTags.WATER) && i > 250 && entityIn.getBlockY() <= f) {
-                        entityIn.extinguishFire();
+            if (!level.isClientSide()) {
+                if (entity.isOnFire()) {
+                    if (((WoodenBarrelBlockEntity) te).getFluid().is(FluidTags.WATER) && i > 250 && entity.getBlockY() <= f) {
+                        entity.extinguishFire();
                     }
-                } else if (entityIn instanceof ItemEntity && ((WoodenBarrelBlockEntity) te).getFluid() == Fluids.WATER) {
-                    ItemStack item = ((ItemEntity) entityIn).getItem();
+                } else if (entity instanceof ItemEntity && ((WoodenBarrelBlockEntity) te).getFluid() == Fluids.WATER) {
+                    ItemStack item = ((ItemEntity) entity).getItem();
                     if (item.is(TeaTags.Items.CROPS_RICE)) {
-                        ((ItemEntity) entityIn).setItem(new ItemStack(ItemRegister.WASHED_RICE.get(), item.getCount()));
+                        ((ItemEntity) entity).setItem(new ItemStack(ItemRegister.WASHED_RICE.get(), item.getCount()));
                     }
                 }
             }
         }
+        super.entityInside(state, level, pos, entity, effectApplier, isPrecise);
     }
 
     static {

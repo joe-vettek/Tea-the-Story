@@ -12,7 +12,7 @@ import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -20,8 +20,8 @@ import java.util.concurrent.CompletableFuture;
 
 
 public final class TeaStoryBiomeTagProvider extends BiomeTagsProvider {
-    public TeaStoryBiomeTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, String modId, @Nullable ExistingFileHelper existingFileHelper) {
-        super(output, lookupProvider, modId, existingFileHelper);
+    public TeaStoryBiomeTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, String modId) {
+        super(output, lookupProvider, modId);
     }
 
     @Override

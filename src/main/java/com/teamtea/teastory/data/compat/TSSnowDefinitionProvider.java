@@ -27,11 +27,6 @@ import java.util.stream.Stream;
 
 public class TSSnowDefinitionProvider {
 
-    public static ResourceKey<SnowDefinition> createKey(Block block) {
-        return ResourceKey.create(ESRegistries.SNOW_DEFINITIONS,
-                block.builtInRegistryHolder().key().location());
-    }
-
     public static ResourceKey<SnowDefinition> createKey(String string) {
         return ResourceKey.create(ESRegistries.SNOW_DEFINITIONS,
                 TeaStory.rl(string.toLowerCase(Locale.ROOT)));

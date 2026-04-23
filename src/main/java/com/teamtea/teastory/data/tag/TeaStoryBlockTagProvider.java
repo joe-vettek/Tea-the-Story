@@ -6,7 +6,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
 
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+
 import com.teamtea.teastory.registry.BlockRegister;
 import com.teamtea.teastory.registry.BlockEntityRegister;
 
@@ -15,8 +15,8 @@ import java.util.concurrent.CompletableFuture;
 
 
 public final class TeaStoryBlockTagProvider extends BlockTagsProvider {
-    public TeaStoryBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, String modId, @Nullable ExistingFileHelper existingFileHelper) {
-        super(output, lookupProvider, modId, existingFileHelper);
+    public TeaStoryBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, String modId) {
+        super(output, lookupProvider, modId);
     }
 
     @Override
@@ -29,11 +29,6 @@ public final class TeaStoryBlockTagProvider extends BlockTagsProvider {
         tag(BlockTags.WOODEN_FENCES).add(BlockRegister.BAMBOO_LATTICE.get(), BlockRegister.DRIED_BAMBOO_WALL.get(), BlockRegister.DRIED_BAMBOO_WALL.get());
         tag(BlockTags.WALLS).add(BlockRegister.DRIED_BAMBOO_WALL.get(), BlockRegister.DRIED_BAMBOO_WALL.get());
 
-        // BlockRegister.ModBlocks.getEntries().forEach(blockHolder -> {
-        //     if (blockHolder.get() instanceof TrellisBlock) {
-        //         tag(BlockTags.WOODEN_FENCES).add(blockHolder.get());
-        //     }
-        // });
 
         tag(BlockTags.WOODEN_DOORS).add(BlockRegister.BAMBOO_DOOR.get(), BlockRegister.BAMBOO_GLASS_DOOR.get());
         tag(BlockTags.SMALL_FLOWERS).add(BlockRegister.HYACINTH.get(), BlockRegister.CHRYSANTHEMUM.get(), BlockRegister.ZINNIA.get());
@@ -43,20 +38,13 @@ public final class TeaStoryBlockTagProvider extends BlockTagsProvider {
                 BlockRegister.WOODEN_FRAME.get(),
                 BlockRegister.BAMBOO_TABLE.get(),
                 BlockRegister.BAMBOO_CHAIR.get(),
-                BlockRegister.BAMBOO_CATAPULT_BOARD.get(),
                 BlockEntityRegister.WOODEN_TRAY.get(),
                 BlockEntityRegister.WOODEN_BARREL.get(),
-                BlockEntityRegister.BAMBOO_TRAY.get(),
                 BlockRegister.stone_campfire.value());
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE).add(BlockRegister.STONE_TABLE.get(),
                 BlockRegister.STONE_CHAIR.get(),
-                BlockRegister.STONE_CATAPULT_BOARD.get(),
-                BlockRegister.IRON_CATAPULT_BOARD.get(),
                 BlockRegister.saucepan.get(),
-                BlockEntityRegister.STONE_STOVE.get(),
-                BlockEntityRegister.STONE_ROLLER.get(),
-                BlockEntityRegister.STONE_MILL.get(),
                 BlockRegister.cobblestoneAqueduct.get(),
                 BlockRegister.mossyCobblestoneAqueduct.get()
         );

@@ -9,18 +9,19 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.FarmBlock;
+import net.minecraft.world.level.block.FarmlandBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.event.entity.player.BonemealEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
@@ -42,7 +43,7 @@ public final class AgricultureEventHandler {
         Block farmland = event.getLevel().getBlockState(posToPlace.below()).getBlock();
 
         ItemStack melon_seeds = event.getEntity().getItemInHand(event.getHand());
-        if (farmland instanceof FarmBlock) {
+        if (farmland instanceof FarmlandBlock) {
             if (melon_seeds.getItem() == Items.MELON_SEEDS && toPlace.isAir()) {
                 event.getLevel().setBlockAndUpdate(posToPlace, BlockRegister.WATERMELON_VINE.get().defaultBlockState());
                 event.getLevel().playSound(null, posToPlace, SoundEvents.CROP_PLANTED, SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -57,9 +58,9 @@ public final class AgricultureEventHandler {
 
     public static void cutMelon(PlayerInteractEvent.RightClickBlock event) {
         BlockState melon = event.getLevel().getBlockState(event.getPos());
-        if (melon.getBlock() == Blocks.MELON && event.getEntity().getItemInHand(event.getHand()).getItem() instanceof SwordItem) {
+        if (melon.getBlock() == Blocks.MELON && event.getEntity().getItemInHand(event.getHand()).canPerformAction(ItemAbilities.SWORD_SWEEP)) {
             event.getLevel().setBlockAndUpdate(event.getPos(), Blocks.AIR.defaultBlockState());
-            event.getEntity().getItemInHand(event.getHand()).hurtAndBreak(1, event.getEntity(), LivingEntity.getSlotForHand(event.getHand()));
+            event.getEntity().getItemInHand(event.getHand()).hurtAndBreak(1, event.getEntity(), event.getHand());
             event.getLevel().playSound(null, event.getPos().above(), SoundEvents.STEM_HIT, SoundSource.BLOCKS, 1.0F, 1.0F);
             if (!event.getLevel().isClientSide()) {
                 List<ItemStack> list = melon.getDrops(new LootParams.Builder((ServerLevel) event.getLevel()).withParameter(LootContextParams.ORIGIN, event.getPos().getCenter()).withParameter(LootContextParams.TOOL, event.getEntity().getItemInHand(event.getHand())));

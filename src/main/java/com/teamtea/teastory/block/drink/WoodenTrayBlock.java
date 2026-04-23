@@ -9,7 +9,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -56,45 +56,14 @@ public class WoodenTrayBlock extends Block implements EntityBlock {
         }
     }
 
-
     @Override
-    public boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos) {
+    protected boolean propagatesSkylightDown(BlockState state) {
         return true;
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         super.createBlockStateDefinition(pBuilder.add(CUP, DRINK));
-    }
-
-    @Override
-    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
-        // var te = pLevel.getBlockEntity(pPos);
-        // if (te instanceof TeaCupBlockEntity) {
-        //     {
-        //         int index = pState.getValue(CUP);
-        //         if (!setCup((TeaCupBlockEntity) te, index, pStack, pLevel, pPos, pState)) {
-        //             if (pStack.getItem() == BlockEntityRegister.PORCELAIN_TEAPOT.get()) {
-        //                 FluidUtil.getFluidHandler(pStack.copy()).ifPresent(item ->
-        //                 {
-        //                     for (int i = 0; i < 3; i++) {
-        //                         FluidTank tank = ((TeaCupBlockEntity) te).getFluidTank(i);
-        //                         if (tank.isEmpty()) {
-        //                             if (FluidUtil.interactWithFluidHandler(pPlayer, pHand, tank)) {
-        //                                 if (pState.getValue(DRINK) + 1 <= 3) {
-        //                                     pLevel.setBlockAndUpdate(pPos, pState.setValue(DRINK, pState.getValue(DRINK) + 1));
-        //                                 }
-        //                                 pLevel.playSound(null, pPos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 0.5F, 0.9F);
-        //                             }
-        //                             break;
-        //                         }
-        //                     }
-        //                 });
-        //             }
-        //         }
-        //     }
-        // }
-        return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
     }
 
     @Override

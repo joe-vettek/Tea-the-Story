@@ -42,7 +42,7 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock, B
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player) {
         return new ItemStack(getEmptyTrellis(state));
     }
 
@@ -265,7 +265,7 @@ public class TrellisWithVineBlock extends TrellisBlock implements EntityBlock, B
 
     @Override
     public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState pState) {
-        randomTick(pState,level,pos,random);
+        randomTick(pState, level, pos, random);
     }
 
     public VineType getVineType() {

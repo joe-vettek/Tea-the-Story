@@ -3,7 +3,7 @@ package com.teamtea.teastory.data.lang;
 
 import com.teamtea.teastory.data.advancement.TeaAdvancementGenerator;
 import net.minecraft.data.PackOutput;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+
 import com.teamtea.teastory.registry.BlockRegister;
 import com.teamtea.teastory.registry.EntityRegister;
 import com.teamtea.teastory.registry.ItemRegister;
@@ -11,8 +11,8 @@ import com.teamtea.teastory.TeaStory;
 
 
 public class Lang_ZH extends LangHelper {
-    public Lang_ZH(PackOutput gen, ExistingFileHelper helper) {
-        super(gen, helper, TeaStory.MODID, "zh_cn");
+    public Lang_ZH(PackOutput gen) {
+        super(gen,  TeaStory.MODID, "zh_cn");
     }
 
 

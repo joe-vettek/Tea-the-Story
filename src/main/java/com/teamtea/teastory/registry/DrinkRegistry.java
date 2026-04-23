@@ -43,7 +43,7 @@ public class DrinkRegistry {
     }
 
     public static void bootstrap(BootstrapContext<DrinkEffect> context) {
-        registerEffects(context, FluidRegister.SUGARY_WATER_STILL.get(), createSimpleDrinkEffect(MobEffects.MOVEMENT_SPEED.value(), 2, 0));
+        registerEffects(context, FluidRegister.SUGARY_WATER_STILL.get(), createSimpleDrinkEffect(MobEffects.SPEED.value(), 2, 0));
 
         registerEffects(context, FluidRegister.WEAK_GREEN_TEA_STILL.get(), createSimpleDrinkEffect(EffectRegister.AGILITY, 2, 0));
         registerEffects(context, FluidRegister.GREEN_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(EffectRegister.getMobEffect(EffectRegister.AGILITY), 2, 1), new DrinkEffectAttribute(EffectRegister.getMobEffect(EffectRegister.EXCITEMENT), 2, 0)));
@@ -53,9 +53,9 @@ public class DrinkRegistry {
         registerEffects(context, FluidRegister.BLACK_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(MobEffects.HEALTH_BOOST, 4, 1), new DrinkEffectAttribute(EffectRegister.getMobEffect(EffectRegister.EXCITEMENT), 4, 0)));
         registerEffects(context, FluidRegister.STRONG_BLACK_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(MobEffects.HEALTH_BOOST, 4, 2), new DrinkEffectAttribute(EffectRegister.getMobEffect(EffectRegister.EXCITEMENT), 8, 0)));
 
-        registerEffects(context, FluidRegister.WEAK_WHITE_TEA_STILL.get(), createSimpleDrinkEffect(MobEffects.DIG_SPEED.value(), 2, 0));
-        registerEffects(context, FluidRegister.WHITE_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(MobEffects.DIG_SPEED, 2, 1), new DrinkEffectAttribute(EffectRegister.getMobEffect(EffectRegister.EXCITEMENT), 2, 0)));
-        registerEffects(context, FluidRegister.STRONG_WHITE_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(MobEffects.DIG_SPEED, 2, 2), new DrinkEffectAttribute(EffectRegister.getMobEffect(EffectRegister.EXCITEMENT), 4, 0)));
+        registerEffects(context, FluidRegister.WEAK_WHITE_TEA_STILL.get(), createSimpleDrinkEffect(MobEffects.SPEED.value(), 2, 0));
+        registerEffects(context, FluidRegister.WHITE_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(MobEffects.SPEED, 2, 1), new DrinkEffectAttribute(EffectRegister.getMobEffect(EffectRegister.EXCITEMENT), 2, 0)));
+        registerEffects(context, FluidRegister.STRONG_WHITE_TEA_STILL.get(), createDrinkEffects(new DrinkEffectAttribute(MobEffects.SPEED, 2, 2), new DrinkEffectAttribute(EffectRegister.getMobEffect(EffectRegister.EXCITEMENT), 4, 0)));
     }
 
 

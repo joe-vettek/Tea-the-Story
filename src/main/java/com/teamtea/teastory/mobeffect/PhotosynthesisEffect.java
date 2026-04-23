@@ -2,6 +2,7 @@ package com.teamtea.teastory.mobeffect;
 
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,16 +22,14 @@ public class PhotosynthesisEffect extends MobEffect {
 
 
     @Override
-    public boolean applyEffectTick(LivingEntity entityLivingBaseIn, int amplifier) {
-        boolean isDaytime = entityLivingBaseIn.level().getDayTime() < 12000L;
+    public boolean applyEffectTick(ServerLevel serverLevel, LivingEntity entityLivingBaseIn, int amplifier) {
+        boolean isDaytime = serverLevel.getDefaultClockTime() < 12000L;
         boolean use = false;
         BlockPos pos = entityLivingBaseIn.getOnPos();
-        if ((!entityLivingBaseIn.level().isRainingAt(pos)) && ((isDaytime && (entityLivingBaseIn.level().getLightEmission(pos) >= 13 - 2 * amplifier)) || ((!isDaytime) && (entityLivingBaseIn.level().getBrightness(LightLayer.BLOCK, pos) >= 13 - 2 * amplifier)))) {
+        if ((!serverLevel.isRainingAt(pos)) && ((isDaytime && (serverLevel.getLightEmission(pos) >= 13 - 2 * amplifier)) || ((!isDaytime) && (serverLevel.getBrightness(LightLayer.BLOCK, pos) >= 13 - 2 * amplifier)))) {
             entityLivingBaseIn.heal(1);
             use = true;
         }
         return use;
     }
-
-
 }

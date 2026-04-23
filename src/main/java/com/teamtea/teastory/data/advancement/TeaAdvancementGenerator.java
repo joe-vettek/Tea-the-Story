@@ -10,9 +10,11 @@ import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementRequirements;
 import net.minecraft.advancements.AdvancementType;
-import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.advancements.criterion.InventoryChangeTrigger;
+import net.minecraft.advancements.criterion.ItemPredicate;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.advancements.AdvancementSubProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
@@ -21,12 +23,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.data.AdvancementProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+
 
 import java.util.function.Consumer;
 
-public class TeaAdvancementGenerator implements AdvancementProvider.AdvancementGenerator {
+public class TeaAdvancementGenerator implements AdvancementSubProvider {
 
     public static String ROOT = "root";
     public static String AQUEDUCT_SHOVEL = "aqueduct_shovel";
@@ -50,8 +51,13 @@ public class TeaAdvancementGenerator implements AdvancementProvider.AdvancementG
         return Component.translatable("advancement.%s.%s.desc".formatted(TeaStory.MODID, name));
     }
 
+    private HolderLookup<Item> items;
+
     @Override
-    public void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> consumer, ExistingFileHelper existingFileHelper) {
+    public void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> consumer) {
+        items = registries.lookupOrThrow(Registries.ITEM);
+
+
         AdvancementHolder root = Advancement.Builder.advancement()
                 .display(ItemRegister.TEA_LEAVES.get(),
                         getTittle(ROOT),
@@ -137,7 +143,7 @@ public class TeaAdvancementGenerator implements AdvancementProvider.AdvancementG
                         Identifier.parse("minecraft:textures/block/bricks.png"),
                         AdvancementType.TASK, false, false, false)
                 .addCriterion("require", InventoryChangeTrigger.TriggerInstance.hasItems(
-                        ItemPredicate.Builder.item().of(pTag))
+                        ItemPredicate.Builder.item().of(items, pTag))
                 )
                 .requirements(AdvancementRequirements.Strategy.OR)
                 .save(consumer, getNameId(name));

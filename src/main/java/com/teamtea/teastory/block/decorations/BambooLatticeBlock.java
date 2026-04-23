@@ -42,11 +42,11 @@ public class BambooLatticeBlock extends Block implements SimpleWaterloggedBlock 
         this.registerDefaultState(defaultBlockState().setValue(NORTH, false).setValue(EAST, false).setValue(SOUTH, false).setValue(WEST, false).setValue(WATERLOGGED, false));
     }
 
+
     @Override
-    public boolean propagatesSkylightDown(BlockState state, BlockGetter pLevel, BlockPos pPos) {
+    protected boolean propagatesSkylightDown(BlockState state) {
         return !state.getValue(WATERLOGGED);
     }
-
 
     @Override
     public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {

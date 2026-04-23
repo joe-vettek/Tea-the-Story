@@ -50,6 +50,7 @@ public class RiceSeedlingBlock extends CropBlock {
             }
         }
     }
+
     @Override
     protected void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
         super.randomTick(pState, pLevel, pPos, pRandom);
@@ -62,12 +63,12 @@ public class RiceSeedlingBlock extends CropBlock {
         return BlockRegister.RICE_GRAINS.get();
     }
 
+
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
+    protected ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
         int age = state.getValue(AGE);
         if (age > 0) {
             return new ItemStack(BlockRegister.RICE_GRAINS.get());
         } else return new ItemStack(BlockRegister.RICE_GRAINS.get());
     }
-
 }

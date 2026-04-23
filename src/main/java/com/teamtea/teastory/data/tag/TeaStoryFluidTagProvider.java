@@ -8,7 +8,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.FluidTagsProvider;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.material.Fluid;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+
 import com.teamtea.teastory.registry.FluidRegister;
 
 import javax.annotation.Nullable;
@@ -17,8 +17,8 @@ import java.util.concurrent.CompletableFuture;
 
 
 public final class TeaStoryFluidTagProvider extends FluidTagsProvider {
-    public TeaStoryFluidTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, String modId, @Nullable ExistingFileHelper existingFileHelper) {
-        super(output, lookupProvider, modId, existingFileHelper);
+    public TeaStoryFluidTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, String modId) {
+        super(output, lookupProvider, modId);
     }
 
     @Override

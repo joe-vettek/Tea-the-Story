@@ -1,24 +1,25 @@
 package com.teamtea.teastory.data.tag;
 
 
+import com.teamtea.teastory.TeaStory;
 import com.teamtea.teastory.tag.TeaTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import com.teamtea.teastory.registry.BlockRegister;
 import com.teamtea.teastory.registry.ItemRegister;
+import net.neoforged.neoforge.common.data.ItemTagsProvider;
 
 import java.util.concurrent.CompletableFuture;
 
 
 public final class TeaStoryItemTagProvider extends ItemTagsProvider {
 
-    public TeaStoryItemTagProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> providerCompletableFuture, CompletableFuture<TagsProvider.TagLookup<Block>> tagLookupCompletableFuture) {
-        super(packOutput, providerCompletableFuture, tagLookupCompletableFuture);
+    public TeaStoryItemTagProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> providerCompletableFuture) {
+        super(packOutput, providerCompletableFuture, TeaStory.MODID);
     }
 
 

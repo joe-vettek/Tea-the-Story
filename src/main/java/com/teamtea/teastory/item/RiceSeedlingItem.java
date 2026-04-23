@@ -8,7 +8,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -32,12 +32,12 @@ public class RiceSeedlingItem extends Item
 
     // onItemRightClick
     @Override
-    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
+    public InteractionResult use(Level worldIn, Player playerIn, InteractionHand handIn) {
         ItemStack itemstack = playerIn.getItemInHand(handIn);
         HitResult raytraceresult = getPlayerPOVHitResult(worldIn, playerIn, ClipContext.Fluid.SOURCE_ONLY);
         if (raytraceresult.getType() == HitResult.Type.MISS)
         {
-            return InteractionResultHolder.pass(itemstack);
+            return InteractionResult.PASS;
         }
         else
         {
@@ -48,7 +48,7 @@ public class RiceSeedlingItem extends Item
                 Direction direction = blockraytraceresult.getDirection();
                 if (!worldIn.mayInteract(playerIn, blockpos) || !playerIn.mayUseItemAt(blockpos.relative(direction), direction, itemstack))
                 {
-                    return InteractionResultHolder.fail(itemstack);
+                    return InteractionResult.FAIL;
                 }
 
                 BlockPos blockpos1 = blockpos.above();
@@ -77,11 +77,11 @@ public class RiceSeedlingItem extends Item
 
                     playerIn.awardStat(Stats.ITEM_USED.get(this));
                     worldIn.playSound(playerIn, blockpos, BlockRegister.ricePlant.get().getSoundType(BlockRegister.ricePlant.get().defaultBlockState(),worldIn, blockpos, playerIn).getPlaceSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
-                    return InteractionResultHolder.success(itemstack);
+                    return InteractionResult.SUCCESS;
                 }
             }
 
-            return InteractionResultHolder.fail(itemstack);
+            return InteractionResult.FAIL;
         }
     }
 

@@ -45,7 +45,7 @@ public class HybridizableFlowerBlock extends FlowerBlock implements Bonemealable
     protected static final VoxelShape SHAPE = Block.box(3.0D, 0.0D, 3.0D, 13.0D, 14.0D, 13.0D);
 
     public HybridizableFlowerBlock(BlockBehaviour.Properties pProperties) {
-        super(makeEffectList(MobEffects.HEAL,2),pProperties);
+        super(makeEffectList(MobEffects.HEALTH_BOOST, 2), pProperties);
         this.registerDefaultState(this.defaultBlockState().setValue(FLOWER_COLOR, FlowerColor.WHITE));
     }
 
@@ -61,7 +61,7 @@ public class HybridizableFlowerBlock extends FlowerBlock implements Bonemealable
 
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        Vec3 vec3 = pState.getOffset(pLevel, pPos);
+        Vec3 vec3 = pState.getOffset(pPos);
         return SHAPE.move(vec3.x, vec3.y, vec3.z);
     }
 
@@ -112,7 +112,7 @@ public class HybridizableFlowerBlock extends FlowerBlock implements Bonemealable
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player) {
         ItemStack stack = new ItemStack(this);
         stack.update(DataComponents.BLOCK_STATE, BlockItemStateProperties.EMPTY,
                 blockItemStateProperties ->
@@ -121,6 +121,7 @@ public class HybridizableFlowerBlock extends FlowerBlock implements Bonemealable
 
         return stack;
     }
+
 
     @Override
     public boolean isValidBonemealTarget(LevelReader worldIn, BlockPos pos, BlockState pState) {

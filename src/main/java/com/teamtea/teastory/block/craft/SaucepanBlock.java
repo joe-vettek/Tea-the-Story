@@ -23,8 +23,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.*;
 
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidUtil;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import org.jetbrains.annotations.Nullable;
 import com.teamtea.teastory.registry.ItemRegister;
 import com.teamtea.teastory.block.NormalHorizontalBlock;
@@ -44,10 +43,9 @@ public class SaucepanBlock extends NormalHorizontalBlock {
     }
 
     @Override
-    public boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos) {
+    protected boolean propagatesSkylightDown(BlockState state) {
         return true;
     }
-
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
         return state.getValue(LID) ? LID_SHAPE : PAN_SHAPE;
@@ -89,7 +87,7 @@ public class SaucepanBlock extends NormalHorizontalBlock {
                 held.shrink(1);
                 worldIn.playSound(null, player.getBlockX(), player.getBlockY() + 0.5, player.getBlockZ(), SoundEvents.METAL_HIT, SoundSource.BLOCKS, 1.0F, 1.0F);
                 return InteractionResult.SUCCESS;
-            } else if (state.getValue(STEP) == CookStep.RAW && FluidUtil.getFluidContained(held).isPresent()) {
+            } else if (state.getValue(STEP) == CookStep.RAW && FluidUtil.getFirstStackContained(held).isPresent()) {
                 FluidStack fluidStack = FluidUtil.getFluidContained(held).get();
                 if (fluidStack.getFluid() == Fluids.WATER && fluidStack.getAmount() >= 1000) {
                     if (FluidUtil.interactWithFluidHandler(player, player.getUsedItemHand(), new FluidTank(1000))) {

@@ -2,7 +2,6 @@ package com.teamtea.teastory.data.lang;
 
 import com.teamtea.teastory.data.advancement.TeaAdvancementGenerator;
 import net.minecraft.data.PackOutput;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import com.teamtea.teastory.registry.BlockRegister;
 import com.teamtea.teastory.registry.EntityRegister;
@@ -10,8 +9,8 @@ import com.teamtea.teastory.registry.ItemRegister;
 import com.teamtea.teastory.TeaStory;
 
 public class Lang_EN extends LangHelper {
-    public Lang_EN(PackOutput gen, ExistingFileHelper helper) {
-        super(gen, helper, TeaStory.MODID, "en_us");
+    public Lang_EN(PackOutput gen) {
+        super(gen,TeaStory.MODID, "en_us");
     }
 
 

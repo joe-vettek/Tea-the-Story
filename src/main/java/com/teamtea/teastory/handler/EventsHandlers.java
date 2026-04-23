@@ -17,7 +17,7 @@ import com.teamtea.teastory.registry.ItemRegister;
 import com.teamtea.teastory.entity.ScarecrowEntity;
 import net.neoforged.neoforge.event.village.WandererTradesEvent;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber
 public class EventsHandlers {
     @SubscribeEvent
     public static void onItemTooltipEvent(ItemTooltipEvent event) {
@@ -39,7 +39,7 @@ public class EventsHandlers {
         if (
                 event.getLevel() instanceof ServerLevel
                         && !event.loadedFromDisk()
-                        && event.getEntity().getType().is(TeaTags.Entities.BIRDS)
+                        && event.getEntity().is(TeaTags.Entities.BIRDS)
                         && event.getEntity() instanceof PathfinderMob pathfinderMob) {
 
             // TeaStory.logger(event.getLevel(), pathfinderMob.goalSelector.getAvailableGoals().size());

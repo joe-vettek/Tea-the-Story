@@ -36,7 +36,7 @@ public final class DrinkEffectEventHandler
             {
                 if (event instanceof LivingDamageEvent)
                 {
-                    event.getEntity().playSound(SoundEvents.SHIELD_BREAK, 1.0F, 1.0F);
+                    event.getEntity().playSound(SoundEvents.SHIELD_BREAK.value(), 1.0F, 1.0F);
                 }
                 event.setNewDamage(0);
                 // event.setCanceled(true);

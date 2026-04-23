@@ -39,8 +39,8 @@ public class WildCropBlock extends BushBlock {
     }
 
     @Override
-    protected MapCodec<? extends BushBlock> codec() {
-        return CODEC;
+    public MapCodec<BushBlock> codec() {
+        return (MapCodec)CODEC;
     }
 
     @Override

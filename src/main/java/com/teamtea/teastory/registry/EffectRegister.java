@@ -13,7 +13,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber
 public final class EffectRegister {
     public static final MobEffect AGILITY = new MobEffect(MobEffectCategory.BENEFICIAL, 0x828282);
     public static final MobEffect PHOTOSYNTHESIS = new PhotosynthesisEffect(MobEffectCategory.BENEFICIAL, 0x828282);
@@ -33,7 +33,7 @@ public final class EffectRegister {
     }
 
     public static Holder<MobEffect> getMobEffect(MobEffect mobEffect) {
-        return BuiltInRegistries.MOB_EFFECT.getHolder(BuiltInRegistries.MOB_EFFECT.getKey(mobEffect)).get();
+        return BuiltInRegistries.MOB_EFFECT.get(BuiltInRegistries.MOB_EFFECT.getKey(mobEffect)).get();
     }
 
 

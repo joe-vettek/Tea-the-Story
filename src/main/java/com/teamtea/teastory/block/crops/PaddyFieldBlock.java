@@ -8,13 +8,12 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
@@ -55,7 +54,6 @@ public class PaddyFieldBlock extends HorizontalConnectedBlock implements SimpleW
     }
 
 
-
     @Override
     @SuppressWarnings("deprecation")
     public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
@@ -77,19 +75,15 @@ public class PaddyFieldBlock extends HorizontalConnectedBlock implements SimpleW
         return false;
     }
 
-
-    // pickupFluid
     @Override
-    public ItemStack pickupBlock(Player player,LevelAccessor accessor, BlockPos pos, BlockState state) {
+    public ItemStack pickupBlock(@org.jspecify.annotations.Nullable LivingEntity user, LevelAccessor level, BlockPos pos, BlockState state) {
         return new ItemStack(Items.WATER_BUCKET);
     }
 
-    // canPlaceLiquid
     @Override
-    public boolean canPlaceLiquid(Player player,BlockGetter blockGetter, BlockPos pos, BlockState state, Fluid fluid) {
+    public boolean canPlaceLiquid(@org.jspecify.annotations.Nullable LivingEntity user, BlockGetter level, BlockPos pos, BlockState state, Fluid type) {
         return false;
     }
-
 
     public boolean canConnect(BlockState state) {
         return state.getBlock() instanceof PaddyFieldBlock || state.getBlock() instanceof AqueductConnectorBlock;
@@ -175,10 +169,11 @@ public class PaddyFieldBlock extends HorizontalConnectedBlock implements SimpleW
 
 
     @Override
-    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos) {
-        if (facing.getAxis().getPlane() == Direction.Plane.HORIZONTAL) {
-            return stateIn.setValue(FACING_TO_PROPERTY_MAP.get(facing), this.canConnect(facingState));
-        } else return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+    protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction directionToNeighbour, BlockPos neighbourPos, BlockState neighbourState, RandomSource random) {
+        if (directionToNeighbour.getAxis().getPlane() == Direction.Plane.HORIZONTAL) {
+            return state.setValue(FACING_TO_PROPERTY_MAP.get(directionToNeighbour), this.canConnect(neighbourState));
+        }
+        return super.updateShape(state, level, ticks, pos, directionToNeighbour, neighbourPos, neighbourState, random);
     }
 
 
@@ -197,7 +192,6 @@ public class PaddyFieldBlock extends HorizontalConnectedBlock implements SimpleW
     public boolean isFertile(BlockState state, BlockGetter level, BlockPos pos) {
         return true;
     }
-
 
 
     public enum Water implements StringRepresentable {
