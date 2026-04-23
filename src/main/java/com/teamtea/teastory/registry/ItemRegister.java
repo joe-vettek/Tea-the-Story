@@ -7,11 +7,11 @@ import com.teamtea.teastory.item.food.NormalFoods;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.block.entity.FuelValues;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.Nullable;
-import com.teamtea.teastory.item.CupDrinkItem;
 
 
 // import static xueluoanping.fluiddrawerslegacy.FluidDrawersLegacyMod.CREATIVE_TAB;
@@ -23,14 +23,14 @@ public class ItemRegister {
     public static final DeferredRegister<Item> ModItems = DeferredRegister.create(Registries.ITEM, TeaStory.MODID);
 
     public static DeferredHolder<Item, ShennongChiItem> shennong_chi = ModItems.register("shennong_chi", () -> new ShennongChiItem(new Item.Properties().fireResistant()));
-    public static DeferredHolder<Item, SickleItem> IRON_SICKLE = ModItems.register("iron_sickle", () -> new SickleItem(Tiers.IRON,  new Item.Properties().fireResistant().attributes(AxeItem.createAttributes(Tiers.IRON, 1.5F, -2.5F))));
+    public static DeferredHolder<Item, SickleItem> IRON_SICKLE = ModItems.register("iron_sickle", () -> new SickleItem(Tiers.IRON, new Item.Properties().fireResistant().attributes(AxeItem.createAttributes(Tiers.IRON, 1.5F, -2.5F))));
 
 
-    public static DeferredHolder<Item, AqueductShovelItem> WOODEN_AQUEDUCT_SHOVEL = ModItems.register("wooden_aqueduct_shovel", () -> new AqueductShovelItem(Tiers.WOOD,  new Item.Properties().attributes(AxeItem.createAttributes(Tiers.WOOD, 1.5F, -2.5F))));
-    public static DeferredHolder<Item, AqueductShovelItem> STONE_AQUEDUCT_SHOVEL = ModItems.register("stone_aqueduct_shovel", () -> new AqueductShovelItem(Tiers.STONE,  new Item.Properties().attributes(AxeItem.createAttributes(Tiers.STONE, 1.5F, -2.5F))));
-    public static DeferredHolder<Item, AqueductShovelItem> GOLD_AQUEDUCT_SHOVEL = ModItems.register("gold_aqueduct_shovel", () -> new AqueductShovelItem(Tiers.GOLD,  new Item.Properties().attributes(AxeItem.createAttributes(Tiers.GOLD, 1.5F, -2.5F))));
-    public static DeferredHolder<Item, AqueductShovelItem> IRON_AQUEDUCT_SHOVEL = ModItems.register("iron_aqueduct_shovel", () -> new AqueductShovelItem(Tiers.IRON,  new Item.Properties().attributes(AxeItem.createAttributes(Tiers.IRON, 1.5F, -2.5F))));
-    public static DeferredHolder<Item, AqueductShovelItem> DIAMOND_AQUEDUCT_SHOVEL = ModItems.register("diamond_aqueduct_shovel", () -> new AqueductShovelItem(Tiers.DIAMOND,  new Item.Properties().attributes(AxeItem.createAttributes(Tiers.DIAMOND, 1.5F, -2.5F))));
+    public static DeferredHolder<Item, AqueductShovelItem> WOODEN_AQUEDUCT_SHOVEL = ModItems.register("wooden_aqueduct_shovel", () -> new AqueductShovelItem(Tiers.WOOD, new Item.Properties().attributes(AxeItem.createAttributes(Tiers.WOOD, 1.5F, -2.5F))));
+    public static DeferredHolder<Item, AqueductShovelItem> STONE_AQUEDUCT_SHOVEL = ModItems.register("stone_aqueduct_shovel", () -> new AqueductShovelItem(Tiers.STONE, new Item.Properties().attributes(AxeItem.createAttributes(Tiers.STONE, 1.5F, -2.5F))));
+    public static DeferredHolder<Item, AqueductShovelItem> GOLD_AQUEDUCT_SHOVEL = ModItems.register("gold_aqueduct_shovel", () -> new AqueductShovelItem(Tiers.GOLD, new Item.Properties().attributes(AxeItem.createAttributes(Tiers.GOLD, 1.5F, -2.5F))));
+    public static DeferredHolder<Item, AqueductShovelItem> IRON_AQUEDUCT_SHOVEL = ModItems.register("iron_aqueduct_shovel", () -> new AqueductShovelItem(Tiers.IRON, new Item.Properties().attributes(AxeItem.createAttributes(Tiers.IRON, 1.5F, -2.5F))));
+    public static DeferredHolder<Item, AqueductShovelItem> DIAMOND_AQUEDUCT_SHOVEL = ModItems.register("diamond_aqueduct_shovel", () -> new AqueductShovelItem(Tiers.DIAMOND, new Item.Properties().attributes(AxeItem.createAttributes(Tiers.DIAMOND, 1.5F, -2.5F))));
 
     public static DeferredHolder<Item, Item> WET_STRAW = ModItems.register("wet_straw", () -> new Item(new Item.Properties()));
     public static DeferredHolder<Item, Item> DRY_STRAW = ModItems.register("dry_straw", () -> new Item(new Item.Properties()));
@@ -52,54 +52,6 @@ public class ItemRegister {
     public static DeferredHolder<Item, Item> RICE = ModItems.register("rice", () -> new Item(new Item.Properties()));
     public static DeferredHolder<Item, Item> WASHED_RICE = ModItems.register("washed_rice", () -> new Item(new Item.Properties()));
 
-    // DRINK 饮品
-    public static DeferredHolder<Item, Item> CLAY_CUP = ModItems.register("clay_cup", () -> new Item(new Item.Properties()));
-    public static DeferredHolder<Item, Item> CLAY_TEAPOT = ModItems.register("clay_teapot", () -> new Item(new Item.Properties()));
-    public static DeferredHolder<Item, Item> PORCELAIN_CUP = ModItems.register("porcelain_cup", () -> new CupDrinkItem(250, new Item.Properties()){
-        @Override
-        public ItemStack getHolderItem(ItemStack stack) {
-            SimpleFluidContent simpleFluidContent = stack.get(ModCapabilities.SIMPLE_FLUID);
-            if(simpleFluidContent!=null){
-                ItemStack itemStack = PORCELAIN_CUP_DRINK.get().getDefaultInstance();
-                itemStack.set(ModCapabilities.SIMPLE_FLUID,simpleFluidContent);
-                return itemStack;
-            }
-            return super.getHolderItem(stack);
-        }
-    });
-    public static DeferredHolder<Item, Item> BOTTLE = ModItems.register("bottle", () -> new CupDrinkItem(500, new Item.Properties()) {
-
-        @Override
-        public ItemStack getHolderItem(ItemStack stack) {
-            SimpleFluidContent simpleFluidContent = stack.get(ModCapabilities.SIMPLE_FLUID);
-            if(simpleFluidContent!=null){
-                ItemStack itemStack = BOTTLE_DRINK.get().getDefaultInstance();
-                itemStack.set(ModCapabilities.SIMPLE_FLUID,simpleFluidContent);
-                return itemStack;
-            }
-            return super.getHolderItem(stack);
-        }
-    });
-
-
-    public static  DeferredHolder<Item,CupDrinkItem> PORCELAIN_CUP_DRINK = ModItems.register("porcelain_cup_drink", () -> new CupDrinkItem(250, new Item.Properties().craftRemainder(PORCELAIN_CUP.get()).stacksTo(1)){
-        @Override
-        public Item getRemainingItem() {
-            return PORCELAIN_CUP.get();
-        }
-    });
-    public static  DeferredHolder<Item,CupDrinkItem> BOTTLE_DRINK = ModItems.register("bottle_drink", () -> new CupDrinkItem(500, new Item.Properties().craftRemainder(BOTTLE.get()).stacksTo(1)){
-        @Override
-        public Item getRemainingItem() {
-            return BOTTLE.get();
-        }
-    });
-
-
-    public static DeferredHolder<Item, Item> STONE_MILL_TOP = ModItems.register("stone_mill_top", () -> new Item(new Item.Properties()));
-    public static DeferredHolder<Item, Item> STONE_ROLLER_TOP = ModItems.register("stone_roller_top", () -> new Item(new Item.Properties()));
-    public static DeferredHolder<Item, Item> STONE_ROLLER_WOODEN_FRAME = ModItems.register("stone_roller_wooden_frame", () -> new Item(new Item.Properties()));
-    public static DeferredHolder<Item, Item> SAUCEPAN_LID = ModItems.register("saucepan_lid", () -> new Item(new Item.Properties()));
 
     public static DeferredHolder<Item, Item> RAISINS = ModItems.register("raisins", () -> new Item(new Item.Properties().food(NormalFoods.RAISINS)));
     public static DeferredHolder<Item, Item> RICE_BALL = ModItems.register("rice_ball", () -> new Item(new Item.Properties().food(NormalFoods.RICE_BALL)));
@@ -107,15 +59,16 @@ public class ItemRegister {
 
     public static DeferredHolder<Item, Item> BAMBOO_CHARCOAL = ModItems.register("bamboo_charcoal", () -> new Item(new Item.Properties()) {
         @Override
-        public int getBurnTime(ItemStack itemStack, @Nullable RecipeType<?> recipeType) {
+        public int getBurnTime(ItemStack itemStack, @org.jspecify.annotations.Nullable RecipeType<?> recipeType, FuelValues fuelValues) {
             return 800;
         }
     });
     public static DeferredHolder<Item, Item> HONEYCOMB_BRIQUETTE = ModItems.register("honeycomb_briquette", () -> new Item(new Item.Properties()) {
         @Override
-        public int getBurnTime(ItemStack itemStack, @Nullable RecipeType<?> recipeType) {
+        public int getBurnTime(ItemStack itemStack, @org.jspecify.annotations.Nullable RecipeType<?> recipeType, FuelValues fuelValues) {
             return 6000;
         }
+
     });
 
 

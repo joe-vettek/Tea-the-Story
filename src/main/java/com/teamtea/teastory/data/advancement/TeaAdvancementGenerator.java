@@ -96,9 +96,6 @@ public class TeaAdvancementGenerator implements AdvancementSubProvider {
                 getRice, BlockEntityRegister.WOODEN_BARREL_ITEM.get(), WASH_RICE, new ItemLike[]{BlockEntityRegister.WOODEN_BARREL_ITEM.get()}, consumer
         );
 
-        AdvancementHolder cookRice = build(
-                washRice, BlockRegister.saucepan_ITEM.get(), COOK_RICE, new ItemLike[]{BlockRegister.saucepan_ITEM.get()}, consumer
-        );
 
         AdvancementHolder teaLeaves = build(
                 root, Items.SHEARS, TEA_LEAVES, Tags.Items.TOOLS_SHEAR, consumer

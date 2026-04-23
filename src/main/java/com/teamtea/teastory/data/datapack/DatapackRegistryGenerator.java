@@ -23,7 +23,7 @@ public class DatapackRegistryGenerator extends DatapackBuiltinEntriesProvider {
             .add(Registries.PLACED_FEATURE, ModBiomeFeatures.TeaPlacedFeature::bootstrap)
             .add(Registries.DAMAGE_TYPE, ModDamageType::bootstrap)
             .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ModBiomeModifiers::bootstrap)
-            .add(TeaStoryRegistries.DRINK_EFFECT, DrinkRegistry::bootstrap)
+            // .add(TeaStoryRegistries.DRINK_EFFECT, DrinkRegistry::bootstrap)
             .add(ESRegistries.SNOW_DEFINITIONS, TSSnowDefinitionProvider::bootstrap2)
             ;
 

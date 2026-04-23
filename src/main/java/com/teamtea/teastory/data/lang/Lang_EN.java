@@ -16,7 +16,7 @@ public class Lang_EN extends LangHelper {
 
     @Override
     protected void addTranslations() {
-        add(EntityRegister.SCARECROW_TYPE.get(), "Scarecrow");
+        // add(EntityRegister.SCARECROW_TYPE.get(), "Scarecrow");
 
         add(BlockRegister.stone_campfire.get(), "Stone Campfire");
 

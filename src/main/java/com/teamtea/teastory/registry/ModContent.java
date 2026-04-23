@@ -8,7 +8,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -20,16 +19,13 @@ import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
-import com.teamtea.teastory.item.FluidContainerItem;
-
-import java.util.*;
 
 @EventBusSubscriber
 public class ModContent {
 
     @SubscribeEvent
     public static void onNewRegistry(DataPackRegistryEvent.NewRegistry event) {
-        event.dataPackRegistry(TeaStoryRegistries.DRINK_EFFECT, DrinkEffect.CODEC, DrinkEffect.CODEC);
+        // event.dataPackRegistry(TeaStoryRegistries.DRINK_EFFECT, DrinkEffect.CODEC, DrinkEffect.CODEC);
     }
 
 
@@ -57,16 +53,9 @@ public class ModContent {
                                     ItemRegister.ModItems.getEntries().forEach((reg) -> {
                                         output.accept(new ItemStack(reg.get()));
                                     });
-                                    FluidRegister.ITEMS.getEntries().forEach((reg) -> {
-                                        output.accept(new ItemStack(reg.get()));
-                                    });
                                     BlockEntityRegister.ModItems.getEntries().forEach((reg) -> {
                                         output.accept(new ItemStack(reg.get()));
                                     });
-                                    ItemRegister.PORCELAIN_CUP_DRINK.get().fillItemGroup(output);
-                                    ItemRegister.BOTTLE_DRINK.get().fillItemGroup(output);
-                                    BlockEntityRegister.IRON_KETTLE_ITEM.get().fillItemGroup(output);
-                                    BlockEntityRegister.PORCELAIN_TEAPOT.get().fillItemGroup(output);
 
                                     BlockRegister.CHRYSANTHEMUM_ITEM.get().fillItemGroup(output);
                                     BlockRegister.HYACINTH_ITEM.get().fillItemGroup(output);
@@ -81,7 +70,7 @@ public class ModContent {
     @SubscribeEvent
     public static void onRegisterEntityAttribute(EntityAttributeCreationEvent event) {
         // event.put(EntityTypeRegistry.SCARECROW_TYPE.get(), DefaultAttributes.getSupplier(EntityType.ARMOR_STAND));
-        event.put(EntityRegister.SCARECROW_TYPE.get(), LivingEntity.createLivingAttributes().build());
+        // event.put(EntityRegister.SCARECROW_TYPE.get(), LivingEntity.createLivingAttributes().build());
     }
 
     @SubscribeEvent
@@ -92,22 +81,11 @@ public class ModContent {
 
     @SubscribeEvent
     public static void onRegisterCapabilitiesEvent(RegisterCapabilitiesEvent event) {
-        event.registerItem(Capabilities.FluidHandler.ITEM, (s, a) -> ((FluidContainerItem) s.getItem()).transferToFluidHandler(s),
-                ItemRegister.PORCELAIN_CUP_DRINK.value(),
-                ItemRegister.PORCELAIN_CUP.value(),
-                ItemRegister.BOTTLE.value(),
-                ItemRegister.BOTTLE_DRINK.value(),
-                BlockEntityRegister.PORCELAIN_TEAPOT.value(),
-                BlockEntityRegister.IRON_KETTLE_ITEM.value());
-
-        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BlockEntityRegister.WOODEN_BARREL_TYPE.get(),
-                (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getFluidTank());
 
 
-        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BlockEntityRegister.IRON_KETTLE_TYPE.get(),
+        event.registerBlockEntity(Capabilities.Fluid.BLOCK, BlockEntityRegister.WOODEN_BARREL_TYPE.get(),
                 (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getFluidTank());
-        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BlockEntityRegister.TEAPOT_TYPE.get(),
-                (blockEntity, context) -> blockEntity.isRemoved() ? null : blockEntity.getFluidTank());
+
     }
 
 

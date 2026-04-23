@@ -89,10 +89,6 @@ public class BlockRegister {
     public static DeferredHolder<Block, StoneCampfireBlock> stone_campfire = ModBlocks.register("stone_campfire", () -> new StoneCampfireBlock(Block.Properties.ofFullCopy(Blocks.STONE).strength(3.5F).noOcclusion()));
     public static DeferredHolder<Item, BlockItem> stone_campfire_ITEM = ModItems.register("stone_campfire", () -> new BlockItem(stone_campfire.get(), new Item.Properties()));
 
-    public static DeferredHolder<Block, SaucepanBlock> saucepan = ModBlocks.register("saucepan", () -> new SaucepanBlock(Block.Properties.ofFullCopy(Blocks.IRON_BLOCK).strength(3.5F).randomTicks()));
-    public static DeferredHolder<Item, BlockItem> saucepan_ITEM = ModItems.register("saucepan", () -> new BlockItem(saucepan.get(), new Item.Properties()));
-
-
 
     public static DeferredHolder<Block, ScarecrowBlock> SCARECROW = ModBlocks.register("scarecrow", () -> new ScarecrowBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_ORANGE).randomTicks().strength(0.5F).sound(SoundType.GRASS).pushReaction(PushReaction.IGNORE)));
     public static DeferredHolder<Item, BlockItem> SCARECROW_ITEM = ModItems.register("scarecrow", () -> new BlockItem(SCARECROW.get(), new Item.Properties()));

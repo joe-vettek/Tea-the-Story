@@ -2,7 +2,6 @@ package com.teamtea.teastory.data.recipe;
 
 
 import com.teamtea.teastory.registry.BlockRegister;
-import com.teamtea.teastory.registry.FluidRegister;
 import com.teamtea.teastory.registry.ItemRegister;
 import com.teamtea.teastory.registry.BlockEntityRegister;
 import com.teamtea.teastory.recipe.special.FlowerDyeRecipe;
@@ -65,7 +64,6 @@ public class TeaStoryRecipeProvider extends VanillaRecipeProvider {
         ShapedRecipeBuilder.shaped(items, RecipeCategory.DECORATIONS, BlockRegister.WOODEN_CHAIR.get()).define('x', ItemTags.PLANKS).define('#', Tags.Items.RODS_WOODEN).pattern("x  ").pattern("xxx").pattern("# #").group("wooden_chair").unlockedBy("has_plank", has(ItemTags.PLANKS)).save(output);
         ShapedRecipeBuilder.shaped(items, RecipeCategory.DECORATIONS, BlockRegister.STONE_TABLE.get()).define('x', Blocks.STONE).define('#', Blocks.COBBLESTONE_WALL).pattern("xxx").pattern("# #").pattern("# #").group("stone_table").unlockedBy("has_stone", has(Blocks.STONE)).save(output);
         ShapedRecipeBuilder.shaped(items, RecipeCategory.DECORATIONS, BlockRegister.STONE_CHAIR.get()).define('x', Blocks.STONE).define('#', Blocks.COBBLESTONE_WALL).pattern("xxx").pattern("# #").group("stone_chair").unlockedBy("has_stone", has(Blocks.STONE)).save(output);
-        ShapedRecipeBuilder.shaped(items, RecipeCategory.REDSTONE, BlockEntityRegister.WOODEN_TRAY.get()).define('#', Tags.Items.RODS_WOODEN).pattern("# #").pattern("###").group("wooden_tray").unlockedBy("has_rod", has(Tags.Items.RODS_WOODEN)).save(output);
         ShapedRecipeBuilder.shaped(items, RecipeCategory.DECORATIONS, BlockRegister.BAMBOO_LATTICE.get(), 2).define('x', Items.BAMBOO).pattern("x x").pattern(" x ").pattern("x x").group("bamboo_lattice").unlockedBy("has_bamboo", has(Items.BAMBOO)).save(output);
         ShapedRecipeBuilder.shaped(items, RecipeCategory.DECORATIONS, BlockRegister.SCARECROW.get()).define('#', TeaTags.Items.CROPS_STRAW).define('*', BlockRegister.DRY_HAYSTACK.get()).define('/', Tags.Items.RODS_WOODEN).pattern(" # ").pattern("/*/").pattern(" / ").group("scarecrow").unlockedBy("has_haystack", has(BlockRegister.DRY_HAYSTACK.get())).save(output);
         ShapedRecipeBuilder.shaped(items, RecipeCategory.DECORATIONS, BlockRegister.WET_HAYSTACK.get()).define('#', ItemRegister.WET_STRAW.get()).pattern(" # ").pattern("###").pattern("###").group("haystack").unlockedBy("has_straw", has(ItemRegister.WET_STRAW.get())).save(output);
@@ -73,17 +71,11 @@ public class TeaStoryRecipeProvider extends VanillaRecipeProvider {
 
         // Drink Ingredient Recipes 茶饮配料配方
         ShapedRecipeBuilder.shaped(items, RecipeCategory.FOOD, ItemRegister.EMPTY_TEA_BAG.get(), 3).define('/', Items.STRING).define('x', Items.PAPER).pattern(" / ").pattern("xxx").pattern("xxx").group("empty_tea_bag").unlockedBy("has_paper", has(Items.PAPER)).save(output);
-        ShapelessRecipeBuilder.shapeless(items, RecipeCategory.FOOD, ItemRegister.BLACK_TEA_BAG.get()).requires(ItemRegister.EMPTY_TEA_BAG.get()).requires(Ingredient.of(TeaTags.Items.CROPS_BLACK_TEA_LEAF), 3).group("tea_bag").unlockedBy("has_tea_bag", has(ItemRegister.EMPTY_TEA_BAG.get())).save(output);
-        ShapelessRecipeBuilder.shapeless(items, RecipeCategory.FOOD, ItemRegister.GREEN_TEA_BAG.get()).requires(ItemRegister.EMPTY_TEA_BAG.get()).requires(Ingredient.of(TeaTags.Items.CROPS_GREEN_TEA_LEAF), 3).group("tea_bag").unlockedBy("has_tea_bag", has(ItemRegister.EMPTY_TEA_BAG.get())).save(output);
+        ShapelessRecipeBuilder.shapeless(items, RecipeCategory.FOOD, ItemRegister.BLACK_TEA_BAG.get()).requires(ItemRegister.EMPTY_TEA_BAG.get()).requires(Ingredient.of(items.getOrThrow(TeaTags.Items.CROPS_BLACK_TEA_LEAF)), 3).group("tea_bag").unlockedBy("has_tea_bag", has(ItemRegister.EMPTY_TEA_BAG.get())).save(output);
+        ShapelessRecipeBuilder.shapeless(items, RecipeCategory.FOOD, ItemRegister.GREEN_TEA_BAG.get()).requires(ItemRegister.EMPTY_TEA_BAG.get()).requires(Ingredient.of(items.getOrThrow(TeaTags.Items.CROPS_GREEN_TEA_LEAF)), 3).group("tea_bag").unlockedBy("has_tea_bag", has(ItemRegister.EMPTY_TEA_BAG.get())).save(output);
 
-        // Tea Set Recipes 茶具配方
-        ShapedRecipeBuilder.shaped(items, RecipeCategory.MISC, ItemRegister.BOTTLE.get()).define('x', Tags.Items.NUGGETS_IRON).define('#', Tags.Items.GLASS_PANES_COLORLESS).pattern(" x ").pattern("# #").pattern("###").group("bottle").unlockedBy("has_glass_pane", has(Tags.Items.GLASS_PANES_COLORLESS)).save(output);
-        ShapedRecipeBuilder.shaped(items, RecipeCategory.MISC, ItemRegister.CLAY_CUP.get()).define('x', Items.CLAY_BALL).pattern("x x").pattern(" x ").group("clay_cup").unlockedBy("has_clay_ball", has(Items.CLAY_BALL)).save(output);
-        ShapedRecipeBuilder.shaped(items, RecipeCategory.MISC, ItemRegister.CLAY_TEAPOT.get()).define('x', Blocks.CLAY).pattern("x x").pattern(" x ").group("clay_teapot").unlockedBy("has_clay_ball", has(Items.CLAY_BALL)).save(output);
-        ShapedRecipeBuilder.shaped(items, RecipeCategory.MISC, BlockEntityRegister.IRON_KETTLE.get()).define('*', Items.BUCKET).define('x', Tags.Items.INGOTS_IRON).pattern(" x ").pattern("x*x").pattern("xxx").group("iron_kettle").unlockedBy("has_iron", has(Tags.Items.INGOTS_IRON)).save(output);
 
         // Craft Block Recipes 工艺方块配方
-        ShapedRecipeBuilder.shaped(items, RecipeCategory.MISC, BlockRegister.saucepan.get()).define('#', Tags.Items.INGOTS_IRON).define('*', Items.BUCKET).pattern(" # ").pattern("#*#").pattern("###").group("saucepan").unlockedBy("has_iron", has(Tags.Items.INGOTS_IRON)).save(output);
         ShapedRecipeBuilder.shaped(items, RecipeCategory.MISC, BlockEntityRegister.WOODEN_BARREL.get()).define('#', ItemTags.PLANKS).define('*', ItemTags.WOODEN_SLABS).pattern("* *").pattern("# #").pattern("###").group("wooden_barrel").unlockedBy("has_planks", has(ItemTags.PLANKS)).save(output);
 
         // Tool & Ingredient Recipes 工具和原料配方
@@ -109,9 +101,6 @@ public class TeaStoryRecipeProvider extends VanillaRecipeProvider {
 
         // Smelting Recipes 熔炼配方
 
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(Items.WATER_BUCKET), RecipeCategory.MISC, CookingBookCategory.MISC, FluidRegister.BOILING_WATER_BUCKET.get(), 0.2F, 200).unlockedBy("has_water_bucket", has(Items.WATER_BUCKET)).save(output);
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ItemRegister.CLAY_CUP.get()), RecipeCategory.MISC, CookingBookCategory.MISC, ItemRegister.PORCELAIN_CUP.get(), 0.2F, 200).unlockedBy("has_clay_cup", has(ItemRegister.CLAY_CUP.get())).save(output);
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ItemRegister.CLAY_TEAPOT.get()), RecipeCategory.MISC, CookingBookCategory.MISC, BlockEntityRegister.PORCELAIN_TEAPOT.get(), 0.2F, 200).unlockedBy("has_clay_teapot", has(ItemRegister.CLAY_TEAPOT.get())).save(output);
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(Items.BAMBOO), RecipeCategory.MISC, CookingBookCategory.MISC, ItemRegister.BAMBOO_CHARCOAL.get(), 0.2F, 200).unlockedBy("has_bamboo", has(Items.BAMBOO)).save(output);
 
     }

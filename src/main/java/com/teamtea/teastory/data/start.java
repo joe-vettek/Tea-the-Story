@@ -32,7 +32,6 @@ public final class start {
             var blockTags = new TeaStoryBlockTagProvider(packOutput,lookupProvider, MODID);
             generator.addProvider(true,blockTags);
             generator.addProvider(true,new TeaStoryItemTagProvider(packOutput, lookupProvider));
-            generator.addProvider(true,new TeaStoryFluidTagProvider(packOutput,lookupProvider, MODID));
             generator.addProvider(true,new TeaStoryEntityTypeTagsProvider(packOutput,lookupProvider, MODID));
             generator.addProvider(true,new TeaStoryBiomeTagProvider(packOutput,lookupProvider, MODID));
 

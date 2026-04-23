@@ -102,21 +102,21 @@ public class TSSnowDefinitionProvider {
                 BlockRegister.STONE_TABLE,
                 BlockRegister.WOODEN_TABLE));
 
-        context.register(
-                createKey("snowy_trellis"),
-                SnowDefinition.builder().blocks(
-                        new AndHolderSet<>(
-                                List.of(blockHolderGetter.getOrThrow(TeaTags.Blocks.TRELLIS),
-                                        new NotHolderSet<>(blockRegistryLookup,blockHolderGetter.getOrThrow(TeaTags.Blocks.TRELLIS_WITH_VINE))))
-                        )
-                        .map(List.of(SnowDefinition.PropertyTester.builder()
-                                .name(TrellisBlock.UP.getName())
-                                .matcher(SnowDefinition.ExactMatcher.builder()
-                                        .value(TrellisBlock.UP.getName(false))
-                                        .build())
-                                .build()))
-                        .info(SnowDefinition.Info.builder().flag(MapChecker.FLAG_CUSTOM).build()).build()
-        );
+        // context.register(
+        //         createKey("snowy_trellis"),
+        //         SnowDefinition.builder().blocks(
+        //                 new AndHolderSet<>(
+        //                         List.of(blockHolderGetter.getOrThrow(TeaTags.Blocks.TRELLIS),
+        //                                 new NotHolderSet<>(blockRegistryLookup,blockHolderGetter.getOrThrow(TeaTags.Blocks.TRELLIS_WITH_VINE))))
+        //                 )
+        //                 .map(List.of(SnowDefinition.PropertyTester.builder()
+        //                         .name(TrellisBlock.UP.getName())
+        //                         .matcher(SnowDefinition.ExactMatcher.builder()
+        //                                 .value(TrellisBlock.UP.getName(false))
+        //                                 .build())
+        //                         .build()))
+        //                 .info(SnowDefinition.Info.builder().flag(MapChecker.FLAG_CUSTOM).build()).build()
+        // );
 
         context.register(
                 createKey("snowy_trellis_with_vine"),

@@ -1,10 +1,9 @@
 package com.teamtea.teastory.handler;
 
-import com.teamtea.teastory.entity.ai.AvoidCommonEntityGoal;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import com.teamtea.teastory.registry.ItemRegister;
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 // import net.neoforged.neoforge.event.village.WandererTradesEvent;
 
 @EventBusSubscriber

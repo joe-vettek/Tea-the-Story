@@ -38,13 +38,11 @@ public final class TeaStoryBlockTagProvider extends BlockTagsProvider {
                 BlockRegister.WOODEN_FRAME.get(),
                 BlockRegister.BAMBOO_TABLE.get(),
                 BlockRegister.BAMBOO_CHAIR.get(),
-                BlockEntityRegister.WOODEN_TRAY.get(),
                 BlockEntityRegister.WOODEN_BARREL.get(),
                 BlockRegister.stone_campfire.value());
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE).add(BlockRegister.STONE_TABLE.get(),
                 BlockRegister.STONE_CHAIR.get(),
-                BlockRegister.saucepan.get(),
                 BlockRegister.cobblestoneAqueduct.get(),
                 BlockRegister.mossyCobblestoneAqueduct.get()
         );

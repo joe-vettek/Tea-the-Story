@@ -1,11 +1,9 @@
 package com.teamtea.teastory.data.loot;
 
-import com.teamtea.teastory.block.craft.SaucepanBlock;
 import com.teamtea.teastory.block.crops.*;
 import com.teamtea.teastory.block.decorations.BambooLatticeBlock;
 import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
@@ -175,7 +173,6 @@ public class TeaStotryBlockLootSubProvider extends BlockLootSubProvider {
 
 
     private void generateBSDrops() {
-        add(BlockRegister.saucepan.get(), (block -> createSinglePropertyBlock(block, SaucepanBlock.LID)));
         add(BlockRegister.CHRYSANTHEMUM.get(), (block -> createSinglePropertyBlock(block, HybridizableFlowerBlock.FLOWER_COLOR)));
         add(BlockRegister.HYACINTH.get(), (block -> createSinglePropertyBlock(block, HybridizableFlowerBlock.FLOWER_COLOR)));
         add(BlockRegister.ZINNIA.get(), (block -> createSinglePropertyBlock(block, HybridizableFlowerBlock.FLOWER_COLOR)));
@@ -199,7 +196,6 @@ public class TeaStotryBlockLootSubProvider extends BlockLootSubProvider {
     }
 
     private void generateSelfDrops() {
-        dropSelf(BlockEntityRegister.WOODEN_TRAY.get());
         dropSelf(BlockEntityRegister.WOODEN_BARREL.get());
 
         dropSelf(BlockRegister.WOODEN_FRAME.get());

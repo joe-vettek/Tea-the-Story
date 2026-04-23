@@ -3,7 +3,6 @@ package com.teamtea.teastory;
 
 import com.teamtea.teastory.config.NormalConfigs;
 import com.teamtea.teastory.plugin.CompatManager;
-import com.teamtea.teastory.recipe.drink.DrinkEffectManager;
 import com.teamtea.teastory.registry.*;
 import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
@@ -90,6 +89,7 @@ public class TeaStory {
 
         // Register ourselves for server and other game events we are interested in
         modEventBus.addListener(this::gatherData);
+        modEventBus.addListener(this::gatherData2);
         modEventBus.addListener(this::FMLCommonSetup);
 
 
@@ -104,10 +104,6 @@ public class TeaStory {
 
         ItemRegister.ModItems.register(modEventBus);
 
-        FluidRegister.BLOCKS.register(modEventBus);
-        FluidRegister.ITEMS.register(modEventBus);
-        FluidRegister.FLUIDS.register(modEventBus);
-        FluidRegister.FLUID_TYPES.register(modEventBus);
 
         RecipeRegister.DRRecipeSerializer.register(modEventBus);
         RecipeRegister.DRRecipeType.register(modEventBus);
@@ -126,8 +122,6 @@ public class TeaStory {
         // ModContents.DRMenuType.register(modEventBus);
 
         // ModContents.init();
-
-        // modEventBus.addListener(this::gatherData);
 
         modContainer.registerConfig(ModConfig.Type.COMMON, NormalConfigs.SERVER_CONFIG);
         modContainer.registerConfig(ModConfig.Type.CLIENT, NormalConfigs.CLIENT_CONFIG);
@@ -148,10 +142,14 @@ public class TeaStory {
 
     public void FMLCommonSetup(final FMLCommonSetupEvent event) {
         // start.dataGen(event);
-        DrinkEffectManager.init();
     }
 
-    public void gatherData(final GatherDataEvent event) {
+    public void gatherData(final GatherDataEvent.Client event) {
+        // start.dataGen(event);
+        start.onDataGather(event);
+    }
+
+    public void gatherData2(final GatherDataEvent.Server event) {
         // start.dataGen(event);
         start.onDataGather(event);
     }
